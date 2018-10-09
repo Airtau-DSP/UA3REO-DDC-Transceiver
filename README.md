@@ -1,2 +1,2 @@
 # UA3REO-DDC-Transceiver
-DDC SDR Tranceiver project part https://ua3reo.ru/
+DDC SDR Tranceiver project https://ua3reo.ru/
