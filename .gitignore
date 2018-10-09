@@ -1,0 +1,7 @@
+Filters/Iowa*
+Filters/WinFilter.exe
+*.o
+*.bak
+*.d
+*.crf
+*._2i
