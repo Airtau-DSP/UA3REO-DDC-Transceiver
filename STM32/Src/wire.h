@@ -4,10 +4,10 @@
 #include "stm32f4xx_hal.h"
 #include <stdbool.h>
 
-#define I2C_SDA_PORT GPIOB
-#define I2C_SDA_PIN GPIO_PIN_5
-#define I2C_SCL_PORT GPIOB
-#define I2C_SCL_PIN GPIO_PIN_3
+#define I2C_SDA_PORT WM8731_SCK_GPIO_Port
+#define I2C_SDA_PIN WM8731_SDA_Pin
+#define I2C_SCL_PORT WM8731_SDA_GPIO_Port
+#define I2C_SCL_PIN WM8731_SCK_Pin
 
 /* You must update the online docs if you change this value. */
 #define WIRE_BUFSIZ 101
@@ -21,7 +21,7 @@
 
 #define I2C_WRITE 0
 #define I2C_READ  1
-#define I2C_DELAY for(int i=0;i<1000;i++) { __asm("nop"); }; //1000
+#define I2C_DELAY for(int i=0;i<1000;i++) { __asm("nop"); };
 
 uint8_t i2c_writeOneByte(uint8_t);
 uint8_t i2c_readOneByte(uint8_t, uint8_t*);

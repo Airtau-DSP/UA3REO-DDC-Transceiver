@@ -4,17 +4,14 @@
 #include "lcd.h"
 #include "fpga.h"
 
-//uint32_t TRX_freq = 3635000;
-uint32_t TRX_freq = 7078000;
-//uint32_t TRX_freq = 7100000;
-//uint32_t TRX_freq = 14076000;
+uint32_t TRX_freq = 7074000;
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
-uint8_t TRX_mode = TRX_MODE_LSB;
+uint8_t TRX_mode = TRX_MODE_IQ;
 bool TRX_preamp = true;
 bool TRX_hilbert = false;
 bool TRX_agc = true;
 bool TRX_loopback = false;
-uint8_t TRX_gain_level=10;
+uint8_t TRX_gain_level=3;
 uint8_t TRX_agc_speed=2;
 bool TRX_ptt=0;
 bool TRX_tune=0;

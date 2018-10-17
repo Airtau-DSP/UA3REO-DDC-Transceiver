@@ -51,6 +51,7 @@ extern I2S_HandleTypeDef hi2s3;
 
 /* External variables --------------------------------------------------------*/
 extern DMA_HandleTypeDef hdma_spi3_tx;
+extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern TIM_HandleTypeDef htim5;
 extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim7;
@@ -234,6 +235,20 @@ void EXTI4_IRQHandler(void)
 }
 
 /**
+* @brief This function handles DMA1 stream2 global interrupt.
+*/
+void DMA1_Stream2_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA1_Stream2_IRQn 0 */
+
+  /* USER CODE END DMA1_Stream2_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_i2s3_ext_rx);
+  /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
+
+  /* USER CODE END DMA1_Stream2_IRQn 1 */
+}
+
+/**
 * @brief This function handles DMA1 stream5 global interrupt.
 */
 void DMA1_Stream5_IRQHandler(void)
@@ -271,7 +286,7 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	processRxAudio();
+	if(!TRX_loopback) processRxAudio();
   /* USER CODE END TIM5_IRQn 1 */
 }
 
@@ -293,7 +308,7 @@ void TIM6_DAC_IRQHandler(void)
 	if(ms100_counter==10)
 	{
 		ms100_counter=0;
-		WM8731_switchToActualSampleRate(FPGA_samples);
+		//WM8731_switchToActualSampleRate(FPGA_samples);
 		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2);
 		//logToUART1_num32(AUDIOPROC_samples);

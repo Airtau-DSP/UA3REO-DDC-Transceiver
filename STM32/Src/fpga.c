@@ -149,19 +149,12 @@ void FPGA_fpgadata_clock(void)
 	FPGA_busy=false;
 }
 
-uint8_t FPGA_readPacket(void)
+inline uint8_t FPGA_readPacket(void)
 {
-	uint8_t fpga_packet = GPIOA->IDR;
-	fpga_packet = (((GPIOA->IDR & FPGA_IN_D3_Pin) == FPGA_IN_D3_Pin) << 3) | (((GPIOA->IDR & FPGA_IN_D2_Pin) == FPGA_IN_D2_Pin) << 2) | (((GPIOA->IDR & FPGA_IN_D1_Pin) == FPGA_IN_D1_Pin) << 1) | (((GPIOA->IDR & FPGA_IN_D0_Pin) == FPGA_IN_D0_Pin));
-
-  return fpga_packet;
+  return (((FPGA_IN_D3_GPIO_Port->IDR & FPGA_IN_D3_Pin) == FPGA_IN_D3_Pin) << 3) | (((FPGA_IN_D2_GPIO_Port->IDR & FPGA_IN_D2_Pin) == FPGA_IN_D2_Pin) << 2) | (((FPGA_IN_D1_GPIO_Port->IDR & FPGA_IN_D1_Pin) == FPGA_IN_D1_Pin) << 1) | (((FPGA_IN_D0_GPIO_Port->IDR & FPGA_IN_D0_Pin) == FPGA_IN_D0_Pin));
 }
 
-void FPGA_writePacket(uint8_t packet)
+inline void FPGA_writePacket(uint8_t packet)
 {
-	GPIOA->BSRR = ((uint32_t)FPGA_OUT_D3_Pin << 16U) | ((uint32_t)FPGA_OUT_D2_Pin << 16U) | ((uint32_t)FPGA_OUT_D1_Pin << 16U) | ((uint32_t)FPGA_OUT_D0_Pin << 16U);
-	if(bitRead(packet, 3)) GPIOA->BSRR = FPGA_OUT_D3_Pin;
-	if(bitRead(packet, 2)) GPIOA->BSRR = FPGA_OUT_D2_Pin;
-	if(bitRead(packet, 1)) GPIOA->BSRR = FPGA_OUT_D1_Pin;
-	if(bitRead(packet, 0)) GPIOA->BSRR = FPGA_OUT_D0_Pin;
+	FPGA_OUT_D0_GPIO_Port->BSRR = (bitRead(packet, 0)<<9 & FPGA_OUT_D0_Pin) | (bitRead(packet, 1)<<8 & FPGA_OUT_D1_Pin) | (bitRead(packet, 2)<<7 & FPGA_OUT_D2_Pin)  | (bitRead(packet, 3)<<6 & FPGA_OUT_D3_Pin) | ((uint32_t)FPGA_OUT_D3_Pin << 16U) | ((uint32_t)FPGA_OUT_D2_Pin << 16U) | ((uint32_t)FPGA_OUT_D1_Pin << 16U) | ((uint32_t)FPGA_OUT_D0_Pin << 16U);
 }

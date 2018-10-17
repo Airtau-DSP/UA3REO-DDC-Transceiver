@@ -327,22 +327,22 @@ void LCD_checkTouchPad(void)
   {
     if (x >= 5 && x <= 55 && y >= 40 && y <= 70) {
       TRX_preamp = !TRX_preamp; //кнопка PREAMP
-      LCD_displayTopButtons(true);
+      LCD_displayTopButtons(false);
     }
-    if (x >= 60 && x <= 110 && y >= 40 && y <= 70) {
+    else if (x >= 60 && x <= 110 && y >= 40 && y <= 70) {
       TRX_agc = !TRX_agc; //кнопка AGC
-      LCD_displayTopButtons(true);
+      LCD_displayTopButtons(false);
     }
-    if (x >= 115 && x <= 165 && y >= 40 && y <= 70) {
+    else if (x >= 115 && x <= 165 && y >= 40 && y <= 70) {
       TRX_loopback = !TRX_loopback; //кнопка LOOP
-      LCD_displayTopButtons(true);
+      LCD_displayTopButtons(false);
     }
-    if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
+    else if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
       TRX_tune = !TRX_tune; //кнопка TUNE
       TRX_ptt = TRX_tune;
-      LCD_displayTopButtons(true);
+      LCD_displayTopButtons(false);
     }
-		if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
+		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
 			LCD_mainMenuOpened = true; //кнопка MENU
 			LCD_redraw();
 		}

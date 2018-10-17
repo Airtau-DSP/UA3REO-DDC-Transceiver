@@ -4,13 +4,16 @@
 #include <stdlib.h>
 #include "math.h"
 
+uint16_t CODEC_Audio_IN_Buffer[CODEC_AUDIO_BUFFER_SIZE]={0};
+
 uint16_t CODEC_Audio_OUT_Buffer_A[CODEC_AUDIO_BUFFER_SIZE]={0};
 uint16_t CODEC_Audio_OUT_Buffer_B[CODEC_AUDIO_BUFFER_SIZE]={0};
+
 uint8_t CODEC_Audio_OUT_ActiveBuffer=0;
 uint16_t CODEC_Audio_OUT_Buffer_A_Length=CODEC_AUDIO_BUFFER_SIZE;
 uint16_t CODEC_Audio_OUT_Buffer_B_Length=CODEC_AUDIO_BUFFER_SIZE;
 
-uint8_t WM8731_SampleMode=44;
+uint8_t WM8731_SampleMode=48;
 uint32_t WM8731_DMA_samples=0;
 
 void WM8731_switchToActualSampleRate(int32_t rate)
@@ -95,7 +98,7 @@ void WM8731_Init(void)
   WM8731_SendI2CCommand(B8(00001100),B8(01100001)); //R6  Power Down Control dac on, out on
   WM8731_SendI2CCommand(B8(00001110),B8(00000010)); //R7  Digital Audio Interface Format slave, I2S Format, MSB-First left-1 justified , 16bits
 	//WM8731_SendI2CCommand(B8(00010000),B8(00000001)); //R8  Sampling Control normal mode, 250fs, SR=0 (MCLK@12Mhz, fs=48kHz))
-	WM8731_switchToActualSampleRate(44000);
+	WM8731_switchToActualSampleRate(48000);
   //WM8731_SendI2CCommand(B8(00010010),B8(00000000)); //R9  deactivate digital audio interface
 	WM8731_SendI2CCommand(B8(00010010),B8(00000001)); //R9  reactivate digital audio interface
 	

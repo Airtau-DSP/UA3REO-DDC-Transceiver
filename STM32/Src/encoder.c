@@ -78,7 +78,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
         break;
       case MENU_MAIN_GAIN:
         TRX_gain_level = TRX_gain_level + direction;
-				if (TRX_agc_speed < 1) TRX_agc_speed = 1;
+				if (TRX_gain_level < 1) TRX_gain_level = 1;
 				if (TRX_gain_level > 20) TRX_gain_level = 20;
         LCD_needRedrawMainMenu=true;
         break;

@@ -58,6 +58,7 @@ void FFT_doFFT(void)
 void FFT_printFFT(void)
 {
 	if(FFT_need_fft) return;
+	if(maxValueErrors>100 || maxValueErrors==0) arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
 	if(maxValue<FFT_CONTRAST) maxValue=FFT_CONTRAST; //минимальный порог
 	maxValueErrors=0;
   // Нормируем АЧХ к единице
@@ -97,11 +98,11 @@ void FFT_printFFT(void)
 			ILI9341_DrawPixel(x+1, FFT_BOTTOM_OFFSET+y, wtf_buffer[y][x]);
 		}
 	}
-		
-	if(maxValueErrors>10) maxValue++;
-	if(maxValueErrors>30) maxValue+=10;
-	if(maxValueErrors>100) maxValue+=50;
-	if(maxValueErrors==0) maxValue--;
+	
+	if(maxValueErrors>10) maxValue+=1000;
+	if(maxValueErrors>30) maxValue+=3000;
+	if(maxValueErrors>50) maxValue+=5000;
+	//logToUART1_float32(maxValue);
 	FFT_need_fft=true;
 }
 

@@ -69,14 +69,14 @@ void delay_us(uint32_t us)
 uint32_t getFrequencyFromPhrase(uint32_t phrase) //высчитываем фазу частоты для FPGA
 {
 	uint32_t res=0;
-	res=ceil((double)((float)phrase / 4194304) * 48000000 / 100) * 100; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
+	res=ceil(((double)phrase / 4194304) * 48000000 / 100) * 100; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 	return res;
 }
 
 uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем частоту из фразы ля FPGA
 {
 	uint32_t res=0;
-	res = round(((float)freq / 48000000) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
+	res = round(((double)freq / 48000000) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 	return res;
 }
 

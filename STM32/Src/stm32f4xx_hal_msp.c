@@ -40,6 +40,8 @@
 #include "stm32f4xx_hal.h"
 extern DMA_HandleTypeDef hdma_spi3_tx;
 
+extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
+
 extern void _Error_Handler(char *, int);
 /* USER CODE BEGIN 0 */
 
@@ -95,6 +97,7 @@ void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
     PC7     ------> I2S3_MCK
     PA15     ------> I2S3_WS
     PC10     ------> I2S3_CK
+    PC11     ------> I2S3_ext_SD
     PC12     ------> I2S3_SD 
     */
     GPIO_InitStruct.Pin = WM8731_MCLK_Pin|WM8731_BCLK_Pin|WM8731_DAC_SD_Pin;
@@ -110,6 +113,13 @@ void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
     GPIO_InitStruct.Alternate = GPIO_AF6_SPI3;
     HAL_GPIO_Init(WM8731_DAC_WS_GPIO_Port, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = WM8731_ADC_SD_Pin;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF5_I2S3ext;
+    HAL_GPIO_Init(WM8731_ADC_SD_GPIO_Port, &GPIO_InitStruct);
 
     /* I2S3 DMA Init */
     /* SPI3_TX Init */
@@ -129,6 +139,24 @@ void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
     }
 
     __HAL_LINKDMA(hi2s,hdmatx,hdma_spi3_tx);
+
+    /* I2S3_EXT_RX Init */
+    hdma_i2s3_ext_rx.Instance = DMA1_Stream2;
+    hdma_i2s3_ext_rx.Init.Channel = DMA_CHANNEL_2;
+    hdma_i2s3_ext_rx.Init.Direction = DMA_PERIPH_TO_MEMORY;
+    hdma_i2s3_ext_rx.Init.PeriphInc = DMA_PINC_DISABLE;
+    hdma_i2s3_ext_rx.Init.MemInc = DMA_MINC_ENABLE;
+    hdma_i2s3_ext_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_HALFWORD;
+    hdma_i2s3_ext_rx.Init.MemDataAlignment = DMA_MDATAALIGN_HALFWORD;
+    hdma_i2s3_ext_rx.Init.Mode = DMA_NORMAL;
+    hdma_i2s3_ext_rx.Init.Priority = DMA_PRIORITY_VERY_HIGH;
+    hdma_i2s3_ext_rx.Init.FIFOMode = DMA_FIFOMODE_DISABLE;
+    if (HAL_DMA_Init(&hdma_i2s3_ext_rx) != HAL_OK)
+    {
+      _Error_Handler(__FILE__, __LINE__);
+    }
+
+    __HAL_LINKDMA(hi2s,hdmarx,hdma_i2s3_ext_rx);
 
   /* USER CODE BEGIN SPI3_MspInit 1 */
 
@@ -152,14 +180,16 @@ void HAL_I2S_MspDeInit(I2S_HandleTypeDef* hi2s)
     PC7     ------> I2S3_MCK
     PA15     ------> I2S3_WS
     PC10     ------> I2S3_CK
+    PC11     ------> I2S3_ext_SD
     PC12     ------> I2S3_SD 
     */
-    HAL_GPIO_DeInit(GPIOC, WM8731_MCLK_Pin|WM8731_BCLK_Pin|WM8731_DAC_SD_Pin);
+    HAL_GPIO_DeInit(GPIOC, WM8731_MCLK_Pin|WM8731_BCLK_Pin|WM8731_ADC_SD_Pin|WM8731_DAC_SD_Pin);
 
     HAL_GPIO_DeInit(WM8731_DAC_WS_GPIO_Port, WM8731_DAC_WS_Pin);
 
     /* I2S3 DMA DeInit */
     HAL_DMA_DeInit(hi2s->hdmatx);
+    HAL_DMA_DeInit(hi2s->hdmarx);
   /* USER CODE BEGIN SPI3_MspDeInit 1 */
 
   /* USER CODE END SPI3_MspDeInit 1 */
@@ -171,37 +201,30 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 {
 
   GPIO_InitTypeDef GPIO_InitStruct;
-  if(hspi->Instance==SPI2)
+  if(hspi->Instance==SPI1)
   {
-  /* USER CODE BEGIN SPI2_MspInit 0 */
+  /* USER CODE BEGIN SPI1_MspInit 0 */
 
-  /* USER CODE END SPI2_MspInit 0 */
+  /* USER CODE END SPI1_MspInit 0 */
     /* Peripheral clock enable */
-    __HAL_RCC_SPI2_CLK_ENABLE();
+    __HAL_RCC_SPI1_CLK_ENABLE();
   
-    /**SPI2 GPIO Configuration    
-    PB12     ------> SPI2_NSS
-    PB13     ------> SPI2_SCK
-    PB14     ------> SPI2_MISO
-    PB15     ------> SPI2_MOSI 
+    /**SPI1 GPIO Configuration    
+    PA4     ------> SPI1_NSS
+    PA5     ------> SPI1_SCK
+    PA6     ------> SPI1_MISO
+    PA7     ------> SPI1_MOSI 
     */
-    GPIO_InitStruct.Pin = TOUCH_CS_Pin;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-    GPIO_InitStruct.Pull = GPIO_PULLUP;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
-    HAL_GPIO_Init(TOUCH_CS_GPIO_Port, &GPIO_InitStruct);
-
-    GPIO_InitStruct.Pin = TOUCH_SCK_Pin|TOUCH_MISO_Pin|TOUCH_MOSI_Pin;
+    GPIO_InitStruct.Pin = TOUCH_CS_Pin|TOUCH_SCK_Pin|TOUCH_MISO_Pin|TOUCH_MOSI_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF5_SPI2;
-    HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+    GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
-  /* USER CODE BEGIN SPI2_MspInit 1 */
+  /* USER CODE BEGIN SPI1_MspInit 1 */
 
-  /* USER CODE END SPI2_MspInit 1 */
+  /* USER CODE END SPI1_MspInit 1 */
   }
 
 }
@@ -209,25 +232,25 @@ void HAL_SPI_MspInit(SPI_HandleTypeDef* hspi)
 void HAL_SPI_MspDeInit(SPI_HandleTypeDef* hspi)
 {
 
-  if(hspi->Instance==SPI2)
+  if(hspi->Instance==SPI1)
   {
-  /* USER CODE BEGIN SPI2_MspDeInit 0 */
+  /* USER CODE BEGIN SPI1_MspDeInit 0 */
 
-  /* USER CODE END SPI2_MspDeInit 0 */
+  /* USER CODE END SPI1_MspDeInit 0 */
     /* Peripheral clock disable */
-    __HAL_RCC_SPI2_CLK_DISABLE();
+    __HAL_RCC_SPI1_CLK_DISABLE();
   
-    /**SPI2 GPIO Configuration    
-    PB12     ------> SPI2_NSS
-    PB13     ------> SPI2_SCK
-    PB14     ------> SPI2_MISO
-    PB15     ------> SPI2_MOSI 
+    /**SPI1 GPIO Configuration    
+    PA4     ------> SPI1_NSS
+    PA5     ------> SPI1_SCK
+    PA6     ------> SPI1_MISO
+    PA7     ------> SPI1_MOSI 
     */
-    HAL_GPIO_DeInit(GPIOB, TOUCH_CS_Pin|TOUCH_SCK_Pin|TOUCH_MISO_Pin|TOUCH_MOSI_Pin);
+    HAL_GPIO_DeInit(GPIOA, TOUCH_CS_Pin|TOUCH_SCK_Pin|TOUCH_MISO_Pin|TOUCH_MOSI_Pin);
 
-  /* USER CODE BEGIN SPI2_MspDeInit 1 */
+  /* USER CODE BEGIN SPI1_MspDeInit 1 */
 
-  /* USER CODE END SPI2_MspDeInit 1 */
+  /* USER CODE END SPI1_MspDeInit 1 */
   }
 
 }

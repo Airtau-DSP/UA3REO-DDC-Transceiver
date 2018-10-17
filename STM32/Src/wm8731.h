@@ -9,6 +9,7 @@
 #define I2C_ADDRESS_WM8731 0x34
 
 #define CODEC_AUDIO_BUFFER_SIZE FPGA_AUDIO_BUFFER_SIZE*2
+extern uint16_t CODEC_Audio_IN_Buffer[CODEC_AUDIO_BUFFER_SIZE];
 extern uint16_t CODEC_Audio_OUT_Buffer_A[CODEC_AUDIO_BUFFER_SIZE];
 extern uint16_t CODEC_Audio_OUT_Buffer_B[CODEC_AUDIO_BUFFER_SIZE];
 extern uint8_t CODEC_Audio_OUT_ActiveBuffer;

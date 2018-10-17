@@ -22,7 +22,7 @@ void Init_XPT2046()
 uint8_t Spi_Master_Transmit(uint8_t out_data)
 {
 	uint8_t in_data = 0;
-	HAL_SPI_TransmitReceive(&hspi2,&out_data,&in_data,1,0x1000);
+	HAL_SPI_TransmitReceive(&hspi1,&out_data,&in_data,1,0x1000);
 	//LogToUART1("SPI DEBUG: ");
 	//char dest [100];
 	//sprintf(dest, "%02X", in_data);
@@ -35,9 +35,8 @@ uint8_t Spi_Master_Transmit(uint8_t out_data)
 
 uint8_t isTouch ( void )
 {
-   	//if(!(GPIOB->IDR & GPIO_IDR_IDR_6))
-	if(HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_5)==GPIO_PIN_RESET)
-    	return 1;	// ??????? ????
+	if(HAL_GPIO_ReadPin(LED_PEN_GPIO_Port, LED_PEN_Pin)==GPIO_PIN_RESET)
+		return 1;	// прикосновение
 
 	return 0;
 } 
