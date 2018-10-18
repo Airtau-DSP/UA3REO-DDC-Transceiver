@@ -11,7 +11,7 @@
 
 #define agc_wdsp_slope 70
 #define agc_wdsp_hang_time 500
-#define agc_wdsp_mode TRX_agc_speed
+#define agc_wdsp_mode TRX.Agc_speed
 #define agc_wdsp_tau_hang_decay 200
 #define agc_wdsp_thresh 60
 #define agc_wdsp_hang_thresh 45

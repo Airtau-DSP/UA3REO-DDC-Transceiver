@@ -3,24 +3,16 @@
 #include "functions.h"
 #include "lcd.h"
 #include "fpga.h"
+#include "settings.h"
 
-uint32_t TRX_freq = 7074000;
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
-uint8_t TRX_mode = TRX_MODE_IQ;
-bool TRX_preamp = true;
-bool TRX_hilbert = false;
-bool TRX_agc = true;
-bool TRX_loopback = false;
-uint8_t TRX_gain_level=3;
-uint8_t TRX_agc_speed=2;
 bool TRX_ptt=0;
-bool TRX_tune=0;
 int32_t TRX_s_meter=1;
 bool TRX_agc_wdsp_action=0;
 
 void TRX_Init()
 {
-  TRX_freq_phrase = getPhraseFromFrequency(TRX_freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
+  TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
   LCD_displayTopButtons(false);
 }
 
@@ -34,7 +26,7 @@ void TRX_setFrequency(int32_t _freq)
 {
   if (_freq < 100) _freq = 100;
   if (_freq >= 99999999) _freq = 99999999;
-  TRX_freq = _freq;
+  TRX.Freq = _freq;
 	TRX_freq_phrase = getPhraseFromFrequency(_freq);
 	
 	uint8_t tmp_packet = ((TRX_getFrequencyPhrase() & (0XFF << 16)) >> 16);
@@ -45,12 +37,12 @@ void TRX_setFrequency(int32_t _freq)
 void TRX_setFrequencyPhrase(int32_t _phrase)
 {
   TRX_freq_phrase = _phrase;
-  TRX_freq = getFrequencyFromPhrase(TRX_freq_phrase);
+  TRX.Freq = getFrequencyFromPhrase(TRX_freq_phrase);
 }
 
 int32_t TRX_getFrequency(void)
 {
-  return TRX_freq;
+  return TRX.Freq;
 }
 
 int32_t TRX_getFrequencyPhrase(void)
@@ -61,14 +53,15 @@ int32_t TRX_getFrequencyPhrase(void)
 
 void TRX_setMode(uint8_t _mode)
 {
-  TRX_mode = _mode;
+  TRX.Mode = _mode;
   //if (TRX_mode == TRX_MODE_USB || TRX_mode == TRX_MODE_LSB) TRX_hilbert=true; else TRX_hilbert=false;
   LCD_displayTopButtons(false);
+	SaveSettings();
 }
 
 uint8_t TRX_getMode(void)
 {
-  return TRX_mode;
+  return TRX.Mode;
 }
 
 

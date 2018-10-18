@@ -43,6 +43,7 @@
 #include "wm8731.h"
 #include "audio_processor.h"
 #include "agc.h"
+#include "settings.h"
 
 uint32_t ms100_counter=0;
 
@@ -286,7 +287,7 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	if(!TRX_loopback) processRxAudio();
+	if(!TRX.Loopback) processRxAudio();
   /* USER CODE END TIM5_IRQn 1 */
 }
 

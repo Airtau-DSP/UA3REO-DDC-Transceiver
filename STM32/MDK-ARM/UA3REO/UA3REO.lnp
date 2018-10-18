@@ -13,6 +13,7 @@
 "ua3reo\audio_filters.o"
 "ua3reo\agc.o"
 "ua3reo\notch_filter.o"
+"ua3reo\settings.o"
 "ua3reo\main_1.o"
 "ua3reo\stm32f4xx_it.o"
 "ua3reo\stm32f4xx_hal_msp.o"

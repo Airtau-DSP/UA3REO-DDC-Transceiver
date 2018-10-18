@@ -28,7 +28,6 @@ void LCD_redraw(void);
 void LCD_resetTouchpadPins(void);
 
 extern uint32_t LCD_last_showed_freq;
-extern uint8_t LCD_menu_freq_index;
 extern uint8_t LCD_menu_main_index;
 extern bool LCD_mainMenuOpened;
 extern bool LCD_needRedrawMainMenu;

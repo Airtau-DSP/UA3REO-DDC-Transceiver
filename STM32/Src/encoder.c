@@ -3,6 +3,7 @@
 #include "lcd.h"
 #include "trx_manager.h"
 #include "agc.h"
+#include "settings.h"
 
 int ENCODER_ALast=0;
 int ENCODER_AVal=0;
@@ -40,9 +41,9 @@ void ENCODER_checkClick(void) { //смена разрядности перекл
       }
       if (!LCD_mainMenuOpened)
       {
-        LCD_menu_freq_index = LCD_menu_freq_index + 1;
-        if (LCD_menu_freq_index > MENU_FREQ_COUNT) LCD_menu_freq_index = 1;
-        if (LCD_menu_freq_index < 1) LCD_menu_freq_index = 1;
+        TRX.LCD_menu_freq_index = TRX.LCD_menu_freq_index + 1;
+        if (TRX.LCD_menu_freq_index > MENU_FREQ_COUNT) TRX.LCD_menu_freq_index = 1;
+        if (TRX.LCD_menu_freq_index < 1) TRX.LCD_menu_freq_index = 1;
         LCD_last_showed_freq = 0;
       }
     }
@@ -54,7 +55,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 {
   if (!LCD_mainMenuOpened)
   {
-    switch (LCD_menu_freq_index) {
+    switch (TRX.LCD_menu_freq_index) {
       case MENU_FREQ_HZ:
         TRX_setFrequency(TRX_getFrequency() + 50 * direction);
         break;
@@ -77,19 +78,20 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 				LCD_redraw();
         break;
       case MENU_MAIN_GAIN:
-        TRX_gain_level = TRX_gain_level + direction;
-				if (TRX_gain_level < 1) TRX_gain_level = 1;
-				if (TRX_gain_level > 20) TRX_gain_level = 20;
+        TRX.Gain_level = TRX.Gain_level + direction;
+				if (TRX.Gain_level < 1) TRX.Gain_level = 1;
+				if (TRX.Gain_level > 20) TRX.Gain_level = 20;
         LCD_needRedrawMainMenu=true;
         break;
       case MENU_MAIN_AGCSPEED:
-        if (direction > 0 || TRX_agc_speed > 0) TRX_agc_speed = TRX_agc_speed + direction;
-				if (TRX_agc_speed > 4) TRX_agc_speed = 4;
+        if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
+				if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
 				SetupAgcWdsp();
         LCD_needRedrawMainMenu=true;
         break;
       default:
         break;
     }
+		SaveSettings();
   }
 }

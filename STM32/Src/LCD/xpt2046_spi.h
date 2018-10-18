@@ -7,7 +7,7 @@
 #define	SPI_X 	0xD0
 
 extern uint8_t Touch_Verify_Coef(void);
-extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
 
 void delay_us(uint32_t us);
 void Init_XPT2046(void);

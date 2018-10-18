@@ -2,6 +2,7 @@
 #include "functions.h"
 #include "arm_math.h"
 #include "agc.h"
+#include "settings.h"
 
 char LCD_freq_string_hz [6];
 char LCD_freq_string_khz [6];
@@ -9,7 +10,6 @@ char LCD_freq_string_mhz [6];
 bool LCD_bandMenuOpened = false;
 bool LCD_mainMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
-uint8_t LCD_menu_freq_index = MENU_FREQ_KHZ;
 uint8_t LCD_menu_main_index = 1;
 bool LCD_needRedrawMainMenu = false;
 int LCD_last_s_meter = 1;
@@ -54,22 +54,22 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		//
 		
 		color = COLOR_CYAN;
-		if (TRX_preamp) color = COLOR_YELLOW;
+		if (TRX.Preamp) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(5, 40, 50, 30, color);
 		ILI9341_printText("PRE",14, 50,COLOR_BLUE, color,2);
 
 		color = COLOR_CYAN;
-		if (TRX_agc) color = COLOR_YELLOW;
+		if (TRX.Agc) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(60, 40, 50, 30, color);
 		ILI9341_printText("AGC",68, 50,COLOR_BLUE, color,2);
 
 		color = COLOR_CYAN;
-		if (TRX_loopback) color = COLOR_YELLOW;
+		if (TRX.Loopback) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(115, 40, 50, 30, color);
 		ILI9341_printText("LOOP",117, 50,COLOR_BLUE, color,2);
 
 		color = COLOR_CYAN;
-		if (TRX_tune) color = COLOR_YELLOW;
+		if (TRX.Tune) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(169, 40, 56, 30, color);
 		ILI9341_printText("TUNE",174, 50,COLOR_BLUE, color,2);
 		
@@ -140,21 +140,22 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	sprintf(LCD_freq_string_khz,"%d",((uint32_t)(TRX_getFrequency() / 1000) % 1000));
 	sprintf(LCD_freq_string_mhz,"%d",((uint32_t)(TRX_getFrequency() / 1000000) % 1000000));
 	
-  if (LCD_menu_freq_index == MENU_FREQ_MHZ) ILI9341_printText(LCD_freq_string_mhz,ILI9341_GetCurrentXOffset(), 80,COLOR_BLACK, COLOR_WHITE, 5);
+  if (TRX.LCD_menu_freq_index == MENU_FREQ_MHZ) ILI9341_printText(LCD_freq_string_mhz,ILI9341_GetCurrentXOffset(), 80,COLOR_BLACK, COLOR_WHITE, 5);
   else ILI9341_printText(LCD_freq_string_mhz,ILI9341_GetCurrentXOffset(), 80,COLOR_WHITE, COLOR_BLACK,5);
 	
   ILI9341_printText(".",ILI9341_GetCurrentXOffset(), 80,COLOR_WHITE, COLOR_BLACK,5);
 
 	char buff[50]="";
 	addSymbols(buff,LCD_freq_string_khz, 3, "0", false);
-  if (LCD_menu_freq_index == MENU_FREQ_KHZ) ILI9341_printText(buff,ILI9341_GetCurrentXOffset(),80,COLOR_BLACK, COLOR_WHITE, 5);
+  if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ) ILI9341_printText(buff,ILI9341_GetCurrentXOffset(),80,COLOR_BLACK, COLOR_WHITE, 5);
 	else ILI9341_printText(buff,ILI9341_GetCurrentXOffset(),80,COLOR_WHITE, COLOR_BLACK, 5);
 	
   ILI9341_printText(".",ILI9341_GetCurrentXOffset(),80,COLOR_WHITE, COLOR_BLACK, 5);
 
 	addSymbols(buff,LCD_freq_string_hz, 3, "0", false);
-  if (LCD_menu_freq_index == MENU_FREQ_HZ) ILI9341_printText(buff,ILI9341_GetCurrentXOffset(),80, COLOR_BLACK, COLOR_WHITE, 5);
+  if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ) ILI9341_printText(buff,ILI9341_GetCurrentXOffset(),80, COLOR_BLACK, COLOR_WHITE, 5);
   else ILI9341_printText(buff,ILI9341_GetCurrentXOffset(),80,COLOR_WHITE, COLOR_BLACK, 5);
+	SaveSettings();
 }
 
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
@@ -212,14 +213,14 @@ void LCD_displayMainMenu() {
 	y+=20;
 	
   ILI9341_printText("GAIN:",5, y,COLOR_WHITE, COLOR_BLACK,2);
-	sprintf(ctmp,"%d",TRX_gain_level);
+	sprintf(ctmp,"%d",TRX.Gain_level);
 	addSymbols(buff,ctmp, 2, " ", true);
   if (LCD_menu_main_index == MENU_MAIN_GAIN) ILI9341_printText(buff,200, y, COLOR_BLACK, COLOR_WHITE, 2);
   else ILI9341_printText(buff,200, y, COLOR_WHITE, COLOR_BLACK, 2);
 	y+=20;
 	
   ILI9341_printText("AGC Speed:",5, y,COLOR_WHITE, COLOR_BLACK,2);
-	sprintf(ctmp,"%d",TRX_agc_speed);
+	sprintf(ctmp,"%d",TRX.Agc_speed);
 	addSymbols(buff,ctmp, 2, " ", true);
   if (LCD_menu_main_index == MENU_MAIN_AGCSPEED) ILI9341_printText(buff,200, y,COLOR_BLACK, COLOR_WHITE,2);
   else ILI9341_printText(buff,200, y,COLOR_WHITE, COLOR_BLACK,2);
@@ -326,21 +327,25 @@ void LCD_checkTouchPad(void)
   if (!LCD_mainMenuOpened)
   {
     if (x >= 5 && x <= 55 && y >= 40 && y <= 70) {
-      TRX_preamp = !TRX_preamp; //кнопка PREAMP
+      TRX.Preamp = !TRX.Preamp; //кнопка PREAMP
       LCD_displayTopButtons(false);
+			SaveSettings();
     }
     else if (x >= 60 && x <= 110 && y >= 40 && y <= 70) {
-      TRX_agc = !TRX_agc; //кнопка AGC
+      TRX.Agc = !TRX.Agc; //кнопка AGC
       LCD_displayTopButtons(false);
+			SaveSettings();
     }
     else if (x >= 115 && x <= 165 && y >= 40 && y <= 70) {
-      TRX_loopback = !TRX_loopback; //кнопка LOOP
+      TRX.Loopback = !TRX.Loopback; //кнопка LOOP
       LCD_displayTopButtons(false);
+			SaveSettings();
     }
     else if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
-      TRX_tune = !TRX_tune; //кнопка TUNE
-      TRX_ptt = TRX_tune;
+      TRX.Tune = !TRX.Tune; //кнопка TUNE
+      TRX_ptt = TRX.Tune;
       LCD_displayTopButtons(false);
+			SaveSettings();
     }
 		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
 			LCD_mainMenuOpened = true; //кнопка MENU

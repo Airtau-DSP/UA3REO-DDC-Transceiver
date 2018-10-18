@@ -52,6 +52,7 @@
 #include "fft.h"
 #include "wm8731.h"
 #include "audio_processor.h"
+#include "settings.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -60,6 +61,7 @@ DMA_HandleTypeDef hdma_spi3_tx;
 DMA_HandleTypeDef hdma_i2s3_ext_rx;
 
 SPI_HandleTypeDef hspi1;
+SPI_HandleTypeDef hspi2;
 
 TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim6;
@@ -84,6 +86,7 @@ static void MX_TIM6_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_I2S3_Init(void);
 static void MX_TIM5_Init(void);
+static void MX_SPI2_Init(void);
 static void MX_SPI1_Init(void);
 
 /* USER CODE BEGIN PFP */
@@ -131,15 +134,16 @@ int main(void)
   MX_TIM7_Init();
   MX_I2S3_Init();
   MX_TIM5_Init();
+  MX_SPI2_Init();
   MX_SPI1_Init();
   /* USER CODE BEGIN 2 */
 	HAL_Delay(100);
+	logToUART1_str("\r\n");
+	LoadSettings();
 	LCD_Init();
 	TRX_Init();
 	ENCODER_Init();
-	logToUART1_str("UA3REO Started\r\n");
 	//Touch_Calibrate();
-	Touch_Set_Coef ( 11.096, -32, -15.588235, 250 );
 	FPGA_Init();
 	WM8731_Init();
 	initAudioProcessor();
@@ -149,6 +153,8 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);
 	HAL_TIM_Base_Start(&htim6);
 	HAL_TIM_Base_Start_IT(&htim6);
+	logToUART1_str("UA3REO Started\r\n");
+	Touch_Set_Coef ( 11.096, -32, -15.588235, 250 );
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -158,7 +164,6 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-		
 		if(!i2s_dma_active) start_i2s_dma(); //anti-stuck dma
   }
   /* USER CODE END 3 */
@@ -263,13 +268,37 @@ static void MX_SPI1_Init(void)
   hspi1.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
-  hspi1.Init.NSS = SPI_NSS_HARD_OUTPUT;
-  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  hspi1.Init.NSS = SPI_NSS_SOFT;
+  hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_2;
   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi1.Init.CRCPolynomial = 10;
   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+/* SPI2 init function */
+static void MX_SPI2_Init(void)
+{
+
+  /* SPI2 parameter configuration*/
+  hspi2.Instance = SPI2;
+  hspi2.Init.Mode = SPI_MODE_MASTER;
+  hspi2.Init.Direction = SPI_DIRECTION_2LINES;
+  hspi2.Init.DataSize = SPI_DATASIZE_8BIT;
+  hspi2.Init.CLKPolarity = SPI_POLARITY_LOW;
+  hspi2.Init.CLKPhase = SPI_PHASE_1EDGE;
+  hspi2.Init.NSS = SPI_NSS_HARD_OUTPUT;
+  hspi2.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  hspi2.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  hspi2.Init.TIMode = SPI_TIMODE_DISABLE;
+  hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  hspi2.Init.CRCPolynomial = 10;
+  if (HAL_SPI_Init(&hspi2) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
@@ -284,7 +313,7 @@ static void MX_TIM5_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 870;
+  htim5.Init.Prescaler = 800;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 1;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -339,7 +368,7 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 893;
+  htim7.Init.Prescaler = 878;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim7.Init.Period = 1;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
@@ -419,8 +448,10 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOC, FPGA_CLK_Pin|FPGA_SYNC_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, LED_BL_Pin|FPGA_OUT_D3_Pin|FPGA_OUT_D2_Pin|FPGA_OUT_D1_Pin 
-                          |FPGA_OUT_D0_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOA, FPGA_OUT_D0_Pin|FPGA_OUT_D1_Pin|FPGA_OUT_D2_Pin|FPGA_OUT_D3_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOB, W26Q16_CS_Pin|LED_BL_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, WM8731_SCK_Pin|WM8731_SDA_Pin, GPIO_PIN_RESET);
@@ -471,6 +502,13 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
+  /*Configure GPIO pins : FPGA_OUT_D0_Pin FPGA_OUT_D1_Pin FPGA_OUT_D2_Pin FPGA_OUT_D3_Pin */
+  GPIO_InitStruct.Pin = FPGA_OUT_D0_Pin|FPGA_OUT_D1_Pin|FPGA_OUT_D2_Pin|FPGA_OUT_D3_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
   /*Configure GPIO pin : PTT_IN_Pin */
   GPIO_InitStruct.Pin = PTT_IN_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING;
@@ -483,22 +521,20 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(LED_PEN_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB0 PB2 PB10 PB11 
-                           PB12 PB13 PB14 PB15 
-                           PB3 PB4 PB5 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_2|GPIO_PIN_10|GPIO_PIN_11 
-                          |GPIO_PIN_12|GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15 
-                          |GPIO_PIN_3|GPIO_PIN_4|GPIO_PIN_5;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : LED_BL_Pin */
-  GPIO_InitStruct.Pin = LED_BL_Pin;
+  /*Configure GPIO pins : W26Q16_CS_Pin LED_BL_Pin */
+  GPIO_InitStruct.Pin = W26Q16_CS_Pin|LED_BL_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(LED_BL_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+
+  /*Configure GPIO pins : PB2 PB10 PB11 PB6 
+                           PB7 PB8 PB9 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_6 
+                          |GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
+  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PD11 PD12 PD2 */
   GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_2;
@@ -520,13 +556,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : FPGA_OUT_D3_Pin FPGA_OUT_D2_Pin FPGA_OUT_D1_Pin FPGA_OUT_D0_Pin */
-  GPIO_InitStruct.Pin = FPGA_OUT_D3_Pin|FPGA_OUT_D2_Pin|FPGA_OUT_D1_Pin|FPGA_OUT_D0_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PE0 PE1 */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
@@ -600,7 +629,8 @@ static void MX_FSMC_Init(void)
 void start_i2s_dma(void)
 {
 	if(i2s_dma_active) return;
-	if(TRX_loopback)
+	if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) return;
+	if(TRX.Loopback)
 	{
 		i2s_dma_active=true;
 		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_IN_Buffer[0], (uint16_t*)&CODEC_Audio_IN_Buffer[0],CODEC_AUDIO_BUFFER_SIZE);

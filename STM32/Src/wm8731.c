@@ -33,8 +33,8 @@ void WM8731_switchToActualSampleRate(int32_t rate)
 		logToUART1_numinline(mode);
 		logToUART1_str("\r\n");
 		
-		HAL_I2S_DMAStop(&hi2s3);
-		HAL_I2S_DeInit(&hi2s3);	
+		//HAL_I2S_DMAStop(&hi2s3);
+		//HAL_I2S_DeInit(&hi2s3);	
 		
 		switch(mode)
 		{
@@ -60,9 +60,9 @@ void WM8731_switchToActualSampleRate(int32_t rate)
 				break;
 		}
 		
-		HAL_I2S_Init(&hi2s3);
-		if(CODEC_Audio_OUT_ActiveBuffer==0) HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_A[0], CODEC_AUDIO_BUFFER_SIZE);
-		if(CODEC_Audio_OUT_ActiveBuffer==1) HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_B[0], CODEC_AUDIO_BUFFER_SIZE);
+		//HAL_I2S_Init(&hi2s3);
+		//if(CODEC_Audio_OUT_ActiveBuffer==0) HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_A[0], CODEC_AUDIO_BUFFER_SIZE);
+		//if(CODEC_Audio_OUT_ActiveBuffer==1) HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_B[0], CODEC_AUDIO_BUFFER_SIZE);
 		
 		WM8731_SampleMode=mode;
 	}
@@ -96,7 +96,7 @@ void WM8731_Init(void)
   WM8731_SendI2CCommand(B8(00001000),B8(00010100)); //R4 Analogue Audio Path Control dacsel, micboost=off
   WM8731_SendI2CCommand(B8(00001010),B8(00000110)); //R5  Digital Audio Path Control dacmu off
   WM8731_SendI2CCommand(B8(00001100),B8(01100001)); //R6  Power Down Control dac on, out on
-  WM8731_SendI2CCommand(B8(00001110),B8(00000010)); //R7  Digital Audio Interface Format slave, I2S Format, MSB-First left-1 justified , 16bits
+  WM8731_SendI2CCommand(B8(00001110),B8(00010010)); //R7  Digital Audio Interface Format slave, I2S Format, MSB-First left-1 justified , 16bits
 	//WM8731_SendI2CCommand(B8(00010000),B8(00000001)); //R8  Sampling Control normal mode, 250fs, SR=0 (MCLK@12Mhz, fs=48kHz))
 	WM8731_switchToActualSampleRate(48000);
   //WM8731_SendI2CCommand(B8(00010010),B8(00000000)); //R9  deactivate digital audio interface

@@ -4,6 +4,7 @@
 #include "trx_manager.h"
 #include "lcd.h"
 #include "audio_processor.h"
+#include "settings.h"
 
 uint16_t FPGA_fpgadata_in_tmp16=0;
 int16_t FPGA_fpgadata_in_inttmp16=0;
@@ -24,16 +25,18 @@ uint8_t FPGA_Audio_IN_ActiveBuffer=0;
 bool FPGA_Audio_IN_Buffer_Full_A=false;
 bool FPGA_Audio_IN_Buffer_Full_B=false;
 
+//uint32_t FPGA_drop_samples=0;
+
 void FPGA_Init(void)
 {
   //шина данных STM32-FPGA
-	logToUART1_str("FPGA Bus Inited\r\n");
+	//logToUART1_str("FPGA Bus Inited\r\n");
 }
 
 void FPGA_fpgadata_clock(void)
 {
-	if(FPGA_Audio_IN_ActiveBuffer==0 && FPGA_Audio_IN_Buffer_Full_A) return;
-	if(FPGA_Audio_IN_ActiveBuffer==1 && FPGA_Audio_IN_Buffer_Full_B) return;
+	if(FPGA_Audio_IN_ActiveBuffer==0 && FPGA_Audio_IN_Buffer_Full_A) { /*FPGA_drop_samples++;*/ return; }
+	if(FPGA_Audio_IN_ActiveBuffer==1 && FPGA_Audio_IN_Buffer_Full_B) { /*FPGA_drop_samples++;*/ return; }
 	FPGA_busy = true;
 	//обмен данными
 	
@@ -41,8 +44,8 @@ void FPGA_fpgadata_clock(void)
 	//out HILBERT+PTT+PREAMP
 	FPGA_fpgadata_out_tmp8=0;
 	bitWrite(FPGA_fpgadata_out_tmp8, 3, TRX_ptt);
-	bitWrite(FPGA_fpgadata_out_tmp8, 1, TRX_hilbert);
-	if (!TRX_ptt && !TRX_tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX_preamp);
+	//bitWrite(FPGA_fpgadata_out_tmp8, 1, TRX_hilbert);
+	if (!TRX_ptt && !TRX.Tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
 	//logToUART1_num(FPGA_fpgadata_out_tmp8);
   FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 	//clock
@@ -156,5 +159,5 @@ inline uint8_t FPGA_readPacket(void)
 
 inline void FPGA_writePacket(uint8_t packet)
 {
-	FPGA_OUT_D0_GPIO_Port->BSRR = (bitRead(packet, 0)<<9 & FPGA_OUT_D0_Pin) | (bitRead(packet, 1)<<8 & FPGA_OUT_D1_Pin) | (bitRead(packet, 2)<<7 & FPGA_OUT_D2_Pin)  | (bitRead(packet, 3)<<6 & FPGA_OUT_D3_Pin) | ((uint32_t)FPGA_OUT_D3_Pin << 16U) | ((uint32_t)FPGA_OUT_D2_Pin << 16U) | ((uint32_t)FPGA_OUT_D1_Pin << 16U) | ((uint32_t)FPGA_OUT_D0_Pin << 16U);
+	FPGA_OUT_D0_GPIO_Port->BSRR = (bitRead(packet, 0)<<4 & FPGA_OUT_D0_Pin) | (bitRead(packet, 1)<<5 & FPGA_OUT_D1_Pin) | (bitRead(packet, 2)<<6 & FPGA_OUT_D2_Pin)  | (bitRead(packet, 3)<<7 & FPGA_OUT_D3_Pin) | ((uint32_t)FPGA_OUT_D3_Pin << 16U) | ((uint32_t)FPGA_OUT_D2_Pin << 16U) | ((uint32_t)FPGA_OUT_D1_Pin << 16U) | ((uint32_t)FPGA_OUT_D0_Pin << 16U);
 }

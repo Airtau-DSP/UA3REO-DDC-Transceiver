@@ -5,6 +5,7 @@
 #include "arm_math.h"
 #include "trx_manager.h"
 #include "functions.h"
+#include "settings.h"
 
 uint16_t agc_wdsp_tau_decay[6]={4000,2000,500,250,50,500};
 agc_variables_t agc_wdsp;
@@ -118,7 +119,7 @@ loadWcpAGC(a);
     //    tau_hang_decay = 0.100;          // tau_hang_decay
 
     //calculate internal parameters
-    if(TRX_agc)
+    if(TRX.Agc)
     {
         switch (agc_wdsp_mode)
         {
@@ -224,7 +225,7 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
     // Be careful: the original source code has no comments,
     // all comments added by DD4WH, February 2017: comments could be wrong, misinterpreting or highly misleading!
     //
-    if (!TRX_agc)  // AGC OFF
+    if (!TRX.Agc)  // AGC OFF
     {
         for (uint16_t i = 0; i < blockSize; i++)
         {

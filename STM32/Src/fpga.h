@@ -23,5 +23,6 @@ extern float32_t FPGA_Audio_IN_Buffer_I_B[FPGA_AUDIO_BUFFER_SIZE];
 extern uint8_t FPGA_Audio_IN_ActiveBuffer;
 extern bool FPGA_Audio_IN_Buffer_Full_A;
 extern bool FPGA_Audio_IN_Buffer_Full_B;
+//extern uint32_t FPGA_drop_samples;
 
 #endif
