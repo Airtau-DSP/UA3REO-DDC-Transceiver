@@ -288,6 +288,7 @@ void TIM5_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
 	if(!TRX.Loopback) processRxAudio();
+	if(FFT_buff_index==0 && FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM5_IRQn 1 */
 }
 
@@ -306,6 +307,18 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		FFT_printFFT();
 	}
+	/*
+	if(FPGA_samples>(WM8731_DMA_samples/2))
+	{
+		htim7.Init.Prescaler++;
+		HAL_TIM_Base_Init(&htim7);
+	}
+	else if(FPGA_samples<(WM8731_DMA_samples/2))
+	{
+		htim7.Init.Prescaler--;
+		HAL_TIM_Base_Init(&htim7);
+	}
+	*/
 	if(ms100_counter==10)
 	{
 		ms100_counter=0;
@@ -313,14 +326,18 @@ void TIM6_DAC_IRQHandler(void)
 		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2);
 		//logToUART1_num32(AUDIOPROC_samples);
-		//logToUART1_num32(FPGA_Audio_IN_index);
+		//logToUART1_num32(Processor_AudioBuffer_ReadyBuffer);
+		//logToUART1_num32(FPGA_Audio_Buffer_Index);
+		//logToUART1_num32(htim7.Init.Prescaler);
 		//logToUART1_num32(CODEC_Audio_OUT_ActiveBuffer);
 		//logToUART1_float32(agc_wdsp.volts);
 		//logToUART1_str("\r\n");
 		FPGA_samples=0;
 		AUDIOPROC_samples=0;
 		WM8731_DMA_samples=0;
+		FPGA_NeedSendParams=true;
 	}
+	//FPGA_NeedGetParams=true;
 	LCD_checkTouchPad();
 	LCD_doEvents();
 	if(TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port,PTT_IN_Pin)) TRX_ptt_change();
@@ -338,7 +355,7 @@ void TIM7_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim7);
   /* USER CODE BEGIN TIM7_IRQn 1 */
 	if(!FPGA_busy) FPGA_fpgadata_clock();
-	if(FFT_buff_index==0 && FFT_need_fft) FFT_doFFT();
+	//if(FFT_buff_index==0 && FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM7_IRQn 1 */
 }
 

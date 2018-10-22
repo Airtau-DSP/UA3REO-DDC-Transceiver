@@ -1,3 +1,5 @@
+FPGA/db/*
+FPGA/incremental_db/*
 Filters/Iowa*
 Filters/WinFilter.exe
 *.o

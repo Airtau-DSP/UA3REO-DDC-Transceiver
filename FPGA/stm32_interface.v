@@ -3,14 +3,16 @@ clk_in,
 I,
 Q,
 DATA_IN,
-
 DATA_SYNC,
+ADC_OTR,
+
 DATA_OUT,
 freq_out,
 preamp_enable,
 rx,
 tx,
-hilbert
+
+stage_debug
 );
 
 input clk_in;
@@ -18,27 +20,44 @@ input signed [15:0] I;
 input signed [15:0] Q;
 input [3:0] DATA_IN;
 input DATA_SYNC;
+input ADC_OTR;
 
 output reg [3:0] DATA_OUT;
 output reg unsigned [21:0] freq_out=620407;
 output reg preamp_enable=0;
 output reg rx=1;
 output reg tx=0;
-output reg hilbert=0;
+output reg [15:0] stage_debug=0;
 
 integer k=1;
-reg unsigned [15:0] I_HOLD;
-reg unsigned [15:0] Q_HOLD;
+reg signed [15:0] I_HOLD;
+reg signed [15:0] Q_HOLD;
 
 always @ (posedge clk_in)
 begin
 	//начало передачи
-	if (k==1 || DATA_SYNC==1)
+	if (DATA_SYNC==1)
 	begin
-		I_HOLD<=I+'d32767;
-		Q_HOLD<=Q+'d32767;
+		if(DATA_IN[3:0]=='d1)
+		begin
+			k<=100;
+		end
+		if(DATA_IN[3:0]=='d2)
+		begin
+			k<=200;
+		end
+		if(DATA_IN[3:0]=='d3)
+		begin
+			k<=300;
+		end
+		if(DATA_IN[3:0]=='d4)
+		begin
+			k<=400;
+		end
+	end
+	else if (k==100) //GET PARAMS
+	begin
 		preamp_enable<=DATA_IN[2:2];
-		hilbert<=DATA_IN[1:1];
 		if(DATA_IN[3:3]==1)
 		begin
 			tx<=1;
@@ -49,54 +68,93 @@ begin
 			tx<=0;
 			rx<=1;
 		end
-		k<=2;
+		k<=101;
 	end
-	else if (k==2)
+	else if (k==101)
 	begin
 		freq_out[21:20]<=DATA_IN[1:0];
-		DATA_OUT[3:0]=Q_HOLD[15:12];
-		k<=3;
+		k<=102;
 	end
-	else if (k==3)
+	else if (k==102)
 	begin
 		freq_out[19:16]<=DATA_IN[3:0];
-		DATA_OUT[3:0]<=Q_HOLD[11:8];
-		k<=4;
+		k<=103;
 	end
-	else if (k==4)
+	else if (k==103)
 	begin
 		freq_out[15:12]<=DATA_IN[3:0];
-		DATA_OUT[3:0]<=Q_HOLD[7:4];
-		k<=5;
+		k<=104;
 	end
-	else if (k==5)
+	else if (k==104)
 	begin
 		freq_out[11:8]<=DATA_IN[3:0];
-		DATA_OUT[3:0]<=Q_HOLD[3:0];
-		k<=6;
+		k<=105;
 	end
-	else if (k==6)
+	else if (k==105)
 	begin
 		freq_out[7:4]<=DATA_IN[3:0];
-		DATA_OUT[3:0]<=I_HOLD[15:12];
-		k<=7;
+		k<=106;
 	end
-	else if (k==7)
+	else if (k==106)
 	begin
 		freq_out[3:0]<=DATA_IN[3:0];
-		DATA_OUT[3:0]<=I_HOLD[11:8];
-		k<=8;
+		k<=999;
 	end
-	else if (k==8)
+	else if (k==200) //SEND PARAMS
+	begin
+		DATA_OUT[3:3]<=0;
+		DATA_OUT[2:2]<=0;
+		DATA_OUT[1:1]<=0;
+		DATA_OUT[0:0]<=ADC_OTR;
+		k<=999;
+	end
+	else if (k==300) //GET IQ
+	begin
+		k<=999;
+	end
+	else if (k==400) //SEND IQ
+	begin
+		I_HOLD=I; //+'d32767;
+		Q_HOLD=Q; //+'d32767;
+		DATA_OUT[3:0]=Q_HOLD[15:12];
+		k<=401;
+	end
+	else if (k==401)
+	begin
+		DATA_OUT[3:0]<=Q_HOLD[11:8];
+		k<=402;
+	end
+	else if (k==402)
+	begin
+		DATA_OUT[3:0]<=Q_HOLD[7:4];
+		k<=403;
+	end
+	else if (k==403)
+	begin
+		DATA_OUT[3:0]<=Q_HOLD[3:0];
+		k<=404;
+	end
+	else if (k==404)
+	begin
+		DATA_OUT[3:0]<=I_HOLD[15:12];
+		k<=405;
+	end
+	else if (k==405)
+	begin
+		DATA_OUT[3:0]<=I_HOLD[11:8];
+		k<=406;
+	end
+	else if (k==406)
 	begin
 		DATA_OUT[3:0]<=I_HOLD[7:4];
-		k<=9;
+		k<=407;
 	end
-	else if (k==9)
+	else if (k==407)
 	begin
 		DATA_OUT[3:0]<=I_HOLD[3:0];
-		k<=10;
+		k<=999;
 	end
+	stage_debug<=k;
 end
 
 

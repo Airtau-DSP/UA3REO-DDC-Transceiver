@@ -69,11 +69,13 @@ TIM_HandleTypeDef htim7;
 
 UART_HandleTypeDef huart1;
 
+DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
+DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
 SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-bool i2s_dma_active=false;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -91,7 +93,6 @@ static void MX_SPI1_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-void start_i2s_dma(void);
 
 /* USER CODE END PFP */
 
@@ -141,11 +142,11 @@ int main(void)
 	logToUART1_str("\r\n");
 	LoadSettings();
 	LCD_Init();
+	WM8731_Init();
 	TRX_Init();
 	ENCODER_Init();
 	//Touch_Calibrate();
 	FPGA_Init();
-	WM8731_Init();
 	initAudioProcessor();
 	HAL_TIM_Base_Start(&htim7);
 	HAL_TIM_Base_Start_IT(&htim7);
@@ -164,7 +165,6 @@ int main(void)
   /* USER CODE END WHILE */
 
   /* USER CODE BEGIN 3 */
-		if(!i2s_dma_active) start_i2s_dma(); //anti-stuck dma
   }
   /* USER CODE END 3 */
 
@@ -244,7 +244,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Instance = SPI3;
   hi2s3.Init.Mode = I2S_MODE_MASTER_TX;
   hi2s3.Init.Standard = I2S_STANDARD_PHILIPS;
-  hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
+  hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B_EXTENDED;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_ENABLE;
   hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
   hi2s3.Init.CPOL = I2S_CPOL_HIGH;
@@ -368,7 +368,7 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 878;
+  htim7.Init.Prescaler = 895;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim7.Init.Period = 1;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
@@ -406,11 +406,53 @@ static void MX_USART1_UART_Init(void)
 
 /** 
   * Enable DMA controller clock
+  * Configure DMA for memory to memory transfers
+  *   hdma_memtomem_dma2_stream0
+  *   hdma_memtomem_dma2_stream1
   */
 static void MX_DMA_Init(void) 
 {
   /* DMA controller clock enable */
+  __HAL_RCC_DMA2_CLK_ENABLE();
   __HAL_RCC_DMA1_CLK_ENABLE();
+
+  /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
+  hdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
+  hdma_memtomem_dma2_stream0.Init.Channel = DMA_CHANNEL_0;
+  hdma_memtomem_dma2_stream0.Init.Direction = DMA_MEMORY_TO_MEMORY;
+  hdma_memtomem_dma2_stream0.Init.PeriphInc = DMA_PINC_ENABLE;
+  hdma_memtomem_dma2_stream0.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_memtomem_dma2_stream0.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+  hdma_memtomem_dma2_stream0.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+  hdma_memtomem_dma2_stream0.Init.Mode = DMA_NORMAL;
+  hdma_memtomem_dma2_stream0.Init.Priority = DMA_PRIORITY_HIGH;
+  hdma_memtomem_dma2_stream0.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
+  hdma_memtomem_dma2_stream0.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+  hdma_memtomem_dma2_stream0.Init.MemBurst = DMA_MBURST_SINGLE;
+  hdma_memtomem_dma2_stream0.Init.PeriphBurst = DMA_PBURST_SINGLE;
+  if (HAL_DMA_Init(&hdma_memtomem_dma2_stream0) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  /* Configure DMA request hdma_memtomem_dma2_stream1 on DMA2_Stream1 */
+  hdma_memtomem_dma2_stream1.Instance = DMA2_Stream1;
+  hdma_memtomem_dma2_stream1.Init.Channel = DMA_CHANNEL_0;
+  hdma_memtomem_dma2_stream1.Init.Direction = DMA_MEMORY_TO_MEMORY;
+  hdma_memtomem_dma2_stream1.Init.PeriphInc = DMA_PINC_ENABLE;
+  hdma_memtomem_dma2_stream1.Init.MemInc = DMA_MINC_ENABLE;
+  hdma_memtomem_dma2_stream1.Init.PeriphDataAlignment = DMA_PDATAALIGN_WORD;
+  hdma_memtomem_dma2_stream1.Init.MemDataAlignment = DMA_MDATAALIGN_WORD;
+  hdma_memtomem_dma2_stream1.Init.Mode = DMA_NORMAL;
+  hdma_memtomem_dma2_stream1.Init.Priority = DMA_PRIORITY_HIGH;
+  hdma_memtomem_dma2_stream1.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
+  hdma_memtomem_dma2_stream1.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
+  hdma_memtomem_dma2_stream1.Init.MemBurst = DMA_MBURST_SINGLE;
+  hdma_memtomem_dma2_stream1.Init.PeriphBurst = DMA_PBURST_SINGLE;
+  if (HAL_DMA_Init(&hdma_memtomem_dma2_stream1) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
 
   /* DMA interrupt init */
   /* DMA1_Stream2_IRQn interrupt configuration */
@@ -428,8 +470,6 @@ static void MX_DMA_Init(void)
         * Output
         * EVENT_OUT
         * EXTI
-        * Free pins are configured automatically as Analog (this feature is enabled through 
-        * the Code Generation settings)
 */
 static void MX_GPIO_Init(void)
 {
@@ -438,14 +478,17 @@ static void MX_GPIO_Init(void)
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
-  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOH_CLK_ENABLE();
+  __HAL_RCC_GPIOC_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
   __HAL_RCC_GPIOD_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOC, FPGA_CLK_Pin|FPGA_SYNC_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(FPGA_SYNC_GPIO_Port, FPGA_SYNC_Pin, GPIO_PIN_SET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOA, FPGA_OUT_D0_Pin|FPGA_OUT_D1_Pin|FPGA_OUT_D2_Pin|FPGA_OUT_D3_Pin, GPIO_PIN_RESET);
@@ -474,14 +517,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(ENC_SW_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PC13 PC14 PC15 PC2 
-                           PC3 PC6 PC8 PC9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15|GPIO_PIN_2 
-                          |GPIO_PIN_3|GPIO_PIN_6|GPIO_PIN_8|GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
   /*Configure GPIO pin : FPGA_CLK_Pin */
   GPIO_InitStruct.Pin = FPGA_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -492,7 +527,7 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin : FPGA_SYNC_Pin */
   GPIO_InitStruct.Pin = FPGA_SYNC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(FPGA_SYNC_GPIO_Port, &GPIO_InitStruct);
 
@@ -528,49 +563,21 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PB2 PB10 PB11 PB6 
-                           PB7 PB8 PB9 */
-  GPIO_InitStruct.Pin = GPIO_PIN_2|GPIO_PIN_10|GPIO_PIN_11|GPIO_PIN_6 
-                          |GPIO_PIN_7|GPIO_PIN_8|GPIO_PIN_9;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PD11 PD12 PD2 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_2;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA8 PA11 PA12 PA13 
-                           PA14 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_11|GPIO_PIN_12|GPIO_PIN_13 
-                          |GPIO_PIN_14;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
   /*Configure GPIO pins : WM8731_SCK_Pin WM8731_SDA_Pin */
   GPIO_InitStruct.Pin = WM8731_SCK_Pin|WM8731_SDA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  GPIO_InitStruct.Pull = GPIO_PULLUP;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PE0 PE1 */
-  GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
-  GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
-
   /* EXTI interrupt init*/
-  HAL_NVIC_SetPriority(EXTI2_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(EXTI2_IRQn, 4, 0);
   HAL_NVIC_EnableIRQ(EXTI2_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI4_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(EXTI4_IRQn, 6, 0);
   HAL_NVIC_EnableIRQ(EXTI4_IRQn);
 
-  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(EXTI9_5_IRQn, 4, 0);
   HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
 }
@@ -625,46 +632,6 @@ static void MX_FSMC_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-void start_i2s_dma(void)
-{
-	if(i2s_dma_active) return;
-	if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) return;
-	if(TRX.Loopback)
-	{
-		i2s_dma_active=true;
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_IN_Buffer[0], (uint16_t*)&CODEC_Audio_IN_Buffer[0],CODEC_AUDIO_BUFFER_SIZE);
-	}
-	if(CODEC_Audio_OUT_ActiveBuffer==0)
-	{
-		if(CODEC_Audio_OUT_Buffer_A_Length==0) return;
-		i2s_dma_active=true;
-		//HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_A[0], CODEC_Audio_OUT_Buffer_A_Length);
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_A[0], (uint16_t*)&CODEC_Audio_IN_Buffer[0],CODEC_Audio_OUT_Buffer_A_Length);
-		WM8731_DMA_samples+=CODEC_Audio_OUT_Buffer_A_Length;
-		CODEC_Audio_OUT_Buffer_A_Length=0;
-		CODEC_Audio_OUT_ActiveBuffer=1;
-	}
-	else if(CODEC_Audio_OUT_ActiveBuffer==1)
-	{
-		if(CODEC_Audio_OUT_Buffer_B_Length==0) return;
-		i2s_dma_active=true;
-		//HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_B[0], CODEC_Audio_OUT_Buffer_B_Length);
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_OUT_Buffer_B[0], (uint16_t*)&CODEC_Audio_IN_Buffer[0],CODEC_Audio_OUT_Buffer_B_Length);
-		WM8731_DMA_samples+=CODEC_Audio_OUT_Buffer_B_Length;
-		CODEC_Audio_OUT_Buffer_B_Length=0;
-		CODEC_Audio_OUT_ActiveBuffer=0;
-	}
-}
-
-void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)
-{
-	if(hi2s->Instance == SPI3)
-  {
-		i2s_dma_active=false;
-		start_i2s_dma();
-  }
-}
 
 /* USER CODE END 4 */
 

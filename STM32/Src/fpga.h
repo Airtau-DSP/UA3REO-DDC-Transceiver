@@ -6,8 +6,6 @@
 #include "fft.h"
 #include "audio_processor.h"
 
-#define FPGA_AUDIO_BUFFER_SIZE 1024
-
 void FPGA_Init(void);
 void FPGA_fpgadata_clock(void);
 uint8_t FPGA_readPacket(void);
@@ -16,13 +14,15 @@ void FPGA_writePacket(uint8_t packet);
 extern bool FPGA_busy;
 extern uint32_t FPGA_samples;
 
-extern float32_t FPGA_Audio_IN_Buffer_Q_A[FPGA_AUDIO_BUFFER_SIZE];
-extern float32_t FPGA_Audio_IN_Buffer_I_A[FPGA_AUDIO_BUFFER_SIZE];
-extern float32_t FPGA_Audio_IN_Buffer_Q_B[FPGA_AUDIO_BUFFER_SIZE];
-extern float32_t FPGA_Audio_IN_Buffer_I_B[FPGA_AUDIO_BUFFER_SIZE];
-extern uint8_t FPGA_Audio_IN_ActiveBuffer;
-extern bool FPGA_Audio_IN_Buffer_Full_A;
-extern bool FPGA_Audio_IN_Buffer_Full_B;
-//extern uint32_t FPGA_drop_samples;
+extern float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE];
+extern uint16_t FPGA_Audio_Buffer_Index;
 
+extern bool FPGA_NeedSendParams;
+extern bool FPGA_NeedGetParams;
+void FPGA_fpgadata_sendparam(void);
+void FPGA_fpgadata_getparam(void);
+void FPGA_fpgadata_getiq(void);
+void FPGA_fpgadata_sendiq(void);
+	
 #endif

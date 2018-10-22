@@ -6,6 +6,7 @@
 #include "functions.h"
 #include "trx_manager.h"
 #include "lcd.h"
+#include "fpga.h"
 
 //W25Q16
 uint8_t Write_Enable = W25Q16_COMMAND_Write_Enable;
@@ -37,6 +38,7 @@ void LoadSettings(void)
 
 void SaveSettings(void)
 {
+	FPGA_NeedSendParams=true;
 	Flash_Sector_Erase();
 	//Flash_Erase_Chip();
 	HAL_Delay(50);

@@ -51,6 +51,7 @@ void logToUART1_num32(uint32_t data);
 void logToUART1_int16(int16_t data);
 void logToUART1_float32(float32_t data);
 void delay_us(uint32_t us);
-extern float log10f_fast(float X);
+float log10f_fast(float X);
+void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length);
 
 #endif

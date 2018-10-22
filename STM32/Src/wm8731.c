@@ -4,17 +4,65 @@
 #include <stdlib.h>
 #include "math.h"
 
-uint16_t CODEC_Audio_IN_Buffer[CODEC_AUDIO_BUFFER_SIZE]={0};
-
-uint16_t CODEC_Audio_OUT_Buffer_A[CODEC_AUDIO_BUFFER_SIZE]={0};
-uint16_t CODEC_Audio_OUT_Buffer_B[CODEC_AUDIO_BUFFER_SIZE]={0};
-
-uint8_t CODEC_Audio_OUT_ActiveBuffer=0;
-uint16_t CODEC_Audio_OUT_Buffer_A_Length=CODEC_AUDIO_BUFFER_SIZE;
-uint16_t CODEC_Audio_OUT_Buffer_B_Length=CODEC_AUDIO_BUFFER_SIZE;
+uint16_t CODEC_Audio_Buffer[CODEC_AUDIO_BUFFER_SIZE]={0};
+uint16_t CODEC_Audio_BufferTX[CODEC_AUDIO_BUFFER_SIZE]={0};
 
 uint8_t WM8731_SampleMode=48;
 uint32_t WM8731_DMA_samples=0;
+bool WM8731_DMA_state=true; //true - compleate ; false - half
+
+void start_i2s_rx_dma(void)
+{
+	//if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
+	//HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_BufferTX[0],CODEC_AUDIO_BUFFER_SIZE);
+}
+
+void start_loopback_dma(void)
+{
+	if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0],CODEC_AUDIO_BUFFER_SIZE);
+}
+
+void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)
+{
+  if(hi2s->Instance == SPI3)
+  {
+		WM8731_DMA_state=true;
+		Processor_NeedBuffer=true;
+		WM8731_DMA_samples+=FPGA_AUDIO_BUFFER_SIZE;
+  }
+}
+
+void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
+{
+  if(hi2s->Instance == SPI3)
+  {
+		WM8731_DMA_state=false;
+		Processor_NeedBuffer=true;
+		WM8731_DMA_samples+=FPGA_AUDIO_BUFFER_SIZE;	
+  }
+}
+
+void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s)
+{
+	if(hi2s->Instance == SPI3)
+	{
+		WM8731_DMA_state=true;
+		Processor_NeedBuffer=true;
+		WM8731_DMA_samples+=FPGA_AUDIO_BUFFER_SIZE;
+	}
+}
+
+void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
+{
+	if(hi2s->Instance == SPI3)
+	{
+		WM8731_DMA_state=false;
+		Processor_NeedBuffer=true;
+		WM8731_DMA_samples+=FPGA_AUDIO_BUFFER_SIZE;	
+	}
+}
 
 void WM8731_switchToActualSampleRate(int32_t rate)
 {
@@ -87,8 +135,8 @@ void WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
 void WM8731_Init(void)
 {
 	logToUART1_str("WM8731 ");
-	
 	//WM8731_SendI2CCommand(B8(00011110),B8(00000000)); //R15 Reset Chip
+	
   WM8731_SendI2CCommand(B8(00000000),B8(10000000)); //Left Line In
   WM8731_SendI2CCommand(B8(00000010),B8(10000000)); //Right Line In 
   WM8731_SendI2CCommand(B8(00000100),B8(01111001)); //Left Headphone Out 
@@ -97,7 +145,6 @@ void WM8731_Init(void)
   WM8731_SendI2CCommand(B8(00001010),B8(00000110)); //R5  Digital Audio Path Control dacmu off
   WM8731_SendI2CCommand(B8(00001100),B8(01100001)); //R6  Power Down Control dac on, out on
   WM8731_SendI2CCommand(B8(00001110),B8(00010010)); //R7  Digital Audio Interface Format slave, I2S Format, MSB-First left-1 justified , 16bits
-	//WM8731_SendI2CCommand(B8(00010000),B8(00000001)); //R8  Sampling Control normal mode, 250fs, SR=0 (MCLK@12Mhz, fs=48kHz))
 	WM8731_switchToActualSampleRate(48000);
   //WM8731_SendI2CCommand(B8(00010010),B8(00000000)); //R9  deactivate digital audio interface
 	WM8731_SendI2CCommand(B8(00010010),B8(00000001)); //R9  reactivate digital audio interface

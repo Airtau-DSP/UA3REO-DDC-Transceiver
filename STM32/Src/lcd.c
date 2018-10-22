@@ -179,10 +179,10 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
   ILI9341_printText("+60",50 + step * 7, 150, COLOR_RED, COLOR_BLACK, 1);
 }
 
-void LCD_displayStatusInfoBar(void) { //вывод RX/TX и с-метра
+void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
   if (LCD_mainMenuOpened) return;
 	
-  int width = 275;
+  int width = 273;
 	
 	//
 	//float32_t mult=72.25091874; //(width/(log10f_fast(1280)+0.698970004));
@@ -198,6 +198,10 @@ void LCD_displayStatusInfoBar(void) { //вывод RX/TX и с-метра
 	ILI9341_Fill_RectWH(41 + s_width, 131, width-2-s_width, 13, COLOR_BLACK);
   LCD_last_s_meter = s_width;
   ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
+	
+	ILI9341_Fill_RectWH(300, 210, 30, 20, COLOR_BLACK);
+	if(TRX_agc_wdsp_action && TRX.Agc && (TRX.Mode==TRX_MODE_LSB || TRX.Mode==TRX_MODE_USB)) ILI9341_printText("AGC",300, 210, COLOR_GREEN, COLOR_BLACK, 1);
+	if(TRX_ADC_OTR) ILI9341_printText("OVR",300, 220, COLOR_RED, COLOR_BLACK, 1);
 }
 
 void LCD_displayMainMenu() {
@@ -337,15 +341,15 @@ void LCD_checkTouchPad(void)
 			SaveSettings();
     }
     else if (x >= 115 && x <= 165 && y >= 40 && y <= 70) {
-      TRX.Loopback = !TRX.Loopback; //кнопка LOOP
+      TRX_SetLoopbackMode(!TRX.Loopback); //кнопка LOOP
       LCD_displayTopButtons(false);
-			SaveSettings();
+	  SaveSettings();
     }
     else if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
       TRX.Tune = !TRX.Tune; //кнопка TUNE
       TRX_ptt = TRX.Tune;
       LCD_displayTopButtons(false);
-			SaveSettings();
+		SaveSettings();
     }
 		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
 			LCD_mainMenuOpened = true; //кнопка MENU

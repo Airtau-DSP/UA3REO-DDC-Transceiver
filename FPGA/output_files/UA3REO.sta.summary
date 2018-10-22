@@ -3,35 +3,19 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 9.095
+Slack : 9.584
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 16.302
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 100.226
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 518.613
+Slack : 17.286
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 0.326
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 0.500
+Slack : 0.402
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
 Slack : 0.501
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 0.779
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk_sys'
@@ -39,51 +23,27 @@ Slack : 9.927
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 9.973
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 103.859
+Slack : 9.974
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 260.108
-TNS   : 0.000
-
-Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 10416.361
+Slack : 260.110
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 10.046
+Slack : 10.449
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 16.546
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 100.403
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 518.688
+Slack : 17.520
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 0.313
+Slack : 0.385
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
 Slack : 0.470
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 0.470
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 0.720
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk_sys'
@@ -91,51 +51,27 @@ Slack : 9.937
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 9.990
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 103.860
+Slack : 9.987
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 260.109
-TNS   : 0.000
-
-Type  : Slow 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 10416.361
+Slack : 260.111
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 15.529
+Slack : 15.731
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 18.794
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 102.326
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 519.734
+Slack : 19.204
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 0.099
+Slack : 0.137
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
 Slack : 0.191
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 0.192
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 0.307
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk_sys'
@@ -146,16 +82,8 @@ Type  : Fast 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|au
 Slack : 10.164
 TNS   : 0.000
 
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[2]'
-Slack : 103.949
-TNS   : 0.000
-
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 260.199
-TNS   : 0.000
-
-Type  : Fast 1200mV 0C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[3]'
-Slack : 10416.418
+Slack : 260.200
 TNS   : 0.000
 
 ------------------------------------------------------------

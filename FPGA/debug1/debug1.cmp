@@ -1,6 +1,6 @@
 	component debug1 is
 		port (
-			probe : in std_logic_vector(3 downto 0) := (others => 'X')  -- probe
+			probe : in std_logic_vector(15 downto 0) := (others => 'X')  -- probe
 		);
 	end component debug1;
 

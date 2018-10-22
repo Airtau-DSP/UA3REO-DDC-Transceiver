@@ -1,5 +1,5 @@
 Flow report for UA3REO
-Mon Oct 08 21:01:04 2018
+Sun Oct 21 19:33:45 2018
 Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 
 
@@ -40,21 +40,21 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------------------------+
 ; Flow Summary                                                                                  ;
 +------------------------------------+----------------------------------------------------------+
-; Flow Status                        ; Analyzed - Mon Oct 08 21:01:04 2018                      ;
+; Flow Status                        ; Analyzed - Sun Oct 21 19:33:45 2018                      ;
 ; Quartus Prime Version              ; 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
 ; Revision Name                      ; UA3REO                                                   ;
 ; Top-level Entity Name              ; UA3REO                                                   ;
 ; Family                             ; Cyclone IV E                                             ;
 ; Device                             ; EP4CE22E22C8                                             ;
 ; Timing Models                      ; Final                                                    ;
-; Total logic elements               ; 8,703 / 22,320 ( 39 % )                                  ;
-;     Total combinational functions  ; 4,703 / 22,320 ( 21 % )                                  ;
-;     Dedicated logic registers      ; 7,724 / 22,320 ( 35 % )                                  ;
-; Total registers                    ; 7724                                                     ;
+; Total logic elements               ; 5,307 / 22,320 ( 24 % )                                  ;
+;     Total combinational functions  ; 3,610 / 22,320 ( 16 % )                                  ;
+;     Dedicated logic registers      ; 4,723 / 22,320 ( 21 % )                                  ;
+; Total registers                    ; 4723                                                     ;
 ; Total pins                         ; 41 / 80 ( 51 % )                                         ;
 ; Total virtual pins                 ; 0                                                        ;
-; Total memory bits                  ; 77,184 / 608,256 ( 13 % )                                ;
-; Embedded Multiplier 9-bit elements ; 18 / 132 ( 14 % )                                        ;
+; Total memory bits                  ; 75,760 / 608,256 ( 12 % )                                ;
+; Embedded Multiplier 9-bit elements ; 16 / 132 ( 12 % )                                        ;
 ; Total PLLs                         ; 1 / 4 ( 25 % )                                           ;
 +------------------------------------+----------------------------------------------------------+
 
@@ -64,7 +64,7 @@ refer to the applicable agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 09/29/2018 11:44:56 ;
+; Start date & time ; 10/21/2018 18:53:47 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; UA3REO              ;
 +-------------------+---------------------+
@@ -75,7 +75,7 @@ refer to the applicable agreement for further details.
 +-------------------------------------+----------------------------------------+--------------------------------------+-------------+------------+
 ; Assignment Name                     ; Value                                  ; Default Value                        ; Entity Name ; Section Id ;
 +-------------------------------------+----------------------------------------+--------------------------------------+-------------+------------+
-; COMPILER_SIGNATURE_ID               ; 215977245589278.153821069605708        ; --                                   ; --          ; --         ;
+; COMPILER_SIGNATURE_ID               ; 215977245589278.154013722713216        ; --                                   ; --          ; --         ;
 ; ENABLE_DRC_SETTINGS                 ; On                                     ; Off                                  ; --          ; --         ;
 ; ENABLE_LOGIC_ANALYZER_INTERFACE     ; Off                                    ; --                                   ; --          ; --         ;
 ; ENABLE_SIGNALTAP                    ; Off                                    ; --                                   ; --          ; --         ;
@@ -83,13 +83,10 @@ refer to the applicable agreement for further details.
 ; MAX_CORE_JUNCTION_TEMP              ; 85                                     ; --                                   ; --          ; --         ;
 ; MIN_CORE_JUNCTION_TEMP              ; 0                                      ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; ADC_corrector.bsf                      ; --                                   ; --          ; --         ;
-; MISC_FILE                           ; sum_tx.bsf                             ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; SECOND_PLL.bsf                         ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; SECOND_PLL.ppf                         ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; pll.bsf                                ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; pll.ppf                                ; --                                   ; --          ; --         ;
-; MISC_FILE                           ; mux14.bsf                              ; --                                   ; --          ; --         ;
-; MISC_FILE                           ; mixer_tx.bsf                           ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; mixer.bsf                              ; --                                   ; --          ; --         ;
 ; MISC_FILE                           ; mux16.bsf                              ; --                                   ; --          ; --         ;
 ; NUM_PARALLEL_PROCESSORS             ; All                                    ; --                                   ; --          ; --         ;
@@ -117,24 +114,69 @@ refer to the applicable agreement for further details.
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 ; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis      ; 00:01:23     ; 1.0                     ; 4917 MB             ; 00:02:44                           ;
-; Partition Merge           ; 00:00:02     ; 1.0                     ; 4710 MB             ; 00:00:02                           ;
-; I/O Assignment Analysis   ; 00:00:08     ; 1.0                     ; 4944 MB             ; 00:00:08                           ;
-; Fitter                    ; 00:00:21     ; 1.1                     ; 5617 MB             ; 00:00:29                           ;
-; Assembler                 ; 00:00:04     ; 1.0                     ; 4713 MB             ; 00:00:04                           ;
-; TimeQuest Timing Analyzer ; 00:00:05     ; 1.5                     ; 4836 MB             ; 00:00:06                           ;
-; Design Assistant          ; 00:00:02     ; 1.0                     ; 4692 MB             ; 00:00:03                           ;
-; Analysis & Synthesis      ; 00:01:23     ; 1.0                     ; 4932 MB             ; 00:02:43                           ;
+; Analysis & Synthesis      ; 00:01:10     ; 1.0                     ; 4893 MB             ; 00:02:25                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4702 MB             ; 00:00:02                           ;
+; Fitter                    ; 00:00:07     ; 1.0                     ; 4932 MB             ; 00:00:06                           ;
+; Fitter                    ; 00:00:16     ; 1.1                     ; 5623 MB             ; 00:00:22                           ;
+; Assembler                 ; 00:00:04     ; 1.0                     ; 4710 MB             ; 00:00:04                           ;
+; Analysis & Synthesis      ; 00:00:53     ; 1.0                     ; 4825 MB             ; 00:02:09                           ;
+; Analysis & Synthesis      ; 00:01:09     ; 1.0                     ; 4921 MB             ; 00:02:17                           ;
 ; Partition Merge           ; 00:00:02     ; 1.0                     ; 4709 MB             ; 00:00:02                           ;
 ; I/O Assignment Analysis   ; 00:00:07     ; 1.0                     ; 4944 MB             ; 00:00:08                           ;
-; Analysis & Synthesis      ; 00:01:26     ; 1.0                     ; 4939 MB             ; 00:02:31                           ;
-; Partition Merge           ; 00:00:02     ; 1.0                     ; 4719 MB             ; 00:00:03                           ;
-; I/O Assignment Analysis   ; 00:00:10     ; 1.0                     ; 4949 MB             ; 00:00:10                           ;
-; Fitter                    ; 00:00:30     ; 1.2                     ; 5656 MB             ; 00:00:43                           ;
-; Assembler                 ; 00:00:04     ; 1.0                     ; 4726 MB             ; 00:00:04                           ;
-; TimeQuest Timing Analyzer ; 00:00:09     ; 1.4                     ; 4876 MB             ; 00:00:09                           ;
-; Design Assistant          ; 00:00:02     ; 1.0                     ; 4725 MB             ; 00:00:03                           ;
-; Total                     ; 00:06:00     ; --                      ; --                  ; 00:10:12                           ;
+; Fitter                    ; 00:00:22     ; 1.1                     ; 5631 MB             ; 00:00:32                           ;
+; Assembler                 ; 00:00:04     ; 1.0                     ; 4712 MB             ; 00:00:04                           ;
+; TimeQuest Timing Analyzer ; 00:00:05     ; 1.4                     ; 4841 MB             ; 00:00:06                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4696 MB             ; 00:00:03                           ;
+; Analysis & Synthesis      ; 00:01:07     ; 1.0                     ; 4932 MB             ; 00:02:13                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4712 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:07     ; 1.0                     ; 4943 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:22     ; 1.1                     ; 5632 MB             ; 00:00:32                           ;
+; Assembler                 ; 00:00:03     ; 1.0                     ; 4714 MB             ; 00:00:04                           ;
+; TimeQuest Timing Analyzer ; 00:00:05     ; 1.4                     ; 4839 MB             ; 00:00:06                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4695 MB             ; 00:00:03                           ;
+; Analysis & Synthesis      ; 00:01:07     ; 1.0                     ; 4928 MB             ; 00:02:17                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4712 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:07     ; 1.0                     ; 4946 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:22     ; 1.2                     ; 5627 MB             ; 00:00:32                           ;
+; Assembler                 ; 00:00:04     ; 1.0                     ; 4716 MB             ; 00:00:04                           ;
+; TimeQuest Timing Analyzer ; 00:00:05     ; 1.4                     ; 4837 MB             ; 00:00:06                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4694 MB             ; 00:00:03                           ;
+; Analysis & Synthesis      ; 00:01:07     ; 1.0                     ; 4923 MB             ; 00:02:17                           ;
+; Partition Merge           ; 00:00:01     ; 1.0                     ; 4705 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:06     ; 1.0                     ; 4940 MB             ; 00:00:06                           ;
+; Fitter                    ; 00:00:15     ; 1.1                     ; 5563 MB             ; 00:00:21                           ;
+; Assembler                 ; 00:00:03     ; 1.0                     ; 4708 MB             ; 00:00:03                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.4                     ; 4817 MB             ; 00:00:05                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4674 MB             ; 00:00:02                           ;
+; Analysis & Synthesis      ; 00:01:08     ; 1.0                     ; 4924 MB             ; 00:02:14                           ;
+; Partition Merge           ; 00:00:01     ; 1.0                     ; 4710 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:07     ; 1.0                     ; 4941 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:22     ; 1.1                     ; 5637 MB             ; 00:00:31                           ;
+; Assembler                 ; 00:00:04     ; 1.0                     ; 4714 MB             ; 00:00:03                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.5                     ; 4841 MB             ; 00:00:06                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4693 MB             ; 00:00:03                           ;
+; Analysis & Synthesis      ; 00:01:12     ; 1.0                     ; 4931 MB             ; 00:02:23                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4710 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:07     ; 1.0                     ; 4943 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:34     ; 1.1                     ; 5631 MB             ; 00:00:37                           ;
+; Assembler                 ; 00:00:15     ; 1.0                     ; 4715 MB             ; 00:00:08                           ;
+; TimeQuest Timing Analyzer ; 00:00:07     ; 1.4                     ; 4836 MB             ; 00:00:07                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4694 MB             ; 00:00:03                           ;
+; Analysis & Synthesis      ; 00:01:10     ; 1.0                     ; 4929 MB             ; 00:02:22                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4711 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:07     ; 1.0                     ; 4946 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:23     ; 1.2                     ; 5625 MB             ; 00:00:33                           ;
+; Assembler                 ; 00:00:04     ; 1.0                     ; 4713 MB             ; 00:00:04                           ;
+; TimeQuest Timing Analyzer ; 00:00:05     ; 1.5                     ; 4844 MB             ; 00:00:06                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4694 MB             ; 00:00:03                           ;
+; Analysis & Synthesis      ; 00:01:19     ; 1.0                     ; 4924 MB             ; 00:02:43                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4712 MB             ; 00:00:02                           ;
+; I/O Assignment Analysis   ; 00:00:08     ; 1.0                     ; 4946 MB             ; 00:00:08                           ;
+; Fitter                    ; 00:00:25     ; 1.2                     ; 5627 MB             ; 00:00:36                           ;
+; Assembler                 ; 00:00:04     ; 1.0                     ; 4714 MB             ; 00:00:04                           ;
+; TimeQuest Timing Analyzer ; 00:00:05     ; 1.4                     ; 4840 MB             ; 00:00:06                           ;
+; Design Assistant          ; 00:00:02     ; 1.0                     ; 4695 MB             ; 00:00:03                           ;
+; Total                     ; 00:17:43     ; --                      ; --                  ; 00:31:11                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -145,6 +187,12 @@ refer to the applicable agreement for further details.
 +---------------------------+------------------+------------+------------+----------------+
 ; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
@@ -153,6 +201,45 @@ refer to the applicable agreement for further details.
 ; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant          ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant          ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant          ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant          ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant          ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Design Assistant          ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
@@ -167,6 +254,12 @@ refer to the applicable agreement for further details.
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_fit --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
 quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
 quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
 quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
@@ -176,6 +269,45 @@ quartus_drc UA3REO -c UA3REO
 quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
 quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
 quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
+quartus_drc UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
+quartus_drc UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
+quartus_drc UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
+quartus_drc UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
+quartus_drc UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
+quartus_drc UA3REO -c UA3REO
 quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
 quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
 quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan

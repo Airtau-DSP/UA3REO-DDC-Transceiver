@@ -6,6 +6,21 @@
 #include <math.h>
 #include "arm_math.h"
 
+void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length)
+{
+	uint16_t halflen=length/2;
+	if(index>=halflen)
+	{
+		memcpy(&dest[0],&source[index-halflen],halflen*4);
+	}
+	else
+	{
+		uint16_t prev_part=halflen-index;
+		memcpy(&dest[0],&source[length-prev_part],prev_part*4);
+		memcpy(&dest[prev_part],&source[0],(halflen-prev_part)*4);
+	}
+}
+
 void logToUART1_str(char* data)
 {
 	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), HAL_MAX_DELAY);
