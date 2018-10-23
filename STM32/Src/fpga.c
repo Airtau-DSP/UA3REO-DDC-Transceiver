@@ -214,7 +214,7 @@ void FPGA_fpgadata_getiq(void)
 void FPGA_fpgadata_sendiq(void)
 {
 	FPGA_samples++;
-
+	
 	//STAGE 2 out Q
 	FPGA_fpgadata_out_tmp16 = FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index];
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);

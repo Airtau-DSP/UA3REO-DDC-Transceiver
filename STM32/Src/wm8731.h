@@ -10,6 +10,7 @@
 
 #define CODEC_AUDIO_BUFFER_SIZE FPGA_AUDIO_BUFFER_SIZE*2
 extern uint16_t CODEC_Audio_Buffer[CODEC_AUDIO_BUFFER_SIZE];
+extern uint16_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE];
 
 extern uint8_t WM8731_SampleMode;
 extern uint32_t WM8731_DMA_samples;

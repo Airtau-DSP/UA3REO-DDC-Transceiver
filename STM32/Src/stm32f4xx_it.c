@@ -346,6 +346,7 @@ void TIM6_DAC_IRQHandler(void)
 		AUDIOPROC_samples = 0;
 		WM8731_DMA_samples = 0;
 		FPGA_NeedSendParams = true;
+		LCD_displayStatusInfoGUI();
 	}
 	//FPGA_NeedGetParams=true;
 	LCD_checkTouchPad();

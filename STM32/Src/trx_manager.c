@@ -25,7 +25,7 @@ void TRX_ptt_change()
 	TRX_ptt = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
 	FPGA_NeedSendParams = true;
 	start_i2s_dma();
-	LCD_displayStatusInfoGUI();
+	//LCD_displayStatusInfoGUI();
 }
 
 void TRX_setFrequency(int32_t _freq)
