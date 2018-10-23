@@ -31,9 +31,9 @@ extern uint32_t LCD_last_showed_freq;
 extern uint8_t LCD_menu_main_index;
 extern bool LCD_mainMenuOpened;
 extern bool LCD_needRedrawMainMenu;
-extern char LCD_freq_string_hz [6];
-extern char LCD_freq_string_khz [6];
-extern char LCD_freq_string_mhz [6];
+extern char LCD_freq_string_hz[6];
+extern char LCD_freq_string_khz[6];
+extern char LCD_freq_string_mhz[6];
 extern bool LCD_bandMenuOpened;
 extern int LCD_last_s_meter;
 

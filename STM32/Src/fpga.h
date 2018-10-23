@@ -10,7 +10,7 @@ void FPGA_Init(void);
 void FPGA_fpgadata_clock(void);
 uint8_t FPGA_readPacket(void);
 void FPGA_writePacket(uint8_t packet);
-	
+
 extern bool FPGA_busy;
 extern uint32_t FPGA_samples;
 
@@ -24,5 +24,5 @@ void FPGA_fpgadata_sendparam(void);
 void FPGA_fpgadata_getparam(void);
 void FPGA_fpgadata_getiq(void);
 void FPGA_fpgadata_sendiq(void);
-	
+
 #endif

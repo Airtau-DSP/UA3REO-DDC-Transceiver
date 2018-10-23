@@ -33,7 +33,7 @@ extern float32_t    Fir_Rx_Hilbert_State_I[FIR_RX_HILBERT_STATE_SIZE];
 extern float32_t    Fir_Rx_Hilbert_State_Q[FIR_RX_HILBERT_STATE_SIZE];
 extern float32_t    Fir_Tx_Hilbert_State_I[FIR_TX_HILBERT_STATE_SIZE];
 extern float32_t    Fir_Tx_Hilbert_State_Q[FIR_TX_HILBERT_STATE_SIZE];
-extern float32_t		Fir_Rx_LPF_State[FPGA_AUDIO_BUFFER_SIZE+FIR_LPF_Taps];
+extern float32_t		Fir_Rx_LPF_State[FPGA_AUDIO_BUFFER_SIZE + FIR_LPF_Taps];
 extern float32_t		iir_rx_state[FIR_RX_LPF_STATE_SIZE];
 extern float32_t		IIR_aa_state[FIR_RX_AA_STATE_SIZE];
 

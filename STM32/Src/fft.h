@@ -17,7 +17,7 @@ extern void FFT_printFFT(void);
 
 extern uint32_t FFT_buff_index;
 extern bool FFT_need_fft;
-extern float32_t FFTInput[FFT_SIZE*2];
+extern float32_t FFTInput[FFT_SIZE * 2];
 uint16_t getFFTColor(uint8_t height);
-	
+
 #endif
