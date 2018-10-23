@@ -1,14 +1,14 @@
-Partition Merge Status : Successful - Sun Oct 21 19:32:54 2018
+Partition Merge Status : Successful - Tue Oct 23 19:44:27 2018
 Quartus Prime Version : 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 Revision Name : UA3REO
 Top-level Entity Name : UA3REO
 Family : Cyclone IV E
-Total logic elements : 6,049
-    Total combinational functions : 3,611
-    Dedicated logic registers : 4,759
-Total registers : 4759
-Total pins : 41
+Total logic elements : 8,024 / 22,320 ( 36 % )
+    Total combinational functions : 5,350 / 22,320 ( 24 % )
+    Dedicated logic registers : 6,305 / 22,320 ( 28 % )
+Total registers : 6305
+Total pins : 41 / 80 ( 51 % )
 Total virtual pins : 0
-Total memory bits : 75,760
-Embedded Multiplier 9-bit elements : 16
-Total PLLs : 1
+Total memory bits : 77,040 / 608,256 ( 13 % )
+Embedded Multiplier 9-bit elements : 20 / 132 ( 15 % )
+Total PLLs : 1 / 4 ( 25 % )

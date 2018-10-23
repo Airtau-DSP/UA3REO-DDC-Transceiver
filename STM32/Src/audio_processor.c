@@ -29,8 +29,10 @@ uint16_t fpga_index_copy=0;
 
 void initAudioProcessor(void)
 {
-	arm_fir_init_f32(&FIR_RX_Hilbert_I, IQ_HILBERT_TAPS, (float32_t *)&i_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
-	arm_fir_init_f32(&FIR_RX_Hilbert_Q, IQ_HILBERT_TAPS, (float32_t *)&q_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
+	arm_fir_init_f32(&FIR_RX_Hilbert_I, IQ_RX_HILBERT_TAPS, (float32_t *)&i_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
+	arm_fir_init_f32(&FIR_RX_Hilbert_Q, IQ_RX_HILBERT_TAPS, (float32_t *)&q_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
+	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
+	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
 	
 	arm_fir_init_f32(&FIR_RX_LPF, FIR_LPF_Taps, (float32_t *)&FIR_2k7_LPF, (float32_t *)&Fir_Rx_LPF_State[0], APROCESSOR_BLOCK_SIZE); // LPF 2.7kHz
 	
@@ -42,6 +44,59 @@ void initAudioProcessor(void)
 	
 	//InitNotchFilter();
 	SetupAgcWdsp(); //AGC
+}
+
+void processTxAudio(void)
+{
+	if(!Processor_NeedBuffer) return;
+	AUDIOPROC_samples++;
+	
+	if(TRX_getMode()==TRX_MODE_LSB || TRX_getMode()==TRX_MODE_USB)
+	{
+		readHalfFromCircleBuffer32((float32_t *)&CODEC_Audio_Buffer[0],(float32_t *)&Processor_AudioBuffer_A[0],CODEC_AUDIO_BUFFER_SIZE-__HAL_DMA_GET_COUNTER(&hdma_i2s3_ext_rx),CODEC_AUDIO_BUFFER_SIZE);
+		for(uint16_t i=0;i<FPGA_AUDIO_BUFFER_HALF_SIZE;i++)
+		{
+			FPGA_Audio_Buffer_I_tmp[i]=Processor_AudioBuffer_A[i*2];
+			//FPGA_Audio_Buffer_Q_tmp[i]=Processor_AudioBuffer_A[i*2+1];
+			FPGA_Audio_Buffer_Q_tmp[i]=0;
+		}
+		for(block=0;block<numBlocks;block++)
+		{
+			arm_fir_f32(&FIR_RX_LPF,(float32_t *)&FPGA_Audio_Buffer_I_tmp[0]+(block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]+(block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //FIR LPF
+		}
+		switch(TRX_getMode())
+		{
+			case TRX_MODE_LSB:
+				arm_sub_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // difference of I and Q - LSB
+			break;
+			case TRX_MODE_USB:
+				arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
+			break;
+		}
+		for(block=0;block<numBlocks;block++)
+		{
+			// + 45 deg to I data
+			arm_fir_f32(&FIR_TX_Hilbert_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], APROCESSOR_BLOCK_SIZE);
+			// - 45 deg to Q data
+			arm_fir_f32(&FIR_TX_Hilbert_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], APROCESSOR_BLOCK_SIZE);
+		}
+		if(WM8731_DMA_state)
+		{
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream0,(uint32_t)&FPGA_Audio_Buffer_I_tmp[0],(uint32_t)&FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_HALF_SIZE],FPGA_AUDIO_BUFFER_HALF_SIZE/4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream1,(uint32_t)&FPGA_Audio_Buffer_Q_tmp[0],(uint32_t)&FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_HALF_SIZE],FPGA_AUDIO_BUFFER_HALF_SIZE/4);
+			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+		}
+		else
+		{
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream0,(uint32_t)&FPGA_Audio_Buffer_I_tmp[0],(uint32_t)&FPGA_Audio_Buffer_I[0],FPGA_AUDIO_BUFFER_HALF_SIZE/4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream1,(uint32_t)&FPGA_Audio_Buffer_Q_tmp[0],(uint32_t)&FPGA_Audio_Buffer_Q[0],FPGA_AUDIO_BUFFER_HALF_SIZE/4);
+			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+		}
+	}
+	
+	Processor_NeedBuffer=false;
 }
 
 void processRxAudio(void)

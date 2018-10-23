@@ -130,7 +130,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_OUTPUT[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_OUTPUT[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_OUTPUT[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DAC_OUTPUT
-set_location_assignment PIN_126 -to ADC_OTR
+set_location_assignment PIN_125 -to ADC_OTR
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ADC_CLK
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR OFF -to ADC_INPUT[11]
 set_instance_assignment -name WEAK_PULL_UP_RESISTOR OFF -to ADC_INPUT[10]
@@ -167,6 +167,8 @@ set_location_assignment PIN_42 -to STM32_DATA_OUT[0]
 set_location_assignment PIN_43 -to STM32_DATA_OUT[1]
 set_location_assignment PIN_44 -to STM32_DATA_OUT[2]
 set_location_assignment PIN_46 -to STM32_DATA_OUT[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_OTR
+set_global_assignment -name QSYS_FILE tx_cic.qsys
 set_global_assignment -name SOURCE_FILE Debug_Probes.spf
 set_global_assignment -name VERILOG_FILE data_delay.v
 set_global_assignment -name QIP_FILE ADC_corrector.qip
@@ -186,5 +188,21 @@ set_global_assignment -name VERILOG_FILE mixer.v
 set_global_assignment -name VERILOG_FILE gain.v
 set_global_assignment -name VERILOG_FILE ciccomp.v
 set_global_assignment -name QIP_FILE mux16.qip
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_OTR
+set_global_assignment -name QIP_FILE tx_mixer.qip
+set_global_assignment -name QIP_FILE tx_summator.qip
+set_location_assignment PIN_71 -to DAC_CLK
+set_location_assignment PIN_50 -to DAC_OUTPUT[13]
+set_location_assignment PIN_51 -to DAC_OUTPUT[12]
+set_location_assignment PIN_58 -to DAC_OUTPUT[11]
+set_location_assignment PIN_59 -to DAC_OUTPUT[10]
+set_location_assignment PIN_100 -to DAC_OUTPUT[0]
+set_location_assignment PIN_99 -to DAC_OUTPUT[1]
+set_location_assignment PIN_72 -to DAC_OUTPUT[2]
+set_location_assignment PIN_69 -to DAC_OUTPUT[3]
+set_location_assignment PIN_68 -to DAC_OUTPUT[4]
+set_location_assignment PIN_67 -to DAC_OUTPUT[5]
+set_location_assignment PIN_66 -to DAC_OUTPUT[6]
+set_location_assignment PIN_65 -to DAC_OUTPUT[7]
+set_location_assignment PIN_64 -to DAC_OUTPUT[8]
+set_location_assignment PIN_60 -to DAC_OUTPUT[9]
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

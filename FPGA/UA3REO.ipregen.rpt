@@ -1,5 +1,5 @@
 IP Upgrade report for UA3REO
-Mon Oct 08 20:32:11 2018
+Tue Oct 23 00:23:28 2018
 Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 
 
@@ -34,7 +34,7 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------------------+
 ; IP Upgrade Summary                                                                      ;
 +------------------------------+----------------------------------------------------------+
-; IP Components Upgrade Status ; Failed - Mon Oct 08 20:32:11 2018                        ;
+; IP Components Upgrade Status ; Failed - Tue Oct 23 00:23:28 2018                        ;
 ; Quartus Prime Version        ; 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
 ; Revision Name                ; UA3REO                                                   ;
 ; Top-level Entity Name        ; UA3REO                                                   ;
@@ -48,8 +48,8 @@ refer to the applicable agreement for further details.
 Info (23030): Evaluation of Tcl script c:/intelfpga/17.1/quartus/common/tcl/internal/ip_regen/ip_regen.tcl was successful
 Info: Quartus Prime Shell was successful. 0 errors, 0 warnings
     Info: Peak virtual memory: 4823 megabytes
-    Info: Processing ended: Mon Oct 08 20:32:11 2018
+    Info: Processing ended: Tue Oct 23 00:23:28 2018
     Info: Elapsed time: 00:00:13
-    Info: Total CPU time (on all processors): 00:00:31
+    Info: Total CPU time (on all processors): 00:00:30
 
 

@@ -5,8 +5,10 @@
 #include "lcd.h"
 #include "audio_processor.h"
 #include "settings.h"
+#include "wm8731.h"
 
 uint16_t FPGA_fpgadata_in_tmp16=0;
+uint16_t FPGA_fpgadata_out_tmp16=0;
 int16_t FPGA_fpgadata_in_inttmp16=0;
 uint8_t FPGA_fpgadata_in_tmp8=0;
 uint8_t FPGA_fpgadata_out_tmp8=0;
@@ -135,7 +137,7 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_fpgadata_in_tmp16 = (FPGA_readPacket() & 0XF) << 12;
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
-
+	
 	//STAGE 3
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -211,7 +213,78 @@ void FPGA_fpgadata_getiq(void)
 
 void FPGA_fpgadata_sendiq(void)
 {
+	FPGA_samples++;
 	
+	//STAGE 2 out Q
+	FPGA_fpgadata_out_tmp16=FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index];
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16>>12);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 3
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16>>8);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 4
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16>>4);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 5
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 6 out I
+	FPGA_fpgadata_out_tmp16=FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16>>12);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 7
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16>>8);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 8
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16>>4);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 9
+	FPGA_writePacket(FPGA_fpgadata_out_tmp16);
+	//clock
+	GPIOC->BSRR = FPGA_CLK_Pin;
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	FPGA_Audio_Buffer_Index++;
+	if(FPGA_Audio_Buffer_Index==FPGA_AUDIO_BUFFER_SIZE)
+	{
+		FPGA_Audio_Buffer_Index=0;
+		WM8731_DMA_state=true;
+		Processor_NeedBuffer=true;
+	}
+	else if(FPGA_Audio_Buffer_Index==FPGA_AUDIO_BUFFER_SIZE/2)
+	{
+		WM8731_DMA_state=false;
+		Processor_NeedBuffer=true;
+	}
 }
 
 inline uint8_t FPGA_readPacket(void)

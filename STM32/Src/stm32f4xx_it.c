@@ -287,8 +287,18 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	if(!TRX.Loopback) processRxAudio();
-	if(FFT_buff_index==0 && FFT_need_fft) FFT_doFFT();
+	if(!TRX.Loopback)
+	{
+		if(TRX_ptt)
+		{
+			processTxAudio();
+		}
+		else
+		{
+			processRxAudio();
+			if(FFT_buff_index==0 && FFT_need_fft) FFT_doFFT();
+		}
+	}
   /* USER CODE END TIM5_IRQn 1 */
 }
 

@@ -11,6 +11,8 @@ freq_out,
 preamp_enable,
 rx,
 tx,
+TX_I,
+TX_Q,
 
 stage_debug
 );
@@ -27,6 +29,8 @@ output reg unsigned [21:0] freq_out=620407;
 output reg preamp_enable=0;
 output reg rx=1;
 output reg tx=0;
+output reg signed [15:0] TX_I=0;
+output reg signed [15:0] TX_Q=0;
 output reg [15:0] stage_debug=0;
 
 integer k=1;
@@ -108,11 +112,51 @@ begin
 		DATA_OUT[0:0]<=ADC_OTR;
 		k<=999;
 	end
-	else if (k==300) //GET IQ
+	else if (k==300) //TX IQ
 	begin
+		I_HOLD='d0;
+		Q_HOLD='d0;
+		Q_HOLD[15:12]=DATA_OUT[3:0];
+		k<=301;
+	end
+	else if (k==301)
+	begin
+		Q_HOLD[11:8]<=DATA_OUT[3:0];
+		k<=302;
+	end
+	else if (k==302)
+	begin
+		Q_HOLD[7:4]<=DATA_OUT[3:0];
+		k<=303;
+	end
+	else if (k==303)
+	begin
+		Q_HOLD[3:0]<=DATA_OUT[3:0];
+		k<=304;
+	end
+	else if (k==304)
+	begin
+		I_HOLD[15:12]<=DATA_OUT[3:0];
+		k<=305;
+	end
+	else if (k==305)
+	begin
+		I_HOLD[11:8]<=DATA_OUT[3:0];
+		k<=306;
+	end
+	else if (k==306)
+	begin
+		I_HOLD[7:4]<=DATA_OUT[3:0];
+		k<=307;
+	end
+	else if (k==307)
+	begin
+		I_HOLD[3:0]=DATA_OUT[3:0];
+		TX_I[15:0]=I_HOLD[15:0];
+		TX_Q[15:0]=Q_HOLD[15:0];
 		k<=999;
 	end
-	else if (k==400) //SEND IQ
+	else if (k==400) //RX IQ
 	begin
 		I_HOLD=I; //+'d32767;
 		Q_HOLD=Q; //+'d32767;

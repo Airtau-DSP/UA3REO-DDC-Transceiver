@@ -19,7 +19,9 @@ extern bool WM8731_DMA_state;
 void WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
 extern void WM8731_Init(void);
 extern void WM8731_switchToActualSampleRate(int32_t rate);
-extern void start_i2s_rx_dma(void);
-extern void start_loopback_dma(void);
+extern void start_i2s_dma(void);
+void start_i2s_rx_dma(void);
+void start_i2s_tx_dma(void);
+void start_loopback_dma(void);
 
 #endif

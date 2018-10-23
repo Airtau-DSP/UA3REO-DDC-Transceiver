@@ -1,4 +1,5 @@
 FPGA/db/*
+FPGA/greybox_tmp/*
 FPGA/incremental_db/*
 Filters/Iowa*
 Filters/WinFilter.exe

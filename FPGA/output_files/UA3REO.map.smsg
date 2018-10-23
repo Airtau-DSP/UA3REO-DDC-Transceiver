@@ -1,1 +1,1 @@
-Warning (10268): Verilog HDL information at stm32_interface.v(36): always construct contains both blocking and non-blocking assignments File: D:/Dropbox/Develop/Projects/UA3REO/FPGA/stm32_interface.v Line: 36
+Warning (10268): Verilog HDL information at stm32_interface.v(40): always construct contains both blocking and non-blocking assignments File: D:/Dropbox/Develop/Projects/UA3REO/FPGA/stm32_interface.v Line: 40

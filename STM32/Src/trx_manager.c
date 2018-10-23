@@ -24,6 +24,7 @@ void TRX_ptt_change()
 {
   TRX_ptt = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port,PTT_IN_Pin);
 	FPGA_NeedSendParams=true;
+	start_i2s_dma();
   LCD_displayStatusInfoGUI();
 }
 
@@ -62,8 +63,7 @@ int32_t TRX_getFrequencyPhrase(void)
 void TRX_SetLoopbackMode(bool state)
 {
 	TRX.Loopback=state;
-	if(TRX.Loopback) start_loopback_dma();
-	if(!TRX.Loopback) start_i2s_rx_dma();
+	start_i2s_dma();
 }
 
 

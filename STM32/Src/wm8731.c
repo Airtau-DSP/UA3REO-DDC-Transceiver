@@ -3,25 +3,52 @@
 #include "functions.h"
 #include <stdlib.h>
 #include "math.h"
+#include "trx_manager.h"
+#include "settings.h"
 
 uint16_t CODEC_Audio_Buffer[CODEC_AUDIO_BUFFER_SIZE]={0};
-uint16_t CODEC_Audio_BufferTX[CODEC_AUDIO_BUFFER_SIZE]={0};
 
 uint8_t WM8731_SampleMode=48;
 uint32_t WM8731_DMA_samples=0;
 bool WM8731_DMA_state=true; //true - compleate ; false - half
 
+void start_i2s_dma(void)
+{
+	if(TRX_ptt)
+	{
+		start_i2s_tx_dma();
+	}
+	else
+	{
+		if(TRX.Loopback) 
+			start_loopback_dma();
+		else
+			start_i2s_rx_dma();
+	}
+}
+
 void start_i2s_rx_dma(void)
 {
-	//if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
-	HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
-	//HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_BufferTX[0],CODEC_AUDIO_BUFFER_SIZE);
+	if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	memchr((uint16_t*)&CODEC_Audio_Buffer[0],0,CODEC_AUDIO_BUFFER_SIZE);
+	if(HAL_I2S_GetState(&hi2s3)==HAL_I2S_STATE_READY)
+		HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
+}
+
+void start_i2s_tx_dma(void)
+{
+	if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	memchr((uint16_t*)&CODEC_Audio_Buffer[0],0,CODEC_AUDIO_BUFFER_SIZE);
+	if(HAL_I2S_GetState(&hi2s3)==HAL_I2S_STATE_READY)
+		HAL_I2S_Receive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
 }
 
 void start_loopback_dma(void)
 {
 	if(HAL_I2S_GetState(&hi2s3)!=HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
-	HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0],CODEC_AUDIO_BUFFER_SIZE);
+	memchr((uint16_t*)&CODEC_Audio_Buffer[0],0,CODEC_AUDIO_BUFFER_SIZE);
+	if(HAL_I2S_GetState(&hi2s3)==HAL_I2S_STATE_READY)
+		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0],CODEC_AUDIO_BUFFER_SIZE);
 }
 
 void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)

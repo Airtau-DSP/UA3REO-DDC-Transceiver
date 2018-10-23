@@ -3,11 +3,11 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 9.584
+Slack : 8.594
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 17.286
+Slack : 16.042
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
@@ -15,7 +15,7 @@ Slack : 0.402
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 0.501
+Slack : 0.500
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk_sys'
@@ -23,19 +23,19 @@ Slack : 9.927
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 9.974
+Slack : 9.973
 TNS   : 0.000
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 260.110
+Slack : 260.109
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 10.449
+Slack : 9.521
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 17.520
+Slack : 16.320
 TNS   : 0.000
 
 Type  : Slow 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
@@ -59,15 +59,15 @@ Slack : 260.111
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 15.731
+Slack : 15.271
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Setup 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'
-Slack : 19.204
+Slack : 18.599
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[0]'
-Slack : 0.137
+Slack : 0.135
 TNS   : 0.000
 
 Type  : Fast 1200mV 0C Model Hold 'SECOND_PLL|altpll_component|auto_generated|pll1|clk[1]'

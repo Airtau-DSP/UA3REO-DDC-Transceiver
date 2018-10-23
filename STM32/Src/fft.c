@@ -9,7 +9,6 @@ uint32_t FFT_buff_index=0;
 
 float32_t FFTInput[FFT_SIZE*2] = {0};
 float32_t FFTOutput[FFT_SIZE];
-float32_t SamplesBuf[FFT_SIZE];
 
 uint8_t FFT_status;
 const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len256;
