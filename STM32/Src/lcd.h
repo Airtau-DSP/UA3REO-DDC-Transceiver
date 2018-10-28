@@ -13,8 +13,9 @@
 
 #define MENU_MAIN_EXIT 1
 #define MENU_MAIN_GAIN 2
-#define MENU_MAIN_AGCSPEED 3
-#define MENU_MAIN_COUNT 3
+#define MENU_MAIN_MICGAIN 3
+#define MENU_MAIN_AGCSPEED 4
+#define MENU_MAIN_COUNT 4
 
 void LCD_Init(void);
 void LCD_displayFreqInfo(void);

@@ -21,6 +21,7 @@ uint32_t FPGA_samples = 0;
 float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 uint16_t FPGA_Audio_Buffer_Index = 0;
+bool FPGA_Audio_Buffer_State = true; //true - compleate ; false - half
 
 bool FPGA_NeedSendParams = false;
 bool FPGA_NeedGetParams = false;
@@ -65,7 +66,7 @@ void FPGA_fpgadata_sendparam(void)
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;
 	bitWrite(FPGA_fpgadata_out_tmp8, 3, TRX_ptt);
-	if (!TRX_ptt && !TRX.Tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
+	if (!TRX_ptt && !TRX_tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 	//clock
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
@@ -216,7 +217,8 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_samples++;
 	
 	//STAGE 2 out Q
-	FPGA_fpgadata_out_tmp16 = FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index];
+	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index]; //-32767
+	if(TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -245,7 +247,8 @@ void FPGA_fpgadata_sendiq(void)
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 
 	//STAGE 6 out I
-	FPGA_fpgadata_out_tmp16 = FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
+	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
+	if(TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -277,12 +280,12 @@ void FPGA_fpgadata_sendiq(void)
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE)
 	{
 		FPGA_Audio_Buffer_Index = 0;
-		WM8731_DMA_state = true;
+		FPGA_Audio_Buffer_State=true;
 		Processor_NeedBuffer = true;
 	}
 	else if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE / 2)
 	{
-		WM8731_DMA_state = false;
+		FPGA_Audio_Buffer_State=false;
 		Processor_NeedBuffer = true;
 	}
 }

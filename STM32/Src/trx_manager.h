@@ -19,6 +19,8 @@ void TRX_ptt_change(void);
 
 extern uint32_t TRX_freq_phrase; //freq in hz/oscil in hz*2^bits = (freq/50000000)*4194304;
 extern bool TRX_ptt;
+extern bool TRX_tune;
+extern bool TRX_inited;
 extern int32_t TRX_s_meter;
 extern bool TRX_agc_wdsp_action;
 extern bool TRX_ADC_OTR;

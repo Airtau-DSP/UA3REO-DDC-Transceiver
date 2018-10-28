@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="cic" kind="cic" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.10.23.20:43:58 -->
+ <!-- 2018.10.28.01:56:51 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1540313038</value>
+  <value>1540677411</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>

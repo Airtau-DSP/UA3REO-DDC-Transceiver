@@ -17,6 +17,7 @@ uint8_t Read_Data = W25Q16_COMMAND_Read_Data;
 uint8_t Address[3] = { 0x00 };
 
 struct TRX_SETTINGS TRX;
+bool NeedSaveSettings=false;
 
 void LoadSettings(void)
 {
@@ -31,13 +32,14 @@ void LoadSettings(void)
 		TRX.Loopback = false;
 		TRX.Gain_level = 3;
 		TRX.Agc_speed = 2;
-		TRX.Tune = 0;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
+		TRX.MicGain_level=3;
 	}
 }
 
 void SaveSettings(void)
 {
+	NeedSaveSettings=false;
 	FPGA_NeedSendParams = true;
 	Flash_Sector_Erase();
 	//Flash_Erase_Chip();

@@ -17,6 +17,7 @@ extern uint32_t FPGA_samples;
 extern float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE];
 extern uint16_t FPGA_Audio_Buffer_Index;
+extern bool FPGA_Audio_Buffer_State;
 
 extern bool FPGA_NeedSendParams;
 extern bool FPGA_NeedGetParams;

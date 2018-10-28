@@ -22,10 +22,11 @@ extern struct TRX_SETTINGS {
 	bool Loopback;
 	uint8_t Gain_level;
 	uint8_t Agc_speed;
-	bool Tune;
 	uint8_t LCD_menu_freq_index;
+	uint8_t MicGain_level;
 } TRX;
 
+extern bool NeedSaveSettings;
 extern SPI_HandleTypeDef hspi1;
 extern void LoadSettings(void);
 extern void SaveSettings(void);

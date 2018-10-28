@@ -2,6 +2,6 @@
 # 
 preplace inst debug2 -pg 1 -lvl 1 -y 40 -regy -20
 preplace inst debug2.in_system_sources_probes_0 -pg 1 -lvl 1 -y 30
-preplace netloc EXPORT<net_container>debug2</net_container>(SLAVE)in_system_sources_probes_0.probes,(SLAVE)debug2.probes) 1 0 1 N
+preplace netloc EXPORT<net_container>debug2</net_container>(SLAVE)debug2.probes,(SLAVE)in_system_sources_probes_0.probes) 1 0 1 N
 levelinfo -pg 1 0 50 280
 levelinfo -hier debug2 60 130 260

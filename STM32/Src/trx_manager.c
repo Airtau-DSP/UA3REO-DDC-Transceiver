@@ -9,6 +9,8 @@
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 bool TRX_ptt = 0;
+bool TRX_tune = 0;
+bool TRX_inited = false;
 int32_t TRX_s_meter = 1;
 bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
@@ -22,10 +24,15 @@ void TRX_Init()
 
 void TRX_ptt_change()
 {
-	TRX_ptt = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
-	FPGA_NeedSendParams = true;
-	start_i2s_dma();
-	//LCD_displayStatusInfoGUI();
+	if(TRX_tune) return;
+	bool TRX_new_ptt = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
+	if(TRX_ptt!=TRX_new_ptt)
+	{
+		TRX_ptt=TRX_new_ptt;
+		FPGA_NeedSendParams = true;
+		start_i2s_dma();
+		LCD_displayStatusInfoGUI();
+	}
 }
 
 void TRX_setFrequency(int32_t _freq)
@@ -72,7 +79,7 @@ void TRX_setMode(uint8_t _mode)
 	TRX.Mode = _mode;
 	//if (TRX_mode == TRX_MODE_USB || TRX_mode == TRX_MODE_LSB) TRX_hilbert=true; else TRX_hilbert=false;
 	LCD_displayTopButtons(false);
-	SaveSettings();
+	NeedSaveSettings=true;
 }
 
 uint8_t TRX_getMode(void)

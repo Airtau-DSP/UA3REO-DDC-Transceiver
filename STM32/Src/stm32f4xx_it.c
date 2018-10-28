@@ -44,6 +44,7 @@
 #include "audio_processor.h"
 #include "agc.h"
 #include "settings.h"
+#include "fpga.h"
 
 uint32_t ms100_counter = 0;
 
@@ -217,7 +218,7 @@ void EXTI2_IRQHandler(void)
   /* USER CODE END EXTI2_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
   /* USER CODE BEGIN EXTI2_IRQn 1 */
-	ENCODER_checkRotate();
+	if(TRX_inited) ENCODER_checkRotate();
   /* USER CODE END EXTI2_IRQn 1 */
 }
 
@@ -231,7 +232,7 @@ void EXTI4_IRQHandler(void)
   /* USER CODE END EXTI4_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
   /* USER CODE BEGIN EXTI4_IRQn 1 */
-	TRX_ptt_change();
+	if(TRX_inited) TRX_ptt_change();
   /* USER CODE END EXTI4_IRQn 1 */
 }
 
@@ -273,7 +274,7 @@ void EXTI9_5_IRQHandler(void)
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-	ENCODER_checkClick();
+	if(TRX_inited) ENCODER_checkClick();
   /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
@@ -289,7 +290,7 @@ void TIM5_IRQHandler(void)
   /* USER CODE BEGIN TIM5_IRQn 1 */
 	if (!TRX.Loopback)
 	{
-		if (TRX_ptt)
+		if (TRX_ptt || TRX_tune)
 		{
 			processTxAudio();
 		}
@@ -329,24 +330,33 @@ void TIM6_DAC_IRQHandler(void)
 		HAL_TIM_Base_Init(&htim7);
 	}
 	*/
+	logToUART1_float32(FPGA_Audio_Buffer_I[0]);
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
 		//WM8731_switchToActualSampleRate(FPGA_samples);
-		//logToUART1_num32(FPGA_samples);
+		//gToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2);
 		//logToUART1_num32(AUDIOPROC_samples);
+		//logToUART1_num32(AUDIOPROC_TXA_samples);
+		//logToUART1_num32(AUDIOPROC_TXB_samples);
 		//logToUART1_num32(Processor_AudioBuffer_ReadyBuffer);
 		//logToUART1_num32(FPGA_Audio_Buffer_Index);
+		//logToUART1_num32(WM8731_DMA_state);
 		//logToUART1_num32(htim7.Init.Prescaler);
 		//logToUART1_num32(CODEC_Audio_OUT_ActiveBuffer);
+		//logToUART1_num(FPGA_Audio_Buffer_State);
 		//logToUART1_float32(agc_wdsp.volts);
 		//logToUART1_str("\r\n");
+		
 		FPGA_samples = 0;
 		AUDIOPROC_samples = 0;
+		AUDIOPROC_TXA_samples = 0;
+		AUDIOPROC_TXB_samples = 0;
 		WM8731_DMA_samples = 0;
 		FPGA_NeedSendParams = true;
 		LCD_displayStatusInfoGUI();
+		if(NeedSaveSettings) SaveSettings();
 	}
 	//FPGA_NeedGetParams=true;
 	LCD_checkTouchPad();

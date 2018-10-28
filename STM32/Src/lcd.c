@@ -3,6 +3,7 @@
 #include "arm_math.h"
 #include "agc.h"
 #include "settings.h"
+#include "wm8731.h"
 
 char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
@@ -69,7 +70,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		ILI9341_printText("LOOP", 117, 50, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
-		if (TRX.Tune) color = COLOR_YELLOW;
+		if (TRX_tune) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(169, 40, 56, 30, color);
 		ILI9341_printText("TUNE", 174, 50, COLOR_BLUE, color, 2);
 
@@ -155,7 +156,7 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
 	if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ) ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_BLACK, COLOR_WHITE, 5);
 	else ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
-	SaveSettings();
+	NeedSaveSettings=true;
 }
 
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
@@ -223,6 +224,13 @@ void LCD_displayMainMenu() {
 	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
 	y += 20;
 
+	ILI9341_printText("MIC GAIN:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
+	sprintf(ctmp, "%d", TRX.MicGain_level);
+	addSymbols(buff, ctmp, 2, " ", true);
+	if (LCD_menu_main_index == MENU_MAIN_MICGAIN) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
+	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
+	y += 20;
+	
 	ILI9341_printText("AGC Speed:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.Agc_speed);
 	addSymbols(buff, ctmp, 2, " ", true);
@@ -333,23 +341,25 @@ void LCD_checkTouchPad(void)
 		if (x >= 5 && x <= 55 && y >= 40 && y <= 70) {
 			TRX.Preamp = !TRX.Preamp; //кнопка PREAMP
 			LCD_displayTopButtons(false);
-			SaveSettings();
+			NeedSaveSettings=true;
 		}
 		else if (x >= 60 && x <= 110 && y >= 40 && y <= 70) {
 			TRX.Agc = !TRX.Agc; //кнопка AGC
 			LCD_displayTopButtons(false);
-			SaveSettings();
+			NeedSaveSettings=true;
 		}
 		else if (x >= 115 && x <= 165 && y >= 40 && y <= 70) {
 			TRX_SetLoopbackMode(!TRX.Loopback); //кнопка LOOP
 			LCD_displayTopButtons(false);
-			SaveSettings();
+			NeedSaveSettings=true;
 		}
 		else if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
-			TRX.Tune = !TRX.Tune; //кнопка TUNE
-			TRX_ptt = TRX.Tune;
+			TRX_tune = !TRX_tune; //кнопка TUNE
+			TRX_ptt = TRX_tune;
+			start_i2s_dma();
+			LCD_displayStatusInfoGUI();
 			LCD_displayTopButtons(false);
-			SaveSettings();
+			NeedSaveSettings=true;
 		}
 		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
 			LCD_mainMenuOpened = true; //кнопка MENU

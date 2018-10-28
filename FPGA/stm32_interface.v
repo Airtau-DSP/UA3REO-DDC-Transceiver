@@ -116,42 +116,42 @@ begin
 	begin
 		I_HOLD='d0;
 		Q_HOLD='d0;
-		Q_HOLD[15:12]=DATA_OUT[3:0];
+		Q_HOLD[15:12]=DATA_IN[3:0];
 		k<=301;
 	end
 	else if (k==301)
 	begin
-		Q_HOLD[11:8]<=DATA_OUT[3:0];
+		Q_HOLD[11:8]<=DATA_IN[3:0];
 		k<=302;
 	end
 	else if (k==302)
 	begin
-		Q_HOLD[7:4]<=DATA_OUT[3:0];
+		Q_HOLD[7:4]<=DATA_IN[3:0];
 		k<=303;
 	end
 	else if (k==303)
 	begin
-		Q_HOLD[3:0]<=DATA_OUT[3:0];
+		Q_HOLD[3:0]<=DATA_IN[3:0];
 		k<=304;
 	end
 	else if (k==304)
 	begin
-		I_HOLD[15:12]<=DATA_OUT[3:0];
+		I_HOLD[15:12]<=DATA_IN[3:0];
 		k<=305;
 	end
 	else if (k==305)
 	begin
-		I_HOLD[11:8]<=DATA_OUT[3:0];
+		I_HOLD[11:8]<=DATA_IN[3:0];
 		k<=306;
 	end
 	else if (k==306)
 	begin
-		I_HOLD[7:4]<=DATA_OUT[3:0];
+		I_HOLD[7:4]<=DATA_IN[3:0];
 		k<=307;
 	end
 	else if (k==307)
 	begin
-		I_HOLD[3:0]=DATA_OUT[3:0];
+		I_HOLD[3:0]=DATA_IN[3:0];
 		TX_I[15:0]=I_HOLD[15:0];
 		TX_Q[15:0]=Q_HOLD[15:0];
 		k<=999;

@@ -84,6 +84,12 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			if (TRX.Gain_level > 20) TRX.Gain_level = 20;
 			LCD_needRedrawMainMenu = true;
 			break;
+		case MENU_MAIN_MICGAIN:
+			TRX.MicGain_level = TRX.MicGain_level + direction;
+			if (TRX.MicGain_level < 1) TRX.MicGain_level = 1;
+			if (TRX.MicGain_level > 100) TRX.MicGain_level = 100;
+			LCD_needRedrawMainMenu = true;
+			break;
 		case MENU_MAIN_AGCSPEED:
 			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
 			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
@@ -93,6 +99,6 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 		default:
 			break;
 		}
-		SaveSettings();
+		NeedSaveSettings=true;
 	}
 }

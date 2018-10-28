@@ -17,6 +17,8 @@ extern void processRxAudio(void);
 extern void processTxAudio(void);
 extern void initAudioProcessor(void);
 extern uint32_t AUDIOPROC_samples;
+extern uint32_t AUDIOPROC_TXA_samples;
+extern uint32_t AUDIOPROC_TXB_samples;
 extern uint16_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
 extern uint16_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
 extern uint8_t Processor_AudioBuffer_ReadyBuffer;

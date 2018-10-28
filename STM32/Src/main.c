@@ -154,8 +154,9 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);
 	HAL_TIM_Base_Start(&htim6);
 	HAL_TIM_Base_Start_IT(&htim6);
-	logToUART1_str("UA3REO Started\r\n");
 	Touch_Set_Coef(11.096, -32, -15.588235, 250);
+	logToUART1_str("UA3REO Started\r\n");
+	TRX_inited=true;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -218,7 +219,7 @@ void SystemClock_Config(void)
   }
 
   PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2S;
-  PeriphClkInitStruct.PLLI2S.PLLI2SN = 384;
+  PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
   PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
   {
@@ -368,7 +369,7 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 895;
+  htim7.Init.Prescaler = 895; //895
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim7.Init.Period = 1;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
@@ -527,19 +528,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : FPGA_CLK_Pin */
-  GPIO_InitStruct.Pin = FPGA_CLK_Pin;
+  /*Configure GPIO pins : FPGA_CLK_Pin FPGA_SYNC_Pin */
+  GPIO_InitStruct.Pin = FPGA_CLK_Pin|FPGA_SYNC_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(FPGA_CLK_GPIO_Port, &GPIO_InitStruct);
-
-  /*Configure GPIO pin : FPGA_SYNC_Pin */
-  GPIO_InitStruct.Pin = FPGA_SYNC_Pin;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  GPIO_InitStruct.Pull = GPIO_PULLDOWN;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(FPGA_SYNC_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
   /*Configure GPIO pins : FPGA_IN_D2_Pin FPGA_IN_D3_Pin FPGA_IN_D0_Pin FPGA_IN_D1_Pin */
   GPIO_InitStruct.Pin = FPGA_IN_D2_Pin|FPGA_IN_D3_Pin|FPGA_IN_D0_Pin|FPGA_IN_D1_Pin;

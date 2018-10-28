@@ -30,15 +30,27 @@ void start_i2s_dma(void)
 
 void start_i2s_rx_dma(void)
 {
-	if (HAL_I2S_GetState(&hi2s3) != HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	logToUART1_str("RX DMA\r\n");
+	if (HAL_I2S_GetState(&hi2s3) != HAL_I2S_STATE_READY)
+	{
+		HAL_I2S_DMAStop(&hi2s3);
+		HAL_Delay(10);
+	}
 	memchr((uint16_t*)&CODEC_Audio_Buffer[0], 0, CODEC_AUDIO_BUFFER_SIZE);
+	memchr((uint16_t*)&CODEC_Audio_Buffer_TX[0], 0, CODEC_AUDIO_BUFFER_SIZE);
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
 		HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
+		//HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], CODEC_AUDIO_BUFFER_SIZE);
 }
 
 void start_i2s_tx_dma(void)
 {
-	if (HAL_I2S_GetState(&hi2s3) != HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	logToUART1_str("TX DMA\r\n");
+	if (HAL_I2S_GetState(&hi2s3) != HAL_I2S_STATE_READY) 
+	{
+		HAL_I2S_DMAStop(&hi2s3);
+		HAL_Delay(10);
+	}
 	memchr((uint16_t*)&CODEC_Audio_Buffer[0], 0, CODEC_AUDIO_BUFFER_SIZE);
 	memchr((uint16_t*)&CODEC_Audio_Buffer_TX[0], 0, CODEC_AUDIO_BUFFER_SIZE);
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
@@ -47,8 +59,14 @@ void start_i2s_tx_dma(void)
 
 void start_loopback_dma(void)
 {
-	if (HAL_I2S_GetState(&hi2s3) != HAL_I2S_STATE_READY) HAL_I2S_DMAStop(&hi2s3);
+	logToUART1_str("LOOP DMA\r\n");
+	if (HAL_I2S_GetState(&hi2s3) != HAL_I2S_STATE_READY)
+	{
+		HAL_I2S_DMAStop(&hi2s3);
+		HAL_Delay(10);
+	}
 	memchr((uint16_t*)&CODEC_Audio_Buffer[0], 0, CODEC_AUDIO_BUFFER_SIZE);
+	memchr((uint16_t*)&CODEC_Audio_Buffer_TX[0], 0, CODEC_AUDIO_BUFFER_SIZE);
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
 		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
 }

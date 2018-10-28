@@ -2,7 +2,7 @@ set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_TOOL_NAME "Qsy
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_TOOL_VERSION "17.1"
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "tx_cic" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../tx_cic.sopcinfo"]
-set_global_assignment -entity "tx_cic" -library "tx_cic" -name SLD_INFO "QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1540244313"
+set_global_assignment -entity "tx_cic" -library "tx_cic" -name SLD_INFO "QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1540666827"
 set_global_assignment -library "tx_cic" -name MISC_FILE [file join $::quartus(qip_path) "../tx_cic.cmp"]
 set_global_assignment -library "tx_cic" -name SLD_FILE [file join $::quartus(qip_path) "tx_cic.debuginfo"]
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_TARGETED_DEVICE_FAMILY "Cyclone IV E"
@@ -15,7 +15,7 @@ set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_DISP
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU0MDI0NDMxMw==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU0MDY2NjgyNw==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBJViBF::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::RVA0Q0UyMkUyMkM4::QXV0byBERVZJQ0U="
 set_global_assignment -entity "tx_cic" -library "tx_cic" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::OA==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -42,7 +42,7 @@ set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPO
 set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "Q0hfUEVSX0lOVA==::MQ==::TnVtYmVyIG9mIGNoYW5uZWxzIHBlciBpbnRlcmZhY2U="
 set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "SU5fV0lEVEg=::MTY=::SW5wdXQgZGF0YSB3aWR0aA=="
 set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "Q0xLX0VOX1BPUlQ=::ZmFsc2U=::VXNlIGNsb2NrIGVuYWJsZSBwb3J0"
-set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "Uk9VTkRfVFlQRQ==::Q09OVl9ST1VORA==::T3V0cHV0IFJvdW5kaW5nIE1ldGhvZA=="
+set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "Uk9VTkRfVFlQRQ==::VFJVTkNBVEU=::T3V0cHV0IFJvdW5kaW5nIE1ldGhvZA=="
 set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "UkVRX09VVF9XSURUSA==::MTY=::T3V0cHV0IGRhdGEgd2lkdGg="
 set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "SU5UX01FTQ==::YXV0bw==::SW50ZWdyYXRvciBkYXRhIHN0b3JhZ2UgdHlwZQ=="
 set_global_assignment -entity "tx_cic_cic_ii_0" -library "tx_cic" -name IP_COMPONENT_PARAMETER "UkVRX0lOVF9NRU0=::bG9naWNfZWxlbWVudA==::SW50ZWdyYXRvciBkYXRhIHN0b3JhZ2UgdHlwZQ=="
