@@ -1,11 +1,11 @@
-Fitter Status : Successful - Sun Oct 28 00:58:54 2018
+Fitter Status : Successful - Sun Oct 28 19:24:38 2018
 Quartus Prime Version : 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 Revision Name : UA3REO
 Top-level Entity Name : UA3REO
 Family : Cyclone IV E
 Device : EP4CE22E22C8
 Timing Models : Final
-Total logic elements : 9,279 / 22,320 ( 42 % )
+Total logic elements : 9,266 / 22,320 ( 42 % )
     Total combinational functions : 6,637 / 22,320 ( 30 % )
     Dedicated logic registers : 7,964 / 22,320 ( 36 % )
 Total registers : 7964

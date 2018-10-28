@@ -52,8 +52,8 @@ extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
-extern DMA_HandleTypeDef hdma_spi3_tx;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
+extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim5;
 extern TIM_HandleTypeDef htim6;
 extern TIM_HandleTypeDef htim7;
@@ -237,17 +237,17 @@ void EXTI4_IRQHandler(void)
 }
 
 /**
-* @brief This function handles DMA1 stream2 global interrupt.
+* @brief This function handles DMA1 stream0 global interrupt.
 */
-void DMA1_Stream2_IRQHandler(void)
+void DMA1_Stream0_IRQHandler(void)
 {
-  /* USER CODE BEGIN DMA1_Stream2_IRQn 0 */
+  /* USER CODE BEGIN DMA1_Stream0_IRQn 0 */
 
-  /* USER CODE END DMA1_Stream2_IRQn 0 */
+  /* USER CODE END DMA1_Stream0_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_i2s3_ext_rx);
-  /* USER CODE BEGIN DMA1_Stream2_IRQn 1 */
+  /* USER CODE BEGIN DMA1_Stream0_IRQn 1 */
 
-  /* USER CODE END DMA1_Stream2_IRQn 1 */
+  /* USER CODE END DMA1_Stream0_IRQn 1 */
 }
 
 /**
@@ -260,7 +260,7 @@ void DMA1_Stream5_IRQHandler(void)
   /* USER CODE END DMA1_Stream5_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_spi3_tx);
   /* USER CODE BEGIN DMA1_Stream5_IRQn 1 */
-	  //HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&FPGA_Audio_IN_Buffer_Q[0], FPGA_AUDIO_BUFFER_SIZE);  
+
   /* USER CODE END DMA1_Stream5_IRQn 1 */
 }
 
@@ -318,24 +318,11 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		FFT_printFFT();
 	}
-	/*
-	if(FPGA_samples>(WM8731_DMA_samples/2))
-	{
-		htim7.Init.Prescaler++;
-		HAL_TIM_Base_Init(&htim7);
-	}
-	else if(FPGA_samples<(WM8731_DMA_samples/2))
-	{
-		htim7.Init.Prescaler--;
-		HAL_TIM_Base_Init(&htim7);
-	}
-	*/
-	logToUART1_float32(FPGA_Audio_Buffer_I[0]);
+	//logToUART1_float32(FPGA_Audio_Buffer_I[0]);
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
-		//WM8731_switchToActualSampleRate(FPGA_samples);
-		//gToUART1_num32(FPGA_samples);
+		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2);
 		//logToUART1_num32(AUDIOPROC_samples);
 		//logToUART1_num32(AUDIOPROC_TXA_samples);
@@ -358,7 +345,7 @@ void TIM6_DAC_IRQHandler(void)
 		LCD_displayStatusInfoGUI();
 		if(NeedSaveSettings) SaveSettings();
 	}
-	//FPGA_NeedGetParams=true;
+	if(NeedSaveSettings) FPGA_NeedSendParams = true;
 	LCD_checkTouchPad();
 	LCD_doEvents();
 	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();

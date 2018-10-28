@@ -1,5 +1,5 @@
 Flow report for UA3REO
-Sun Oct 28 00:59:12 2018
+Sun Oct 28 19:24:54 2018
 Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 
 
@@ -40,14 +40,14 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------------------------+
 ; Flow Summary                                                                                  ;
 +------------------------------------+----------------------------------------------------------+
-; Flow Status                        ; Successful - Sun Oct 28 00:59:02 2018                    ;
+; Flow Status                        ; Successful - Sun Oct 28 19:24:46 2018                    ;
 ; Quartus Prime Version              ; 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
 ; Revision Name                      ; UA3REO                                                   ;
 ; Top-level Entity Name              ; UA3REO                                                   ;
 ; Family                             ; Cyclone IV E                                             ;
 ; Device                             ; EP4CE22E22C8                                             ;
 ; Timing Models                      ; Final                                                    ;
-; Total logic elements               ; 9,279 / 22,320 ( 42 % )                                  ;
+; Total logic elements               ; 9,266 / 22,320 ( 42 % )                                  ;
 ;     Total combinational functions  ; 6,637 / 22,320 ( 30 % )                                  ;
 ;     Dedicated logic registers      ; 7,964 / 22,320 ( 36 % )                                  ;
 ; Total registers                    ; 7964                                                     ;
@@ -239,7 +239,13 @@ refer to the applicable agreement for further details.
 ; Fitter                    ; 00:00:56     ; 1.2                     ; 5787 MB             ; 00:01:39                           ;
 ; Assembler                 ; 00:00:04     ; 1.0                     ; 4733 MB             ; 00:00:04                           ;
 ; TimeQuest Timing Analyzer ; 00:00:08     ; 1.4                     ; 4892 MB             ; 00:00:08                           ;
-; Total                     ; 00:55:30     ; --                      ; --                  ; 01:33:39                           ;
+; Analysis & Synthesis      ; 00:01:40     ; 1.0                     ; 4993 MB             ; 00:02:58                           ;
+; Partition Merge           ; 00:00:02     ; 1.0                     ; 4728 MB             ; 00:00:03                           ;
+; I/O Assignment Analysis   ; 00:00:12     ; 1.0                     ; 4976 MB             ; 00:00:12                           ;
+; Fitter                    ; 00:00:40     ; 1.2                     ; 5786 MB             ; 00:00:58                           ;
+; Assembler                 ; 00:00:05     ; 1.0                     ; 4731 MB             ; 00:00:05                           ;
+; TimeQuest Timing Analyzer ; 00:00:07     ; 1.5                     ; 4891 MB             ; 00:00:08                           ;
+; Total                     ; 00:58:16     ; --                      ; --                  ; 01:38:03                           ;
 +---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
@@ -371,6 +377,12 @@ refer to the applicable agreement for further details.
 ; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 ; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Analysis & Synthesis      ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Partition Merge           ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; I/O Assignment Analysis   ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; GUDRON-DESKTOP   ; Windows 10 ; 10.0       ; x86_64         ;
 +---------------------------+------------------+------------+------------+----------------+
 
 
@@ -488,6 +500,12 @@ quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3RE
 quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
 quartus_sta UA3REO -c UA3REO
 quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
+quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan
+quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_asm --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO
+quartus_sta UA3REO -c UA3REO
 quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
 quartus_cdb --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --merge=on
 quartus_fit --read_settings_files=off --write_settings_files=off UA3REO -c UA3REO --plan

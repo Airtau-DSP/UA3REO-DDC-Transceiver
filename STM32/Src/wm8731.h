@@ -16,13 +16,18 @@ extern uint8_t WM8731_SampleMode;
 extern uint32_t WM8731_DMA_samples;
 
 extern I2S_HandleTypeDef hi2s3;
+extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
+extern DMA_HandleTypeDef hdma_spi3_tx;
+
 extern bool WM8731_DMA_state;
 void WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
 extern void WM8731_Init(void);
-extern void WM8731_switchToActualSampleRate(int32_t rate);
 extern void start_i2s_dma(void);
 void start_i2s_rx_dma(void);
 void start_i2s_tx_dma(void);
 void start_loopback_dma(void);
-
+void WM8731_TX_mode(void);
+void WM8731_RX_mode(void);
+void WM8731_TXRX_mode(void);
+	
 #endif

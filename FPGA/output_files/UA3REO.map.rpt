@@ -1,5 +1,5 @@
 Analysis & Synthesis report for UA3REO
-Sun Oct 28 00:57:38 2018
+Sun Oct 28 19:23:38 2018
 Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 
 
@@ -13,42 +13,43 @@ Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
   5. Analysis & Synthesis Source Files Read
   6. Analysis & Synthesis IP Cores Summary
   7. Partition Status Summary
-  8. Partition for Top-Level Resource Utilization by Entity
-  9. Registers Removed During Synthesis
- 10. Removed Registers Triggering Further Register Optimizations
- 11. Multiplexer Restructuring Statistics (Restructuring Performed)
- 12. Parameter Settings for User Entity Instance: MAIN_PLL:main_pll|altpll:altpll_component
- 13. Parameter Settings for User Entity Instance: ciccomp:CICCOMP_I
- 14. Parameter Settings for User Entity Instance: cic:CIC_I|cic_cic_ii_0:cic_ii_0
- 15. Parameter Settings for User Entity Instance: nco:NCO|nco_nco_ii_0:nco_ii_0
- 16. Parameter Settings for User Entity Instance: mixer:MIXER_I|lpm_mult:lpm_mult_component
- 17. Parameter Settings for User Entity Instance: ADC_corrector:ADC_CORRECTOR|lpm_add_sub:LPM_ADD_SUB_component
- 18. Parameter Settings for User Entity Instance: ciccomp:CICCOMP_Q
- 19. Parameter Settings for User Entity Instance: cic:CIC_Q|cic_cic_ii_0:cic_ii_0
- 20. Parameter Settings for User Entity Instance: mixer:MIXER_Q|lpm_mult:lpm_mult_component
- 21. Parameter Settings for User Entity Instance: mux14:DAC_MUX|lpm_mux:LPM_MUX_component
- 22. Parameter Settings for User Entity Instance: DAC_corrector:DAC_CORRECTOR|lpm_add_sub:LPM_ADD_SUB_component
- 23. Parameter Settings for User Entity Instance: tx_summator:TX_SUMMATOR|lpm_add_sub:LPM_ADD_SUB_component
- 24. Parameter Settings for User Entity Instance: tx_mixer:TX_MIXER_I|lpm_mult:lpm_mult_component
- 25. Parameter Settings for User Entity Instance: tx_cic:TX_CIC_I|tx_cic_cic_ii_0:cic_ii_0
- 26. Parameter Settings for User Entity Instance: tx_ciccomp:TX_CICCOMP_I
- 27. Parameter Settings for User Entity Instance: SECOND_PLL:second_pll|altpll:altpll_component
- 28. Parameter Settings for User Entity Instance: tx_mixer:TX_MIXER_Q|lpm_mult:lpm_mult_component
- 29. Parameter Settings for User Entity Instance: tx_cic:TX_CIC_Q|tx_cic_cic_ii_0:cic_ii_0
- 30. Parameter Settings for User Entity Instance: tx_ciccomp:TX_CICCOMP_Q
- 31. Parameter Settings for Inferred Entity Instance: ciccomp:CICCOMP_Q|lpm_mult:Mult0
- 32. Parameter Settings for Inferred Entity Instance: ciccomp:CICCOMP_I|lpm_mult:Mult0
- 33. Parameter Settings for Inferred Entity Instance: tx_ciccomp:TX_CICCOMP_Q|lpm_mult:Mult0
- 34. Parameter Settings for Inferred Entity Instance: tx_ciccomp:TX_CICCOMP_I|lpm_mult:Mult0
- 35. Partition Dependent Files
- 36. Post-Synthesis Netlist Statistics for Top Partition
- 37. Port Connectivity Checks: "tx_cic:TX_CIC_I|tx_cic_cic_ii_0:cic_ii_0|alt_cic_core:core"
- 38. Port Connectivity Checks: "tx_cic:TX_CIC_I|tx_cic_cic_ii_0:cic_ii_0"
- 39. Port Connectivity Checks: "cic:CIC_I|cic_cic_ii_0:cic_ii_0|alt_cic_core:core"
- 40. Port Connectivity Checks: "cic:CIC_I|cic_cic_ii_0:cic_ii_0"
- 41. Elapsed Time Per Partition
- 42. Analysis & Synthesis Messages
- 43. Analysis & Synthesis Suppressed Messages
+  8. Dependent File Changes for Partition Top
+  9. Partition for Top-Level Resource Utilization by Entity
+ 10. Registers Removed During Synthesis
+ 11. Removed Registers Triggering Further Register Optimizations
+ 12. Multiplexer Restructuring Statistics (Restructuring Performed)
+ 13. Parameter Settings for User Entity Instance: MAIN_PLL:main_pll|altpll:altpll_component
+ 14. Parameter Settings for User Entity Instance: ciccomp:CICCOMP_I
+ 15. Parameter Settings for User Entity Instance: cic:CIC_I|cic_cic_ii_0:cic_ii_0
+ 16. Parameter Settings for User Entity Instance: nco:NCO|nco_nco_ii_0:nco_ii_0
+ 17. Parameter Settings for User Entity Instance: mixer:MIXER_I|lpm_mult:lpm_mult_component
+ 18. Parameter Settings for User Entity Instance: ADC_corrector:ADC_CORRECTOR|lpm_add_sub:LPM_ADD_SUB_component
+ 19. Parameter Settings for User Entity Instance: ciccomp:CICCOMP_Q
+ 20. Parameter Settings for User Entity Instance: cic:CIC_Q|cic_cic_ii_0:cic_ii_0
+ 21. Parameter Settings for User Entity Instance: mixer:MIXER_Q|lpm_mult:lpm_mult_component
+ 22. Parameter Settings for User Entity Instance: mux14:DAC_MUX|lpm_mux:LPM_MUX_component
+ 23. Parameter Settings for User Entity Instance: DAC_corrector:DAC_CORRECTOR|lpm_add_sub:LPM_ADD_SUB_component
+ 24. Parameter Settings for User Entity Instance: tx_summator:TX_SUMMATOR|lpm_add_sub:LPM_ADD_SUB_component
+ 25. Parameter Settings for User Entity Instance: tx_mixer:TX_MIXER_I|lpm_mult:lpm_mult_component
+ 26. Parameter Settings for User Entity Instance: tx_cic:TX_CIC_I|tx_cic_cic_ii_0:cic_ii_0
+ 27. Parameter Settings for User Entity Instance: tx_ciccomp:TX_CICCOMP_I
+ 28. Parameter Settings for User Entity Instance: SECOND_PLL:second_pll|altpll:altpll_component
+ 29. Parameter Settings for User Entity Instance: tx_mixer:TX_MIXER_Q|lpm_mult:lpm_mult_component
+ 30. Parameter Settings for User Entity Instance: tx_cic:TX_CIC_Q|tx_cic_cic_ii_0:cic_ii_0
+ 31. Parameter Settings for User Entity Instance: tx_ciccomp:TX_CICCOMP_Q
+ 32. Parameter Settings for Inferred Entity Instance: ciccomp:CICCOMP_Q|lpm_mult:Mult0
+ 33. Parameter Settings for Inferred Entity Instance: ciccomp:CICCOMP_I|lpm_mult:Mult0
+ 34. Parameter Settings for Inferred Entity Instance: tx_ciccomp:TX_CICCOMP_Q|lpm_mult:Mult0
+ 35. Parameter Settings for Inferred Entity Instance: tx_ciccomp:TX_CICCOMP_I|lpm_mult:Mult0
+ 36. Partition Dependent Files
+ 37. Post-Synthesis Netlist Statistics for Top Partition
+ 38. Port Connectivity Checks: "tx_cic:TX_CIC_I|tx_cic_cic_ii_0:cic_ii_0|alt_cic_core:core"
+ 39. Port Connectivity Checks: "tx_cic:TX_CIC_I|tx_cic_cic_ii_0:cic_ii_0"
+ 40. Port Connectivity Checks: "cic:CIC_I|cic_cic_ii_0:cic_ii_0|alt_cic_core:core"
+ 41. Port Connectivity Checks: "cic:CIC_I|cic_cic_ii_0:cic_ii_0"
+ 42. Elapsed Time Per Partition
+ 43. Analysis & Synthesis Messages
+ 44. Analysis & Synthesis Suppressed Messages
 
 
 
@@ -74,7 +75,7 @@ refer to the applicable agreement for further details.
 +-----------------------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                                  ;
 +------------------------------------+----------------------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Oct 28 00:57:38 2018                    ;
+; Analysis & Synthesis Status        ; Successful - Sun Oct 28 19:23:38 2018                    ;
 ; Quartus Prime Version              ; 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition ;
 ; Revision Name                      ; UA3REO                                                   ;
 ; Top-level Entity Name              ; UA3REO                                                   ;
@@ -193,7 +194,7 @@ refer to the applicable agreement for further details.
 ;     Processor 1            ; 100.0%      ;
 ;     Processor 2            ;   0.1%      ;
 ;     Processor 3            ;   0.1%      ;
-;     Processor 4            ;   0.0%      ;
+;     Processor 4            ;   0.1%      ;
 +----------------------------+-------------+
 
 
@@ -472,6 +473,17 @@ refer to the applicable agreement for further details.
 +----------------+-------------+-------------------------+
 ; Top            ; yes         ; Dependent files changed ;
 +----------------+-------------+-------------------------+
+
+
++--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Dependent File Changes for Partition Top                                                                                                                                                                     ;
++--------------------------------------------------------------------------------+------------------------+-------------------+----------+----------------------------------+----------------------------------+
+; Hierarchy                                                                      ; File Name              ; Relative Location ; Change   ; Old                              ; New                              ;
++--------------------------------------------------------------------------------+------------------------+-------------------+----------+----------------------------------+----------------------------------+
+; second_pll:second_pll                                                          ; SECOND_PLL.v           ; Project Directory ; Checksum ; 1c9101a0ddef998a89f7e59a4428e48b ; b202461d484aafee9d761e44000c0f29 ;
+; second_pll:second_pll|altpll:altpll_component|second_pll_altpll:auto_generated ; db/second_pll_altpll.v ; Project Directory ; Checksum ; df53a97f6dd26089f786867d3590727b ; 59b04f461e4b63d7146ce5ab7e331c39 ;
+; |                                                                              ; UA3REO.bdf             ; Project Directory ; Checksum ; ba76e3598c127c1cbbaedff4e16903c9 ; 6f759f0fa49d6ef3120dd9d948cdfdfe ;
++--------------------------------------------------------------------------------+------------------------+-------------------+----------+----------------------------------+----------------------------------+
 
 
 +-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -2616,7 +2628,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; CLK3_MULTIPLY_BY              ; 1                            ; Untyped                     ;
 ; CLK2_MULTIPLY_BY              ; 1                            ; Untyped                     ;
 ; CLK1_MULTIPLY_BY              ; 1                            ; Untyped                     ;
-; CLK0_MULTIPLY_BY              ; 47                           ; Signed Integer              ;
+; CLK0_MULTIPLY_BY              ; 6                            ; Signed Integer              ;
 ; CLK9_DIVIDE_BY                ; 0                            ; Untyped                     ;
 ; CLK8_DIVIDE_BY                ; 0                            ; Untyped                     ;
 ; CLK7_DIVIDE_BY                ; 0                            ; Untyped                     ;
@@ -2626,7 +2638,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; CLK3_DIVIDE_BY                ; 1                            ; Untyped                     ;
 ; CLK2_DIVIDE_BY                ; 1                            ; Untyped                     ;
 ; CLK1_DIVIDE_BY                ; 1                            ; Untyped                     ;
-; CLK0_DIVIDE_BY                ; 1000                         ; Signed Integer              ;
+; CLK0_DIVIDE_BY                ; 125                          ; Signed Integer              ;
 ; CLK9_PHASE_SHIFT              ; 0                            ; Untyped                     ;
 ; CLK8_PHASE_SHIFT              ; 0                            ; Untyped                     ;
 ; CLK7_PHASE_SHIFT              ; 0                            ; Untyped                     ;
@@ -3360,16 +3372,16 @@ Note: In order to hide this table in the UI and the text report file, please set
 ; db/scfifo_ff71.tdf                                                ; Project Directory     ; work    ; 77da9470ac51c3574a9f3d78dcd3a655 ;
 ; db/scfifo_gf71.tdf                                                ; Project Directory     ; work    ; 536c800a3d79722c62d3b832b614b990 ;
 ; db/scfifo_rm51.tdf                                                ; Project Directory     ; work    ; ab566fe2bce05f1cccde64c186084695 ;
-; db/second_pll_altpll.v                                            ; Project Directory     ; work    ; df53a97f6dd26089f786867d3590727b ;
+; db/second_pll_altpll.v                                            ; Project Directory     ; work    ; 59b04f461e4b63d7146ce5ab7e331c39 ;
 ; MAIN_PLL.v                                                        ; Project Directory     ; work    ; d3e950d26c41acaf72b444faf2cf23ea ;
 ; mixer.v                                                           ; Project Directory     ; work    ; 6023a4c0fd11e341168baac7cab46978 ;
 ; mux14.v                                                           ; Project Directory     ; work    ; b54004eef784289bf8e6dfba51c8de49 ;
-; SECOND_PLL.v                                                      ; Project Directory     ; work    ; 1c9101a0ddef998a89f7e59a4428e48b ;
+; SECOND_PLL.v                                                      ; Project Directory     ; work    ; b202461d484aafee9d761e44000c0f29 ;
 ; stm32_interface.v                                                 ; Project Directory     ; work    ; ba3326441c1a6a56ec4c6f5dd5829812 ;
 ; tx_ciccomp.v                                                      ; Project Directory     ; work    ; a78e82d24bdb474cfd99f5e975ac6885 ;
 ; tx_mixer.v                                                        ; Project Directory     ; work    ; 204bd4dd3caa82b44e2b8563aafb6f3c ;
 ; tx_summator.v                                                     ; Project Directory     ; work    ; 203f3b933ef0ce0cd21de8ba8af8698d ;
-; UA3REO.bdf                                                        ; Project Directory     ; work    ; ba76e3598c127c1cbbaedff4e16903c9 ;
+; UA3REO.bdf                                                        ; Project Directory     ; work    ; 6f759f0fa49d6ef3120dd9d948cdfdfe ;
 +-------------------------------------------------------------------+-----------------------+---------+----------------------------------+
 
 
@@ -3458,7 +3470,7 @@ Note: In order to hide this table in the UI and the text report file, please set
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:22     ;
+; Top            ; 00:00:21     ;
 +----------------+--------------+
 
 
@@ -3468,70 +3480,70 @@ Note: In order to hide this table in the UI and the text report file, please set
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
-    Info: Processing started: Sun Oct 28 00:55:44 2018
+    Info: Processing started: Sun Oct 28 19:21:56 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12248): Elaborating Platform Designer system entity "tx_cic.qsys"
-Info (12250): 2018.10.28.01:56:04 Progress: Loading FPGA/tx_cic.qsys
-Info (12250): 2018.10.28.01:56:04 Progress: Reading input file
-Info (12250): 2018.10.28.01:56:04 Progress: Adding cic_ii_0 [altera_cic_ii 17.1]
-Info (12250): 2018.10.28.01:56:04 Progress: Parameterizing module cic_ii_0
-Info (12250): 2018.10.28.01:56:05 Progress: Building connections
-Info (12250): 2018.10.28.01:56:05 Progress: Parameterizing connections
-Info (12250): 2018.10.28.01:56:05 Progress: Validating
-Info (12250): 2018.10.28.01:56:06 Progress: Done reading input file
+Info (12250): 2018.10.28.20:22:14 Progress: Loading FPGA/tx_cic.qsys
+Info (12250): 2018.10.28.20:22:14 Progress: Reading input file
+Info (12250): 2018.10.28.20:22:14 Progress: Adding cic_ii_0 [altera_cic_ii 17.1]
+Info (12250): 2018.10.28.20:22:15 Progress: Parameterizing module cic_ii_0
+Info (12250): 2018.10.28.20:22:15 Progress: Building connections
+Info (12250): 2018.10.28.20:22:15 Progress: Parameterizing connections
+Info (12250): 2018.10.28.20:22:15 Progress: Validating
+Info (12250): 2018.10.28.20:22:16 Progress: Done reading input file
 Info (12250): Tx_cic: Generating tx_cic "tx_cic" for QUARTUS_SYNTH
 Info (12250): Cic_ii_0: "tx_cic" instantiated altera_cic_ii "cic_ii_0"
 Info (12250): Tx_cic: Done "tx_cic" with 2 modules, 30 files
 Info (12249): Finished elaborating Platform Designer system entity "tx_cic.qsys"
 Info (12248): Elaborating Platform Designer system entity "nco.qsys"
-Info (12250): 2018.10.28.01:56:14 Progress: Loading FPGA/nco.qsys
-Info (12250): 2018.10.28.01:56:14 Progress: Reading input file
-Info (12250): 2018.10.28.01:56:14 Progress: Adding nco_ii_0 [altera_nco_ii 17.1]
-Info (12250): 2018.10.28.01:56:15 Progress: Parameterizing module nco_ii_0
-Info (12250): 2018.10.28.01:56:15 Progress: Building connections
-Info (12250): 2018.10.28.01:56:15 Progress: Parameterizing connections
-Info (12250): 2018.10.28.01:56:15 Progress: Validating
-Info (12250): 2018.10.28.01:56:16 Progress: Done reading input file
+Info (12250): 2018.10.28.20:22:23 Progress: Loading FPGA/nco.qsys
+Info (12250): 2018.10.28.20:22:23 Progress: Reading input file
+Info (12250): 2018.10.28.20:22:23 Progress: Adding nco_ii_0 [altera_nco_ii 17.1]
+Info (12250): 2018.10.28.20:22:24 Progress: Parameterizing module nco_ii_0
+Info (12250): 2018.10.28.20:22:24 Progress: Building connections
+Info (12250): 2018.10.28.20:22:24 Progress: Parameterizing connections
+Info (12250): 2018.10.28.20:22:24 Progress: Validating
+Info (12250): 2018.10.28.20:22:25 Progress: Done reading input file
 Info (12250): Nco: Generating nco "nco" for QUARTUS_SYNTH
 Info (12250): Nco_ii_0: "nco" instantiated altera_nco_ii "nco_ii_0"
 Info (12250): Nco: Done "nco" with 2 modules, 18 files
 Info (12249): Finished elaborating Platform Designer system entity "nco.qsys"
 Info (12248): Elaborating Platform Designer system entity "debug2.qsys"
-Info (12250): 2018.10.28.01:56:29 Progress: Loading FPGA/debug2.qsys
-Info (12250): 2018.10.28.01:56:30 Progress: Reading input file
-Info (12250): 2018.10.28.01:56:30 Progress: Adding in_system_sources_probes_0 [altera_in_system_sources_probes 17.1]
-Info (12250): 2018.10.28.01:56:30 Progress: Parameterizing module in_system_sources_probes_0
-Info (12250): 2018.10.28.01:56:30 Progress: Building connections
-Info (12250): 2018.10.28.01:56:30 Progress: Parameterizing connections
-Info (12250): 2018.10.28.01:56:30 Progress: Validating
-Info (12250): 2018.10.28.01:56:31 Progress: Done reading input file
+Info (12250): 2018.10.28.20:22:32 Progress: Loading FPGA/debug2.qsys
+Info (12250): 2018.10.28.20:22:32 Progress: Reading input file
+Info (12250): 2018.10.28.20:22:32 Progress: Adding in_system_sources_probes_0 [altera_in_system_sources_probes 17.1]
+Info (12250): 2018.10.28.20:22:33 Progress: Parameterizing module in_system_sources_probes_0
+Info (12250): 2018.10.28.20:22:33 Progress: Building connections
+Info (12250): 2018.10.28.20:22:33 Progress: Parameterizing connections
+Info (12250): 2018.10.28.20:22:33 Progress: Validating
+Info (12250): 2018.10.28.20:22:34 Progress: Done reading input file
 Info (12250): Debug2: Generating debug2 "debug2" for QUARTUS_SYNTH
 Info (12250): In_system_sources_probes_0: "debug2" instantiated altera_in_system_sources_probes "in_system_sources_probes_0"
 Info (12250): Debug2: Done "debug2" with 2 modules, 2 files
 Info (12249): Finished elaborating Platform Designer system entity "debug2.qsys"
 Info (12248): Elaborating Platform Designer system entity "debug1.qsys"
-Info (12250): 2018.10.28.01:56:39 Progress: Loading FPGA/debug1.qsys
-Info (12250): 2018.10.28.01:56:39 Progress: Reading input file
-Info (12250): 2018.10.28.01:56:39 Progress: Adding in_system_sources_probes_0 [altera_in_system_sources_probes 17.1]
-Info (12250): 2018.10.28.01:56:40 Progress: Parameterizing module in_system_sources_probes_0
-Info (12250): 2018.10.28.01:56:40 Progress: Building connections
-Info (12250): 2018.10.28.01:56:40 Progress: Parameterizing connections
-Info (12250): 2018.10.28.01:56:40 Progress: Validating
-Info (12250): 2018.10.28.01:56:41 Progress: Done reading input file
+Info (12250): 2018.10.28.20:22:41 Progress: Loading FPGA/debug1.qsys
+Info (12250): 2018.10.28.20:22:41 Progress: Reading input file
+Info (12250): 2018.10.28.20:22:41 Progress: Adding in_system_sources_probes_0 [altera_in_system_sources_probes 17.1]
+Info (12250): 2018.10.28.20:22:41 Progress: Parameterizing module in_system_sources_probes_0
+Info (12250): 2018.10.28.20:22:41 Progress: Building connections
+Info (12250): 2018.10.28.20:22:41 Progress: Parameterizing connections
+Info (12250): 2018.10.28.20:22:41 Progress: Validating
+Info (12250): 2018.10.28.20:22:42 Progress: Done reading input file
 Info (12250): Debug1: Generating debug1 "debug1" for QUARTUS_SYNTH
 Info (12250): In_system_sources_probes_0: "debug1" instantiated altera_in_system_sources_probes "in_system_sources_probes_0"
 Info (12250): Debug1: Done "debug1" with 2 modules, 2 files
 Info (12249): Finished elaborating Platform Designer system entity "debug1.qsys"
 Info (12248): Elaborating Platform Designer system entity "cic.qsys"
-Info (12250): 2018.10.28.01:56:48 Progress: Loading FPGA/cic.qsys
-Info (12250): 2018.10.28.01:56:49 Progress: Reading input file
-Info (12250): 2018.10.28.01:56:49 Progress: Adding cic_ii_0 [altera_cic_ii 17.1]
-Info (12250): 2018.10.28.01:56:49 Progress: Parameterizing module cic_ii_0
-Info (12250): 2018.10.28.01:56:49 Progress: Building connections
-Info (12250): 2018.10.28.01:56:49 Progress: Parameterizing connections
-Info (12250): 2018.10.28.01:56:49 Progress: Validating
-Info (12250): 2018.10.28.01:56:50 Progress: Done reading input file
+Info (12250): 2018.10.28.20:22:49 Progress: Loading FPGA/cic.qsys
+Info (12250): 2018.10.28.20:22:50 Progress: Reading input file
+Info (12250): 2018.10.28.20:22:50 Progress: Adding cic_ii_0 [altera_cic_ii 17.1]
+Info (12250): 2018.10.28.20:22:50 Progress: Parameterizing module cic_ii_0
+Info (12250): 2018.10.28.20:22:50 Progress: Building connections
+Info (12250): 2018.10.28.20:22:50 Progress: Parameterizing connections
+Info (12250): 2018.10.28.20:22:50 Progress: Validating
+Info (12250): 2018.10.28.20:22:51 Progress: Done reading input file
 Info (12250): Cic: Generating cic "cic" for QUARTUS_SYNTH
 Info (12250): Cic_ii_0: "cic" instantiated altera_cic_ii "cic_ii_0"
 Info (12250): Cic: Done "cic" with 2 modules, 30 files
@@ -4196,9 +4208,9 @@ Info (12128): Elaborating entity "altpll" for hierarchy "SECOND_PLL:second_pll|a
 Info (12130): Elaborated megafunction instantiation "SECOND_PLL:second_pll|altpll:altpll_component" File: D:/Dropbox/Develop/Projects/UA3REO/FPGA/SECOND_PLL.v Line: 90
 Info (12133): Instantiated megafunction "SECOND_PLL:second_pll|altpll:altpll_component" with the following parameter: File: D:/Dropbox/Develop/Projects/UA3REO/FPGA/SECOND_PLL.v Line: 90
     Info (12134): Parameter "bandwidth_type" = "AUTO"
-    Info (12134): Parameter "clk0_divide_by" = "1000"
+    Info (12134): Parameter "clk0_divide_by" = "125"
     Info (12134): Parameter "clk0_duty_cycle" = "50"
-    Info (12134): Parameter "clk0_multiply_by" = "47"
+    Info (12134): Parameter "clk0_multiply_by" = "6"
     Info (12134): Parameter "clk0_phase_shift" = "0"
     Info (12134): Parameter "compensate_clock" = "CLK0"
     Info (12134): Parameter "inclk0_input_frequency" = "20833"
@@ -4346,10 +4358,10 @@ Warning (20013): Ignored 16 assignments for entity "debug1" -- entity does not e
 Warning (20013): Ignored 16 assignments for entity "debug2" -- entity does not exist in design
 Info (144001): Generated suppressed messages file D:/Dropbox/Develop/Projects/UA3REO/FPGA/output_files/UA3REO.map.smsg
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 38 warnings
-    Info: Peak virtual memory: 4994 megabytes
-    Info: Processing ended: Sun Oct 28 00:57:40 2018
-    Info: Elapsed time: 00:01:56
-    Info: Total CPU time (on all processors): 00:03:34
+    Info: Peak virtual memory: 4993 megabytes
+    Info: Processing ended: Sun Oct 28 19:23:39 2018
+    Info: Elapsed time: 00:01:43
+    Info: Total CPU time (on all processors): 00:03:01
 
 
 +------------------------------------------+
