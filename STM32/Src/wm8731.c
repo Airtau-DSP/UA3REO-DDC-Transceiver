@@ -46,7 +46,8 @@ void start_i2s_rx_dma(void)
 	stop_i2s_dma();
 	WM8731_RX_mode();
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
-		HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], sizeof(CODEC_Audio_Buffer)/2);
+		//HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], sizeof(CODEC_Audio_Buffer)/2);
+		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], sizeof(CODEC_Audio_Buffer)/4);
 }
 
 void start_i2s_tx_dma(void)
@@ -55,7 +56,7 @@ void start_i2s_tx_dma(void)
 	stop_i2s_dma();
 	WM8731_TX_mode();
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], sizeof(CODEC_Audio_Buffer)/2);
+		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], sizeof(CODEC_Audio_Buffer)/4);
 }
 
 void start_loopback_dma(void)
@@ -64,7 +65,7 @@ void start_loopback_dma(void)
 	stop_i2s_dma();
 	WM8731_TXRX_mode();
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0], sizeof(CODEC_Audio_Buffer)/2);
+		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0], sizeof(CODEC_Audio_Buffer)/4);
 }
 
 void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)

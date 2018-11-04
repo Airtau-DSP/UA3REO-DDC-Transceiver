@@ -58,9 +58,6 @@
 #define K0_GPIO_Port GPIOE
 #define ENC_CLK_Pin GPIO_PIN_5
 #define ENC_CLK_GPIO_Port GPIOE
-#define KEY_ENTER_Pin GPIO_PIN_6
-#define KEY_ENTER_GPIO_Port GPIOE
-#define KEY_ENTER_EXTI_IRQn EXTI9_5_IRQn
 #define FPGA_CLK_Pin GPIO_PIN_0
 #define FPGA_CLK_GPIO_Port GPIOC
 #define FPGA_SYNC_Pin GPIO_PIN_1

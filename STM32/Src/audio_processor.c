@@ -91,16 +91,16 @@ void processTxAudio(void)
 		if (FPGA_Audio_Buffer_State)
 		{
 			AUDIOPROC_TXA_samples++;
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&FPGA_Audio_Buffer_I_tmp[0], (uint32_t)&FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_HALF_SIZE], sizeof(FPGA_Audio_Buffer_I_tmp)/4);
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&FPGA_Audio_Buffer_Q_tmp[0], (uint32_t)&FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_HALF_SIZE], sizeof(FPGA_Audio_Buffer_I_tmp)/4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&FPGA_Audio_Buffer_I_tmp[0], (uint32_t)&FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_HALF_SIZE], sizeof(FPGA_Audio_Buffer_I_tmp)/2);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&FPGA_Audio_Buffer_Q_tmp[0], (uint32_t)&FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_HALF_SIZE], sizeof(FPGA_Audio_Buffer_I_tmp)/2);
 			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		}
 		else
 		{
 			AUDIOPROC_TXB_samples++;
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&FPGA_Audio_Buffer_I_tmp[0], (uint32_t)&FPGA_Audio_Buffer_I[0], sizeof(FPGA_Audio_Buffer_I_tmp)/4);
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&FPGA_Audio_Buffer_Q_tmp[0], (uint32_t)&FPGA_Audio_Buffer_Q[0], sizeof(FPGA_Audio_Buffer_I_tmp)/4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&FPGA_Audio_Buffer_I_tmp[0], (uint32_t)&FPGA_Audio_Buffer_I[0], sizeof(FPGA_Audio_Buffer_I_tmp)/2);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&FPGA_Audio_Buffer_Q_tmp[0], (uint32_t)&FPGA_Audio_Buffer_Q[0], sizeof(FPGA_Audio_Buffer_I_tmp)/2);
 			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		}
@@ -192,17 +192,17 @@ void processRxAudio(void)
 	if (WM8731_DMA_state) //compleate
 	{
 		if (Processor_AudioBuffer_ReadyBuffer == 0)
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&Processor_AudioBuffer_A[0], (uint32_t)&CODEC_Audio_Buffer[FPGA_AUDIO_BUFFER_SIZE], sizeof(Processor_AudioBuffer_A) / 4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&Processor_AudioBuffer_A[0], (uint32_t)&CODEC_Audio_Buffer[FPGA_AUDIO_BUFFER_SIZE], sizeof(Processor_AudioBuffer_A) / 2);
 		else
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&Processor_AudioBuffer_B[0], (uint32_t)&CODEC_Audio_Buffer[FPGA_AUDIO_BUFFER_SIZE], sizeof(Processor_AudioBuffer_B) / 4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&Processor_AudioBuffer_B[0], (uint32_t)&CODEC_Audio_Buffer[FPGA_AUDIO_BUFFER_SIZE], sizeof(Processor_AudioBuffer_B) / 2);
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	}
 	else //half
 	{
 		if (Processor_AudioBuffer_ReadyBuffer == 0)
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&Processor_AudioBuffer_A[0], (uint32_t)&CODEC_Audio_Buffer[0], sizeof(Processor_AudioBuffer_A) / 4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&Processor_AudioBuffer_A[0], (uint32_t)&CODEC_Audio_Buffer[0], sizeof(Processor_AudioBuffer_A) / 2);
 		else
-			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&Processor_AudioBuffer_B[0], (uint32_t)&CODEC_Audio_Buffer[0], sizeof(Processor_AudioBuffer_B) / 4);
+			HAL_DMA_Start(&hdma_memtomem_dma2_stream1, (uint32_t)&Processor_AudioBuffer_B[0], (uint32_t)&CODEC_Audio_Buffer[0], sizeof(Processor_AudioBuffer_B) / 2);
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	}
 	Processor_NeedBuffer = false;
