@@ -274,7 +274,7 @@ void EXTI9_5_IRQHandler(void)
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_6);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
-	if(TRX_inited) ENCODER_checkClick();
+	
   /* USER CODE END EXTI9_5_IRQn 1 */
 }
 
@@ -297,7 +297,7 @@ void TIM5_IRQHandler(void)
 		else
 		{
 			processRxAudio();
-			if (FFT_buff_index == 0 && FFT_need_fft) FFT_doFFT();
+			if (FFT_need_fft) FFT_doFFT();
 		}
 	}
   /* USER CODE END TIM5_IRQn 1 */
@@ -342,11 +342,9 @@ void TIM6_DAC_IRQHandler(void)
 		AUDIOPROC_TXB_samples = 0;
 		WM8731_DMA_samples = 0;
 		FPGA_NeedSendParams = true;
-		LCD_displayStatusInfoGUI();
 		if(NeedSaveSettings) SaveSettings();
 	}
 	if(NeedSaveSettings) FPGA_NeedSendParams = true;
-	LCD_checkTouchPad();
 	LCD_doEvents();
 	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
@@ -363,7 +361,6 @@ void TIM7_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim7);
   /* USER CODE BEGIN TIM7_IRQn 1 */
 	if (!FPGA_busy) FPGA_fpgadata_clock();
-	//if(FFT_buff_index==0 && FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM7_IRQn 1 */
 }
 

@@ -469,15 +469,17 @@ void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uin
 			line = pgm_read_byte(font1 + (c * 5) + i);
 		for (int8_t j = 0; j < 8; j++) {
 			if (line & 0x1) {
-				if (size == 1) // default size
+				if (size == 1) { // default size
 					ILI9341_DrawPixel(x + i, y + j, color);
+				}
 				else {  // big size
 					ILI9341_Fill_RectXY(x + (i*size), y + (j*size), size + x + (i*size), size + 1 + y + (j*size), color);
 				}
 			}
 			else if (bg != color) {
-				if (size == 1) // default size
+				if (size == 1) { // default size
 					ILI9341_DrawPixel(x + i, y + j, bg);
+				}
 				else {  // big size
 					ILI9341_Fill_RectXY(x + i * size, y + j * size, size + x + i * size, size + 1 + y + j * size, bg);
 				}

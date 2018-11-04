@@ -29,7 +29,7 @@
  --                  Bank 1:       2.5V
  --                  Bank 2:       3.3V
  --                  Bank 3:       3.3V
- --                  Bank 4:       3.3V
+ --                  Bank 4:       2.5V
  --                  Bank 5:       2.5V
  --                  Bank 6:       3.3V
  --                  Bank 7:       3.3V
@@ -82,12 +82,12 @@ ADC_INPUT[1]                 : 11        : input  : 3.3-V LVTTL       :         
 GND*                         : 12        :        :                   :         : 1         :                
 GND*                         : 13        :        :                   :         : 1         :                
 nCONFIG                      : 14        :        :                   :         : 1         :                
-TDI                          : 15        : input  :                   :         : 1         :                
-TCK                          : 16        : input  :                   :         : 1         :                
+altera_reserved_tdi          : 15        : input  : 2.5 V             :         : 1         : N              
+altera_reserved_tck          : 16        : input  : 2.5 V             :         : 1         : N              
 VCCIO1                       : 17        : power  :                   : 2.5V    : 1         :                
-TMS                          : 18        : input  :                   :         : 1         :                
+altera_reserved_tms          : 18        : input  : 2.5 V             :         : 1         : N              
 GND                          : 19        : gnd    :                   :         :           :                
-TDO                          : 20        : output :                   :         : 1         :                
+altera_reserved_tdo          : 20        : output : 2.5 V             :         : 1         : N              
 nCE                          : 21        :        :                   :         : 1         :                
 GND                          : 22        : gnd    :                   :         :           :                
 clk_sys                      : 23        : input  : 2.5 V             :         : 1         : Y              
@@ -116,30 +116,30 @@ VCCINT                       : 45        : power  :                   : 1.2V    
 STM32_DATA_OUT[3]            : 46        : output : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO3                       : 47        : power  :                   : 3.3V    : 3         :                
 GND                          : 48        : gnd    :                   :         :           :                
-GND*                         : 49        :        :                   :         : 3         :                
-DAC_OUTPUT[13]               : 50        : output : 3.3-V LVTTL       :         : 3         : Y              
-DAC_OUTPUT[12]               : 51        : output : 3.3-V LVTTL       :         : 3         : Y              
+PREAMP                       : 49        : output : 3.3-V LVTTL       :         : 3         : Y              
+GND*                         : 50        :        :                   :         : 3         :                
+GND*                         : 51        :        :                   :         : 3         :                
 GND+                         : 52        :        :                   :         : 3         :                
 GND+                         : 53        :        :                   :         : 3         :                
 GND+                         : 54        :        :                   :         : 4         :                
 GND+                         : 55        :        :                   :         : 4         :                
-VCCIO4                       : 56        : power  :                   : 3.3V    : 4         :                
+VCCIO4                       : 56        : power  :                   : 2.5V    : 4         :                
 GND                          : 57        : gnd    :                   :         :           :                
-DAC_OUTPUT[11]               : 58        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[10]               : 59        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[9]                : 60        : output : 3.3-V LVTTL       :         : 4         : Y              
+TXRX_RELAY                   : 58        : output : 2.5 V             :         : 4         : Y              
+GND*                         : 59        :        :                   :         : 4         :                
+GND*                         : 60        :        :                   :         : 4         :                
 VCCINT                       : 61        : power  :                   : 1.2V    :           :                
-VCCIO4                       : 62        : power  :                   : 3.3V    : 4         :                
+VCCIO4                       : 62        : power  :                   : 2.5V    : 4         :                
 GND                          : 63        : gnd    :                   :         :           :                
-DAC_OUTPUT[8]                : 64        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[7]                : 65        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[6]                : 66        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[5]                : 67        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[4]                : 68        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[3]                : 69        : output : 3.3-V LVTTL       :         : 4         : Y              
+GND*                         : 64        :        :                   :         : 4         :                
+GND*                         : 65        :        :                   :         : 4         :                
+GND*                         : 66        :        :                   :         : 4         :                
+GND*                         : 67        :        :                   :         : 4         :                
+GND*                         : 68        :        :                   :         : 4         :                
+GND*                         : 69        :        :                   :         : 4         :                
 VCCINT                       : 70        : power  :                   : 1.2V    :           :                
-DAC_CLK                      : 71        : output : 3.3-V LVTTL       :         : 4         : Y              
-DAC_OUTPUT[2]                : 72        : output : 3.3-V LVTTL       :         : 4         : Y              
+GND*                         : 71        :        :                   :         : 4         :                
+GND*                         : 72        :        :                   :         : 4         :                
 VCCD_PLL4                    : 73        : power  :                   : 1.2V    :           :                
 GNDA4                        : 74        : gnd    :                   :         :           :                
 VCCA4                        : 75        : power  :                   : 2.5V    :           :                
@@ -166,29 +166,29 @@ GND                          : 95        : gnd    :                   :         
 MSEL1                        : 96        :        :                   :         : 6         :                
 MSEL2                        : 97        :        :                   :         : 6         :                
 GND*                         : 98        :        :                   :         : 6         :                
-DAC_OUTPUT[1]                : 99        : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[0]                : 100       : output : 3.3-V LVTTL       :         : 6         : Y              
-GND*                         : 101       :        :                   :         : 6         :                
+GND*                         : 99        :        :                   :         : 6         :                
+GND*                         : 100       :        :                   :         : 6         :                
+DAC_OUTPUT[13]               : 101       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCINT                       : 102       : power  :                   : 1.2V    :           :                
-PREAMP                       : 103       : output : 3.3-V LVTTL       :         : 6         : Y              
-GND*                         : 104       :        :                   :         : 6         :                
-GND*                         : 105       :        :                   :         : 6         :                
-GND*                         : 106       :        :                   :         : 6         :                
+DAC_OUTPUT[12]               : 103       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[11]               : 104       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[10]               : 105       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[9]                : 106       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCA2                        : 107       : power  :                   : 2.5V    :           :                
 GNDA2                        : 108       : gnd    :                   :         :           :                
 VCCD_PLL2                    : 109       : power  :                   : 1.2V    :           :                
-GND*                         : 110       :        :                   :         : 7         :                
-GND*                         : 111       :        :                   :         : 7         :                
-GND*                         : 112       :        :                   :         : 7         :                
-GND*                         : 113       :        :                   :         : 7         :                
-GND*                         : 114       :        :                   :         : 7         :                
-GND*                         : 115       :        :                   :         : 7         :                
+DAC_OUTPUT[8]                : 110       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[7]                : 111       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[6]                : 112       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[5]                : 113       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[4]                : 114       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[3]                : 115       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCINT                       : 116       : power  :                   : 1.2V    :           :                
 VCCIO7                       : 117       : power  :                   : 3.3V    : 7         :                
 GND                          : 118       : gnd    :                   :         :           :                
-GND*                         : 119       :        :                   :         : 7         :                
-GND*                         : 120       :        :                   :         : 7         :                
-GND*                         : 121       :        :                   :         : 7         :                
+DAC_OUTPUT[2]                : 119       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[1]                : 120       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[0]                : 121       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCIO7                       : 122       : power  :                   : 3.3V    : 7         :                
 GND                          : 123       : gnd    :                   :         :           :                
 VCCINT                       : 124       : power  :                   : 1.2V    :           :                
@@ -210,6 +210,6 @@ VCCIO8                       : 139       : power  :                   : 3.3V    
 GND                          : 140       : gnd    :                   :         :           :                
 ADC_INPUT[4]                 : 141       : input  : 3.3-V LVTTL       :         : 8         : Y              
 ADC_INPUT[3]                 : 142       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_CLK                      : 143       : output : 3.3-V LVTTL       :         : 8         : Y              
+ADC_DAC_CLK                  : 143       : output : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : 144       :        :                   :         : 8         :                
 GND                          : EPAD      :        :                   :         :           :                

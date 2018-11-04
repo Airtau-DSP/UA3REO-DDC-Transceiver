@@ -62,6 +62,7 @@ void FPGA_fpgadata_clock(void)
 
 void FPGA_fpgadata_sendparam(void)
 {
+	uint32_t TRX_freq_phrase=getPhraseFromFrequency(TRX.Freq);
 	//STAGE 2
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;
@@ -160,13 +161,17 @@ void FPGA_fpgadata_getiq(void)
 	GPIOC->BSRR = FPGA_CLK_Pin;
 	//in Q
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XF);
-	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16; //-32767
-	//logToUART1_int16(FPGA_fpgadata_in_inttmp16);
-	//FPGA_fpgadata_in_inttmp16=FPGA_Audio_Buffer_Index; //test signal
-	FFTInput[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16);
-	FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput[FFT_buff_index + 1];
-	//FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index]=0;
-	//FFT_buff_index++;
+	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
+	if(FFTInputBufferInProgress) // A buffer in progress
+	{
+		FFTInput_A[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index + 1];
+	}
+	else // B buffer in progress
+	{
+		FFTInput_B[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index + 1];
+	}
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 
@@ -199,15 +204,25 @@ void FPGA_fpgadata_getiq(void)
 	GPIOC->BSRR = FPGA_CLK_Pin;
 	//in I
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XF);
-	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16; //-32767
-	//FPGA_fpgadata_in_inttmp16=FPGA_Audio_Buffer_Index; //test signal
-	FFTInput[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16);
-	FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput[FFT_buff_index];
-	//FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]=0;
+	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
+	if(FFTInputBufferInProgress) // A buffer in progress
+	{
+		FFTInput_A[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
+	}
+	else // B buffer in progress
+	{
+		FFTInput_B[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
+	}
 	FPGA_Audio_Buffer_Index++;
 	FFT_buff_index += 2;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE) FPGA_Audio_Buffer_Index = 0;
-	if (FFT_buff_index == FFT_SIZE * 2) FFT_buff_index = 0;
+	if (FFT_buff_index == FFT_SIZE * 2)
+	{
+		FFT_buff_index = 0;
+		FFTInputBufferInProgress=!FFTInputBufferInProgress;
+	}
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 }

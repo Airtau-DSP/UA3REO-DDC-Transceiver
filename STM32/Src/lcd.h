@@ -17,14 +17,14 @@
 #define MENU_MAIN_AGCSPEED 4
 #define MENU_MAIN_COUNT 4
 
-void LCD_Init(void);
-void LCD_displayFreqInfo(void);
+extern void LCD_Init(void);
+void LCD_displayFreqInfo(bool force);
 void LCD_displayTopButtons(bool redraw);
 void LCD_checkTouchPad(void);
 void LCD_displayMainMenu(void);
 void LCD_displayStatusInfoBar(void);
 void LCD_displayStatusInfoGUI(void);
-void LCD_doEvents(void);
+extern void LCD_doEvents(void);
 void LCD_redraw(void);
 void LCD_resetTouchpadPins(void);
 
@@ -37,5 +37,6 @@ extern char LCD_freq_string_khz[6];
 extern char LCD_freq_string_mhz[6];
 extern bool LCD_bandMenuOpened;
 extern int LCD_last_s_meter;
+extern bool LCD_busy;
 
 #endif

@@ -49,18 +49,18 @@
 
 /* Private define ------------------------------------------------------------*/
 
-#define ENC_CLK_Pin GPIO_PIN_2
-#define ENC_CLK_GPIO_Port GPIOE
-#define ENC_CLK_EXTI_IRQn EXTI2_IRQn
+#define ENC_DT_Pin GPIO_PIN_2
+#define ENC_DT_GPIO_Port GPIOE
+#define ENC_DT_EXTI_IRQn EXTI2_IRQn
 #define K1_Pin GPIO_PIN_3
 #define K1_GPIO_Port GPIOE
 #define K0_Pin GPIO_PIN_4
 #define K0_GPIO_Port GPIOE
-#define ENC_DT_Pin GPIO_PIN_5
-#define ENC_DT_GPIO_Port GPIOE
-#define ENC_SW_Pin GPIO_PIN_6
-#define ENC_SW_GPIO_Port GPIOE
-#define ENC_SW_EXTI_IRQn EXTI9_5_IRQn
+#define ENC_CLK_Pin GPIO_PIN_5
+#define ENC_CLK_GPIO_Port GPIOE
+#define KEY_ENTER_Pin GPIO_PIN_6
+#define KEY_ENTER_GPIO_Port GPIOE
+#define KEY_ENTER_EXTI_IRQn EXTI9_5_IRQn
 #define FPGA_CLK_Pin GPIO_PIN_0
 #define FPGA_CLK_GPIO_Port GPIOC
 #define FPGA_SYNC_Pin GPIO_PIN_1

@@ -10,14 +10,11 @@
 
 void TRX_Init(void);
 void TRX_setFrequency(int32_t _freq);
-void TRX_setFrequencyPhrase(int32_t _phrase);
 int32_t TRX_getFrequency(void);
-int32_t TRX_getFrequencyPhrase(void);
 void TRX_setMode(uint8_t _mode);
 uint8_t TRX_getMode(void);
 void TRX_ptt_change(void);
 
-extern uint32_t TRX_freq_phrase; //freq in hz/oscil in hz*2^bits = (freq/50000000)*4194304;
 extern bool TRX_ptt;
 extern bool TRX_tune;
 extern bool TRX_inited;

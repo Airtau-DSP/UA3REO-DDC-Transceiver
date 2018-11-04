@@ -15,6 +15,8 @@ uint8_t LCD_menu_main_index = 1;
 bool LCD_needRedrawMainMenu = false;
 int LCD_last_s_meter = 1;
 
+bool LCD_busy = false;
+
 void LCD_Init(void)
 {
 	HAL_GPIO_WritePin(LED_BL_GPIO_Port, LED_BL_Pin, GPIO_PIN_RESET); //turn on LED BL
@@ -27,7 +29,6 @@ void LCD_Init(void)
 
 void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок
 	if (LCD_mainMenuOpened) return;
-
 	if (redraw) ILI9341_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	int color = COLOR_CYAN;
 
@@ -83,6 +84,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	//вывод диапазонов
 	if (LCD_bandMenuOpened)
 	{
+		ILI9341_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
 		int32_t freq_mhz = (int32_t)(TRX_getFrequency() / 1000000);
 		color = COLOR_CYAN; if (freq_mhz == 1) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(5, 5, 58, 60, color); //1.8
@@ -118,17 +120,18 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	}
 }
 
-void LCD_displayFreqInfo() { //вывод частоты на экран
+void LCD_displayFreqInfo(bool force) { //вывод частоты на экран
 	if (LCD_mainMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
 	if (LCD_last_showed_freq == TRX_getFrequency()) return;
+	if(LCD_busy && !force) return;
+	LCD_busy=true;
 	LCD_last_showed_freq = TRX_getFrequency();
-
 	//закрашиваем лишнее на экране если разрядов не хватает
 	if (TRX_getFrequency() < 10000000)
 	{
 		ILI9341_Fill_RectWH(0, 80, 30, 41, COLOR_BLACK);
-		ILI9341_Fill_RectWH(300, 80, 20, 41, COLOR_BLACK);
+		ILI9341_Fill_RectWH(301, 80, 19, 41, COLOR_BLACK);
 	}
 
 	if (TRX_getFrequency() > 10000000)
@@ -156,7 +159,9 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
 	if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ) ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_BLACK, COLOR_WHITE, 5);
 	else ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
+
 	NeedSaveSettings=true;
+	LCD_busy=false;
 }
 
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
@@ -184,8 +189,6 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	if (LCD_mainMenuOpened) return;
 
 	int width = 273;
-
-	//
 	//float32_t mult=72.25091874; //(width/(log10f_fast(1280)+0.698970004));
 	TRX_s_meter = (float32_t)72.25091874*log10f_fast(agc_wdsp.volts) + ((float32_t)0.35*(float32_t)72.25091874);
 	if (TRX_s_meter > width) TRX_s_meter = width;
@@ -217,14 +220,14 @@ void LCD_displayMainMenu() {
 	else ILI9341_printText("->", 200, y, COLOR_WHITE, COLOR_BLACK, 2);
 	y += 20;
 
-	ILI9341_printText("GAIN:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
+	ILI9341_printText("Digital Gain:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.Gain_level);
 	addSymbols(buff, ctmp, 2, " ", true);
 	if (LCD_menu_main_index == MENU_MAIN_GAIN) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
 	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
 	y += 20;
 
-	ILI9341_printText("MIC GAIN:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
+	ILI9341_printText("MIC Gain:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.MicGain_level);
 	addSymbols(buff, ctmp, 2, " ", true);
 	if (LCD_menu_main_index == MENU_MAIN_MICGAIN) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
@@ -237,13 +240,18 @@ void LCD_displayMainMenu() {
 	if (LCD_menu_main_index == MENU_MAIN_AGCSPEED) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
 	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
 	y += 20;
+	
+	ILI9341_Fill_RectWH(100, 200, 50, 30, COLOR_YELLOW);
+	ILI9341_printText("v", 120, 210, COLOR_BLUE, COLOR_YELLOW, 2);
+	ILI9341_Fill_RectWH(160, 200, 50, 30, COLOR_YELLOW);
+	ILI9341_printText("^", 180, 210, COLOR_BLUE, COLOR_YELLOW, 2);
 }
 
 void LCD_redraw(void) {
 	ILI9341_Fill_RectWH(0, 0, 319, 239, COLOR_BLACK);
 	LCD_displayTopButtons(false);
 	LCD_last_showed_freq = 0;
-	LCD_displayFreqInfo();
+	LCD_displayFreqInfo(false);
 	LCD_displayStatusInfoGUI();
 	LCD_displayStatusInfoBar();
 	LCD_displayMainMenu();
@@ -251,12 +259,16 @@ void LCD_redraw(void) {
 
 void LCD_doEvents(void)
 {
-	LCD_displayFreqInfo();
+	if(LCD_busy) return;
+	LCD_busy=true;
+	LCD_checkTouchPad();
+	LCD_displayFreqInfo(true);
 	LCD_displayStatusInfoBar();
 	if (LCD_needRedrawMainMenu) {
 		LCD_needRedrawMainMenu = false;
 		LCD_displayMainMenu();
 	}
+	LCD_busy=false;
 }
 
 void LCD_checkTouchPad(void)
@@ -274,13 +286,19 @@ void LCD_checkTouchPad(void)
 
 	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened)
 	{
-		if (x >= 5 && x <= 75 && y >= 5 && y <= 35) TRX_setMode(TRX_MODE_LSB); //кнопка LSB
-		if (x >= 80 && x <= 150 && y >= 5 && y <= 35) TRX_setMode(TRX_MODE_USB); //кнопка USB
-		if (x >= 155 && x <= 225 && y >= 5 && y <= 35) TRX_setMode(TRX_MODE_IQ); //кнопка IQ
+		if (x >= 5 && x <= 75 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_LSB); LCD_displayTopButtons(true); } //кнопка LSB
+		if (x >= 80 && x <= 150 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_USB); LCD_displayTopButtons(true); } //кнопка USB
+		if (x >= 155 && x <= 225 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_IQ); LCD_displayTopButtons(true); } //кнопка IQ
 		if (x >= 245 && x <= 315 && y >= 5 && y <= 35) {
 			LCD_bandMenuOpened = true;  //кнопка BAND
 			LCD_displayTopButtons(true);
 		}
+		
+		if(x>=30 && x<=60 && y>=80 && y<=121) TRX.LCD_menu_freq_index=MENU_FREQ_MHZ;
+		if(x>=90 && x<=180 && y>=80 && y<=121) TRX.LCD_menu_freq_index=MENU_FREQ_KHZ;
+		if(x>=210 && x<=300 && y>=80 && y<=121) TRX.LCD_menu_freq_index=MENU_FREQ_HZ;
+		LCD_last_showed_freq=0;
+		LCD_displayFreqInfo(false);
 	}
 	else if (LCD_bandMenuOpened && !LCD_mainMenuOpened)
 	{
@@ -365,6 +383,20 @@ void LCD_checkTouchPad(void)
 			LCD_mainMenuOpened = true; //кнопка MENU
 			LCD_redraw();
 		}
+	}
+	
+	//кнопки в меню
+	if (LCD_mainMenuOpened)
+	{
+		if (x >= 100 && x <= 150 && y >= 200 && y <= 230) { //кнопка v
+			LCD_menu_main_index++;
+		}
+		else if (x >= 160 && x <= 210 && y >= 200 && y <= 230) { //кнопка ^
+			LCD_menu_main_index--;
+		}
+		if (LCD_menu_main_index > MENU_MAIN_COUNT) LCD_menu_main_index = 1;
+		if (LCD_menu_main_index < 1) LCD_menu_main_index = 1;
+		LCD_needRedrawMainMenu=true;
 	}
 }
 

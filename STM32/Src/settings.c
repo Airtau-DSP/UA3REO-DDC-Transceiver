@@ -30,7 +30,7 @@ void LoadSettings(void)
 		TRX.Preamp = true;
 		TRX.Agc = true;
 		TRX.Loopback = false;
-		TRX.Gain_level = 3;
+		TRX.Gain_level = 10;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.MicGain_level=3;

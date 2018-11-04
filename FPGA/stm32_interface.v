@@ -33,7 +33,7 @@ output reg signed [15:0] TX_I=0;
 output reg signed [15:0] TX_Q=0;
 output reg [15:0] stage_debug=0;
 
-integer k=1;
+reg signed [15:0] k=1;
 reg signed [15:0] I_HOLD;
 reg signed [15:0] Q_HOLD;
 
@@ -44,161 +44,161 @@ begin
 	begin
 		if(DATA_IN[3:0]=='d1)
 		begin
-			k<=100;
+			k=100;
 		end
 		if(DATA_IN[3:0]=='d2)
 		begin
-			k<=200;
+			k=200;
 		end
 		if(DATA_IN[3:0]=='d3)
 		begin
-			k<=300;
+			k=300;
 		end
 		if(DATA_IN[3:0]=='d4)
 		begin
-			k<=400;
+			k=400;
 		end
 	end
 	else if (k==100) //GET PARAMS
 	begin
-		preamp_enable<=DATA_IN[2:2];
+		preamp_enable=DATA_IN[2:2];
 		if(DATA_IN[3:3]==1)
 		begin
-			tx<=1;
-			rx<=0;
+			tx=1;
+			rx=0;
 		end
 		else
 		begin
-			tx<=0;
-			rx<=1;
+			tx=0;
+			rx=1;
 		end
-		k<=101;
+		k=101;
 	end
 	else if (k==101)
 	begin
-		freq_out[21:20]<=DATA_IN[1:0];
-		k<=102;
+		freq_out[21:20]=DATA_IN[1:0];
+		k=102;
 	end
 	else if (k==102)
 	begin
-		freq_out[19:16]<=DATA_IN[3:0];
-		k<=103;
+		freq_out[19:16]=DATA_IN[3:0];
+		k=103;
 	end
 	else if (k==103)
 	begin
-		freq_out[15:12]<=DATA_IN[3:0];
-		k<=104;
+		freq_out[15:12]=DATA_IN[3:0];
+		k=104;
 	end
 	else if (k==104)
 	begin
-		freq_out[11:8]<=DATA_IN[3:0];
-		k<=105;
+		freq_out[11:8]=DATA_IN[3:0];
+		k=105;
 	end
 	else if (k==105)
 	begin
-		freq_out[7:4]<=DATA_IN[3:0];
-		k<=106;
+		freq_out[7:4]=DATA_IN[3:0];
+		k=106;
 	end
 	else if (k==106)
 	begin
-		freq_out[3:0]<=DATA_IN[3:0];
-		k<=999;
+		freq_out[3:0]=DATA_IN[3:0];
+		k=999;
 	end
 	else if (k==200) //SEND PARAMS
 	begin
-		DATA_OUT[3:3]<=0;
-		DATA_OUT[2:2]<=0;
-		DATA_OUT[1:1]<=0;
-		DATA_OUT[0:0]<=ADC_OTR;
-		k<=999;
+		DATA_OUT[3:3]=0;
+		DATA_OUT[2:2]=0;
+		DATA_OUT[1:1]=0;
+		DATA_OUT[0:0]=ADC_OTR;
+		k=999;
 	end
 	else if (k==300) //TX IQ
 	begin
 		I_HOLD='d0;
 		Q_HOLD='d0;
 		Q_HOLD[15:12]=DATA_IN[3:0];
-		k<=301;
+		k=301;
 	end
 	else if (k==301)
 	begin
-		Q_HOLD[11:8]<=DATA_IN[3:0];
-		k<=302;
+		Q_HOLD[11:8]=DATA_IN[3:0];
+		k=302;
 	end
 	else if (k==302)
 	begin
-		Q_HOLD[7:4]<=DATA_IN[3:0];
-		k<=303;
+		Q_HOLD[7:4]=DATA_IN[3:0];
+		k=303;
 	end
 	else if (k==303)
 	begin
-		Q_HOLD[3:0]<=DATA_IN[3:0];
-		k<=304;
+		Q_HOLD[3:0]=DATA_IN[3:0];
+		k=304;
 	end
 	else if (k==304)
 	begin
-		I_HOLD[15:12]<=DATA_IN[3:0];
-		k<=305;
+		I_HOLD[15:12]=DATA_IN[3:0];
+		k=305;
 	end
 	else if (k==305)
 	begin
-		I_HOLD[11:8]<=DATA_IN[3:0];
-		k<=306;
+		I_HOLD[11:8]=DATA_IN[3:0];
+		k=306;
 	end
 	else if (k==306)
 	begin
-		I_HOLD[7:4]<=DATA_IN[3:0];
-		k<=307;
+		I_HOLD[7:4]=DATA_IN[3:0];
+		k=307;
 	end
 	else if (k==307)
 	begin
 		I_HOLD[3:0]=DATA_IN[3:0];
 		TX_I[15:0]=I_HOLD[15:0];
 		TX_Q[15:0]=Q_HOLD[15:0];
-		k<=999;
+		k=999;
 	end
 	else if (k==400) //RX IQ
 	begin
 		I_HOLD=I; //+'d32767;
 		Q_HOLD=Q; //+'d32767;
 		DATA_OUT[3:0]=Q_HOLD[15:12];
-		k<=401;
+		k=401;
 	end
 	else if (k==401)
 	begin
-		DATA_OUT[3:0]<=Q_HOLD[11:8];
-		k<=402;
+		DATA_OUT[3:0]=Q_HOLD[11:8];
+		k=402;
 	end
 	else if (k==402)
 	begin
-		DATA_OUT[3:0]<=Q_HOLD[7:4];
-		k<=403;
+		DATA_OUT[3:0]=Q_HOLD[7:4];
+		k=403;
 	end
 	else if (k==403)
 	begin
-		DATA_OUT[3:0]<=Q_HOLD[3:0];
-		k<=404;
+		DATA_OUT[3:0]=Q_HOLD[3:0];
+		k=404;
 	end
 	else if (k==404)
 	begin
-		DATA_OUT[3:0]<=I_HOLD[15:12];
-		k<=405;
+		DATA_OUT[3:0]=I_HOLD[15:12];
+		k=405;
 	end
 	else if (k==405)
 	begin
-		DATA_OUT[3:0]<=I_HOLD[11:8];
-		k<=406;
+		DATA_OUT[3:0]=I_HOLD[11:8];
+		k=406;
 	end
 	else if (k==406)
 	begin
-		DATA_OUT[3:0]<=I_HOLD[7:4];
-		k<=407;
+		DATA_OUT[3:0]=I_HOLD[7:4];
+		k=407;
 	end
 	else if (k==407)
 	begin
-		DATA_OUT[3:0]<=I_HOLD[3:0];
-		k<=999;
+		DATA_OUT[3:0]=I_HOLD[3:0];
+		k=999;
 	end
-	stage_debug<=k;
+	stage_debug=k;
 end
 
 

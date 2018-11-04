@@ -6,8 +6,9 @@
 #include "functions.h"
 
 uint32_t FFT_buff_index = 0;
-
-float32_t FFTInput[FFT_SIZE * 2] = { 0 };
+float32_t FFTInput_A[FFT_SIZE * 2] = { 0 };
+float32_t FFTInput_B[FFT_SIZE * 2] = { 0 };
+bool FFTInputBufferInProgress = false; //false - A, true - B
 float32_t FFTOutput[FFT_SIZE];
 
 uint8_t FFT_status;
@@ -25,38 +26,29 @@ bool FFT_need_fft = true; //необходимо полдготовить данные для отображения на эк
 
 void FFT_doFFT(void)
 {
-	//тестовые семплы
-	/*
-	for(uint32_t n=0;n<FFT_SIZE; n++)
-  {
-	// if (n!=0) { SamplesBuf[n] = 0.25 * log(n); } // Логарифм (не определён в нуле).
-	// SamplesBuf[n] = exp(0.0-n/16.0); // Экспоненциальный импульс.
-	 SamplesBuf[n] = 0.0 + sin((n*2.0*3.14159)/512); // Синус.
-	//SamplesBuf[n] = (1.0 - (n/512.0))*sin((n*2.0*3.14159)/64); // Затухающий синус.
-	// SamplesBuf[n] = 0.75*sin((n*2.0*3.14159)/256) + sin((n*2.0*3.14159)/85.3); // Синус, 2 + 6 гармоники.
-	// SamplesBuf[n] = sin((n*2.0*3.14159)/512) + 0.25*sin((n*2.0*3.14159)/32); // Синус + dx-ВЧ гармоника.
-	// SamplesBuf[n] = ((n%64)/64.0); // Пилообразный сигнал
-		// if (n<16) SamplesBuf[n] = 1.0; else SamplesBuf[n] = 0; // Единичный прямоугольный импульс
-  }
-	for(uint32_t n=0;n<FFT_SIZE;n++)
-  {
-	FFTInput[n*2] = SamplesBuf[n];
-	FFTInput[n*2+1] = 0.0; // Обнуляем комплексную часть входных данных.
-  }
-	*/
-
-	/* Process the data through the CFFT/CIFFT module */
-	arm_cfft_f32(S, FFTInput, 0, 1);
-	/* Process the data through the Complex Magnitude Module for calculating the magnitude at each bin */
-	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
-	/* Calculates maxValue and returns corresponding BIN value */
-	//arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
+	if(FFTInputBufferInProgress) //B in progress
+	{
+		/* Process the data through the CFFT/CIFFT module */
+		arm_cfft_f32(S, FFTInput_A, 0, 1);
+		/* Process the data through the Complex Magnitude Module for calculating the magnitude at each bin */
+		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+	}
+	else //A in progress
+	{
+		/* Process the data through the CFFT/CIFFT module */
+		arm_cfft_f32(S, FFTInput_B, 0, 1);
+		/* Process the data through the Complex Magnitude Module for calculating the magnitude at each bin */
+		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+	}
 	FFT_need_fft = false;
 }
 
 void FFT_printFFT(void)
 {
+	if(LCD_busy) return;
 	if (FFT_need_fft) return;
+	if (LCD_mainMenuOpened) return;
+	LCD_busy=true;
 	if (maxValueErrors > 100 || maxValueErrors == 0) arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
 	if (maxValue < FFT_CONTRAST) maxValue = FFT_CONTRAST; //минимальный порог
 	maxValueErrors = 0;
@@ -85,6 +77,7 @@ void FFT_printFFT(void)
 		}
 		else
 			tmp = getFFTColor(height);
+		
 		wtf_buffer[0][new_x] = tmp;
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
@@ -103,6 +96,7 @@ void FFT_printFFT(void)
 	if (maxValueErrors > 50) maxValue += 5000;
 	//logToUART1_float32(maxValue);
 	FFT_need_fft = true;
+	LCD_busy=false;
 }
 
 uint16_t getFFTColor(uint8_t height)

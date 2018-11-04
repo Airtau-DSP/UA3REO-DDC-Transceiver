@@ -1,5 +1,5 @@
 EDA Netlist Writer report for UA3REO
-Wed May 30 20:30:19 2018
+Sun Nov 04 17:49:12 2018
 Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
 
 
@@ -34,7 +34,7 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; EDA Netlist Writer Summary                                                       ;
 +---------------------------+------------------------------------------------------+
-; EDA Netlist Writer Status ; No Output Files Generated - Wed May 30 20:30:19 2018 ;
+; EDA Netlist Writer Status ; No Output Files Generated - Sun Nov 04 17:49:12 2018 ;
 ; Revision Name             ; UA3REO                                               ;
 ; Top-level Entity Name     ; UA3REO                                               ;
 ; Family                    ; Cyclone IV E                                         ;
@@ -47,13 +47,13 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime EDA Netlist Writer
     Info: Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
-    Info: Processing started: Wed May 30 20:30:18 2018
+    Info: Processing started: Sun Nov 04 17:49:11 2018
 Info: Command: quartus_eda --read_settings_files=on --write_settings_files=off UA3REO -c UA3REO
 Warning (199027): Can't generate output files. Specify command-line options to generate output files, or update EDA tool settings using GUI or Tcl script.
 Info: Quartus Prime EDA Netlist Writer was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 4680 megabytes
-    Info: Processing ended: Wed May 30 20:30:20 2018
-    Info: Elapsed time: 00:00:02
-    Info: Total CPU time (on all processors): 00:00:01
+    Info: Peak virtual memory: 4684 megabytes
+    Info: Processing ended: Sun Nov 04 17:49:12 2018
+    Info: Elapsed time: 00:00:01
+    Info: Total CPU time (on all processors): 00:00:02
 
 

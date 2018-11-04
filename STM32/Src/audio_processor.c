@@ -17,8 +17,8 @@
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;
 uint32_t AUDIOPROC_TXB_samples = 0;
-uint16_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
-uint16_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
+uint16_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE] __attribute__((aligned(4)));
+uint16_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE] __attribute__((aligned(4)));
 uint8_t Processor_AudioBuffer_ReadyBuffer = 0;
 bool Processor_NeedBuffer = false;
 float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
@@ -59,8 +59,6 @@ void processTxAudio(void)
 		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 		{
 			FPGA_Audio_Buffer_I_tmp[i] = (int16_t)Processor_AudioBuffer_A[i*2];
-			if(FPGA_Audio_Buffer_I_tmp[i]>0 && FPGA_Audio_Buffer_I_tmp[i]<10) FPGA_Audio_Buffer_I_tmp[i] = 0;
-			if(FPGA_Audio_Buffer_I_tmp[i]<0 && FPGA_Audio_Buffer_I_tmp[i]>-10) FPGA_Audio_Buffer_I_tmp[i] = 0;
 		}
 		
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN *0.01

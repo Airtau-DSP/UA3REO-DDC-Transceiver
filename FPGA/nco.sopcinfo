@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="nco" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.10.28.20:22:25 -->
+ <!-- 2018.11.04.19:08:58 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1540743745</value>
+  <value>1541344138</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -182,7 +182,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cordic_arch">
    <type>java.lang.String</type>
-   <value>parallel</value>
+   <value>serial</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -206,7 +206,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="want_dither">
    <type>boolean</type>
-   <value>false</value>
+   <value>true</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -214,9 +214,9 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="dpri">
    <type>int</type>
-   <value>6</value>
+   <value>10</value>
    <derived>false</derived>
-   <enabled>false</enabled>
+   <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>

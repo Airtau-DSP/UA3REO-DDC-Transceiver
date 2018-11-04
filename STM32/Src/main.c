@@ -247,7 +247,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.DataFormat = I2S_DATAFORMAT_16B;
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_DISABLE;
   hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
-  hi2s3.Init.CPOL = I2S_CPOL_HIGH;
+  hi2s3.Init.CPOL = I2S_CPOL_LOW;
   hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_ENABLE;
   if (HAL_I2S_Init(&hi2s3) != HAL_OK)
@@ -501,23 +501,23 @@ static void MX_GPIO_Init(void)
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, WM8731_SCK_Pin|WM8731_SDA_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : ENC_CLK_Pin */
-  GPIO_InitStruct.Pin = ENC_CLK_Pin;
+  /*Configure GPIO pin : ENC_DT_Pin */
+  GPIO_InitStruct.Pin = ENC_DT_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_RISING_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(ENC_CLK_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(ENC_DT_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : K1_Pin K0_Pin ENC_DT_Pin */
-  GPIO_InitStruct.Pin = K1_Pin|K0_Pin|ENC_DT_Pin;
+  /*Configure GPIO pins : K1_Pin K0_Pin ENC_CLK_Pin */
+  GPIO_InitStruct.Pin = K1_Pin|K0_Pin|ENC_CLK_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
-  /*Configure GPIO pin : ENC_SW_Pin */
-  GPIO_InitStruct.Pin = ENC_SW_Pin;
+  /*Configure GPIO pin : KEY_ENTER_Pin */
+  GPIO_InitStruct.Pin = KEY_ENTER_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_IT_FALLING;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
-  HAL_GPIO_Init(ENC_SW_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(KEY_ENTER_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PC13 PC14 PC15 PC2 
                            PC3 PC6 PC7 PC8 
