@@ -8,5 +8,8 @@ STM32/MDK-ARM/UA3REO/UA3REO.htm
 *.o
 *.bak
 *.d
+*.smsg
+*.rpt
 *.crf
 *._2i
+*.summary

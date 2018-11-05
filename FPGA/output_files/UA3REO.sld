@@ -2,62 +2,62 @@
   <sld_infos>
     <sld_info hpath="DEBUG_ADC:DEBUG_ADC" name="DEBUG_ADC">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_ADC HAS_SOPCINFO 1 GENERATION_ID 1541344118"/>
+        <assignment_value text="QSYS_NAME DEBUG_ADC HAS_SOPCINFO 1 GENERATION_ID 1541432191"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="DEBUG_DAC:DEBUG_DAC" name="DEBUG_DAC">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_DAC HAS_SOPCINFO 1 GENERATION_ID 1541344108"/>
+        <assignment_value text="QSYS_NAME DEBUG_DAC HAS_SOPCINFO 1 GENERATION_ID 1541432182"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="DEBUG_I_RX:DEBUG_I_RX" name="DEBUG_I_RX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_I_RX HAS_SOPCINFO 1 GENERATION_ID 1541344094"/>
+        <assignment_value text="QSYS_NAME DEBUG_I_RX HAS_SOPCINFO 1 GENERATION_ID 1541432173"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="DEBUG_I_TX:DEBUG_I_TX" name="DEBUG_I_TX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_I_TX HAS_SOPCINFO 1 GENERATION_ID 1541344085"/>
+        <assignment_value text="QSYS_NAME DEBUG_I_TX HAS_SOPCINFO 1 GENERATION_ID 1541432165"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="DEBUG_Q_RX:DEBUG_Q_RX" name="DEBUG_Q_RX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_Q_RX HAS_SOPCINFO 1 GENERATION_ID 1541344076"/>
+        <assignment_value text="QSYS_NAME DEBUG_Q_RX HAS_SOPCINFO 1 GENERATION_ID 1541432156"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="DEBUG_Q_TX:DEBUG_Q_TX" name="DEBUG_Q_TX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_Q_TX HAS_SOPCINFO 1 GENERATION_ID 1541344068"/>
+        <assignment_value text="QSYS_NAME DEBUG_Q_TX HAS_SOPCINFO 1 GENERATION_ID 1541432148"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="DEBUG_STAGE:DEBUG_STAGE" name="DEBUG_STAGE">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_STAGE HAS_SOPCINFO 1 GENERATION_ID 1541344058"/>
+        <assignment_value text="QSYS_NAME DEBUG_STAGE HAS_SOPCINFO 1 GENERATION_ID 1541432139"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="cic:CIC_I" name="CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541344147"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541432218"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="cic:CIC_Q" name="CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541344147"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541432218"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="nco:NCO" name="NCO">
       <assignment_values>
-        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1541344138"/>
+        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1541432209"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541344128"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541432200"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541344128"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541432200"/>
       </assignment_values>
     </sld_info>
     <sld_info hpath="sld_hub:auto_hub|alt_sld_fab:\instrumentation_fabric_with_node_gen:instrumentation_fabric" library="alt_sld_fab" name="instrumentation_fabric">
