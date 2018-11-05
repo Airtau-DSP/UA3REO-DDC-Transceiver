@@ -164,7 +164,7 @@ int main(void)
 	while (1)
 	{
   /* USER CODE END WHILE */
-
+		if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_RESET || HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_TIMEOUT || HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_ERROR) start_i2s_dma(); //anti-stuck DMA
   /* USER CODE BEGIN 3 */
 	}
   /* USER CODE END 3 */
@@ -313,7 +313,7 @@ static void MX_TIM5_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 873;
+  htim5.Init.Prescaler = 880;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 1;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -368,7 +368,7 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 873;
+  htim7.Init.Prescaler = 880;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim7.Init.Period = 1;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)

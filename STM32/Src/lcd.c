@@ -374,10 +374,10 @@ void LCD_checkTouchPad(void)
 		else if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
 			TRX_tune = !TRX_tune; //кнопка TUNE
 			TRX_ptt = TRX_tune;
-			start_i2s_dma();
 			LCD_displayStatusInfoGUI();
 			LCD_displayTopButtons(false);
 			NeedSaveSettings=true;
+			start_i2s_dma();
 		}
 		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
 			LCD_mainMenuOpened = true; //кнопка MENU
