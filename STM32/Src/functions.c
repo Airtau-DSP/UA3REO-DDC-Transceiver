@@ -21,7 +21,7 @@ void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t ind
 	}
 }
 
-void readHalfFromCircleBuffer16(uint16_t *source, uint16_t *dest, uint16_t index, uint16_t length)
+void readHalfFromCircleBufferU16(uint16_t *source, uint16_t *dest, uint16_t index, uint16_t length)
 {
 	uint16_t halflen = length / 2;
 	if (index >= halflen)
@@ -33,6 +33,21 @@ void readHalfFromCircleBuffer16(uint16_t *source, uint16_t *dest, uint16_t index
 		uint16_t prev_part = halflen - index;
 		memcpy((uint16_t *)&dest[0], (uint16_t *)&source[length - prev_part], prev_part * 2);
 		memcpy((uint16_t *)&dest[prev_part], (uint16_t *)&source[0], (halflen - prev_part) * 2);
+	}
+}
+
+void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t index, uint16_t length)
+{
+	uint32_t halflen = length / 2;
+	if (index >= halflen)
+	{
+		memcpy((uint32_t *)&dest[0], (uint32_t *)&source[index - halflen], halflen * 2);
+	}
+	else
+	{
+		uint32_t prev_part = halflen - index;
+		memcpy((uint32_t *)&dest[0], (uint32_t *)&source[length - prev_part], prev_part * 2);
+		memcpy((uint32_t *)&dest[prev_part], (uint32_t *)&source[0], (halflen - prev_part) * 2);
 	}
 }
 

@@ -12,6 +12,7 @@
 #define APROCESSOR_BLOCK_SIZE 32
 
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
+extern DMA_HandleTypeDef hdma_spi3_tx;
 
 extern void processRxAudio(void);
 extern void processTxAudio(void);
@@ -19,8 +20,8 @@ extern void initAudioProcessor(void);
 extern uint32_t AUDIOPROC_samples;
 extern uint32_t AUDIOPROC_TXA_samples;
 extern uint32_t AUDIOPROC_TXB_samples;
-extern uint16_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE] __attribute__((aligned(4)));
-extern uint16_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE] __attribute__((aligned(4)));
+extern uint32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
+extern uint32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
 extern uint8_t Processor_AudioBuffer_ReadyBuffer;
 extern bool Processor_NeedBuffer;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
