@@ -6,6 +6,8 @@
 #include "fft.h"
 #include "audio_processor.h"
 
+#define ADCDAC_CLOCK 50000000
+
 void FPGA_Init(void);
 void FPGA_fpgadata_clock(void);
 uint8_t FPGA_readPacket(void);

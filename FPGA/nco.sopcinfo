@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="nco" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.11.05.19:36:49 -->
+ <!-- 2018.11.06.22:19:22 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1541432209</value>
+  <value>1541528362</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -222,7 +222,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="fsamp">
    <type>double</type>
-   <value>48.0</value>
+   <value>50.0</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -238,7 +238,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="phi_inc">
    <type>long</type>
-   <value>620407</value>
+   <value>595591</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>true</visible>

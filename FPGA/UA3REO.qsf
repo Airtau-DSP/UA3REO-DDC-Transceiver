@@ -187,10 +187,8 @@ set_global_assignment -name TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS OFF
 set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
 set_global_assignment -name AUTO_RAM_TO_LCELL_CONVERSION ON
 
-set_location_assignment PLL_3 -to "MAIN_PLL:main_pll"
-set_location_assignment PIN_143 -to ADC_DAC_CLK
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_DAC_CLK
-set_instance_assignment -name WEAK_PULL_UP_RESISTOR ON -to ADC_DAC_CLK
+set_global_assignment -name VERILOG_FILE tx_ciccomp.v
+set_global_assignment -name VERILOG_FILE rx_ciccomp.v
 set_global_assignment -name QSYS_FILE DEBUG_STAGE.qsys
 set_global_assignment -name QSYS_FILE DEBUG_Q_TX.qsys
 set_global_assignment -name QSYS_FILE DEBUG_Q_RX.qsys
@@ -198,7 +196,6 @@ set_global_assignment -name QSYS_FILE DEBUG_I_TX.qsys
 set_global_assignment -name QSYS_FILE DEBUG_I_RX.qsys
 set_global_assignment -name QSYS_FILE DEBUG_DAC.qsys
 set_global_assignment -name QSYS_FILE DEBUG_ADC.qsys
-set_global_assignment -name VERILOG_FILE tx_ciccomp.v
 set_global_assignment -name QSYS_FILE tx_cic.qsys
 set_global_assignment -name SOURCE_FILE Debug_Probes.spf
 set_global_assignment -name VERILOG_FILE data_delay.v
@@ -208,13 +205,10 @@ set_global_assignment -name VERILOG_FILE ADC_corrector.v
 set_global_assignment -name QSYS_FILE nco.qsys
 set_global_assignment -name QSYS_FILE cic.qsys
 set_global_assignment -name SDC_FILE SDC.sdc
-set_global_assignment -name QIP_FILE SECOND_PLL.qip
-set_global_assignment -name QIP_FILE pll.qip
 set_global_assignment -name QIP_FILE mixer.qip
 set_global_assignment -name BDF_FILE UA3REO.bdf
 set_global_assignment -name VERILOG_FILE stm32_interface.v
 set_global_assignment -name VERILOG_FILE mixer.v
-set_global_assignment -name VERILOG_FILE ciccomp.v
 set_global_assignment -name QIP_FILE mux16.qip
 set_global_assignment -name QIP_FILE tx_mixer.qip
 set_global_assignment -name QIP_FILE tx_summator.qip

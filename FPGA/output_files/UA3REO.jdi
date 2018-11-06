@@ -1,6 +1,6 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="cd1eca206f2a8c3e852f"/>
+    <hash md5_digest_80b="2d454b40e630bc9fca3f"/>
   </project>
   <file_info>
     <file device="EP4CE22E22C8" path="UA3REO.sof" usercode="0xFFFFFFFF"/>
@@ -425,73 +425,73 @@
   <sld_infos>
     <sld_info hpath="DEBUG_ADC:DEBUG_ADC" name="DEBUG_ADC">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_ADC HAS_SOPCINFO 1 GENERATION_ID 1541432191"/>
+        <assignment_value text="QSYS_NAME DEBUG_ADC HAS_SOPCINFO 1 GENERATION_ID 1541528344"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="DEBUG_DAC:DEBUG_DAC" name="DEBUG_DAC">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_DAC HAS_SOPCINFO 1 GENERATION_ID 1541432182"/>
+        <assignment_value text="QSYS_NAME DEBUG_DAC HAS_SOPCINFO 1 GENERATION_ID 1541528335"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="DEBUG_I_RX:DEBUG_I_RX" name="DEBUG_I_RX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_I_RX HAS_SOPCINFO 1 GENERATION_ID 1541432173"/>
+        <assignment_value text="QSYS_NAME DEBUG_I_RX HAS_SOPCINFO 1 GENERATION_ID 1541528326"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="DEBUG_I_TX:DEBUG_I_TX" name="DEBUG_I_TX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_I_TX HAS_SOPCINFO 1 GENERATION_ID 1541432165"/>
+        <assignment_value text="QSYS_NAME DEBUG_I_TX HAS_SOPCINFO 1 GENERATION_ID 1541528317"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="DEBUG_Q_RX:DEBUG_Q_RX" name="DEBUG_Q_RX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_Q_RX HAS_SOPCINFO 1 GENERATION_ID 1541432156"/>
+        <assignment_value text="QSYS_NAME DEBUG_Q_RX HAS_SOPCINFO 1 GENERATION_ID 1541528309"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="DEBUG_Q_TX:DEBUG_Q_TX" name="DEBUG_Q_TX">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_Q_TX HAS_SOPCINFO 1 GENERATION_ID 1541432148"/>
+        <assignment_value text="QSYS_NAME DEBUG_Q_TX HAS_SOPCINFO 1 GENERATION_ID 1541528300"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="DEBUG_STAGE:DEBUG_STAGE" name="DEBUG_STAGE">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG_STAGE HAS_SOPCINFO 1 GENERATION_ID 1541432139"/>
+        <assignment_value text="QSYS_NAME DEBUG_STAGE HAS_SOPCINFO 1 GENERATION_ID 1541528291"/>
       </assignment_values>
       <parameters/>
     </sld_info>
-    <sld_info hpath="cic:CIC_I" name="CIC_I">
+    <sld_info hpath="cic:RX_CIC_I" name="RX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541432218"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541528372"/>
       </assignment_values>
       <parameters/>
     </sld_info>
-    <sld_info hpath="cic:CIC_Q" name="CIC_Q">
+    <sld_info hpath="cic:RX_CIC_Q" name="RX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541432218"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541528372"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="nco:NCO" name="NCO">
       <assignment_values>
-        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1541432209"/>
+        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1541528362"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541432200"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541528353"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541432200"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541528353"/>
       </assignment_values>
       <parameters/>
     </sld_info>

@@ -210,6 +210,6 @@ VCCIO8                       : 139       : power  :                   : 3.3V    
 GND                          : 140       : gnd    :                   :         :           :                
 ADC_INPUT[4]                 : 141       : input  : 3.3-V LVTTL       :         : 8         : Y              
 ADC_INPUT[3]                 : 142       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_DAC_CLK                  : 143       : output : 3.3-V LVTTL       :         : 8         : Y              
+GND*                         : 143       :        :                   :         : 8         :                
 GND*                         : 144       :        :                   :         : 8         :                
 GND                          : EPAD      :        :                   :         :           :                

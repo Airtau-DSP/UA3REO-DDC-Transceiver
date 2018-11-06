@@ -135,7 +135,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
 I (..\Src\LCD/xpt2046_spi.h)(0x5BCF6451)
 I (../Drivers/CMSIS/Include/arm_const_structs.h)(0x5B2FC4E5)
 I (../Drivers/CMSIS/Include/arm_common_tables.h)(0x5B2FC4E5)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 F (..\Src\fft.h)(0x5BDEC7D4)()
 F (..\Src\fpga.c)(0x5BDF1FA9)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_UA3REO-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4-o ua3reo\fpga.o --omf_browse ua3reo\fpga.crf --depend ua3reo\fpga.d)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5B2FC4E6)
@@ -173,14 +173,14 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5B2FC4E6)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (..\Src\audio_processor.h)(0x5BE0463C)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (..\Src\trx_manager.h)(0x5BDDB103)
 I (..\Src\lcd.h)(0x5BDDBA90)
 I (..\Src\LCD/MA_ILI9341.h)(0x5BCF6457)
@@ -189,9 +189,9 @@ I (..\Src\LCD/xpt2046_spi.h)(0x5BCF6451)
 I (..\Src\settings.h)(0x5BD4BDD5)
 I (..\Src\wm8731.h)(0x5BE030C2)
 I (..\Src\wire.h)(0x5BCF647B)
-F (..\Src\fpga.h)(0x5BDF1FA9)()
-F (..\Src\functions.c)(0x5BE04BF9)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_UA3REO-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4-o ua3reo\functions.o --omf_browse ua3reo\functions.crf --depend ua3reo\functions.d)
-I (..\Src\functions.h)(0x5BE04BF6)
+F (..\Src\fpga.h)(0x5BE1DC7E)()
+F (..\Src\functions.c)(0x5BE1DBD0)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_UA3REO-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4-o ua3reo\functions.o --omf_browse ua3reo\functions.crf --depend ua3reo\functions.d)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5B2FC4E6)
 I (../Inc/stm32f4xx_hal_conf.h)(0x5BE05386)
 I (../Inc/main.h)(0x5BE05387)
@@ -232,7 +232,10 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
-F (..\Src\functions.h)(0x5BE04BF6)()
+I (..\Src\fpga.h)(0x5BE1DC7E)
+I (..\Src\fft.h)(0x5BDEC7D4)
+I (..\Src\audio_processor.h)(0x5BE0463C)
+F (..\Src\functions.h)(0x5BE1DC2B)()
 F (..\Src\lcd.c)(0x5BE058CC)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_UA3REO-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4-o ua3reo\lcd.o --omf_browse ua3reo\lcd.crf --depend ua3reo\lcd.d)
 I (..\Src\lcd.h)(0x5BDDBA90)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x5B2FC4E6)
@@ -275,7 +278,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (..\Src\LCD/MA_ILI9341.h)(0x5BCF6457)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
 I (..\Src\LCD/xpt2046_spi.h)(0x5BCF6451)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
@@ -283,7 +286,7 @@ I (..\Src\agc.h)(0x5BCF64AD)
 I (..\Src\settings.h)(0x5BD4BDD5)
 I (..\Src\wm8731.h)(0x5BE030C2)
 I (..\Src\wire.h)(0x5BCF647B)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (..\Src\audio_processor.h)(0x5BE0463C)
 F (..\Src\lcd.h)(0x5BDDBA90)()
@@ -325,7 +328,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5B2FC4E6)
 I (..\Src\trx_manager.h)(0x5BDDB103)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
@@ -333,7 +336,7 @@ I (..\Src\lcd.h)(0x5BDDBA90)
 I (..\Src\LCD/MA_ILI9341.h)(0x5BCF6457)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
 I (..\Src\LCD/xpt2046_spi.h)(0x5BCF6451)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (..\Src\audio_processor.h)(0x5BE0463C)
 I (..\Src\settings.h)(0x5BD4BDD5)
@@ -379,13 +382,13 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5B2FC4E6)
 I (..\Src\wm8731.h)(0x5BE030C2)
 I (..\Src\wire.h)(0x5BCF647B)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (..\Src\audio_processor.h)(0x5BE0463C)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
 I (..\Src\trx_manager.h)(0x5BDDB103)
 I (..\Src\settings.h)(0x5BD4BDD5)
@@ -426,7 +429,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5B2FC4E6)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
@@ -475,12 +478,12 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (..\Src\trx_manager.h)(0x5BDDB103)
 I (..\Src\wm8731.h)(0x5BE030C2)
 I (..\Src\wire.h)(0x5BCF647B)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (..\Src\audio_filters.h)(0x5BCF64A9)
 I (..\Src\agc.h)(0x5BCF64AD)
 I (..\Src\notch_filter.h)(0x5BCF6488)
@@ -527,7 +530,7 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (..\Src\audio_processor.h)(0x5BE0463C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
@@ -577,11 +580,11 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (..\Src\wm8731.h)(0x5BE030C2)
 I (..\Src\wire.h)(0x5BCF647B)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (..\Src\audio_processor.h)(0x5BE0463C)
 I (..\Src\trx_manager.h)(0x5BDDB103)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (..\Src\settings.h)(0x5BD4BDD5)
 F (..\Src\agc.h)(0x5BCF64AD)()
 F (..\Src\notch_filter.c)(0x5BCF64D2)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O3 --apcs=interwork --split_sections -I ../Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include-I.\RTE\_UA3REO-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\Core\Include-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.4.0\CMSIS\DSP\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\CMSIS\Device\ST\STM32F4xx\Include-D__UVISION_VERSION="526" -D_RTE_ -DSTM32F407xx -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4-o ua3reo\notch_filter.o --omf_browse ua3reo\notch_filter.crf --depend ua3reo\notch_filter.d)
@@ -669,12 +672,12 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
-I (..\Src\functions.h)(0x5BE04BF6)
+I (..\Src\functions.h)(0x5BE1DC2B)
 I (..\Src\trx_manager.h)(0x5BDDB103)
 I (..\Src\lcd.h)(0x5BDDBA90)
 I (..\Src\LCD/MA_ILI9341.h)(0x5BCF6457)
 I (..\Src\LCD/xpt2046_spi.h)(0x5BCF6451)
-I (..\Src\fpga.h)(0x5BDF1FA9)
+I (..\Src\fpga.h)(0x5BE1DC7E)
 I (..\Src\fft.h)(0x5BDEC7D4)
 I (..\Src\audio_processor.h)(0x5BE0463C)
 F (..\Src\settings.h)(0x5BD4BDD5)()
@@ -718,7 +721,7 @@ I (../Src/LCD/MA_ILI9341.h)(0x5BCF6457)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
 I (../Src/LCD/xpt2046_spi.h)(0x5BCF6451)
-I (../Src/functions.h)(0x5BE04BF6)
+I (../Src/functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
@@ -726,7 +729,7 @@ I (../Src/bootloader.h)(0x5BCF64A0)
 I (../Src/trx_manager.h)(0x5BDDB103)
 I (../Src/lcd.h)(0x5BDDBA90)
 I (../Src/encoder.h)(0x5BDEE4A2)
-I (../Src/fpga.h)(0x5BDF1FA9)
+I (../Src/fpga.h)(0x5BE1DC7E)
 I (../Src/fft.h)(0x5BDEC7D4)
 I (../Src/audio_processor.h)(0x5BE0463C)
 I (../Src/wm8731.h)(0x5BE030C2)
@@ -769,13 +772,13 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5B2FC4E6)
 I (../Inc/stm32f4xx_it.h)(0x5BE05386)
-I (../Src/functions.h)(0x5BE04BF6)
+I (../Src/functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
 I (../Src/encoder.h)(0x5BDEE4A2)
-I (../Src/fpga.h)(0x5BDF1FA9)
+I (../Src/fpga.h)(0x5BE1DC7E)
 I (../Src/fft.h)(0x5BDEC7D4)
 I (../Src/audio_processor.h)(0x5BE0463C)
 I (../Src/lcd.h)(0x5BDDBA90)
@@ -1618,7 +1621,7 @@ I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h)(0x5B2FC4E6)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h)(0x5B2FC4E6)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
-I (..\Src\LCD\../functions.h)(0x5BE04BF6)
+I (..\Src\LCD\../functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
@@ -1663,7 +1666,7 @@ I (..\Src\LCD\xpt2046_spi.h)(0x5BCF6451)
 I (..\Src\LCD\MA_ILI9341.h)(0x5BCF6457)
 I (C:\Keil_v5\ARM\ARMCC\include\stdbool.h)(0x599F218E)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x599F218C)
-I (..\Src\LCD\../functions.h)(0x5BE04BF6)
+I (..\Src\LCD\../functions.h)(0x5BE1DC2B)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x599F218C)
 I (../Drivers/CMSIS/Include/arm_math.h)(0x5B2FC4E5)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x599F218E)
