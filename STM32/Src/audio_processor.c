@@ -22,13 +22,12 @@ uint8_t Processor_AudioBuffer_ReadyBuffer = 0;
 bool Processor_NeedBuffer = false;
 float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
-
 const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
 uint16_t block = 0;
 
-int32_t prev_value_i=0;
-int32_t prev_value_q=0;
-int32_t prev_value_diff=0;
+uint32_t Processor_AVG_amplitude = 0;
+int32_t ampl_val_i=0;
+int32_t ampl_val_q=0;
 
 void initAudioProcessor(void)
 {
@@ -110,6 +109,22 @@ void processRxAudio(void)
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_Q[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_I[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 		
+	//Anti-"click"
+	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+	{
+		ampl_val_i=abs((int32_t)FPGA_Audio_Buffer_I_tmp[i]);
+		ampl_val_q=abs((int32_t)FPGA_Audio_Buffer_Q_tmp[i]);
+		if(ampl_val_i>Processor_AVG_amplitude) Processor_AVG_amplitude++;
+		if(ampl_val_i<Processor_AVG_amplitude) Processor_AVG_amplitude--;
+		if(ampl_val_q>Processor_AVG_amplitude) Processor_AVG_amplitude++;
+		if(ampl_val_q<Processor_AVG_amplitude) Processor_AVG_amplitude--;
+		if(FPGA_Audio_Buffer_I_tmp[i]-Processor_AVG_amplitude>CLICK_REMOVE_THRESHOLD || FPGA_Audio_Buffer_Q_tmp[i]-Processor_AVG_amplitude>CLICK_REMOVE_THRESHOLD)
+		{ 
+			FPGA_Audio_Buffer_I_tmp[i]=0;
+			FPGA_Audio_Buffer_Q_tmp[i]=0; 
+		}
+	}
+	
 	//SSB
 	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB)
 	{

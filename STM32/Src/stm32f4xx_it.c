@@ -307,20 +307,10 @@ void TIM6_DAC_IRQHandler(void)
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
+		//logToUART1_num32(Processor_AVG_amplitude);
 		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
 		//logToUART1_num32(AUDIOPROC_samples);
-		//logToUART1_num32(AUDIOPROC_TXA_samples);
-		//logToUART1_num32(AUDIOPROC_TXB_samples);
-		//logToUART1_num32(Processor_AudioBuffer_ReadyBuffer);
-		//logToUART1_num32(FPGA_Audio_Buffer_Index);
-		//logToUART1_num32(WM8731_DMA_state);
-		//logToUART1_num32(__HAL_DMA_GET_COUNTER(&hdma_i2s3_ext_rx));
-		//logToUART1_num32(__HAL_DMA_GET_COUNTER(&hdma_spi3_tx));
-		//logToUART1_num32(htim7.Init.Prescaler);
-		//logToUART1_num32(CODEC_Audio_OUT_ActiveBuffer);
-		//logToUART1_num(FPGA_Audio_Buffer_State);
-		//logToUART1_float32(agc_wdsp.volts);
 		//logToUART1_str("\r\n");
 		
 		FPGA_samples = 0;
