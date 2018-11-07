@@ -103,46 +103,53 @@ void WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
 void WM8731_TX_mode(void)
 {
 	HAL_I2S_DMAPause(&hi2s3);
+	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00000100), B8(00000000)); //Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(00000000)); //Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001000), B8(00000101)); //R4 Analogue Audio Path Control
 	WM8731_SendI2CCommand(B8(00001010), B8(00001110)); //R5  Digital Audio Path Control
-	WM8731_SendI2CCommand(B8(00001100), B8(00001001)); //R6  Power Down Control
+	WM8731_SendI2CCommand(B8(00001100), B8(00101001)); //R6  Power Down Control
+	FPGA_start_audio_clock();
 	HAL_I2S_DMAResume(&hi2s3);
 }
 
 void WM8731_RX_mode(void)
 {
 	HAL_I2S_DMAPause(&hi2s3);
+	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001000), B8(00010110)); //R4 Analogue Audio Path Control
 	WM8731_SendI2CCommand(B8(00001010), B8(00000110)); //R5 Digital Audio Path Control
-	WM8731_SendI2CCommand(B8(00001100), B8(00000111)); //R6  Power Down Control
+	WM8731_SendI2CCommand(B8(00001100), B8(00100111)); //R6  Power Down Control
+	FPGA_start_audio_clock();
 	HAL_I2S_DMAResume(&hi2s3);
 }
 
 void WM8731_TXRX_mode(void)
 {
 	HAL_I2S_DMAPause(&hi2s3);
+	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001000), B8(00010101)); //R4 Analogue Audio Path Control
 	WM8731_SendI2CCommand(B8(00001010), B8(00000110)); //R5  Digital Audio Path Control
-	WM8731_SendI2CCommand(B8(00001100), B8(00000001)); //R6  Power Down Control, internal crystal
+	WM8731_SendI2CCommand(B8(00001100), B8(00100001)); //R6  Power Down Control, internal crystal
+	FPGA_start_audio_clock();
 	HAL_I2S_DMAResume(&hi2s3);
 }
 
 void WM8731_Init(void)
 {
 	logToUART1_str("WM8731 ");
+	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00011110),B8(00000000)); //R15 Reset Chip
 	WM8731_SendI2CCommand(B8(00000000), B8(10000000)); //Left Line In
 	WM8731_SendI2CCommand(B8(00000010), B8(10000000)); //Right Line In 
 	WM8731_SendI2CCommand(B8(00001110), B8(00001110)); //R7  Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 32bits
-	WM8731_SendI2CCommand(B8(00010000), B8(00000001)); //R8  Sampling Control normal mode, 250fs, SR=0 (MCLK@12Mhz, fs=48kHz)) 0 0000
-	WM8731_RX_mode();
+	WM8731_SendI2CCommand(B8(00010000), B8(00000000)); //R8  Sampling Control normal mode, 256fs, SR=0 (MCLK@12.288Mhz, fs=48kHz)) 0 0000
 	WM8731_SendI2CCommand(B8(00010010), B8(00000001)); //R9  reactivate digital audio interface
+	WM8731_RX_mode();
 
 	logToUART1_str(" Inited\r\n");
 }

@@ -13,7 +13,7 @@ rx,
 tx,
 TX_I,
 TX_Q,
-
+audio_clk_en,
 stage_debug
 );
 
@@ -29,6 +29,7 @@ output reg unsigned [21:0] freq_out=620407;
 output reg preamp_enable=0;
 output reg rx=1;
 output reg tx=0;
+output reg audio_clk_en=0;
 output reg signed [15:0] TX_I=0;
 output reg signed [15:0] TX_Q=0;
 output reg [15:0] stage_debug=0;
@@ -42,23 +43,33 @@ begin
 	//начало передачи
 	if (DATA_SYNC==1)
 	begin
-		if(DATA_IN[3:0]=='d1)
+		if(DATA_IN[3:0]=='d1) //GET PARAMS
 		begin
 			k=100;
 		end
-		if(DATA_IN[3:0]=='d2)
+		if(DATA_IN[3:0]=='d2) //SEND PARAMS
 		begin
 			k=200;
 		end
-		if(DATA_IN[3:0]=='d3)
+		if(DATA_IN[3:0]=='d3) //TX IQ
 		begin
 			k=300;
 		end
-		if(DATA_IN[3:0]=='d4)
+		if(DATA_IN[3:0]=='d4) //RX IQ
 		begin
 			k=400;
 		end
-		if(DATA_IN[3:0]=='b1010)
+		if(DATA_IN[3:0]=='d5) //AUDIO PLL ON
+		begin
+			audio_clk_en=1;
+			k=999;
+		end
+		if(DATA_IN[3:0]=='d6) //AUDIO PLL OFF
+		begin
+			audio_clk_en=0;
+			k=999;
+		end
+		if(DATA_IN[3:0]=='d10) //TEST BUS
 		begin
 			k=500;
 		end

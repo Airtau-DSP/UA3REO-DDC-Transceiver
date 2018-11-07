@@ -116,7 +116,7 @@ void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 	by = _by;
 
 	char dest[100];
-	sprintf(dest, " ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
+	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
 	logToUART1_str(dest);
 }
 

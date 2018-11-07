@@ -28,5 +28,7 @@ void FPGA_fpgadata_getparam(void);
 void FPGA_fpgadata_getiq(void);
 void FPGA_fpgadata_sendiq(void);
 void FPGA_testbus(void);
+extern void FPGA_start_audio_clock(void);
+extern void FPGA_stop_audio_clock(void);
 	
 #endif

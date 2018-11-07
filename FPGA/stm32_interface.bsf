@@ -20,9 +20,9 @@ refer to the applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 256 192)
+	(rect 16 16 256 224)
 	(text "stm32_interface" (rect 5 0 69 12)(font "Arial" ))
-	(text "inst" (rect 8 160 20 172)(font "Arial" ))
+	(text "inst" (rect 8 192 20 204)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -117,11 +117,18 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 240 144)
 		(output)
+		(text "audio_clk_en" (rect 0 0 51 12)(font "Arial" ))
+		(text "audio_clk_en" (rect 168 139 219 151)(font "Arial" ))
+		(line (pt 240 144)(pt 224 144)(line_width 1))
+	)
+	(port
+		(pt 240 160)
+		(output)
 		(text "stage_debug[15..0]" (rect 0 0 74 12)(font "Arial" ))
-		(text "stage_debug[15..0]" (rect 145 139 219 151)(font "Arial" ))
-		(line (pt 240 144)(pt 224 144)(line_width 3))
+		(text "stage_debug[15..0]" (rect 145 155 219 167)(font "Arial" ))
+		(line (pt 240 160)(pt 224 160)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 224 160)(line_width 1))
+		(rectangle (rect 16 16 224 192)(line_width 1))
 	)
 )

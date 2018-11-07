@@ -30,11 +30,42 @@ void FPGA_Init(void)
 {
 	//шина данных STM32-FPGA
 	FPGA_testbus();
+	FPGA_start_audio_clock();
+}
+
+void FPGA_start_audio_clock(void) //запуск PLL для I2S и кодека, при включенном тактовом не программируется i2c
+{
+	FPGA_busy = true;
+	//STAGE 1
+	//out
+	FPGA_writePacket(5);
+	//clock
+	GPIOC->BSRR = FPGA_SYNC_Pin;
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	//clock
+	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+	FPGA_busy = false;
+}
+
+void FPGA_stop_audio_clock(void) //остановка PLL для I2S и кодека, при включенном тактовом не программируется i2c
+{
+	FPGA_busy = true;
+	//STAGE 1
+	//out
+	FPGA_writePacket(6);
+	//clock
+	GPIOC->BSRR = FPGA_SYNC_Pin;
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	//clock
+	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+	FPGA_busy = false;
 }
 
 void FPGA_testbus(void) //проверка целостности шины данных STM32-FPGA
 {
-	logToUART1_str("FPGA Bus ");
+	logToUART1_str("FPGA Bus Test ");
 	
 	FPGA_busy = true;
 	//обмен данными
