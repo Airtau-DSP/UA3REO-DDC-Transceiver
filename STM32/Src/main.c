@@ -164,7 +164,7 @@ int main(void)
 	while (1)
 	{
   /* USER CODE END WHILE */
-		if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_RESET || HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_TIMEOUT || HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_ERROR) start_i2s_dma(); //anti-stuck DMA
+
   /* USER CODE BEGIN 3 */
 	}
   /* USER CODE END 3 */
@@ -180,7 +180,6 @@ void SystemClock_Config(void)
 
   RCC_OscInitTypeDef RCC_OscInitStruct;
   RCC_ClkInitTypeDef RCC_ClkInitStruct;
-  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct;
 
     /**Configure the main internal regulator output voltage 
     */
@@ -217,14 +216,6 @@ void SystemClock_Config(void)
     _Error_Handler(__FILE__, __LINE__);
   }
 
-  PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2S;
-  PeriphClkInitStruct.PLLI2S.PLLI2SN = 384;
-  PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
-  if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
-  {
-    _Error_Handler(__FILE__, __LINE__);
-  }
-
     /**Configure the Systick interrupt time 
     */
   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
@@ -248,7 +239,7 @@ static void MX_I2S3_Init(void)
   hi2s3.Init.MCLKOutput = I2S_MCLKOUTPUT_DISABLE;
   hi2s3.Init.AudioFreq = I2S_AUDIOFREQ_48K;
   hi2s3.Init.CPOL = I2S_CPOL_LOW;
-  hi2s3.Init.ClockSource = I2S_CLOCK_PLL;
+  hi2s3.Init.ClockSource = I2S_CLOCK_EXTERNAL;
   hi2s3.Init.FullDuplexMode = I2S_FULLDUPLEXMODE_ENABLE;
   if (HAL_I2S_Init(&hi2s3) != HAL_OK)
   {
@@ -313,7 +304,7 @@ static void MX_TIM5_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim5.Instance = TIM5;
-  htim5.Init.Prescaler = 880;
+  htim5.Init.Prescaler = 873;
   htim5.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim5.Init.Period = 1;
   htim5.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
@@ -368,7 +359,7 @@ static void MX_TIM7_Init(void)
   TIM_MasterConfigTypeDef sMasterConfig;
 
   htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 880;
+  htim7.Init.Prescaler = 873;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
   htim7.Init.Period = 1;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
@@ -413,8 +404,8 @@ static void MX_USART1_UART_Init(void)
 static void MX_DMA_Init(void) 
 {
   /* DMA controller clock enable */
-  __HAL_RCC_DMA2_CLK_ENABLE();
   __HAL_RCC_DMA1_CLK_ENABLE();
+  __HAL_RCC_DMA2_CLK_ENABLE();
 
   /* Configure DMA request hdma_memtomem_dma2_stream0 on DMA2_Stream0 */
   hdma_memtomem_dma2_stream0.Instance = DMA2_Stream0;
@@ -472,6 +463,7 @@ static void MX_DMA_Init(void)
         * EXTI
         * Free pins are configured automatically as Analog (this feature is enabled through 
         * the Code Generation settings)
+     PC9   ------> I2S_CKIN
 */
 static void MX_GPIO_Init(void)
 {
@@ -520,11 +512,9 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_Init(GPIOE, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PC13 PC14 PC15 PC2 
-                           PC3 PC6 PC7 PC8 
-                           PC9 */
+                           PC3 PC6 PC7 PC8 */
   GPIO_InitStruct.Pin = GPIO_PIN_13|GPIO_PIN_14|GPIO_PIN_15|GPIO_PIN_2 
-                          |GPIO_PIN_3|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8 
-                          |GPIO_PIN_9;
+                          |GPIO_PIN_3|GPIO_PIN_6|GPIO_PIN_7|GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
@@ -581,6 +571,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+  /*Configure GPIO pin : AUDIO_CLOCK_Pin */
+  GPIO_InitStruct.Pin = AUDIO_CLOCK_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
+  HAL_GPIO_Init(AUDIO_CLOCK_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PA8 PA11 PA12 PA13 
                            PA14 */

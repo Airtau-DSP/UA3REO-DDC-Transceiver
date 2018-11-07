@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                                                                                                                                                                                                                                                      ../Drivers/STM32F4xx_HAL_Driver/Inc;                                                                                                                                                                                                                                                      ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                                                                                                                                                                                                                                      ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;                                                                                                                                                                                                                                                      ../Drivers/CMSIS/Include</IncludePath>
+              <IncludePath>../Inc;                                                                                                                                                                                                                                                           ../Drivers/STM32F4xx_HAL_Driver/Inc;                                                                                                                                                                                                                                                           ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                                                                                                                                                                                                                                           ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;                                                                                                                                                                                                                                                           ../Drivers/CMSIS/Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -542,6 +542,11 @@
         <Group>
           <GroupName>Drivers/STM32F4xx_HAL_Driver</GroupName>
           <Files>
+            <File>
+              <FileName>stm32f4xx_hal_rcc_ex.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc_ex.h</FilePath>
+            </File>
             <File>
               <FileName>stm32f4xx_ll_fsmc.c</FileName>
               <FileType>1</FileType>
