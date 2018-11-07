@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2018.11.06.21:03:43"
+ date="2018.11.08.00:05:17"
  outputDirectory="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/">
  <perimeter>
   <parameter
@@ -78,13 +78,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="nco:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1541523822,AUTO_UNIQUE_ID=(altera_nco_ii:17.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=serial,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=12,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=true,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output)"
+   parameterizationKey="nco:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1541621116,AUTO_UNIQUE_ID=(altera_nco_ii:17.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=parallel,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=12,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=false,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output)"
    instancePathKey="nco"
    kind="nco"
    version="1.0"
    name="nco">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1541523822" />
+  <parameter name="AUTO_GENERATION_ID" value="1541621116" />
   <parameter name="AUTO_DEVICE" value="EP4CE22E22C8" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -106,23 +106,11 @@
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_nco_aprid_dxx.v"
-       type="VERILOG"
-       attributes="" />
-   <file
        path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_nco_isdr.v"
        type="VERILOG"
        attributes="" />
    <file
        path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_nco_mob_w.v"
-       type="VERILOG"
-       attributes="" />
-   <file
-       path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_dxx_g.v"
-       type="VERILOG"
-       attributes="" />
-   <file
-       path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_dxx.v"
        type="VERILOG"
        attributes="" />
    <file
@@ -209,21 +197,21 @@
  </entity>
  <entity
    path="submodules/"
-   parameterizationKey="altera_nco_ii:17.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=serial,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=12,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=true,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output"
+   parameterizationKey="altera_nco_ii:17.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=parallel,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=12,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=false,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output"
    instancePathKey="nco:.:nco_ii_0"
    kind="altera_nco_ii"
    version="17.1"
    name="nco_nco_ii_0">
   <parameter name="aprp" value="16" />
   <parameter name="numba" value="1" />
-  <parameter name="cordic_arch" value="serial" />
+  <parameter name="cordic_arch" value="parallel" />
   <parameter name="pmod_pipe" value="1" />
   <parameter name="fsamp" value="50.0" />
   <parameter name="cycles_per_output" value="1" />
   <parameter name="selected_device_family" value="Cyclone IV E" />
   <parameter name="apri" value="22" />
   <parameter name="aprf" value="32" />
-  <parameter name="want_dither" value="true" />
+  <parameter name="want_dither" value="false" />
   <parameter name="hyper_opt_select" value="false" />
   <parameter name="want_phase_mod" value="false" />
   <parameter name="apr" value="22" />
@@ -251,23 +239,11 @@
        type="VERILOG"
        attributes="" />
    <file
-       path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_nco_aprid_dxx.v"
-       type="VERILOG"
-       attributes="" />
-   <file
        path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_nco_isdr.v"
        type="VERILOG"
        attributes="" />
    <file
        path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_nco_mob_w.v"
-       type="VERILOG"
-       attributes="" />
-   <file
-       path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_dxx_g.v"
-       type="VERILOG"
-       attributes="" />
-   <file
-       path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/synthesis/submodules/asj_dxx.v"
        type="VERILOG"
        attributes="" />
    <file

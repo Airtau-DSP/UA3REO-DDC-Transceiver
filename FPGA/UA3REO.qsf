@@ -210,7 +210,6 @@ set_global_assignment -name SDC_FILE SDC.sdc
 set_global_assignment -name QIP_FILE mixer.qip
 set_global_assignment -name BDF_FILE UA3REO.bdf
 set_global_assignment -name VERILOG_FILE stm32_interface.v
-set_global_assignment -name VERILOG_FILE mixer.v
 set_global_assignment -name QIP_FILE mux16.qip
 set_global_assignment -name QIP_FILE tx_mixer.qip
 set_global_assignment -name QIP_FILE tx_summator.qip

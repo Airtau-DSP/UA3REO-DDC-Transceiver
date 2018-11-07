@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="cic" kind="system" version="17.1" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.11.06.21:11:56 -->
+ <!-- 2018.11.07.23:56:42 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1541524316</value>
+  <value>1541620602</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -258,7 +258,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="IN_WIDTH">
    <type>int</type>
-   <value>24</value>
+   <value>16</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -274,7 +274,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="ROUND_TYPE">
    <type>java.lang.String</type>
-   <value>TRUNCATE</value>
+   <value>CONV_ROUND</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -362,7 +362,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_0_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -370,7 +370,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_0_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -378,7 +378,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_1_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -386,7 +386,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_1_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -394,7 +394,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_2_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -402,7 +402,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_2_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -410,7 +410,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_3_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -418,7 +418,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_3_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -426,7 +426,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_4_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -434,7 +434,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_4_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -442,7 +442,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_5_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -450,7 +450,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_5_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -458,7 +458,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_6_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -466,7 +466,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_6_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -474,7 +474,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_7_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -482,7 +482,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_7_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -490,7 +490,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_8_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -498,7 +498,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_8_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -506,7 +506,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_9_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -514,7 +514,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_9_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -522,7 +522,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_10_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -530,7 +530,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_10_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -538,7 +538,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="C_STAGE_11_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -546,7 +546,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="I_STAGE_11_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -554,7 +554,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MAX_I_STAGE_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -562,7 +562,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="MAX_C_STAGE_WIDTH">
    <type>int</type>
-   <value>79</value>
+   <value>71</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -749,7 +749,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>in_data</name>
     <direction>Input</direction>
-    <width>24</width>
+    <width>16</width>
     <role>in_data</role>
    </port>
   </interface>
@@ -854,5 +854,5 @@ parameters are a RESULT of the module parameters. -->
   <version>17.1</version>
  </plugin>
  <reportVersion>17.1 593</reportVersion>
- <uniqueIdentifier>00FF3199AA1600000166EA026234</uniqueIdentifier>
+ <uniqueIdentifier>00FF3199AA1600000166EFBF966D</uniqueIdentifier>
 </EnsembleReport>

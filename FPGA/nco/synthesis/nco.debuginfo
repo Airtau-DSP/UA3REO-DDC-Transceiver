@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="system" version="17.1" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.11.06.21:03:43 -->
+ <!-- 2018.11.08.00:05:17 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1541523822</value>
+  <value>1541621116</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -234,7 +234,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="cordic_arch">
    <type>java.lang.String</type>
-   <value>serial</value>
+   <value>parallel</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>false</visible>
@@ -258,7 +258,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="want_dither">
    <type>boolean</type>
-   <value>true</value>
+   <value>false</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -268,7 +268,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>10</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -620,5 +620,5 @@ parameters are a RESULT of the module parameters. -->
   <version>17.1</version>
  </plugin>
  <reportVersion>17.1 593</reportVersion>
- <uniqueIdentifier>00FF3199AA1600000166E9FAD998</uniqueIdentifier>
+ <uniqueIdentifier>00FF3199AA1600000166EFC770A0</uniqueIdentifier>
 </EnsembleReport>

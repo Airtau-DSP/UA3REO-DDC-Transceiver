@@ -44,7 +44,7 @@ parameter rcfc = "nco_nco_ii_0_cos_c.hex";
 parameter rcff = "nco_nco_ii_0_cos_f.hex";
 parameter nc = 1;
 parameter log2nc =0;
-parameter outselinit = -1;
+parameter outselinit = 0;
 parameter paci0= 0;
 parameter paci1= 0;
 parameter paci2= 0;
@@ -83,10 +83,6 @@ wire [rawc-1:0] raxxx000m;
 wire [rawf-1:0] raxxx000l;
 wire [rawc-1:0] raxxx001m;
 wire [rawf-1:0] raxxx001l;
-wire [aprid-1:0] phi_acc_w_d;
-wire [aprid-1:0] phi_acc_w_di;
-wire [dpri-1:0]  rval_w_d;
-wire [dpri-1:0]  rval_w;
 wire [opr-1:0] result_i;	
 wire [opr-1:0] result_r;	
 wire [mpr-1:0] fsin_o_w;	
@@ -113,8 +109,6 @@ reg [mpr-1:0] fcos_o_w_reg [2-1:0];
 wire [mpr-1:0] fcos_o_w_pipelined;
 reg [opr-1:0] result_r_reg [1-1:0];
 wire [opr-1:0] result_r_pipelined;
-reg [aprid-1:0] phi_acc_w_d_reg [1-1:0];
-wire [aprid-1:0] phi_acc_w_d_pipelined;
 reg [mpr-1:0] rcx_c_reg [2-1:0];
 wire [mpr-1:0] rcx_c_pipelined;
 reg [mpr-1:0] rfx_c_reg [2-1:0];
@@ -241,18 +235,6 @@ endgenerate
 generate
   if (hyper_pipeline == 1) begin
     always @ (posedge clk) begin
-      phi_acc_w_d_reg[0] <= phi_acc_w_d;
-    end
-    assign phi_acc_w_d_pipelined = phi_acc_w_d_reg[1-1];
-  end
-  else begin
-    assign phi_acc_w_d_pipelined = phi_acc_w_d; // pipeline for this signal is disabled
-  end
-endgenerate
-// Pipeline block
-generate
-  if (hyper_pipeline == 1) begin
-    always @ (posedge clk) begin
       rcx_c_reg[0] <= rcx_c;
       for (i = 1; i < 2; i=i+1) begin
         rcx_c_reg[i] <= rcx_c_reg[i-1];
@@ -333,35 +315,11 @@ defparam ux000.paci5 = paci5 ;
 defparam ux000.paci6 = paci6 ;
 defparam ux000.paci7 = paci7 ;
 
-asj_dxx_g ux001(.clk(clk),
-            .clken(clken_pipelined),
-              .reset(reset_pipelined),
-              .dxxrv(rval_w_d)
-              );
-defparam ux001.dpri = dpri;
-assign rval_w = rval_w_d;
-asj_dxx ux002(.clk(clk),
-            .clken(clken_pipelined),
-	         .reset(reset_pipelined),
-            .dxxpdi(phi_acc_w_di),
-            .rval(rval_w),
-            .dxxpdo(phi_acc_w_d)
-           );
-
-defparam ux002.aprid = aprid;
-defparam ux002.dpri = dpri;
-
-asj_nco_aprid_dxx ux0219(.pcc_w(phi_acc_w),
-                         .pcc_d(phi_acc_w_di)
-                         );
-defparam ux0219.apr = apr;
-defparam ux0219.aprid = aprid;
-
 
 asj_gam_dp ux008( .clk(clk),
                    .reset(reset_pipelined),
                    .clken(clken_pipelined),
-                   .phi_acc_w(phi_acc_w_d_pipelined[aprid-1:aprid-rawc-rawf]),
+                   .phi_acc_w(phi_acc_w[apr-1:apr-rawc-rawf]),
                    .rom_add_cs(raxxx001ms),
                    .rom_add_cc(raxxx001mc),
                    .rom_add_f(raxxx001l)
@@ -468,7 +426,7 @@ asj_nco_isdr ux710isdr(.clk(clk),
                     .clken(clken_pipelined),
                     .data_ready(out_valid_w)
                     );
-defparam ux710isdr.ctc=10;
+defparam ux710isdr.ctc=8;
 defparam ux710isdr.cpr=4;
 assign out_valid = out_valid_w_pipelined;
 

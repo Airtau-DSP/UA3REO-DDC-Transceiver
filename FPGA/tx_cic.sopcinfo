@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="tx_cic" kind="tx_cic" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.11.07.22:19:46 -->
+ <!-- 2018.11.08.00:06:59 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1541614786</value>
+  <value>1541621219</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -222,7 +222,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="ROUND_TYPE">
    <type>java.lang.String</type>
-   <value>TRUNCATE</value>
+   <value>CONV_ROUND</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>

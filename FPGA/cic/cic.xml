@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2018.11.06.21:11:56"
+ date="2018.11.07.23:56:42"
  outputDirectory="D:/Dropbox/Develop/Projects/UA3REO/FPGA/cic/">
  <perimeter>
   <parameter
@@ -57,7 +57,7 @@
    <port name="in_error" direction="input" role="error" width="2" />
    <port name="in_valid" direction="input" role="valid" width="1" />
    <port name="in_ready" direction="output" role="ready" width="1" />
-   <port name="in_data" direction="input" role="in_data" width="24" />
+   <port name="in_data" direction="input" role="in_data" width="16" />
   </interface>
   <interface name="av_st_out" kind="conduit" start="0">
    <property name="associatedClock" value="clock" />
@@ -81,7 +81,7 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="cic:1.0:AUTO_CLOCK_CLOCK_DOMAIN=-1,AUTO_CLOCK_CLOCK_RATE=-1,AUTO_CLOCK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1541524316,AUTO_UNIQUE_ID=(altera_cic_ii:17.1:CH_PER_INT=1,CLK_EN_PORT=false,C_STAGE_0_WIDTH=79,C_STAGE_10_WIDTH=79,C_STAGE_11_WIDTH=79,C_STAGE_1_WIDTH=79,C_STAGE_2_WIDTH=79,C_STAGE_3_WIDTH=79,C_STAGE_4_WIDTH=79,C_STAGE_5_WIDTH=79,C_STAGE_6_WIDTH=79,C_STAGE_7_WIDTH=79,C_STAGE_8_WIDTH=79,C_STAGE_9_WIDTH=79,DIF_MEM=auto,DIF_USE_MEM=false,D_DELAY=1,FILTER_TYPE=decimator,INTERFACES=1,INT_MEM=auto,INT_USE_MEM=false,IN_WIDTH=24,I_STAGE_0_WIDTH=79,I_STAGE_10_WIDTH=79,I_STAGE_11_WIDTH=79,I_STAGE_1_WIDTH=79,I_STAGE_2_WIDTH=79,I_STAGE_3_WIDTH=79,I_STAGE_4_WIDTH=79,I_STAGE_5_WIDTH=79,I_STAGE_6_WIDTH=79,I_STAGE_7_WIDTH=79,I_STAGE_8_WIDTH=79,I_STAGE_9_WIDTH=79,MAX_C_STAGE_WIDTH=79,MAX_I_STAGE_WIDTH=79,OUT_WIDTH=16,PIPELINING=0,RCF_FIX=521,RCF_LB=8,RCF_MAX=521,RCF_MIN=521,RCF_UB=21,REQ_DIF_MEM=logic_element,REQ_INT_MEM=logic_element,REQ_OUT_WIDTH=16,REQ_PIPELINE=0,ROUND_TYPE=TRUNCATE,STAGES=6,VRC_EN=0,design_env=NATIVE,hyper_opt=0,hyper_opt_select=0,selected_device_family=Cyclone IV E)"
+   parameterizationKey="cic:1.0:AUTO_CLOCK_CLOCK_DOMAIN=-1,AUTO_CLOCK_CLOCK_RATE=-1,AUTO_CLOCK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1541620602,AUTO_UNIQUE_ID=(altera_cic_ii:17.1:CH_PER_INT=1,CLK_EN_PORT=false,C_STAGE_0_WIDTH=71,C_STAGE_10_WIDTH=71,C_STAGE_11_WIDTH=71,C_STAGE_1_WIDTH=71,C_STAGE_2_WIDTH=71,C_STAGE_3_WIDTH=71,C_STAGE_4_WIDTH=71,C_STAGE_5_WIDTH=71,C_STAGE_6_WIDTH=71,C_STAGE_7_WIDTH=71,C_STAGE_8_WIDTH=71,C_STAGE_9_WIDTH=71,DIF_MEM=auto,DIF_USE_MEM=false,D_DELAY=1,FILTER_TYPE=decimator,INTERFACES=1,INT_MEM=auto,INT_USE_MEM=false,IN_WIDTH=16,I_STAGE_0_WIDTH=71,I_STAGE_10_WIDTH=71,I_STAGE_11_WIDTH=71,I_STAGE_1_WIDTH=71,I_STAGE_2_WIDTH=71,I_STAGE_3_WIDTH=71,I_STAGE_4_WIDTH=71,I_STAGE_5_WIDTH=71,I_STAGE_6_WIDTH=71,I_STAGE_7_WIDTH=71,I_STAGE_8_WIDTH=71,I_STAGE_9_WIDTH=71,MAX_C_STAGE_WIDTH=71,MAX_I_STAGE_WIDTH=71,OUT_WIDTH=16,PIPELINING=0,RCF_FIX=521,RCF_LB=8,RCF_MAX=521,RCF_MIN=521,RCF_UB=21,REQ_DIF_MEM=logic_element,REQ_INT_MEM=logic_element,REQ_OUT_WIDTH=16,REQ_PIPELINE=0,ROUND_TYPE=CONV_ROUND,STAGES=6,VRC_EN=0,design_env=NATIVE,hyper_opt=0,hyper_opt_select=0,selected_device_family=Cyclone IV E)"
    instancePathKey="cic"
    kind="cic"
    version="1.0"
@@ -89,7 +89,7 @@
   <parameter name="AUTO_CLOCK_CLOCK_RATE" value="-1" />
   <parameter name="AUTO_CLOCK_CLOCK_DOMAIN" value="-1" />
   <parameter name="AUTO_CLOCK_RESET_DOMAIN" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1541524316" />
+  <parameter name="AUTO_GENERATION_ID" value="1541620602" />
   <parameter name="AUTO_DEVICE" value="EP4CE22E22C8" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_UNIQUE_ID" value="" />
@@ -246,65 +246,65 @@
  </entity>
  <entity
    path="submodules/"
-   parameterizationKey="altera_cic_ii:17.1:CH_PER_INT=1,CLK_EN_PORT=false,C_STAGE_0_WIDTH=79,C_STAGE_10_WIDTH=79,C_STAGE_11_WIDTH=79,C_STAGE_1_WIDTH=79,C_STAGE_2_WIDTH=79,C_STAGE_3_WIDTH=79,C_STAGE_4_WIDTH=79,C_STAGE_5_WIDTH=79,C_STAGE_6_WIDTH=79,C_STAGE_7_WIDTH=79,C_STAGE_8_WIDTH=79,C_STAGE_9_WIDTH=79,DIF_MEM=auto,DIF_USE_MEM=false,D_DELAY=1,FILTER_TYPE=decimator,INTERFACES=1,INT_MEM=auto,INT_USE_MEM=false,IN_WIDTH=24,I_STAGE_0_WIDTH=79,I_STAGE_10_WIDTH=79,I_STAGE_11_WIDTH=79,I_STAGE_1_WIDTH=79,I_STAGE_2_WIDTH=79,I_STAGE_3_WIDTH=79,I_STAGE_4_WIDTH=79,I_STAGE_5_WIDTH=79,I_STAGE_6_WIDTH=79,I_STAGE_7_WIDTH=79,I_STAGE_8_WIDTH=79,I_STAGE_9_WIDTH=79,MAX_C_STAGE_WIDTH=79,MAX_I_STAGE_WIDTH=79,OUT_WIDTH=16,PIPELINING=0,RCF_FIX=521,RCF_LB=8,RCF_MAX=521,RCF_MIN=521,RCF_UB=21,REQ_DIF_MEM=logic_element,REQ_INT_MEM=logic_element,REQ_OUT_WIDTH=16,REQ_PIPELINE=0,ROUND_TYPE=TRUNCATE,STAGES=6,VRC_EN=0,design_env=NATIVE,hyper_opt=0,hyper_opt_select=0,selected_device_family=Cyclone IV E"
+   parameterizationKey="altera_cic_ii:17.1:CH_PER_INT=1,CLK_EN_PORT=false,C_STAGE_0_WIDTH=71,C_STAGE_10_WIDTH=71,C_STAGE_11_WIDTH=71,C_STAGE_1_WIDTH=71,C_STAGE_2_WIDTH=71,C_STAGE_3_WIDTH=71,C_STAGE_4_WIDTH=71,C_STAGE_5_WIDTH=71,C_STAGE_6_WIDTH=71,C_STAGE_7_WIDTH=71,C_STAGE_8_WIDTH=71,C_STAGE_9_WIDTH=71,DIF_MEM=auto,DIF_USE_MEM=false,D_DELAY=1,FILTER_TYPE=decimator,INTERFACES=1,INT_MEM=auto,INT_USE_MEM=false,IN_WIDTH=16,I_STAGE_0_WIDTH=71,I_STAGE_10_WIDTH=71,I_STAGE_11_WIDTH=71,I_STAGE_1_WIDTH=71,I_STAGE_2_WIDTH=71,I_STAGE_3_WIDTH=71,I_STAGE_4_WIDTH=71,I_STAGE_5_WIDTH=71,I_STAGE_6_WIDTH=71,I_STAGE_7_WIDTH=71,I_STAGE_8_WIDTH=71,I_STAGE_9_WIDTH=71,MAX_C_STAGE_WIDTH=71,MAX_I_STAGE_WIDTH=71,OUT_WIDTH=16,PIPELINING=0,RCF_FIX=521,RCF_LB=8,RCF_MAX=521,RCF_MIN=521,RCF_UB=21,REQ_DIF_MEM=logic_element,REQ_INT_MEM=logic_element,REQ_OUT_WIDTH=16,REQ_PIPELINE=0,ROUND_TYPE=CONV_ROUND,STAGES=6,VRC_EN=0,design_env=NATIVE,hyper_opt=0,hyper_opt_select=0,selected_device_family=Cyclone IV E"
    instancePathKey="cic:.:cic_ii_0"
    kind="altera_cic_ii"
    version="17.1"
    name="cic_cic_ii_0">
   <parameter name="VRC_EN" value="0" />
   <parameter name="D_DELAY" value="1" />
-  <parameter name="C_STAGE_6_WIDTH" value="79" />
-  <parameter name="I_STAGE_10_WIDTH" value="79" />
-  <parameter name="C_STAGE_2_WIDTH" value="79" />
-  <parameter name="I_STAGE_5_WIDTH" value="79" />
-  <parameter name="ROUND_TYPE" value="TRUNCATE" />
+  <parameter name="C_STAGE_6_WIDTH" value="71" />
+  <parameter name="I_STAGE_10_WIDTH" value="71" />
+  <parameter name="C_STAGE_2_WIDTH" value="71" />
+  <parameter name="I_STAGE_5_WIDTH" value="71" />
+  <parameter name="ROUND_TYPE" value="CONV_ROUND" />
   <parameter name="REQ_DIF_MEM" value="logic_element" />
   <parameter name="DIF_MEM" value="auto" />
-  <parameter name="I_STAGE_2_WIDTH" value="79" />
-  <parameter name="MAX_I_STAGE_WIDTH" value="79" />
-  <parameter name="C_STAGE_5_WIDTH" value="79" />
+  <parameter name="I_STAGE_2_WIDTH" value="71" />
+  <parameter name="MAX_I_STAGE_WIDTH" value="71" />
+  <parameter name="C_STAGE_5_WIDTH" value="71" />
   <parameter name="RCF_MAX" value="521" />
   <parameter name="hyper_opt" value="0" />
   <parameter name="OUT_WIDTH" value="16" />
-  <parameter name="I_STAGE_6_WIDTH" value="79" />
-  <parameter name="I_STAGE_9_WIDTH" value="79" />
+  <parameter name="I_STAGE_6_WIDTH" value="71" />
+  <parameter name="I_STAGE_9_WIDTH" value="71" />
   <parameter name="FILTER_TYPE" value="decimator" />
   <parameter name="design_env" value="NATIVE" />
-  <parameter name="C_STAGE_1_WIDTH" value="79" />
-  <parameter name="C_STAGE_7_WIDTH" value="79" />
+  <parameter name="C_STAGE_1_WIDTH" value="71" />
+  <parameter name="C_STAGE_7_WIDTH" value="71" />
   <parameter name="RCF_MIN" value="521" />
   <parameter name="REQ_OUT_WIDTH" value="16" />
-  <parameter name="I_STAGE_3_WIDTH" value="79" />
-  <parameter name="C_STAGE_4_WIDTH" value="79" />
+  <parameter name="I_STAGE_3_WIDTH" value="71" />
+  <parameter name="C_STAGE_4_WIDTH" value="71" />
   <parameter name="INT_USE_MEM" value="false" />
-  <parameter name="C_STAGE_10_WIDTH" value="79" />
+  <parameter name="C_STAGE_10_WIDTH" value="71" />
   <parameter name="INT_MEM" value="auto" />
-  <parameter name="I_STAGE_0_WIDTH" value="79" />
+  <parameter name="I_STAGE_0_WIDTH" value="71" />
   <parameter name="selected_device_family" value="Cyclone IV E" />
   <parameter name="hyper_opt_select" value="0" />
-  <parameter name="I_STAGE_7_WIDTH" value="79" />
+  <parameter name="I_STAGE_7_WIDTH" value="71" />
   <parameter name="REQ_INT_MEM" value="logic_element" />
-  <parameter name="C_STAGE_8_WIDTH" value="79" />
+  <parameter name="C_STAGE_8_WIDTH" value="71" />
   <parameter name="STAGES" value="6" />
   <parameter name="CLK_EN_PORT" value="false" />
   <parameter name="CH_PER_INT" value="1" />
-  <parameter name="C_STAGE_0_WIDTH" value="79" />
+  <parameter name="C_STAGE_0_WIDTH" value="71" />
   <parameter name="PIPELINING" value="0" />
   <parameter name="REQ_PIPELINE" value="0" />
-  <parameter name="I_STAGE_4_WIDTH" value="79" />
-  <parameter name="IN_WIDTH" value="24" />
-  <parameter name="C_STAGE_11_WIDTH" value="79" />
+  <parameter name="I_STAGE_4_WIDTH" value="71" />
+  <parameter name="IN_WIDTH" value="16" />
+  <parameter name="C_STAGE_11_WIDTH" value="71" />
   <parameter name="RCF_UB" value="21" />
-  <parameter name="I_STAGE_11_WIDTH" value="79" />
-  <parameter name="C_STAGE_3_WIDTH" value="79" />
-  <parameter name="I_STAGE_1_WIDTH" value="79" />
+  <parameter name="I_STAGE_11_WIDTH" value="71" />
+  <parameter name="C_STAGE_3_WIDTH" value="71" />
+  <parameter name="I_STAGE_1_WIDTH" value="71" />
   <parameter name="RCF_FIX" value="521" />
-  <parameter name="I_STAGE_8_WIDTH" value="79" />
-  <parameter name="MAX_C_STAGE_WIDTH" value="79" />
+  <parameter name="I_STAGE_8_WIDTH" value="71" />
+  <parameter name="MAX_C_STAGE_WIDTH" value="71" />
   <parameter name="INTERFACES" value="1" />
   <parameter name="DIF_USE_MEM" value="false" />
   <parameter name="RCF_LB" value="8" />
-  <parameter name="C_STAGE_9_WIDTH" value="79" />
+  <parameter name="C_STAGE_9_WIDTH" value="71" />
   <generatedFiles>
    <file
        path="D:/Dropbox/Develop/Projects/UA3REO/FPGA/cic/synthesis/submodules/auk_dspip_math_pkg.vhd"
