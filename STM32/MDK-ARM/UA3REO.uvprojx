@@ -513,16 +513,6 @@
               <FilePath>..\Src\agc.h</FilePath>
             </File>
             <File>
-              <FileName>notch_filter.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\notch_filter.c</FilePath>
-            </File>
-            <File>
-              <FileName>notch_filter.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\notch_filter.h</FilePath>
-            </File>
-            <File>
               <FileName>settings.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\settings.c</FilePath>

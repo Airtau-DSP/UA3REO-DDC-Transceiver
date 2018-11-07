@@ -83,7 +83,12 @@ void logToUART1_int16(int16_t data)
 	sprintf(tmp, "%d\r\n", data);
 	logToUART1_str(tmp);
 }
-
+void logToUART1_int32(int32_t data)
+{
+	char tmp[50] = "";
+	sprintf(tmp, "%d\r\n", data);
+	logToUART1_str(tmp);
+}
 void logToUART1_num32(uint32_t data)
 {
 	char tmp[50] = "";

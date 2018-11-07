@@ -49,6 +49,7 @@ void logToUART1_numinline(uint8_t data);
 void logToUART1_num16(uint16_t data);
 void logToUART1_num32(uint32_t data);
 void logToUART1_int16(int16_t data);
+void logToUART1_int32(int32_t data);
 void logToUART1_float32(float32_t data);
 void delay_us(uint32_t us);
 float log10f_fast(float X);

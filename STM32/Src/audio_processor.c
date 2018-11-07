@@ -11,7 +11,6 @@
 #include "functions.h"
 #include "audio_filters.h"
 #include "agc.h"
-#include "notch_filter.h"
 #include "settings.h"
 
 uint32_t AUDIOPROC_samples = 0;
@@ -27,24 +26,19 @@ float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
 uint16_t block = 0;
 
-uint16_t fpga_index_copy = 0;
+int32_t prev_value_i=0;
+int32_t prev_value_q=0;
+int32_t prev_value_diff=0;
 
 void initAudioProcessor(void)
 {
 	arm_fir_init_f32(&FIR_RX_Hilbert_I, IQ_RX_HILBERT_TAPS, (float32_t *)&i_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
 	arm_fir_init_f32(&FIR_RX_Hilbert_Q, IQ_RX_HILBERT_TAPS, (float32_t *)&q_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
-	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); //
-	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); //
+	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
+	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
 
-	arm_fir_init_f32(&FIR_RX_LPF, FIR_LPF_Taps, (float32_t *)&FIR_2k7_LPF, (float32_t *)&Fir_Rx_LPF_State[0], APROCESSOR_BLOCK_SIZE); // LPF 2.7kHz
+	arm_fir_init_f32(&FIR_RX_SSB_LPF, FIR_RX_SSB_LPF_Taps, (float32_t *)&FIR_RX_SSB_LPF_2k7_coeffs, (float32_t *)&FIR_RX_SSB_LPF_State[0], APROCESSOR_BLOCK_SIZE); // SSB LPF 2.7kHz
 
-	arm_fill_f32(0.0, iir_rx_state, IIR_2k7_MAXnumStages + FPGA_AUDIO_BUFFER_SIZE);
-	IIR_2k7_LPF.pState = iir_rx_state;
-
-	arm_fill_f32(0.0, IIR_aa_state, IIR_aa_5k_numStages + FPGA_AUDIO_BUFFER_SIZE);
-	IIR_aa_5k.pState = IIR_aa_state;
-
-	//InitNotchFilter();
 	SetupAgcWdsp(); //AGC
 }
 
@@ -65,7 +59,7 @@ void processTxAudio(void)
 		
 		for (block = 0; block < numBlocks; block++)
 		{
-			arm_fir_f32(&FIR_RX_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE); //FIR LPF
+			arm_fir_f32(&FIR_RX_SSB_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE); //FIR LPF
 		}
 		
 		switch (TRX_getMode())
@@ -112,7 +106,7 @@ void processRxAudio(void)
 {
 	if (!Processor_NeedBuffer) return;
 	AUDIOPROC_samples++;
-	
+	//logToUART1_num32(FPGA_Audio_Buffer_Index);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_Q[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_I[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 		
@@ -135,12 +129,9 @@ void processRxAudio(void)
 		}
 		for (block = 0; block < numBlocks; block++)
 		{
-			arm_fir_f32(&FIR_RX_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //FIR LPF
+			arm_fir_f32(&FIR_RX_SSB_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //FIR LPF
 			if (TRX.Agc) RxAgcWdsp(APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE)); //AGC
-			//NotchFilter(APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I+(block*APROCESSOR_BLOCK_SIZE));     //NotchFilter
-			if (!TRX.Agc && TRX.Gain_level > 1) arm_scale_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), TRX.Gain_level, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //GAIN
-			arm_biquad_cascade_df1_f32(&IIR_biquad, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); // this is the biquad filter, a notch, peak, and lowshelf filter
-			arm_iir_lattice_f32(&IIR_aa_5k, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); // IIR ARMA-type lattice filter
+			if (!TRX.Agc && TRX.Gain_level > 1) arm_scale_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), TRX.Gain_level, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE);
 		}
 
 		if (Processor_AudioBuffer_ReadyBuffer == 0)
@@ -167,7 +158,7 @@ void processRxAudio(void)
 	{
 		if (TRX.Gain_level > 1) arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.Gain_level, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN
 		if (TRX.Gain_level > 1) arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.Gain_level, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN
-
+		
 		if (Processor_AudioBuffer_ReadyBuffer == 0)
 		{
 			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
