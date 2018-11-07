@@ -58,6 +58,10 @@ begin
 		begin
 			k=400;
 		end
+		if(DATA_IN[3:0]=='b1010)
+		begin
+			k=500;
+		end
 	end
 	else if (k==100) //GET PARAMS
 	begin
@@ -196,6 +200,26 @@ begin
 	else if (k==407)
 	begin
 		DATA_OUT[3:0]=I_HOLD[3:0];
+		k=999;
+	end
+	else if (k==500) //TEST BUS
+	begin
+		DATA_OUT[3:0]=DATA_IN[3:0];
+		k=501;
+	end
+	else if (k==501)
+	begin
+		DATA_OUT[3:0]=DATA_IN[3:0];
+		k=502;
+	end
+	else if (k==502)
+	begin
+		DATA_OUT[3:0]=DATA_IN[3:0];
+		k=503;
+	end
+	else if (k==503)
+	begin
+		DATA_OUT[3:0]=DATA_IN[3:0];
 		k=999;
 	end
 	stage_debug=k;

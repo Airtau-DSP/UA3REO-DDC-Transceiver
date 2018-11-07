@@ -187,6 +187,8 @@ set_global_assignment -name TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS OFF
 set_global_assignment -name OPTIMIZATION_MODE "AGGRESSIVE PERFORMANCE"
 set_global_assignment -name AUTO_RAM_TO_LCELL_CONVERSION ON
 
+set_location_assignment PIN_50 -to AUDIO_CLOCK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_CLOCK
 set_global_assignment -name VERILOG_FILE tx_ciccomp.v
 set_global_assignment -name VERILOG_FILE rx_ciccomp.v
 set_global_assignment -name QSYS_FILE DEBUG_STAGE.qsys

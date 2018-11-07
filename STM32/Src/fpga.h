@@ -27,5 +27,6 @@ void FPGA_fpgadata_sendparam(void);
 void FPGA_fpgadata_getparam(void);
 void FPGA_fpgadata_getiq(void);
 void FPGA_fpgadata_sendiq(void);
-
+void FPGA_testbus(void);
+	
 #endif

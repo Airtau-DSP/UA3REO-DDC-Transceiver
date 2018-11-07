@@ -29,7 +29,93 @@ bool FPGA_NeedGetParams = false;
 void FPGA_Init(void)
 {
 	//шина данных STM32-FPGA
-	//logToUART1_str("FPGA Bus Inited\r\n");
+	FPGA_testbus();
+}
+
+void FPGA_testbus(void) //проверка целостности шины данных STM32-FPGA
+{
+	logToUART1_str("FPGA Bus ");
+	
+	FPGA_busy = true;
+	//обмен данными
+
+	//STAGE 1
+	//out
+	FPGA_writePacket(B8(00001010));
+	//clock
+	GPIOC->BSRR = FPGA_SYNC_Pin;
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	//clock
+	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+	
+	//STAGE 2
+	//out
+	FPGA_writePacket(B8(00000001));
+	//clock
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	if(FPGA_fpgadata_in_tmp8!=B8(00000001))
+	{
+		logToUART1_str("ERROR 0 PIN\r\n");
+		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		return;
+	}
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+
+	//STAGE 3
+	//out
+	FPGA_writePacket(B8(00000010));
+	//clock
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	if(FPGA_fpgadata_in_tmp8!=B8(00000010))
+	{
+		logToUART1_str("ERROR 1 PIN\r\n");
+		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		return;
+	}
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+
+	//STAGE 4
+	//out
+	FPGA_writePacket(B8(00000100));
+	//clock
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	if(FPGA_fpgadata_in_tmp8!=B8(00000100))
+	{
+		logToUART1_str("ERROR 2 PIN\r\n");
+		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		return;
+	}
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	//STAGE 5
+	//out
+	FPGA_writePacket(B8(00001000));
+	//clock
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	if(FPGA_fpgadata_in_tmp8!=B8(00001000))
+	{
+		logToUART1_str("ERROR 3 PIN\r\n");
+		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		return;
+	}
+	//clock
+	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	
+	FPGA_busy = false;
+	
+	logToUART1_str("OK\r\n");
 }
 
 void FPGA_fpgadata_clock(void)
