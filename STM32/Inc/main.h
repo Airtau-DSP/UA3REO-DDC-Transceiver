@@ -83,6 +83,7 @@
 #define PTT_IN_EXTI_IRQn EXTI4_IRQn
 #define LED_PEN_Pin GPIO_PIN_5
 #define LED_PEN_GPIO_Port GPIOC
+#define LED_PEN_EXTI_IRQn EXTI9_5_IRQn
 #define W26Q16_CS_Pin GPIO_PIN_0
 #define W26Q16_CS_GPIO_Port GPIOB
 #define LED_BL_Pin GPIO_PIN_1

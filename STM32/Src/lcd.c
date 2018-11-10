@@ -261,7 +261,6 @@ void LCD_doEvents(void)
 {
 	if(LCD_busy) return;
 	LCD_busy=true;
-	LCD_checkTouchPad();
 	LCD_displayFreqInfo(true);
 	LCD_displayStatusInfoBar();
 	if (LCD_needRedrawMainMenu) {
