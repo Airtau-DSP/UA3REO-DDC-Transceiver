@@ -132,7 +132,7 @@ void i2c_shift_out(uint8_t val) {
 	for (i = 0; i < 8; i++) {
 
 		I2C_DELAY;
-		HAL_GPIO_WritePin(I2C_SDA_PORT, I2C_SDA_PIN, !!(val & (1 << (7 - i))));
+		HAL_GPIO_WritePin(I2C_SDA_PORT, I2C_SDA_PIN, (GPIO_PinState)!!(val & (1 << (7 - i))));
 		GPIO_InitStruct.Pin = I2C_SDA_PIN;
 		GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
 		GPIO_InitStruct.Pull = GPIO_PULLUP;
