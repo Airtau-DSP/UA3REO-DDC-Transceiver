@@ -14,8 +14,8 @@ uint32_t LCD_last_showed_freq = 0;
 uint8_t LCD_menu_main_index = 1;
 bool LCD_needRedrawMainMenu = false;
 int LCD_last_s_meter = 1;
-
 bool LCD_busy = false;
+bool LCD_pressed = false;
 
 void LCD_Init(void)
 {
@@ -273,22 +273,25 @@ void LCD_doEvents(void)
 
 void LCD_checkTouchPad(void)
 {
-	if (!isTouch()) return;
+	if (!isTouch())
+	{
+		LCD_pressed=false;
+		return;
+	}
+	if(LCD_pressed) return;
+	LCD_pressed=true;
 	uint16_t x = 0;
 	uint16_t y = 0;
 	Get_Touch_XY(&x, &y, 1, 0);
 	char dest[100];
 	sprintf(dest, "Touchpad x = %d  y = %d\r\n", x, y);
 	logToUART1_str(dest);
-	//ILI9341_DrawPixel(touch_x,touch_y,COLOR_RED);
-
-	while (isTouch()) {}
 
 	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened)
 	{
-		if (x >= 5 && x <= 75 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_LSB); LCD_displayTopButtons(true); } //кнопка LSB
-		if (x >= 80 && x <= 150 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_USB); LCD_displayTopButtons(true); } //кнопка USB
-		if (x >= 155 && x <= 225 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_IQ); LCD_displayTopButtons(true); } //кнопка IQ
+		if (x >= 5 && x <= 75 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_LSB); LCD_displayTopButtons(false); } //кнопка LSB
+		if (x >= 80 && x <= 150 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_USB); LCD_displayTopButtons(false); } //кнопка USB
+		if (x >= 155 && x <= 225 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_IQ); LCD_displayTopButtons(false); } //кнопка IQ
 		if (x >= 245 && x <= 315 && y >= 5 && y <= 35) {
 			LCD_bandMenuOpened = true;  //кнопка BAND
 			LCD_displayTopButtons(true);
