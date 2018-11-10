@@ -28,17 +28,25 @@ void FFT_doFFT(void)
 {
 	if(FFTInputBufferInProgress) //B in progress
 	{
-		/* Process the data through the CFFT/CIFFT module */
+		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
+		{
+			double multiplier = 0.5 * (1 - cos(2*PI*i/FFT_SIZE));
+			FFTInput_A[i*2] = multiplier * FFTInput_A[i*2];
+			FFTInput_A[i*2+1] = multiplier * FFTInput_A[i*2+1];
+		}
 		arm_cfft_f32(S, FFTInput_A, 0, 1);
-		/* Process the data through the Complex Magnitude Module for calculating the magnitude at each bin */
-		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
 	}
 	else //A in progress
 	{
-		/* Process the data through the CFFT/CIFFT module */
+		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
+		{
+			double multiplier = 0.5 * (1 - cos(2*PI*i/FFT_SIZE));
+			FFTInput_B[i*2] = multiplier * FFTInput_B[i*2];
+			FFTInput_B[i*2+1] = multiplier * FFTInput_B[i*2+1];
+		}
 		arm_cfft_f32(S, FFTInput_B, 0, 1);
-		/* Process the data through the Complex Magnitude Module for calculating the magnitude at each bin */
-		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 	}
 	FFT_need_fft = false;
 }
