@@ -458,7 +458,7 @@ void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uin
 		((x + 6 * size - 1) < 0) || // Clip left
 		((y + 8 * size - 1) < 0)) // Clip top
 		return;
-	current_x_offset = x + 8;
+	current_x_offset = x + 6 * size - 1;
 	if (!_cp437 && (c >= 176)) c++; // Handle 'classic' charset behavior
 
 	for (int8_t i = 0; i < 6; i++) {
