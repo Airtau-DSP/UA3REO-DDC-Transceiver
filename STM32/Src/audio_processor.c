@@ -62,7 +62,7 @@ void processTxAudio(void)
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
 	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
 	
-	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB)
+	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U)
 	{
 		for (block = 0; block < numBlocks; block++)
 		{
@@ -72,10 +72,12 @@ void processTxAudio(void)
 		switch (TRX_getMode())
 		{
 			case TRX_MODE_USB:
+			case TRX_MODE_DIGI_U:
 				for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 					FPGA_Audio_Buffer_Q_tmp[i] = -FPGA_Audio_Buffer_I_tmp[i];
 			break;
 			case TRX_MODE_LSB:
+			case TRX_MODE_DIGI_L:
 				for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 					FPGA_Audio_Buffer_Q_tmp[i] = FPGA_Audio_Buffer_I_tmp[i];
 			break;
@@ -138,7 +140,7 @@ void processRxAudio(void)
 	if (TRX.Gain_level > 1) arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.Gain_level, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN
 	
 	//SSB
-	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB)
+	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U)
 	{
 		for (block = 0; block < numBlocks; block++)
 		{
@@ -148,9 +150,11 @@ void processRxAudio(void)
 		switch (TRX_getMode())
 		{
 		case TRX_MODE_LSB:
+		case TRX_MODE_DIGI_L:
 			arm_sub_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // difference of I and Q - LSB
 			break;
 		case TRX_MODE_USB:
+		case TRX_MODE_DIGI_U:
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
 			break;
 		}

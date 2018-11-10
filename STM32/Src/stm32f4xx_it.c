@@ -232,7 +232,7 @@ void EXTI4_IRQHandler(void)
   /* USER CODE END EXTI4_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
   /* USER CODE BEGIN EXTI4_IRQn 1 */
-	if(TRX_inited) TRX_ptt_change();
+	if(TRX_inited && TRX_getMode()!=TRX_MODE_NO_TX) TRX_ptt_change();
   /* USER CODE END EXTI4_IRQn 1 */
 }
 
@@ -290,7 +290,8 @@ void TIM5_IRQHandler(void)
   /* USER CODE BEGIN TIM5_IRQn 1 */
 	if (TRX_ptt || TRX_tune || TRX.Loopback)
 	{
-		processTxAudio();
+		if(TRX_getMode()!=TRX_MODE_NO_TX)
+			processTxAudio();
 	}
 	else
 	{

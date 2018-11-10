@@ -1,7 +1,6 @@
 #include "settings.h"
 #include "stm32f4xx_hal.h"
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 #include "functions.h"
 #include "trx_manager.h"

@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "wm8731.h"
 #include "fpga.h"
+#include "bands.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 bool TRX_ptt = 0;
@@ -34,11 +35,17 @@ void TRX_ptt_change()
 	}
 }
 
-void TRX_setFrequency(int32_t _freq)
+void TRX_setFrequency(uint32_t _freq)
 {
 	if (_freq < 100) _freq = 100;
 	if (_freq >= 99999999) _freq = 99999999;
 	TRX.Freq = _freq;
+	logToUART1_num(getModeFromFreq(TRX.Freq));
+	if(TRX_getMode()!=getModeFromFreq(TRX.Freq))
+	{
+		TRX_setMode(getModeFromFreq(TRX.Freq));
+		LCD_displayTopButtons(false);
+	}
 	FPGA_NeedSendParams = true;
 }
 

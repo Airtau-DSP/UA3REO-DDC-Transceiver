@@ -35,12 +35,12 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	//вывод мод
 	if (!LCD_bandMenuOpened)
 	{
-		if (TRX_getMode() == TRX_MODE_LSB) color = COLOR_YELLOW;
+		if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_DIGI_L) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(5, 5, 70, 30, color);
 		ILI9341_printText("LSB", 23, 14, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
-		if (TRX_getMode() == TRX_MODE_USB) color = COLOR_YELLOW;
+		if (TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_U) color = COLOR_YELLOW;
 		ILI9341_Fill_RectWH(80, 5, 70, 30, color);
 		ILI9341_printText("USB", 98, 14, COLOR_BLUE, color, 2);
 
