@@ -18,11 +18,11 @@ extern struct TRX_SETTINGS {
 	uint8_t Mode;
 	bool Preamp;
 	bool Agc;
-	bool Loopback;
 	uint8_t Gain_level;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
 	uint8_t MicGain_level;
+	bool BandMapEnabled;
 } TRX;
 
 extern bool NeedSaveSettings;

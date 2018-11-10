@@ -43,7 +43,7 @@ void initAudioProcessor(void)
 
 void processTxAudio(void)
 {
-	if(TRX.Loopback && HAL_DMA_GetState(&hdma_memtomem_dma2_stream0)==HAL_DMA_STATE_READY)
+	if(TRX_getMode()==TRX_MODE_LOOPBACK && HAL_DMA_GetState(&hdma_memtomem_dma2_stream0)==HAL_DMA_STATE_READY)
 	{
 		HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&CODEC_Audio_Buffer_TX[0], (uint32_t)&CODEC_Audio_Buffer_RX[FPGA_AUDIO_BUFFER_HALF_SIZE], CODEC_AUDIO_BUFFER_SIZE);
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream0, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);

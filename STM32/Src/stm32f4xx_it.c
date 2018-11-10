@@ -288,7 +288,7 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	if (TRX_ptt || TRX_tune || TRX.Loopback)
+	if (TRX_ptt || TRX_tune || TRX_getMode()==TRX_MODE_LOOPBACK)
 	{
 		if(TRX_getMode()!=TRX_MODE_NO_TX)
 			processTxAudio();

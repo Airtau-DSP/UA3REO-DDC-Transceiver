@@ -9,6 +9,7 @@ char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
 char LCD_freq_string_mhz[6];
 bool LCD_bandMenuOpened = false;
+bool LCD_modeMenuOpened = false;
 bool LCD_mainMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
 uint8_t LCD_menu_main_index = 1;
@@ -32,53 +33,59 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	if (redraw) ILI9341_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	int color = COLOR_CYAN;
 
-	//вывод мод
+	//вывод основных кнопок
 	if (!LCD_bandMenuOpened)
 	{
-		if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_DIGI_L) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(5, 5, 70, 30, color);
-		ILI9341_printText("LSB", 23, 14, COLOR_BLUE, color, 2);
+		color = COLOR_DGREEN;
+		ILI9341_Fill_RectWH(5, 5, 73, 30, color);
+		if(TRX_getMode()==TRX_MODE_LSB) ILI9341_printText("LSB", 24, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_USB) ILI9341_printText("USB", 24, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_IQ) ILI9341_printText("IQ", 29, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_CW) ILI9341_printText("CW", 29, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_DIGI_L) ILI9341_printText("DIGL", 18, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_DIGI_U) ILI9341_printText("DIGU", 18, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_NO_TX) ILI9341_printText("NOTX", 24, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_FM) ILI9341_printText("FM", 29, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_AM) ILI9341_printText("AM", 29, 14, COLOR_BLUE, color, 2);
+		if(TRX_getMode()==TRX_MODE_LOOPBACK) ILI9341_printText("LOOP", 18, 14, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
-		if (TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_U) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(80, 5, 70, 30, color);
-		ILI9341_printText("USB", 98, 14, COLOR_BLUE, color, 2);
+		//if (TRX_getMode() == TRX_MODE_IQ) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(83, 5, 73, 30, color);
+		ILI9341_printText("VFO-A", 90, 14, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
-		if (TRX_getMode() == TRX_MODE_IQ) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(155, 5, 70, 30, color);
-		ILI9341_printText("IQ", 178, 14, COLOR_BLUE, color, 2);
+		if (TRX_tune) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(161, 5, 73, 30, color);
+		ILI9341_printText("TUNE", 174, 14, COLOR_BLUE, color, 2);
 
-		color = COLOR_CYAN;
-		ILI9341_Fill_RectWH(245, 5, 70, 30, color);
-		ILI9341_printText("BAND", 257, 14, COLOR_BLUE, color, 2);
+		ILI9341_Fill_RectWH(239, 5, 76, 30, COLOR_DGREEN);
+		ILI9341_printText("BAND", 255, 14, COLOR_BLUE, COLOR_DGREEN, 2);
 
 		//
 
 		color = COLOR_CYAN;
 		if (TRX.Preamp) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(5, 40, 50, 30, color);
+		ILI9341_Fill_RectWH(5, 40, 53, 30, color);
 		ILI9341_printText("PRE", 14, 50, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
 		if (TRX.Agc) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(60, 40, 50, 30, color);
-		ILI9341_printText("AGC", 68, 50, COLOR_BLUE, color, 2);
+		ILI9341_Fill_RectWH(63, 40, 53, 30, color);
+		ILI9341_printText("AGC", 73, 50, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
-		if (TRX.Loopback) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(115, 40, 50, 30, color);
-		ILI9341_printText("LOOP", 117, 50, COLOR_BLUE, color, 2);
+		if (TRX.BandMapEnabled) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(121, 40, 53, 30, color);
+		ILI9341_printText("MAP", 133, 50, COLOR_BLUE, color, 2);
 
 		color = COLOR_CYAN;
-		if (TRX_tune) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(169, 40, 56, 30, color);
-		ILI9341_printText("TUNE", 174, 50, COLOR_BLUE, color, 2);
+		//if (TRX_tune) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(178, 40, 56, 30, color);
+		ILI9341_printText("ATT", 189, 50, COLOR_BLUE, color, 2);
 
-		color = COLOR_CYAN;
-		if (LCD_mainMenuOpened) color = COLOR_YELLOW;
-		ILI9341_Fill_RectWH(245, 40, 70, 30, color);
-		ILI9341_printText("MENU", 257, 50, COLOR_BLUE, color, 2);
+		ILI9341_Fill_RectWH(239, 40, 76, 30, COLOR_DGREEN);
+		ILI9341_printText("MENU", 255, 50, COLOR_BLUE, COLOR_DGREEN, 2);
 	}
 
 	//вывод диапазонов
@@ -118,11 +125,50 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		ILI9341_Fill_RectWH(257, 70, 58, 60, color); //28
 		ILI9341_printText("28", 274, 91, COLOR_BLUE, color, 2);
 	}
+	
+	//вывод модов
+	if (LCD_modeMenuOpened)
+	{
+		ILI9341_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
+		
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_LSB) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(5, 5, 58, 60, color); //1.8
+		ILI9341_printText("LSB", 16, 30, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_USB) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(68, 5, 58, 60, color); //3.5
+		ILI9341_printText("USB", 79, 30, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_IQ) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(131, 5, 58, 60, color); //7
+		ILI9341_printText("IQ", 145, 30, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_CW) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(194, 5, 58, 60, color); //10
+		ILI9341_printText("CW", 211, 30, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN;
+		ILI9341_Fill_RectWH(257, 5, 58, 60, color); //BACK
+		ILI9341_printText("BACK", 262, 30, COLOR_BLUE, color, 2);
+
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_DIGI_L) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(5, 70, 58, 60, color); //14
+		ILI9341_printText("DIGL", 11, 91, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_DIGI_U) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(68, 70, 58, 60, color); //18
+		ILI9341_printText("DIGU", 76, 91, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_FM) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(131, 70, 58, 60, color); //21
+		ILI9341_printText("FM", 148, 91, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_AM) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(194, 70, 58, 60, color); //24
+		ILI9341_printText("AM", 211, 91, COLOR_BLUE, color, 2);
+		color = COLOR_CYAN; if (TRX_getMode()==TRX_MODE_LOOPBACK) color = COLOR_YELLOW;
+		ILI9341_Fill_RectWH(257, 70, 58, 60, color); //28
+		ILI9341_printText("LOOP", 264, 91, COLOR_BLUE, color, 2);
+	}
 }
 
 void LCD_displayFreqInfo(bool force) { //вывод частоты на экран
 	if (LCD_mainMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
+	if (LCD_modeMenuOpened) return;
 	if (LCD_last_showed_freq == TRX_getFrequency()) return;
 	if(LCD_busy && !force) return;
 	LCD_busy=true;
@@ -286,14 +332,44 @@ void LCD_checkTouchPad(void)
 	sprintf(dest, "Touchpad x = %d  y = %d\r\n", x, y);
 	logToUART1_str(dest);
 
-	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened)
+	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened && !LCD_modeMenuOpened)
 	{
-		if (x >= 5 && x <= 75 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_LSB); LCD_displayTopButtons(false); } //кнопка LSB
-		if (x >= 80 && x <= 150 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_USB); LCD_displayTopButtons(false); } //кнопка USB
-		if (x >= 155 && x <= 225 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_IQ); LCD_displayTopButtons(false); } //кнопка IQ
-		if (x >= 245 && x <= 315 && y >= 5 && y <= 35) {
+		if (x >= 5 && x <= 78 && y >= 5 && y <= 35) { LCD_modeMenuOpened=true; LCD_displayTopButtons(true); } //кнопка Mode
+		//if (x >= 83 && x <= 156 && y >= 5 && y <= 35) { TRX_setMode(TRX_MODE_USB); LCD_displayTopButtons(false); } //кнопка VFO
+		if (x >= 161 && x <= 234 && y >= 5 && y <= 35) { //кнопка TUNE
+			TRX_tune = !TRX_tune; 
+			TRX_ptt = TRX_tune;
+			LCD_displayStatusInfoGUI();
+			LCD_displayTopButtons(false);
+			NeedSaveSettings=true;
+			start_i2s();
+		} //кнопка TUNE
+		if (x >= 239 && x <= 315 && y >= 5 && y <= 35) {
 			LCD_bandMenuOpened = true;  //кнопка BAND
 			LCD_displayTopButtons(true);
+		}
+		
+		if (x >= 5 && x <= 58 && y >= 40 && y <= 70) {
+			TRX.Preamp = !TRX.Preamp; //кнопка PREAMP
+			LCD_displayTopButtons(false);
+			NeedSaveSettings=true;
+		}
+		else if (x >= 63 && x <= 116 && y >= 40 && y <= 70) {
+			TRX.Agc = !TRX.Agc; //кнопка AGC
+			LCD_displayTopButtons(false);
+			NeedSaveSettings=true;
+		}
+		else if (x >= 121 && x <= 174 && y >= 40 && y <= 70) { //кнопка BandMap
+			TRX.BandMapEnabled=!TRX.BandMapEnabled;
+			LCD_displayTopButtons(false);
+			NeedSaveSettings=true;
+		}
+		else if (x >= 178 && x <= 234 && y >= 40 && y <= 70) { //кнопка ATT
+			
+		}
+		else if (x >= 239 && x <= 315 && y >= 40 && y <= 70) {
+			LCD_mainMenuOpened = true; //кнопка MENU
+			LCD_redraw();
 		}
 		
 		if(x>=30 && x<=60 && y>=80 && y<=121) TRX.LCD_menu_freq_index=MENU_FREQ_MHZ;
@@ -302,7 +378,7 @@ void LCD_checkTouchPad(void)
 		LCD_last_showed_freq=0;
 		LCD_displayFreqInfo(false);
 	}
-	else if (LCD_bandMenuOpened && !LCD_mainMenuOpened)
+	else if (LCD_bandMenuOpened && !LCD_mainMenuOpened && !LCD_modeMenuOpened)
 	{
 		if (x >= 1 && x <= 63 && y >= 1 && y <= 65) {
 			TRX_setFrequency(1850000);  //кнопка 1.8
@@ -354,35 +430,55 @@ void LCD_checkTouchPad(void)
 			LCD_redraw();
 		}
 	}
-
-	//Нижние кнопки
-	if (!LCD_mainMenuOpened)
+	else if (!LCD_bandMenuOpened && !LCD_mainMenuOpened && LCD_modeMenuOpened)
 	{
-		if (x >= 5 && x <= 55 && y >= 40 && y <= 70) {
-			TRX.Preamp = !TRX.Preamp; //кнопка PREAMP
-			LCD_displayTopButtons(false);
-			NeedSaveSettings=true;
+		if (x >= 1 && x <= 63 && y >= 1 && y <= 65) {
+			TRX_setMode(TRX_MODE_LSB);  //кнопка LSB
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
 		}
-		else if (x >= 60 && x <= 110 && y >= 40 && y <= 70) {
-			TRX.Agc = !TRX.Agc; //кнопка AGC
-			LCD_displayTopButtons(false);
-			NeedSaveSettings=true;
+		if (x >= 68 && x <= 126 && y >= 1 && y <= 65) {
+			TRX_setMode(TRX_MODE_USB);  //кнопка USB
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
 		}
-		else if (x >= 115 && x <= 165 && y >= 40 && y <= 70) {
-			TRX_SetLoopbackMode(!TRX.Loopback); //кнопка LOOP
-			LCD_displayTopButtons(false);
-			NeedSaveSettings=true;
+		if (x >= 131 && x <= 189 && y >= 1 && y <= 65) {
+			TRX_setMode(TRX_MODE_IQ);  //кнопка IQ
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
 		}
-		else if (x >= 169 && x <= 225 && y >= 40 && y <= 70) {
-			TRX_tune = !TRX_tune; //кнопка TUNE
-			TRX_ptt = TRX_tune;
-			LCD_displayStatusInfoGUI();
-			LCD_displayTopButtons(false);
-			NeedSaveSettings=true;
-			start_i2s();
+		if (x >= 194 && x <= 252 && y >= 1 && y <= 65) {
+			TRX_setMode(TRX_MODE_CW);  //кнопка CW
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
 		}
-		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
-			LCD_mainMenuOpened = true; //кнопка MENU
+		if (x >= 257 && x <= 319 && y >= 1 && y <= 65) { //кнопка BACK
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
+		}
+		if (x >= 1 && x <= 63 && y >= 68 && y <= 130) {
+			TRX_setMode(TRX_MODE_DIGI_L);  //кнопка DIGL
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
+		}
+		if (x >= 68 && x <= 126 && y >= 68 && y <= 130) {
+			TRX_setMode(TRX_MODE_DIGI_U);  //кнопка DIGU
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
+		}
+		if (x >= 131 && x <= 189 && y >= 68 && y <= 130) {
+			TRX_setMode(TRX_MODE_FM);  //кнопка FM
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
+		}
+		if (x >= 194 && x <= 252 && y >= 68 && y <= 130) {
+			TRX_setMode(TRX_MODE_AM);  //кнопка AM
+			LCD_modeMenuOpened = false;
+			LCD_redraw();
+		}
+		if (x >= 257 && x <= 319 && y >= 68 && y <= 130) {
+			TRX_setMode(TRX_MODE_LOOPBACK);  //кнопка LOOP
+			LCD_modeMenuOpened = false;
 			LCD_redraw();
 		}
 	}

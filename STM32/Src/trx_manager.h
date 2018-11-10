@@ -13,6 +13,7 @@
 #define TRX_MODE_NO_TX 6
 #define TRX_MODE_FM 7
 #define TRX_MODE_AM 8
+#define TRX_MODE_LOOPBACK 9
 
 void TRX_Init(void);
 void TRX_setFrequency(uint32_t _freq);
@@ -27,6 +28,5 @@ extern bool TRX_inited;
 extern int32_t TRX_s_meter;
 extern bool TRX_agc_wdsp_action;
 extern bool TRX_ADC_OTR;
-extern void TRX_SetLoopbackMode(bool state);
 
 #endif

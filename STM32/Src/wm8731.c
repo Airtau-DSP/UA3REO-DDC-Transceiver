@@ -22,7 +22,7 @@ void start_i2s(void)
 	}
 	else
 	{
-		if (TRX.Loopback)
+		if (TRX_getMode()==TRX_MODE_LOOPBACK)
 		{
 			logToUART1_str("LOOP MODE\r\n");
 			WM8731_TXRX_mode();

@@ -19,7 +19,7 @@ bool TRX_ADC_OTR = 0;
 void TRX_Init()
 {
 	TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
-	TRX_SetLoopbackMode(TRX.Loopback);
+	start_i2s();
 }
 
 void TRX_ptt_change()
@@ -38,10 +38,9 @@ void TRX_ptt_change()
 void TRX_setFrequency(uint32_t _freq)
 {
 	if (_freq < 100) _freq = 100;
-	if (_freq >= 99999999) _freq = 99999999;
+	if (_freq >= ADCDAC_CLOCK/2) _freq = ADCDAC_CLOCK/2;
 	TRX.Freq = _freq;
-	logToUART1_num(getModeFromFreq(TRX.Freq));
-	if(TRX_getMode()!=getModeFromFreq(TRX.Freq))
+	if(TRX.BandMapEnabled && TRX_getMode()!=getModeFromFreq(TRX.Freq))
 	{
 		TRX_setMode(getModeFromFreq(TRX.Freq));
 		LCD_displayTopButtons(false);
@@ -54,17 +53,10 @@ int32_t TRX_getFrequency(void)
 	return TRX.Freq;
 }
 
-void TRX_SetLoopbackMode(bool state)
-{
-	TRX.Loopback = state;
-	start_i2s();
-}
-
-
 void TRX_setMode(uint8_t _mode)
 {
 	TRX.Mode = _mode;
-	//if (TRX_mode == TRX_MODE_USB || TRX_mode == TRX_MODE_LSB) TRX_hilbert=true; else TRX_hilbert=false;
+	start_i2s();
 	NeedSaveSettings=true;
 }
 
