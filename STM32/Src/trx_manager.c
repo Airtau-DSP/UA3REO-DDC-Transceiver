@@ -28,6 +28,7 @@ void TRX_ptt_change()
 	if(TRX_ptt!=TRX_new_ptt)
 	{
 		TRX_ptt=TRX_new_ptt;
+		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
 		start_i2s_dma();
 	}

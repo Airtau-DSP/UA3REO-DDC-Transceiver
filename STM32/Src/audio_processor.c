@@ -47,14 +47,14 @@ void processTxAudio(void)
 	
 	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB)
 	{
-		readHalfFromCircleBufferU32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], CODEC_AUDIO_BUFFER_SIZE - __HAL_DMA_GET_COUNTER(&hdma_i2s3_ext_rx), CODEC_AUDIO_BUFFER_SIZE);
+		readHalfFromCircleBufferU32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], CODEC_AUDIO_BUFFER_SIZE - (__HAL_DMA_GET_COUNTER(&hdma_i2s3_ext_rx)/2), CODEC_AUDIO_BUFFER_SIZE);
 		
 		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 		{
-			FPGA_Audio_Buffer_I_tmp[i] = (int16_t)Processor_AudioBuffer_A[i*2];
+			FPGA_Audio_Buffer_I_tmp[i] = (int16_t)Processor_AudioBuffer_A[i*2+1];
 		}
 		
-		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN *0.01
+		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
 		
 		for (block = 0; block < numBlocks; block++)
 		{

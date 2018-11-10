@@ -39,16 +39,16 @@ void readHalfFromCircleBufferU16(uint16_t *source, uint16_t *dest, uint16_t inde
 
 void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t index, uint16_t length)
 {
-	uint32_t halflen = length / 2;
+	uint16_t halflen = length / 2;
 	if (index >= halflen)
 	{
-		memcpy((uint32_t *)&dest[0], (uint32_t *)&source[index - halflen], halflen * 2);
+		memcpy(&dest[0], &source[index - halflen], halflen * 4);
 	}
 	else
 	{
-		uint32_t prev_part = halflen - index;
-		memcpy((uint32_t *)&dest[0], (uint32_t *)&source[length - prev_part], prev_part * 2);
-		memcpy((uint32_t *)&dest[prev_part], (uint32_t *)&source[0], (halflen - prev_part) * 2);
+		uint16_t prev_part = halflen - index;
+		memcpy(&dest[0], &source[length - prev_part], prev_part * 4);
+		memcpy(&dest[prev_part], &source[0], (halflen - prev_part) * 4);
 	}
 }
 
