@@ -246,9 +246,11 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	LCD_last_s_meter = s_width;
 	ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
 
-	ILI9341_Fill_RectWH(300, 210, 30, 20, COLOR_BLACK);
+	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_agc_wdsp_action && TRX.Agc && (TRX.Mode == TRX_MODE_LSB || TRX.Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
+	if (WM8731_Buffer_underrun) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	
 }
 
 void LCD_displayMainMenu() {

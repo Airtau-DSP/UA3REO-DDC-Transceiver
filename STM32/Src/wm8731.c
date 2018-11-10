@@ -12,6 +12,7 @@ uint32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 uint8_t WM8731_SampleMode = 48;
 uint32_t WM8731_DMA_samples = 0;
 bool WM8731_DMA_state = true; //true - compleate ; false - half
+bool WM8731_Buffer_underrun=false;
 
 void start_i2s(void)
 {
@@ -44,6 +45,7 @@ void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
+		if(Processor_NeedBuffer) WM8731_Buffer_underrun=true;
 		WM8731_DMA_state = true;
 		Processor_NeedBuffer = true;
 		AUDIOPROC_TXA_samples++;
@@ -55,6 +57,7 @@ void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
+		if(Processor_NeedBuffer) WM8731_Buffer_underrun=true;
 		WM8731_DMA_state = false;
 		AUDIOPROC_TXB_samples++;
 		Processor_NeedBuffer = true;

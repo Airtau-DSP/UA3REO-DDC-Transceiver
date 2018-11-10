@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define FPGA_AUDIO_BUFFER_SIZE 128
+#define FPGA_AUDIO_BUFFER_SIZE 64
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
 #define APROCESSOR_BLOCK_SIZE 32
 #define CLICK_REMOVE_THRESHOLD 500 //peak difference from avg amplitude

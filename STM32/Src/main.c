@@ -63,6 +63,7 @@ DMA_HandleTypeDef hdma_spi3_tx;
 SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi2;
 
+TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
@@ -90,6 +91,7 @@ static void MX_I2S3_Init(void);
 static void MX_TIM5_Init(void);
 static void MX_SPI2_Init(void);
 static void MX_SPI1_Init(void);
+static void MX_TIM4_Init(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
@@ -137,6 +139,7 @@ int main(void)
   MX_TIM5_Init();
   MX_SPI2_Init();
   MX_SPI1_Init();
+  MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 	HAL_Delay(100);
 	logToUART1_str("\r\n");
@@ -154,6 +157,8 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);
 	HAL_TIM_Base_Start(&htim6);
 	HAL_TIM_Base_Start_IT(&htim6);
+	HAL_TIM_Base_Start(&htim4);
+	HAL_TIM_Base_Start_IT(&htim4);
 	Touch_Set_Coef(11.096, -32, -15.588235, 250);
 	logToUART1_str("UA3REO Started\r\n");
 	TRX_inited=true;
@@ -290,6 +295,38 @@ static void MX_SPI2_Init(void)
   hspi2.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
   hspi2.Init.CRCPolynomial = 10;
   if (HAL_SPI_Init(&hspi2) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+}
+
+/* TIM4 init function */
+static void MX_TIM4_Init(void)
+{
+
+  TIM_ClockConfigTypeDef sClockSourceConfig;
+  TIM_MasterConfigTypeDef sMasterConfig;
+
+  htim4.Instance = TIM4;
+  htim4.Init.Prescaler = 800;
+  htim4.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim4.Init.Period = 1;
+  htim4.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  if (HAL_TIM_Base_Init(&htim4) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim4, &sClockSourceConfig) != HAL_OK)
+  {
+    _Error_Handler(__FILE__, __LINE__);
+  }
+
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_UPDATE;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim4, &sMasterConfig) != HAL_OK)
   {
     _Error_Handler(__FILE__, __LINE__);
   }
