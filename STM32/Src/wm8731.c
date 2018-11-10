@@ -6,85 +6,80 @@
 #include "trx_manager.h"
 #include "settings.h"
 
-uint32_t CODEC_Audio_Buffer[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
+uint32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 uint32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 
 uint8_t WM8731_SampleMode = 48;
 uint32_t WM8731_DMA_samples = 0;
 bool WM8731_DMA_state = true; //true - compleate ; false - half
 
-void start_i2s_dma(void)
+void start_i2s(void)
 {
 	if (TRX_ptt)
 	{
-		start_i2s_tx_dma();
+		logToUART1_str("TX MODE\r\n");
+		WM8731_TX_mode();
 	}
 	else
 	{
 		if (TRX.Loopback)
-			start_loopback_dma();
+		{
+			logToUART1_str("LOOP MODE\r\n");
+			WM8731_TXRX_mode();
+		}
 		else
-			start_i2s_rx_dma();
+		{
+			logToUART1_str("RX MODE\r\n");
+			WM8731_RX_mode();
+		}
+	}
+	if(HAL_I2S_GetState(&hi2s3)==HAL_I2S_STATE_READY)
+	{
+		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer_RX[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], CODEC_AUDIO_BUFFER_SIZE);
+		I2SEx_Fix(&hi2s3);
 	}
 }
 
-void stop_i2s_dma(void)
-{
-	HAL_I2S_DMAStop(&hi2s3);
-	HAL_DMA_Abort(&hdma_i2s3_ext_rx);
-	HAL_DMA_Abort(&hdma_spi3_tx);
-	HAL_I2S_DeInit(&hi2s3);
-	HAL_I2S_Init(&hi2s3);
-	HAL_Delay(10);
-	memset(CODEC_Audio_Buffer, 0xaa, sizeof(CODEC_Audio_Buffer));
-	memset(CODEC_Audio_Buffer_TX, 0xaa, sizeof(CODEC_Audio_Buffer_TX));
-}
-
-void start_i2s_rx_dma(void)
-{
-	logToUART1_str("RX MODE\r\n");
-	stop_i2s_dma();
-	WM8731_RX_mode();
-	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
-		HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
-}
-
-void start_i2s_tx_dma(void)
-{
-	logToUART1_str("TX MODE\r\n");
-	stop_i2s_dma();
-	WM8731_TX_mode();
-	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], CODEC_AUDIO_BUFFER_SIZE);
-}
-
-void start_loopback_dma(void)
-{
-	logToUART1_str("LOOP MODE\r\n");
-	stop_i2s_dma();
-	WM8731_TXRX_mode();
-	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer[0], (uint16_t*)&CODEC_Audio_Buffer[0], CODEC_AUDIO_BUFFER_SIZE);
-}
-
-void HAL_I2S_TxCpltCallback(I2S_HandleTypeDef *hi2s)
+void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
 		WM8731_DMA_state = true;
 		Processor_NeedBuffer = true;
+		AUDIOPROC_TXA_samples++;
 		WM8731_DMA_samples += FPGA_AUDIO_BUFFER_SIZE;
 	}
 }
 
-void HAL_I2S_TxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
+void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
 		WM8731_DMA_state = false;
+		AUDIOPROC_TXB_samples++;
 		Processor_NeedBuffer = true;
 		WM8731_DMA_samples += FPGA_AUDIO_BUFFER_SIZE;
 	}
+}
+
+static void UA3REO_I2SEx_TxRxDMAHalfCplt(DMA_HandleTypeDef *hdma)
+{
+  I2S_HandleTypeDef* hi2s = (I2S_HandleTypeDef*)((DMA_HandleTypeDef*)hdma)->Parent;
+  HAL_I2SEx_TxRxHalfCpltCallback(hi2s);
+}
+
+static void UA3REO_I2SEx_TxRxDMACplt(DMA_HandleTypeDef *hdma)
+{
+  I2S_HandleTypeDef* hi2s = (I2S_HandleTypeDef*)((DMA_HandleTypeDef*)hdma)->Parent;
+  HAL_I2SEx_TxRxCpltCallback(hi2s);
+}
+
+void I2SEx_Fix(I2S_HandleTypeDef *hi2s)
+{
+	hi2s->hdmarx->XferHalfCpltCallback = NULL;
+	hi2s->hdmatx->XferHalfCpltCallback  = UA3REO_I2SEx_TxRxDMAHalfCplt;
+  hi2s->hdmarx->XferCpltCallback  = NULL;
+  hi2s->hdmatx->XferCpltCallback  = UA3REO_I2SEx_TxRxDMACplt;
 }
 
 void WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
@@ -105,7 +100,6 @@ void WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
 
 void WM8731_TX_mode(void)
 {
-	//HAL_I2S_DMAPause(&hi2s3);
 	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00000100), B8(00000000)); //Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(00000000)); //Right Headphone Out
@@ -113,12 +107,10 @@ void WM8731_TX_mode(void)
 	WM8731_SendI2CCommand(B8(00001010), B8(00001110)); //R5  Digital Audio Path Control
 	WM8731_SendI2CCommand(B8(00001100), B8(00101001)); //R6  Power Down Control
 	FPGA_start_audio_clock();
-	//HAL_I2S_DMAResume(&hi2s3);
 }
 
 void WM8731_RX_mode(void)
 {
-	//HAL_I2S_DMAPause(&hi2s3);
 	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //Right Headphone Out
@@ -126,12 +118,10 @@ void WM8731_RX_mode(void)
 	WM8731_SendI2CCommand(B8(00001010), B8(00000110)); //R5 Digital Audio Path Control
 	WM8731_SendI2CCommand(B8(00001100), B8(00100111)); //R6  Power Down Control
 	FPGA_start_audio_clock();
-	//HAL_I2S_DMAResume(&hi2s3);
 }
 
 void WM8731_TXRX_mode(void)
 {
-	//HAL_I2S_DMAPause(&hi2s3);
 	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //Right Headphone Out
@@ -139,7 +129,6 @@ void WM8731_TXRX_mode(void)
 	WM8731_SendI2CCommand(B8(00001010), B8(00000110)); //R5  Digital Audio Path Control
 	WM8731_SendI2CCommand(B8(00001100), B8(00100001)); //R6  Power Down Control, internal crystal
 	FPGA_start_audio_clock();
-	//HAL_I2S_DMAResume(&hi2s3);
 }
 
 void WM8731_Init(void)

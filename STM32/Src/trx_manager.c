@@ -30,7 +30,7 @@ void TRX_ptt_change()
 		TRX_ptt=TRX_new_ptt;
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
-		start_i2s_dma();
+		start_i2s();
 	}
 }
 
@@ -50,7 +50,7 @@ int32_t TRX_getFrequency(void)
 void TRX_SetLoopbackMode(bool state)
 {
 	TRX.Loopback = state;
-	start_i2s_dma();
+	start_i2s();
 }
 
 

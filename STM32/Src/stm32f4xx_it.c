@@ -288,17 +288,14 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	if (!TRX.Loopback)
+	if (TRX_ptt || TRX_tune || TRX.Loopback)
 	{
-		if (TRX_ptt || TRX_tune)
-		{
-			processTxAudio();
-		}
-		else
-		{
-			processRxAudio();
-			if (FFT_need_fft) FFT_doFFT();
-		}
+		processTxAudio();
+	}
+	else
+	{
+		processRxAudio();
+		if (FFT_need_fft) FFT_doFFT();
 	}
   /* USER CODE END TIM5_IRQn 1 */
 }
@@ -321,10 +318,13 @@ void TIM6_DAC_IRQHandler(void)
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
-		//logToUART1_num32(Processor_AVG_amplitude);
 		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
+		//logToUART1_num32(__HAL_DMA_GET_COUNTER(&hdma_i2s3_ext_rx));
+		//logToUART1_num32(WM8731_DMA_state);
 		//logToUART1_num32(AUDIOPROC_samples);
+		//logToUART1_num32(AUDIOPROC_TXA_samples);
+		//logToUART1_num32(AUDIOPROC_TXB_samples);
 		//logToUART1_str("\r\n");
 		
 		FPGA_samples = 0;

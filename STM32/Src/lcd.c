@@ -379,7 +379,7 @@ void LCD_checkTouchPad(void)
 			LCD_displayStatusInfoGUI();
 			LCD_displayTopButtons(false);
 			NeedSaveSettings=true;
-			start_i2s_dma();
+			start_i2s();
 		}
 		else if (x >= 245 && x <= 319 && y >= 40 && y <= 70) {
 			LCD_mainMenuOpened = true; //кнопка MENU
