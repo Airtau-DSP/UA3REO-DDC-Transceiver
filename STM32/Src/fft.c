@@ -26,6 +26,7 @@ bool FFT_need_fft = true; //необходимо полдготовить данные для отображения на эк
 
 void FFT_doFFT(void)
 {
+	if(!FFT_need_fft) return;
 	if(FFTInputBufferInProgress) //B in progress
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window

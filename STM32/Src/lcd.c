@@ -235,17 +235,14 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	if (LCD_mainMenuOpened) return;
 
 	int width = 273;
-	//float32_t mult=72.25091874; //(width/(log10f_fast(1280)+0.698970004));
 	TRX_s_meter = (float32_t)72.25091874*log10f_fast(agc_wdsp.volts) + ((float32_t)0.35*(float32_t)72.25091874);
 	if (TRX_s_meter > width) TRX_s_meter = width;
 	if (TRX_s_meter < 0) TRX_s_meter = 0;
-	//logToUART1_num16(TRX_s_meter);
-	//
 
 	int s_width = TRX_s_meter;
 	if (LCD_last_s_meter > s_width) s_width = LCD_last_s_meter - ((LCD_last_s_meter - s_width) / 6); //сглаживаем движение с-метра
 	if (LCD_last_s_meter < s_width) s_width = s_width - ((s_width - LCD_last_s_meter) / 2);
-	ILI9341_Fill_RectWH(41 + s_width, 131, width - 2 - s_width, 13, COLOR_BLACK);
+	ILI9341_Fill_RectWH(41 + s_width, 131, width - s_width, 13, COLOR_BLACK);
 	LCD_last_s_meter = s_width;
 	ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
 
