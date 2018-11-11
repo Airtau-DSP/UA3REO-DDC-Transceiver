@@ -156,20 +156,23 @@ void FPGA_fpgadata_stuffclock(void)
 
 	//STAGE 1
 	//out
+	FPGA_fpgadata_out_tmp8=0;
 	if (FPGA_NeedSendParams) FPGA_fpgadata_out_tmp8 = 1;
 	else if (FPGA_NeedGetParams)  FPGA_fpgadata_out_tmp8 = 2;
 
-	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
-	//clock
-	GPIOC->BSRR = FPGA_SYNC_Pin;
-	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
-	//in
-	//clock
-	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+	if(FPGA_fpgadata_out_tmp8!=0)
+	{
+		FPGA_writePacket(FPGA_fpgadata_out_tmp8);
+		//clock
+		GPIOC->BSRR = FPGA_SYNC_Pin;
+		HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+		//in
+		//clock
+		GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
 
-	if (FPGA_NeedSendParams) { FPGA_fpgadata_sendparam(); FPGA_NeedSendParams = false; }
-	else if (FPGA_NeedGetParams) { FPGA_fpgadata_getparam(); FPGA_NeedGetParams = false; }
-
+		if (FPGA_NeedSendParams) { FPGA_fpgadata_sendparam(); FPGA_NeedSendParams = false; }
+		else if (FPGA_NeedGetParams) { FPGA_fpgadata_getparam(); FPGA_NeedGetParams = false; }
+	}
 	FPGA_busy = false;
 }
 
