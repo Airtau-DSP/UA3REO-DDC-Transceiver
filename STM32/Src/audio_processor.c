@@ -31,13 +31,7 @@ int32_t ampl_val_q=0;
 
 void initAudioProcessor(void)
 {
-	arm_fir_init_f32(&FIR_RX_Hilbert_I, IQ_RX_HILBERT_TAPS, (float32_t *)&i_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
-	arm_fir_init_f32(&FIR_RX_Hilbert_Q, IQ_RX_HILBERT_TAPS, (float32_t *)&q_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
-	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
-	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
-
-	arm_fir_init_f32(&FIR_RX_SSB_LPF, FIR_RX_SSB_LPF_Taps, (float32_t *)&FIR_RX_SSB_LPF_2k7_coeffs, (float32_t *)&FIR_RX_SSB_LPF_State[0], APROCESSOR_BLOCK_SIZE); // SSB LPF 2.7kHz
-
+	InitFilters();
 	SetupAgcWdsp(); //AGC
 }
 
@@ -65,9 +59,7 @@ void processTxAudio(void)
 	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U)
 	{
 		for (block = 0; block < numBlocks; block++)
-		{
-			arm_fir_f32(&FIR_RX_SSB_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE); //FIR LPF
-		}
+			arm_iir_lattice_f32(&IIR_RX_SSB_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE); //IIR LPF 2.9k
 		
 		switch (TRX_getMode())
 		{
@@ -116,7 +108,6 @@ void processRxAudio(void)
 {
 	if (!Processor_NeedBuffer) return;
 	AUDIOPROC_samples++;
-	//logToUART1_num32(FPGA_Audio_Buffer_Index);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_Q[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_I[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 		
@@ -129,7 +120,7 @@ void processRxAudio(void)
 		if(ampl_val_i<Processor_AVG_amplitude) Processor_AVG_amplitude--;
 		if(ampl_val_q>Processor_AVG_amplitude) Processor_AVG_amplitude++;
 		if(ampl_val_q<Processor_AVG_amplitude) Processor_AVG_amplitude--;
-		if(FPGA_Audio_Buffer_I_tmp[i]-Processor_AVG_amplitude>CLICK_REMOVE_THRESHOLD || FPGA_Audio_Buffer_Q_tmp[i]-Processor_AVG_amplitude>CLICK_REMOVE_THRESHOLD)
+		if(ampl_val_i-Processor_AVG_amplitude>CLICK_REMOVE_THRESHOLD || ampl_val_q-Processor_AVG_amplitude>CLICK_REMOVE_THRESHOLD)
 		{ 
 			FPGA_Audio_Buffer_I_tmp[i]=0;
 			FPGA_Audio_Buffer_Q_tmp[i]=0; 
@@ -162,14 +153,13 @@ void processRxAudio(void)
             arm_sqrt_f32(FPGA_Audio_Buffer_I_tmp[i] * FPGA_Audio_Buffer_I_tmp[i] + FPGA_Audio_Buffer_Q_tmp[i] * FPGA_Audio_Buffer_Q_tmp[i], &FPGA_Audio_Buffer_I_tmp[i]);
 				break;
 		}
+		
 		for (block = 0; block < numBlocks; block++)
-		{
-			arm_fir_f32(&FIR_RX_SSB_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //FIR LPF
+			arm_iir_lattice_f32(&IIR_RX_SSB_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //IIR LPF 2.9k
+		for (block = 0; block < numBlocks; block++)
 			if (TRX.Agc) RxAgcWdsp(APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE)); //AGC
-		}
 
-		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-			FPGA_Audio_Buffer_Q_tmp[i] = FPGA_Audio_Buffer_I_tmp[i]; //double channel
+		memcpy(&FPGA_Audio_Buffer_Q_tmp[0],&FPGA_Audio_Buffer_I_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE*4); //double channel
 	}
 	
 	//Prepare data to DMA
