@@ -9,7 +9,8 @@
 #define ADCDAC_CLOCK 50000000
 
 void FPGA_Init(void);
-void FPGA_fpgadata_clock(void);
+void FPGA_fpgadata_iqclock(void);
+void FPGA_fpgadata_stuffclock(void);
 uint8_t FPGA_readPacket(void);
 void FPGA_writePacket(uint8_t packet);
 

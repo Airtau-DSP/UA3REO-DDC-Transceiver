@@ -117,8 +117,8 @@ STM32_DATA_OUT[3]            : 46        : output : 3.3-V LVTTL       :         
 VCCIO3                       : 47        : power  :                   : 3.3V    : 3         :                
 GND                          : 48        : gnd    :                   :         :           :                
 PREAMP                       : 49        : output : 3.3-V LVTTL       :         : 3         : Y              
-AUDIO_CLOCK                  : 50        : output : 3.3-V LVTTL       :         : 3         : Y              
-GND*                         : 51        :        :                   :         : 3         :                
+AUDIO_I2S_CLOCK              : 50        : output : 3.3-V LVTTL       :         : 3         : Y              
+AUDIO_48K_CLOCK              : 51        : output : 3.3-V LVTTL       :         : 3         : Y              
 GND+                         : 52        :        :                   :         : 3         :                
 GND+                         : 53        :        :                   :         : 3         :                
 GND+                         : 54        :        :                   :         : 4         :                

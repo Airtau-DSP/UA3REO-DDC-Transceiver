@@ -149,7 +149,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	logToUART1_str("OK\r\n");
 }
 
-void FPGA_fpgadata_clock(void)
+void FPGA_fpgadata_stuffclock(void)
 {
 	FPGA_busy = true;
 	//обмен данными
@@ -158,8 +158,6 @@ void FPGA_fpgadata_clock(void)
 	//out
 	if (FPGA_NeedSendParams) FPGA_fpgadata_out_tmp8 = 1;
 	else if (FPGA_NeedGetParams)  FPGA_fpgadata_out_tmp8 = 2;
-	else if (TRX_ptt) FPGA_fpgadata_out_tmp8 = 3;
-	else FPGA_fpgadata_out_tmp8 = 4;
 
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 	//clock
@@ -171,7 +169,29 @@ void FPGA_fpgadata_clock(void)
 
 	if (FPGA_NeedSendParams) { FPGA_fpgadata_sendparam(); FPGA_NeedSendParams = false; }
 	else if (FPGA_NeedGetParams) { FPGA_fpgadata_getparam(); FPGA_NeedGetParams = false; }
-	else if (TRX_ptt) FPGA_fpgadata_sendiq();
+
+	FPGA_busy = false;
+}
+
+void FPGA_fpgadata_iqclock(void)
+{
+	FPGA_busy = true;
+	//обмен данными
+
+	//STAGE 1
+	//out
+	if (TRX_ptt) FPGA_fpgadata_out_tmp8 = 3;
+	else FPGA_fpgadata_out_tmp8 = 4;
+
+	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
+	//clock
+	GPIOC->BSRR = FPGA_SYNC_Pin;
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//in
+	//clock
+	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+
+	if (TRX_ptt) FPGA_fpgadata_sendiq();
 	else FPGA_fpgadata_getiq();
 
 	FPGA_busy = false;
