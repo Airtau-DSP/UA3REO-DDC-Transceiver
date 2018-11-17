@@ -4,6 +4,7 @@
 #include "arm_math.h"
 #include "arm_const_structs.h"
 #include "functions.h"
+#include "audio_processor.h"
 
 uint32_t FFT_buff_index = 0;
 float32_t FFTInput_A[FFT_SIZE * 2] = { 0 };
@@ -61,7 +62,7 @@ void FFT_printFFT(void)
 	if (maxValueErrors > 100 || maxValueErrors == 0)
 	{
 		arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
-		if(maxValue>(float32_t)FFT_MAX) maxValue=(float32_t)FFT_MAX;
+		if(maxValue>Processor_AVG_amplitude*FFT_MAX) maxValue=Processor_AVG_amplitude*FFT_MAX;
 	}
 	if (maxValue < FFT_CONTRAST) maxValue = FFT_CONTRAST; //минимальный порог
 	maxValueErrors = 0;
