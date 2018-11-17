@@ -35,12 +35,12 @@
         <assignment_value text="QSYS_NAME DEBUG_STAGE HAS_SOPCINFO 1 GENERATION_ID 1541920638"/>
       </assignment_values>
     </sld_info>
-    <sld_info hpath="cic:RX_CIC_I" name="RX_CIC_I">
+    <sld_info hpath="cic:RX_CIC_Q" name="RX_CIC_Q">
       <assignment_values>
         <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541920716"/>
       </assignment_values>
     </sld_info>
-    <sld_info hpath="cic:RX_CIC_Q" name="RX_CIC_Q">
+    <sld_info hpath="cic:RX_CIC_I" name="RX_CIC_I">
       <assignment_values>
         <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1541920716"/>
       </assignment_values>
@@ -50,12 +50,12 @@
         <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1541920706"/>
       </assignment_values>
     </sld_info>
-    <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
+    <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
       <assignment_values>
         <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541920697"/>
       </assignment_values>
     </sld_info>
-    <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
+    <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
       <assignment_values>
         <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1541920697"/>
       </assignment_values>
