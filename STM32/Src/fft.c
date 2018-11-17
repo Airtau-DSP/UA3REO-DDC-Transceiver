@@ -31,7 +31,7 @@ void FFT_doFFT(void)
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
 		{
-			double multiplier = 0.5 * (1 - arm_cos_f32(2*PI*i/FFT_SIZE));
+			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2*PI*i/FFT_SIZE));
 			FFTInput_A[i*2] = multiplier * FFTInput_A[i*2];
 			FFTInput_A[i*2+1] = multiplier * FFTInput_A[i*2+1];
 		}
@@ -42,7 +42,7 @@ void FFT_doFFT(void)
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
 		{
-			double multiplier = 0.5 * (1 - arm_cos_f32(2*PI*i/FFT_SIZE));
+			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2*PI*i/FFT_SIZE));
 			FFTInput_B[i*2] = multiplier * FFTInput_B[i*2];
 			FFTInput_B[i*2+1] = multiplier * FFTInput_B[i*2+1];
 		}

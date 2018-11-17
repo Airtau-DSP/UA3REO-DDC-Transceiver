@@ -304,12 +304,12 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
 	if(FFTInputBufferInProgress) // A buffer in progress
 	{
-		FFTInput_A[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FFTInput_A[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16/32767);
 		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index + 1];
 	}
 	else // B buffer in progress
 	{
-		FFTInput_B[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FFTInput_B[FFT_buff_index + 1] = ((float32_t)FPGA_fpgadata_in_inttmp16/32767);
 		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index + 1];
 	}
 	//clock
@@ -347,12 +347,12 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
 	if(FFTInputBufferInProgress) // A buffer in progress
 	{
-		FFTInput_A[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FFTInput_A[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16/32767);
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
 	}
 	else // B buffer in progress
 	{
-		FFTInput_B[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16);
+		FFTInput_B[FFT_buff_index] = ((float32_t)FPGA_fpgadata_in_inttmp16/32767);
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
 	}
 	FPGA_Audio_Buffer_Index++;
@@ -372,7 +372,7 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_samples++;
 	
 	//STAGE 2 out Q
-	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index]; //-32767
+	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index]*32767;
 	if(TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
@@ -402,7 +402,7 @@ void FPGA_fpgadata_sendiq(void)
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 
 	//STAGE 6 out I
-	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
+	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]*32767;
 	if(TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock

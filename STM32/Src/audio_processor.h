@@ -10,7 +10,8 @@
 #define FPGA_AUDIO_BUFFER_SIZE 64
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
 #define APROCESSOR_BLOCK_SIZE 32
-#define CLICK_REMOVE_THRESHOLD 500 //peak difference from avg amplitude
+#define CLICK_REMOVE_THRESHOLD 0.0152 //peak difference from avg amplitude
+#define CLICK_REMOVE_STEPSIZE 0.0000001 //peak difference from avg amplitude
 
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
@@ -28,6 +29,6 @@ extern bool Processor_NeedBuffer;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
 extern uint16_t fpga_index_copy;
-extern uint32_t Processor_AVG_amplitude;
+extern float32_t Processor_AVG_amplitude;
 
 #endif

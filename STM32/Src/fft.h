@@ -10,7 +10,7 @@
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
 #define FFT_BOTTOM_OFFSET 190 //указываем максимальную высоту FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
-#define FFT_CONTRAST 100 //минимальный порог сигнала FFT
+#define FFT_CONTRAST 0 //минимальный порог сигнала FFT
 
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);
