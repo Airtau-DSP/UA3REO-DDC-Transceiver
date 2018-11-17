@@ -110,23 +110,31 @@ void FFT_printFFT(void)
 
 uint16_t getFFTColor(uint8_t height)
 {
-	//b r
-	//0 0
-	//255 0
-	//255 255
-	//0 255
-	uint8_t blue = 0;
+	//r g b
+	//0 0 0
+	//0 0 255
+	//255 255 0
+	//255 0 0
+	
 	uint8_t red = 0;
-	if (height <= FFT_MAX_HEIGHT / 3) blue = (height * 255 / (FFT_MAX_HEIGHT / 3));
-	if (height > FFT_MAX_HEIGHT / 3 && height <= 2 * FFT_MAX_HEIGHT / 3)
+	uint8_t green = 0;
+	uint8_t blue = 0;
+	
+	if (height <= FFT_MAX_HEIGHT / 3) 
 	{
-		blue = 255;
-		red = ((height - FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
+		blue = (height * 255 / (FFT_MAX_HEIGHT / 3));
 	}
-	if (height > 2 * FFT_MAX_HEIGHT / 3)
+	else if (height <= 2 * FFT_MAX_HEIGHT / 3)
 	{
-		blue = 255 - ((height - 2 * FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
-		red = 255;
+		green = ((height - FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
+		red = green;
+		blue = 255-green;
 	}
-	return rgb888torgb565(red, 0, blue);
+	else
+	{
+		red = ((height - 2 * FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
+		blue = 255-red;
+		green = 255-red;
+	}
+	return rgb888torgb565(red, green, blue);
 }

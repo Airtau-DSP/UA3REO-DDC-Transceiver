@@ -340,10 +340,7 @@ void TIM6_DAC_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms100_counter++;
-	if (ms100_counter % 2 == 0)
-	{
-		FFT_printFFT();
-	}
+	FFT_printFFT();
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
