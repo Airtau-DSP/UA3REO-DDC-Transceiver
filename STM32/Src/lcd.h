@@ -17,6 +17,14 @@
 #define MENU_MAIN_AGCSPEED 4
 #define MENU_MAIN_COUNT 4
 
+struct button_handler  {
+	uint16_t x1;
+	uint16_t x2;
+	uint16_t y1;
+	uint16_t y2;
+	void (*handler) ();
+};
+
 extern void LCD_Init(void);
 void LCD_displayFreqInfo(bool force);
 void LCD_displayTopButtons(bool redraw);
@@ -27,6 +35,7 @@ void LCD_displayStatusInfoGUI(void);
 extern void LCD_doEvents(void);
 void LCD_redraw(void);
 void LCD_resetTouchpadPins(void);
+void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void (*onclick) ());
 
 extern uint32_t LCD_last_showed_freq;
 extern uint8_t LCD_menu_main_index;
@@ -38,5 +47,35 @@ extern char LCD_freq_string_mhz[6];
 extern bool LCD_bandMenuOpened;
 extern int LCD_last_s_meter;
 extern bool LCD_busy;
+
+//HANDLERS
+void LCD_Handler_TUNE(void);
+void LCD_Handler_MODE(void);
+void LCD_Handler_BAND(void);
+void LCD_Handler_PREAMP(void);
+void LCD_Handler_AGC(void);
+void LCD_Handler_MAP(void);
+void LCD_Handler_MENU(void);
+void LCD_Handler_BAND_160(void);
+void LCD_Handler_BAND_80(void);
+void LCD_Handler_BAND_40(void);
+void LCD_Handler_BAND_30(void);
+void LCD_Handler_BAND_20(void);
+void LCD_Handler_BAND_17(void);
+void LCD_Handler_BAND_15(void);
+void LCD_Handler_BAND_12(void);
+void LCD_Handler_BAND_10(void);
+void LCD_Handler_BAND_BACK(void);
+void LCD_Handler_MODE_LSB(void);
+void LCD_Handler_MODE_USB(void);
+void LCD_Handler_MODE_IQ(void);
+void LCD_Handler_MODE_CW(void);
+void LCD_Handler_MODE_BACK(void);
+void LCD_Handler_MODE_DIGL(void);
+void LCD_Handler_MODE_DIGU(void);
+void LCD_Handler_MODE_FM(void);
+void LCD_Handler_MODE_AM(void);
+void LCD_Handler_MODE_LOOP(void);
+//
 
 #endif

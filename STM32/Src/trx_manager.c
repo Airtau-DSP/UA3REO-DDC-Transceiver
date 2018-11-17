@@ -16,6 +16,19 @@ int32_t TRX_s_meter = 1;
 bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
 
+char *MODE_DESCR[10]={
+	"LSB",
+	"USB",
+	"IQ",
+	"CW",
+	"DIGL",
+	"DIGU",
+	"NOTX",
+	"FM",
+	"AM",
+	"LOOP"
+};
+
 void TRX_Init()
 {
 	TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
