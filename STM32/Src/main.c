@@ -145,7 +145,6 @@ int main(void)
 	WM8731_Init();
 	TRX_Init();
 	ENCODER_Init();
-	//Touch_Calibrate();
 	FPGA_Init();
 	initAudioProcessor();
 	HAL_TIM_Base_Start(&htim5);
@@ -154,7 +153,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	HAL_TIM_Base_Start(&htim4);
 	HAL_TIM_Base_Start_IT(&htim4);
-	Touch_Set_Coef(11.096, -32, -15.588235, 250);
+	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
 	logToUART1_str("UA3REO Started\r\n");
 	TRX_inited=true;
   /* USER CODE END 2 */

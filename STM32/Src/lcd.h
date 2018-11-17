@@ -83,6 +83,7 @@ void LCD_Handler_MENU_BACK(void);
 void LCD_Handler_MENU_GAIN(void);
 void LCD_Handler_MENU_MIC_G(void);
 void LCD_Handler_MENU_AGC_S(void);
+void LCD_Handler_LCD_Calibrate(void);
 //
 
 #endif

@@ -178,13 +178,14 @@ void LCD_displayMainMenu() {
 	button_handlers_count=0;
 	char ctmp[50];
 	
-	printMenuButton(5, 5, 70, 50, "BACK", "", false, LCD_Handler_MENU_BACK);
+	printMenuButton(5, 5, 70, 50, "BACK", "to TRX", false, LCD_Handler_MENU_BACK);
 	sprintf(ctmp, "%d", TRX.Gain_level);
 	printMenuButton(80, 5, 70, 50, "GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_GAIN), LCD_Handler_MENU_GAIN);
 	sprintf(ctmp, "%d", TRX.MicGain_level);
 	printMenuButton(155, 5, 70, 50, "MIC", ctmp, (LCD_menu_main_index == MENU_MAIN_MICGAIN), LCD_Handler_MENU_MIC_G);
 	sprintf(ctmp, "%d", TRX.Agc_speed);
 	printMenuButton(230, 5, 70, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), LCD_Handler_MENU_AGC_S);
+	printMenuButton(5, 60, 70, 50, "LCD", "CALIBRATE", false, LCD_Handler_LCD_Calibrate);
 }
 
 void LCD_redraw(void) {
@@ -422,6 +423,13 @@ void LCD_Handler_MENU_AGC_S(void)
 	LCD_needRedrawMainMenu = true;
 }
 
+void LCD_Handler_LCD_Calibrate(void)
+{
+	HAL_Delay(500);
+	Touch_Calibrate();
+	LCD_redraw();
+}
+
 void LCD_checkTouchPad(void)
 {
 	if (!isTouch())
@@ -476,7 +484,7 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 {
 	ILI9341_Fill_RectWH(x, y, width, height, active ? COLOR_YELLOW : COLOR_CYAN);
 	ILI9341_printText(text1, x+(width-strlen(text1)*6*2)/2+2, y+(height-8*2-8*1)/2, COLOR_BLUE, active ? COLOR_YELLOW : COLOR_CYAN, 2);
-	ILI9341_printText(text2, x+(width-strlen(text2)*6*1)/2+2, y+(height-8*2-8*1)/2+8*2+4, COLOR_BLUE, active ? COLOR_YELLOW : COLOR_CYAN, 1);
+	ILI9341_printText(text2, x+(width-strlen(text2)*6*1)/2+2, y+(height-8*2-8*1)/2+8*2+4, COLOR_BLACK, active ? COLOR_YELLOW : COLOR_CYAN, 1);
 	button_handlers[button_handlers_count].x1=x;
 	button_handlers[button_handlers_count].x2=x+width;
 	button_handlers[button_handlers_count].y1=y;

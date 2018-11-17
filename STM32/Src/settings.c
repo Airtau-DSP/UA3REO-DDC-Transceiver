@@ -21,9 +21,9 @@ bool NeedSaveSettings=false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 124) //code to trace new clean flash
+	if (TRX.clean_flash != 125) //code to trace new clean flash
 	{
-		TRX.clean_flash = 124;
+		TRX.clean_flash = 125;
 		TRX.Freq = 7100000;
 		TRX.Mode = TRX_MODE_IQ;
 		TRX.Preamp = true;
@@ -31,8 +31,12 @@ void LoadSettings(void)
 		TRX.Gain_level = 5;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
-		TRX.MicGain_level=1;
+		TRX.MicGain_level=2;
 		TRX.BandMapEnabled=true;
+		TRX.Touchpad_ax=11.096;
+		TRX.Touchpad_bx=-32;
+		TRX.Touchpad_ay=-15.588235;
+		TRX.Touchpad_by=250;
 	}
 }
 

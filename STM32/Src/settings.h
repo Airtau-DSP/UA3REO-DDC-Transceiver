@@ -23,6 +23,10 @@ extern struct TRX_SETTINGS {
 	uint8_t LCD_menu_freq_index;
 	uint8_t MicGain_level;
 	bool BandMapEnabled;
+	float Touchpad_ax;
+	int16_t Touchpad_bx;
+	float Touchpad_ay;
+	int16_t Touchpad_by;
 } TRX;
 
 extern bool NeedSaveSettings;
