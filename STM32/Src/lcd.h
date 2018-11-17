@@ -17,6 +17,8 @@
 #define MENU_MAIN_AGCSPEED 4
 #define MENU_MAIN_COUNT 4
 
+#define TOUCHPAD_DELAY 100 //anti-bounce
+
 struct button_handler  {
 	uint16_t x1;
 	uint16_t x2;
@@ -36,6 +38,7 @@ extern void LCD_doEvents(void);
 void LCD_redraw(void);
 void LCD_resetTouchpadPins(void);
 void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void (*onclick) ());
+void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, void (*onclick) ());
 
 extern uint32_t LCD_last_showed_freq;
 extern uint8_t LCD_menu_main_index;
@@ -76,6 +79,10 @@ void LCD_Handler_MODE_DIGU(void);
 void LCD_Handler_MODE_FM(void);
 void LCD_Handler_MODE_AM(void);
 void LCD_Handler_MODE_LOOP(void);
+void LCD_Handler_MENU_BACK(void);
+void LCD_Handler_MENU_GAIN(void);
+void LCD_Handler_MENU_MIC_G(void);
+void LCD_Handler_MENU_AGC_S(void);
 //
 
 #endif

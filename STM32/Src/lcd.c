@@ -20,6 +20,7 @@ bool LCD_pressed = false;
 
 struct button_handler button_handlers[16];
 uint8_t button_handlers_count=0;
+uint32_t lastTouchTick=0;
 
 void LCD_Init(void)
 {
@@ -175,41 +176,15 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 void LCD_displayMainMenu() {
 	if (!LCD_mainMenuOpened) return;
 	button_handlers_count=0;
-
 	char ctmp[50];
-	char buff[50] = "";
-	int y = 5;
-
-	ILI9341_printText("Exit", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if (LCD_menu_main_index == MENU_MAIN_EXIT) ILI9341_printText("->", 200, y, COLOR_BLACK, COLOR_WHITE, 2);
-	else ILI9341_printText("->", 200, y, COLOR_WHITE, COLOR_BLACK, 2);
-	y += 20;
-
-	ILI9341_printText("Digital Gain:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
+	
+	printMenuButton(5, 5, 70, 50, "BACK", "", false, LCD_Handler_MENU_BACK);
 	sprintf(ctmp, "%d", TRX.Gain_level);
-	addSymbols(buff, ctmp, 2, " ", true);
-	if (LCD_menu_main_index == MENU_MAIN_GAIN) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
-	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
-	y += 20;
-
-	ILI9341_printText("MIC Gain:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
+	printMenuButton(80, 5, 70, 50, "GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_GAIN), LCD_Handler_MENU_GAIN);
 	sprintf(ctmp, "%d", TRX.MicGain_level);
-	addSymbols(buff, ctmp, 2, " ", true);
-	if (LCD_menu_main_index == MENU_MAIN_MICGAIN) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
-	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
-	y += 20;
-	
-	ILI9341_printText("AGC Speed:", 5, y, COLOR_WHITE, COLOR_BLACK, 2);
+	printMenuButton(155, 5, 70, 50, "MIC", ctmp, (LCD_menu_main_index == MENU_MAIN_MICGAIN), LCD_Handler_MENU_MIC_G);
 	sprintf(ctmp, "%d", TRX.Agc_speed);
-	addSymbols(buff, ctmp, 2, " ", true);
-	if (LCD_menu_main_index == MENU_MAIN_AGCSPEED) ILI9341_printText(buff, 200, y, COLOR_BLACK, COLOR_WHITE, 2);
-	else ILI9341_printText(buff, 200, y, COLOR_WHITE, COLOR_BLACK, 2);
-	y += 20;
-	
-	ILI9341_Fill_RectWH(100, 200, 50, 30, COLOR_YELLOW);
-	ILI9341_printText("v", 120, 210, COLOR_BLUE, COLOR_YELLOW, 2);
-	ILI9341_Fill_RectWH(160, 200, 50, 30, COLOR_YELLOW);
-	ILI9341_printText("^", 180, 210, COLOR_BLUE, COLOR_YELLOW, 2);
+	printMenuButton(230, 5, 70, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), LCD_Handler_MENU_AGC_S);
 }
 
 void LCD_redraw(void) {
@@ -423,6 +398,30 @@ void LCD_Handler_MODE_LOOP(void)
 	LCD_redraw();
 }
 
+void LCD_Handler_MENU_BACK(void)
+{
+	LCD_mainMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_MENU_GAIN(void)
+{
+	LCD_menu_main_index = MENU_MAIN_GAIN;
+	LCD_needRedrawMainMenu = true;
+}
+
+void LCD_Handler_MENU_MIC_G(void)
+{
+	LCD_menu_main_index = MENU_MAIN_MICGAIN;
+	LCD_needRedrawMainMenu = true;
+}
+
+void LCD_Handler_MENU_AGC_S(void)
+{
+	LCD_menu_main_index = MENU_MAIN_AGCSPEED;
+	LCD_needRedrawMainMenu = true;
+}
+
 void LCD_checkTouchPad(void)
 {
 	if (!isTouch())
@@ -432,6 +431,10 @@ void LCD_checkTouchPad(void)
 	}
 	if(LCD_pressed) return;
 	LCD_pressed=true;
+	
+	if(HAL_GetTick()-lastTouchTick<TOUCHPAD_DELAY) return; //anti-bounce
+	lastTouchTick=HAL_GetTick();
+	
 	uint16_t x = 0;
 	uint16_t y = 0;
 	Get_Touch_XY(&x, &y, 1, 0);
@@ -454,20 +457,6 @@ void LCD_checkTouchPad(void)
 		LCD_last_showed_freq=0;
 		LCD_displayFreqInfo(false);
 	}
-	
-	//кнопки в меню
-	if (LCD_mainMenuOpened)
-	{
-		if (x >= 100 && x <= 150 && y >= 200 && y <= 230) { //кнопка v
-			LCD_menu_main_index++;
-		}
-		else if (x >= 160 && x <= 210 && y >= 200 && y <= 230) { //кнопка ^
-			LCD_menu_main_index--;
-		}
-		if (LCD_menu_main_index > MENU_MAIN_COUNT) LCD_menu_main_index = 1;
-		if (LCD_menu_main_index < 1) LCD_menu_main_index = 1;
-		LCD_needRedrawMainMenu=true;
-	}
 }
 
 void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void (*onclick) ())
@@ -475,6 +464,19 @@ void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* 
 	uint8_t font_size=2;
 	ILI9341_Fill_RectWH(x, y, width, height, active ? active_color : back_color);
 	ILI9341_printText(text, x+(width-strlen(text)*6*font_size)/2+2, y+(height-8*font_size)/2+2, text_color, active ? active_color : back_color, font_size);
+	button_handlers[button_handlers_count].x1=x;
+	button_handlers[button_handlers_count].x2=x+width;
+	button_handlers[button_handlers_count].y1=y;
+	button_handlers[button_handlers_count].y2=y+height;
+	button_handlers[button_handlers_count].handler=onclick;
+	button_handlers_count++;
+}
+
+void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, void (*onclick) ())
+{
+	ILI9341_Fill_RectWH(x, y, width, height, active ? COLOR_YELLOW : COLOR_CYAN);
+	ILI9341_printText(text1, x+(width-strlen(text1)*6*2)/2+2, y+(height-8*2-8*1)/2, COLOR_BLUE, active ? COLOR_YELLOW : COLOR_CYAN, 2);
+	ILI9341_printText(text2, x+(width-strlen(text2)*6*1)/2+2, y+(height-8*2-8*1)/2+8*2+4, COLOR_BLUE, active ? COLOR_YELLOW : COLOR_CYAN, 1);
 	button_handlers[button_handlers_count].x1=x;
 	button_handlers[button_handlers_count].x2=x+width;
 	button_handlers[button_handlers_count].y1=y;
