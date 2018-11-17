@@ -36,7 +36,7 @@ void FFT_doFFT(void)
 			FFTInput_A[i*2+1] = multiplier * FFTInput_A[i*2+1];
 		}
 		arm_cfft_f32(S, FFTInput_A, 0, 1);
-		arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
 	}
 	else //A in progress
 	{
@@ -47,7 +47,7 @@ void FFT_doFFT(void)
 			FFTInput_B[i*2+1] = multiplier * FFTInput_B[i*2+1];
 		}
 		arm_cfft_f32(S, FFTInput_B, 0, 1);
-		arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 	}
 	FFT_need_fft = false;
 }
@@ -58,11 +58,19 @@ void FFT_printFFT(void)
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
 	LCD_busy=true;
-	if (maxValueErrors > 100 || maxValueErrors == 0) arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
+	if (maxValueErrors > 100 || maxValueErrors == 0)
+	{
+		arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
+		if(maxValue>(float32_t)FFT_MAX) maxValue=(float32_t)FFT_MAX;
+	}
 	if (maxValue < FFT_CONTRAST) maxValue = FFT_CONTRAST; //минимальный порог
 	maxValueErrors = 0;
 	// Нормируем АЧХ к единице
-	for (uint32_t n = 0; n < FFT_SIZE; n++) FFTOutput[n] = FFTOutput[n] / maxValue;
+	for (uint32_t n = 0; n < FFT_SIZE; n++)
+	{
+		FFTOutput[n] = FFTOutput[n] / maxValue;
+		if(FFTOutput[n]>1) FFTOutput[n]=1;
+	}
 
 	ILI9341_Fill_RectWH(0, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT - 1, FFT_SIZE, FFT_MAX_HEIGHT, COLOR_BLACK);
 
