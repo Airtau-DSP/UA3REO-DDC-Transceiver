@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define ADC_CLIP_WARN_THRESHOLD 32767/4
+#define ADC_CLIP_WARN_THRESHOLD 0.25
 
 #define agc_wdsp_slope 70
 #define agc_wdsp_hang_time 500
@@ -23,7 +23,7 @@ typedef struct
 	//#define MAX_N_TAU           (8)
 	//#define MAX_TAU_ATTACK      (0.01)
 	//#define RB_SIZE       (int) (MAX_SAMPLE_RATE * MAX_N_TAU * MAX_TAU_ATTACK + 1)
-#define AGC_WDSP_RB_SIZE 384
+	#define AGC_WDSP_RB_SIZE 384
 	//int8_t AGC_mode = 2;
 	int pmode;// = 1; // if 0, calculate magnitude by max(|I|, |Q|), if 1, calculate sqrtf(I*I+Q*Q)
 	float32_t out_sample[2];
@@ -33,7 +33,6 @@ typedef struct
 	int n_tau;
 	float32_t max_gain;
 	float32_t var_gain;
-	float32_t fixed_gain; // = 1.0;
 	float32_t max_input;
 	float32_t out_targ;
 	float32_t tau_fast_backaverage;

@@ -32,7 +32,6 @@ void SetupAgcWdsp(void)
 	4,                        // n_tau
 	10000.0,                    // max_gain
 	1.5,                      // var_gain
-	1000.0,                     // fixed_gain
 	1.0,                      // max_input
 	1.0,                      // out_target
 	0.250,                      // tau_fast_backaverage
@@ -72,7 +71,6 @@ loadWcpAGC(a);
 		agc_wdsp.ring_buffsize = AGC_WDSP_RB_SIZE; //192; //96;
 		//do one-time initialization
 		agc_wdsp.out_index = -1; //agc_wdsp.ring_buffsize; // or -1 ??
-		agc_wdsp.fixed_gain = 1.0;
 		agc_wdsp.ring_max = 0.0;
 		agc_wdsp.volts = 0.0;
 		agc_wdsp.save_volts = 0.0;
@@ -96,7 +94,6 @@ loadWcpAGC(a);
 
 		//    max_gain = 1000.0; // 1000.0; determines the AGC threshold = knee level
 		//  max_gain is powf (10.0, (float32_t)ts.agc_wdsp_thresh / 20.0);
-		//    fixed_gain = ads.agc_rf_gain; //0.7; // if AGC == OFF, this gain is used
 		agc_wdsp.max_input = (float32_t)ADC_CLIP_WARN_THRESHOLD; // which is 4096 at the moment
 		//32767.0; // maximum value of 16-bit audio //  1.0; //
 		agc_wdsp.out_targ = (float32_t)ADC_CLIP_WARN_THRESHOLD; // 4096, tweaked, so that volume when switching between the two AGCs remains equal
@@ -167,7 +164,6 @@ loadWcpAGC(a);
 	agc_wdsp.tau_hang_decay = (float32_t)agc_wdsp_tau_hang_decay / (float32_t)1000.0;
 	agc_wdsp.tau_decay = (float32_t)agc_wdsp_tau_decay[agc_wdsp_mode] / (float32_t)1000.0;
 	agc_wdsp.max_gain = powf((float32_t)10.0, (float32_t)agc_wdsp_thresh / (float32_t)20.0);
-	agc_wdsp.fixed_gain = agc_wdsp.max_gain / (float32_t)10.0;
 	// attack_buff_size is 48 for sample rate == 12000 and
 	// 96 for sample rate == 24000
 	agc_wdsp.attack_buffsize = (int)ceil(sample_rate * agc_wdsp.n_tau * agc_wdsp.tau_attack);
@@ -225,15 +221,6 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 	// Be careful: the original source code has no comments,
 	// all comments added by DD4WH, February 2017: comments could be wrong, misinterpreting or highly misleading!
 	//
-	if (!TRX.Agc)  // AGC OFF
-	{
-		for (uint16_t i = 0; i < blockSize; i++)
-		{
-			agcbuffer1[i] = agcbuffer1[i] * agc_wdsp.fixed_gain;
-		}
-		return;
-	}
-
 	for (uint16_t i = 0; i < blockSize; i++)
 	{
 		if (++agc_wdsp.out_index >= agc_wdsp.ring_buffsize)

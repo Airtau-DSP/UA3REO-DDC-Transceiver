@@ -352,6 +352,7 @@ void TIM6_DAC_IRQHandler(void)
 		//logToUART1_num32(AUDIOPROC_TXA_samples);
 		//logToUART1_num32(AUDIOPROC_TXB_samples);
 		//logToUART1_float32(Processor_AVG_amplitude);
+		//logToUART1_float32(agc_wdsp.volts);
 		//logToUART1_str("\r\n");
 		
 		FPGA_samples = 0;

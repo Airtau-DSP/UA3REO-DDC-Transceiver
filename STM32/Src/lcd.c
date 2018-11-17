@@ -155,7 +155,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	if (LCD_mainMenuOpened) return;
 
 	int width = 273;
-	TRX_s_meter = (float32_t)72.25091874*log10f_fast(agc_wdsp.volts) + ((float32_t)0.35*(float32_t)72.25091874);
+	TRX_s_meter = (float32_t)73*log10f_fast(agc_wdsp.volts*32767) + ((float32_t)0.35*(float32_t)73);
 	if (TRX_s_meter > width) TRX_s_meter = width;
 	if (TRX_s_meter < 0) TRX_s_meter = 0;
 
