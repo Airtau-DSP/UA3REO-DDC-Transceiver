@@ -199,8 +199,8 @@ Section Cross References
     lcd.o(i.LCD_Handler_MENU_AGC_S) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MENU_BACK) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MENU_BACK) refers to lcd.o(.data) for .data
-    lcd.o(i.LCD_Handler_MENU_GAIN) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MENU_MIC_G) refers to lcd.o(.data) for .data
+    lcd.o(i.LCD_Handler_MENU_VOLUME) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE) refers to lcd.o(i.LCD_displayTopButtons) for LCD_displayTopButtons
     lcd.o(i.LCD_Handler_MODE) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_AM) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
@@ -271,7 +271,7 @@ Section Cross References
     lcd.o(i.LCD_displayMainMenu) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_displayMainMenu) refers to lcd.o(i.LCD_Handler_MENU_BACK) for LCD_Handler_MENU_BACK
     lcd.o(i.LCD_displayMainMenu) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_displayMainMenu) refers to lcd.o(i.LCD_Handler_MENU_GAIN) for LCD_Handler_MENU_GAIN
+    lcd.o(i.LCD_displayMainMenu) refers to lcd.o(i.LCD_Handler_MENU_VOLUME) for LCD_Handler_MENU_VOLUME
     lcd.o(i.LCD_displayMainMenu) refers to lcd.o(i.LCD_Handler_MENU_MIC_G) for LCD_Handler_MENU_MIC_G
     lcd.o(i.LCD_displayMainMenu) refers to lcd.o(i.LCD_Handler_MENU_AGC_S) for LCD_Handler_MENU_AGC_S
     lcd.o(i.LCD_displayMainMenu) refers to lcd.o(i.LCD_Handler_LCD_Calibrate) for LCD_Handler_LCD_Calibrate
@@ -452,7 +452,6 @@ Section Cross References
     audio_processor.o(i.initAudioProcessor) refers to agc.o(i.SetupAgcWdsp) for SetupAgcWdsp
     audio_processor.o(i.processRxAudio) refers to functions.o(i.readHalfFromCircleBuffer32) for readHalfFromCircleBuffer32
     audio_processor.o(i.processRxAudio) refers to arm_abs_f32.o(.text) for arm_abs_f32
-    audio_processor.o(i.processRxAudio) refers to arm_scale_f32.o(.text) for arm_scale_f32
     audio_processor.o(i.processRxAudio) refers to trx_manager.o(i.TRX_getMode) for TRX_getMode
     audio_processor.o(i.processRxAudio) refers to arm_fir_f32.o(.text) for arm_fir_f32
     audio_processor.o(i.processRxAudio) refers to arm_sub_f32.o(.text) for arm_sub_f32
@@ -460,6 +459,7 @@ Section Cross References
     audio_processor.o(i.processRxAudio) refers to arm_iir_lattice_f32.o(.text) for arm_iir_lattice_f32
     audio_processor.o(i.processRxAudio) refers to agc.o(i.RxAgcWdsp) for RxAgcWdsp
     audio_processor.o(i.processRxAudio) refers to memcpya.o(.text) for __aeabi_memcpy4
+    audio_processor.o(i.processRxAudio) refers to arm_scale_f32.o(.text) for arm_scale_f32
     audio_processor.o(i.processRxAudio) refers to stm32f4xx_hal_dma.o(i.HAL_DMA_Start) for HAL_DMA_Start
     audio_processor.o(i.processRxAudio) refers to stm32f4xx_hal_dma.o(i.HAL_DMA_PollForTransfer) for HAL_DMA_PollForTransfer
     audio_processor.o(i.processRxAudio) refers to audio_processor.o(.data) for .data
@@ -2844,8 +2844,8 @@ Image Symbol Table
     i.LCD_Handler_MENU                       0x08005e68   Section        0  lcd.o(i.LCD_Handler_MENU)
     i.LCD_Handler_MENU_AGC_S                 0x08005e78   Section        0  lcd.o(i.LCD_Handler_MENU_AGC_S)
     i.LCD_Handler_MENU_BACK                  0x08005e88   Section        0  lcd.o(i.LCD_Handler_MENU_BACK)
-    i.LCD_Handler_MENU_GAIN                  0x08005e98   Section        0  lcd.o(i.LCD_Handler_MENU_GAIN)
-    i.LCD_Handler_MENU_MIC_G                 0x08005ea8   Section        0  lcd.o(i.LCD_Handler_MENU_MIC_G)
+    i.LCD_Handler_MENU_MIC_G                 0x08005e98   Section        0  lcd.o(i.LCD_Handler_MENU_MIC_G)
+    i.LCD_Handler_MENU_VOLUME                0x08005ea8   Section        0  lcd.o(i.LCD_Handler_MENU_VOLUME)
     i.LCD_Handler_MODE                       0x08005eb8   Section        0  lcd.o(i.LCD_Handler_MODE)
     i.LCD_Handler_MODE_AM                    0x08005ec8   Section        0  lcd.o(i.LCD_Handler_MODE_AM)
     i.LCD_Handler_MODE_BACK                  0x08005ee4   Section        0  lcd.o(i.LCD_Handler_MODE_BACK)
@@ -3296,7 +3296,7 @@ Image Symbol Table
     DMA1_Stream5_IRQHandler                  0x0800238d   Thumb Code     6  stm32f4xx_it.o(i.DMA1_Stream5_IRQHandler)
     DebugMon_Handler                         0x0800243d   Thumb Code     2  stm32f4xx_it.o(i.DebugMon_Handler)
     ENCODER_Init                             0x08002441   Thumb Code    16  encoder.o(i.ENCODER_Init)
-    ENCODER_Rotated                          0x08002459   Thumb Code   202  encoder.o(i.ENCODER_Rotated)
+    ENCODER_Rotated                          0x08002459   Thumb Code   204  encoder.o(i.ENCODER_Rotated)
     ENCODER_checkRotate                      0x08002539   Thumb Code    74  encoder.o(i.ENCODER_checkRotate)
     EXTI15_10_IRQHandler                     0x0800258d   Thumb Code    38  stm32f4xx_it.o(i.EXTI15_10_IRQHandler)
     EXTI2_IRQHandler                         0x080025b9   Thumb Code    26  stm32f4xx_it.o(i.EXTI2_IRQHandler)
@@ -3428,8 +3428,8 @@ Image Symbol Table
     LCD_Handler_MENU                         0x08005e69   Thumb Code    10  lcd.o(i.LCD_Handler_MENU)
     LCD_Handler_MENU_AGC_S                   0x08005e79   Thumb Code    12  lcd.o(i.LCD_Handler_MENU_AGC_S)
     LCD_Handler_MENU_BACK                    0x08005e89   Thumb Code    10  lcd.o(i.LCD_Handler_MENU_BACK)
-    LCD_Handler_MENU_GAIN                    0x08005e99   Thumb Code    12  lcd.o(i.LCD_Handler_MENU_GAIN)
-    LCD_Handler_MENU_MIC_G                   0x08005ea9   Thumb Code    12  lcd.o(i.LCD_Handler_MENU_MIC_G)
+    LCD_Handler_MENU_MIC_G                   0x08005e99   Thumb Code    12  lcd.o(i.LCD_Handler_MENU_MIC_G)
+    LCD_Handler_MENU_VOLUME                  0x08005ea9   Thumb Code    12  lcd.o(i.LCD_Handler_MENU_VOLUME)
     LCD_Handler_MODE                         0x08005eb9   Thumb Code    10  lcd.o(i.LCD_Handler_MODE)
     LCD_Handler_MODE_AM                      0x08005ec9   Thumb Code    22  lcd.o(i.LCD_Handler_MODE_AM)
     LCD_Handler_MODE_BACK                    0x08005ee5   Thumb Code    10  lcd.o(i.LCD_Handler_MODE_BACK)
@@ -3530,7 +3530,7 @@ Image Symbol Table
     main                                     0x0800a371   Thumb Code   262  main_1.o(i.main)
     printButton                              0x0800a4a5   Thumb Code   148  lcd.o(i.printButton)
     printMenuButton                          0x0800a541   Thumb Code   190  lcd.o(i.printMenuButton)
-    processRxAudio                           0x0800a609   Thumb Code   802  audio_processor.o(i.processRxAudio)
+    processRxAudio                           0x0800a609   Thumb Code   798  audio_processor.o(i.processRxAudio)
     processTxAudio                           0x0800a97d   Thumb Code   538  audio_processor.o(i.processTxAudio)
     readHalfFromCircleBuffer32               0x0800abdd   Thumb Code    64  functions.o(i.readHalfFromCircleBuffer32)
     readHalfFromCircleBufferU32              0x0800ac1d   Thumb Code    64  functions.o(i.readHalfFromCircleBufferU32)
@@ -3900,8 +3900,8 @@ Memory Map of the image
     0x08005e68   0x08005e68   0x00000010   Code   RO          556    i.LCD_Handler_MENU  lcd.o
     0x08005e78   0x08005e78   0x00000010   Code   RO          557    i.LCD_Handler_MENU_AGC_S  lcd.o
     0x08005e88   0x08005e88   0x00000010   Code   RO          558    i.LCD_Handler_MENU_BACK  lcd.o
-    0x08005e98   0x08005e98   0x00000010   Code   RO          559    i.LCD_Handler_MENU_GAIN  lcd.o
-    0x08005ea8   0x08005ea8   0x00000010   Code   RO          560    i.LCD_Handler_MENU_MIC_G  lcd.o
+    0x08005e98   0x08005e98   0x00000010   Code   RO          559    i.LCD_Handler_MENU_MIC_G  lcd.o
+    0x08005ea8   0x08005ea8   0x00000010   Code   RO          560    i.LCD_Handler_MENU_VOLUME  lcd.o
     0x08005eb8   0x08005eb8   0x00000010   Code   RO          561    i.LCD_Handler_MODE  lcd.o
     0x08005ec8   0x08005ec8   0x0000001c   Code   RO          562    i.LCD_Handler_MODE_AM  lcd.o
     0x08005ee4   0x08005ee4   0x00000010   Code   RO          563    i.LCD_Handler_MODE_BACK  lcd.o
@@ -4123,17 +4123,17 @@ Image component sizes
 
       1812        102          0         14       4784       5213   agc.o
        132         40       2412          0       3196       2172   audio_filters.o
-      1506        162          0         28        768      17868   audio_processor.o
+      1506        166          0         28        768      17844   audio_processor.o
        132         14        724          0          0       1278   bands.o
        140         18          0          0          0     709107   bootloader.o
-       332         40          0         12          0      15360   encoder.o
+       332         38          0         12          0      15360   encoder.o
        910         70          0         24      30720       3802   fft.o
       1614        238          0         20        512       8483   fpga.o
        532         72          0          0          0       5948   functions.o
-      4526        756          0         38        192      25689   lcd.o
+      4526        756          0         38        192      25679   lcd.o
       1198         68       1280          4          0      16837   ma_ili9341.o
       1670        152          0          0        956       8541   main_1.o
-       440         70          0          9         32       4515   settings.o
+       440         70          0          9         32       4511   settings.o
         36          8        392          0       2048        840   startup_stm32f407xx.o
        180         28          0         12          0       4605   stm32f4xx_hal.o
        228         14          0          0          0      32181   stm32f4xx_hal_cortex.o
@@ -4158,7 +4158,7 @@ Image component sizes
       1560        176          0         36         20       5919   xpt2046_spi.o
 
     ----------------------------------------------------------------------
-     29686       2828       4928        296      44460     964222   Object Totals
+     29686       2830       4928        296      44460     964184   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         32          0          3         14          6          0   (incl. Padding)
 
@@ -4253,9 +4253,9 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     43884       3282      10356        300      44460    1004658   Grand Totals
-     43884       3282      10356         88      44460    1004658   ELF Image Totals (compressed)
-     43884       3282      10356         88          0          0   ROM Totals
+     43884       3284      10356        300      44460    1004620   Grand Totals
+     43884       3284      10356         88      44460    1004620   ELF Image Totals (compressed)
+     43884       3284      10356         88          0          0   ROM Totals
 
 ==============================================================================
 

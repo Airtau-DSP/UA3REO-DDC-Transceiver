@@ -179,8 +179,8 @@ void LCD_displayMainMenu() {
 	char ctmp[50];
 	
 	printMenuButton(5, 5, 70, 50, "BACK", "to TRX", false, LCD_Handler_MENU_BACK);
-	sprintf(ctmp, "%d", TRX.Gain_level);
-	printMenuButton(80, 5, 70, 50, "GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_GAIN), LCD_Handler_MENU_GAIN);
+	sprintf(ctmp, "%d", TRX.Volume);
+	printMenuButton(80, 5, 70, 50, "VOLUM", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), LCD_Handler_MENU_VOLUME);
 	sprintf(ctmp, "%d", TRX.MicGain_level);
 	printMenuButton(155, 5, 70, 50, "MIC", ctmp, (LCD_menu_main_index == MENU_MAIN_MICGAIN), LCD_Handler_MENU_MIC_G);
 	sprintf(ctmp, "%d", TRX.Agc_speed);
@@ -405,9 +405,9 @@ void LCD_Handler_MENU_BACK(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MENU_GAIN(void)
+void LCD_Handler_MENU_VOLUME(void)
 {
-	LCD_menu_main_index = MENU_MAIN_GAIN;
+	LCD_menu_main_index = MENU_MAIN_VOLUME;
 	LCD_needRedrawMainMenu = true;
 }
 

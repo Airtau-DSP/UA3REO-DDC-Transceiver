@@ -127,9 +127,6 @@ void processRxAudio(void)
 		}
 	}
 	
-	if (TRX.Gain_level > 1) arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.Gain_level, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN
-	if (TRX.Gain_level > 1) arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.Gain_level, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //GAIN
-	
 	//SSB
 	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U || TRX_getMode() == TRX_MODE_AM)
 	{
@@ -161,6 +158,10 @@ void processRxAudio(void)
 
 		memcpy(&FPGA_Audio_Buffer_Q_tmp[0],&FPGA_Audio_Buffer_I_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE*4); //double channel
 	}
+	
+	//OUT Volume
+	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume/(float32_t)100, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, (float32_t)TRX.Volume/(float32_t)100, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	
 	//Prepare data to DMA
 	if (Processor_AudioBuffer_ReadyBuffer == 0)
