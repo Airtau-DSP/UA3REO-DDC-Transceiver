@@ -6,12 +6,12 @@
 #include <math.h> 
 #include "arm_math.h"
 
-#define FFT_SIZE 256 //указываем размер FFT
+#define FFT_SIZE 512 //указываем размер FFT
+#define FFT_PRINT_SIZE 256 //указываем размер FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
 #define FFT_BOTTOM_OFFSET 190 //указываем максимальную высоту FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
-#define FFT_CONTRAST 0 //минимальный порог сигнала FFT
-#define FFT_MAX 100 //MAX порог сигнала FFT
+#define FFT_MAX 120 //MAX порог сигнала FFT
 
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);
