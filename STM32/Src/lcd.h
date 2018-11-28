@@ -60,6 +60,7 @@ void LCD_Handler_AGC(void);
 void LCD_Handler_MENU_BPF(void);
 void LCD_Handler_MENU_ATT(void);
 void LCD_Handler_MENU_MAP(void);
+void LCD_Handler_MENU_LINEMIC(void);
 void LCD_Handler_MENU(void);
 void LCD_Handler_BAND_160(void);
 void LCD_Handler_BAND_80(void);

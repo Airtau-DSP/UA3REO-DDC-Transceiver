@@ -193,6 +193,7 @@ void LCD_displayMainMenu() {
 	
 	printMenuButton(5, 115, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 	printMenuButton(84, 115, 74, 50, "BPF", "Band filters", TRX.BPF, true, LCD_Handler_MENU_BPF);
+	printMenuButton(163, 115, 74, 50, "Input", TRX.LineMicIn?"Line":"Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
 }
 
 void LCD_redraw(void) {
@@ -279,6 +280,14 @@ void LCD_Handler_AGC(void)
 void LCD_Handler_MENU_MAP(void)
 {
 	TRX.BandMapEnabled=!TRX.BandMapEnabled;
+	LCD_needRedrawMainMenu = true;
+	NeedSaveSettings=true;
+}
+
+void LCD_Handler_MENU_LINEMIC(void)
+{
+	TRX.LineMicIn=!TRX.LineMicIn;
+	start_i2s();
 	LCD_needRedrawMainMenu = true;
 	NeedSaveSettings=true;
 }

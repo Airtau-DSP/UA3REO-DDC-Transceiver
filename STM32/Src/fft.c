@@ -81,7 +81,7 @@ void FFT_doFFT(void)
 void FFT_printFFT(void)
 {
 	if(LCD_busy) return;
-	if(TRX_ptt || TRX_tune) return;
+	if(TRX_ptt || TRX_tune || TRX_getMode()==TRX_MODE_LOOPBACK) return;
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
 	LCD_busy=true;
