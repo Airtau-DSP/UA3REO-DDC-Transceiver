@@ -16,7 +16,8 @@ extern struct TRX_SETTINGS {
 	uint8_t clean_flash;
 	uint32_t Freq;
 	uint8_t Mode;
-	bool Preamp;
+	bool Preamp_UHF;
+	bool Preamp_HF;
 	bool Agc;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
@@ -27,6 +28,8 @@ extern struct TRX_SETTINGS {
 	float Touchpad_ay;
 	int16_t Touchpad_by;
 	uint8_t Volume;
+	bool Att;
+	bool BPF;
 } TRX;
 
 extern bool NeedSaveSettings;

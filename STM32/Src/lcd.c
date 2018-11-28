@@ -74,13 +74,13 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	else
 	{
 		printButton(5, 5, 73, 30, MODE_DESCR[TRX_getMode()], COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MODE);
-		printButton(83, 5, 73, 30, "VFO-A", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
+		printButton(83, 5, 73, 30, "WIDTH", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //Filter width
 		printButton(161, 5, 73, 30, "TUNE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_tune==true), LCD_Handler_TUNE);
 		printButton(239, 5, 76, 30, "BAND", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_BAND);
-		printButton(5, 40, 53, 30, "PRE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Preamp==true), LCD_Handler_PREAMP);
+		printButton(5, 40, 53, 30, "VFOA", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //VFO-A VFO-B
 		printButton(63, 40, 53, 30, "AGC", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Agc==true), LCD_Handler_AGC);
-		printButton(121, 40, 53, 30, "MAP", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.BandMapEnabled==true), LCD_Handler_MAP);
-		printButton(179, 40, 55, 30, "ATT", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
+		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //FAST
+		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //MUTE
 		printButton(239, 40, 76, 30, "MENU", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MENU);
 	}
 }
@@ -178,14 +178,21 @@ void LCD_displayMainMenu() {
 	button_handlers_count=0;
 	char ctmp[50];
 	
-	printMenuButton(5, 5, 70, 50, "BACK", "to TRX", false, LCD_Handler_MENU_BACK);
+	printMenuButton(5, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
 	sprintf(ctmp, "%d", TRX.Volume);
-	printMenuButton(80, 5, 70, 50, "VOLUM", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), LCD_Handler_MENU_VOLUME);
+	printMenuButton(84, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
 	sprintf(ctmp, "%d", TRX.MicGain_level);
-	printMenuButton(155, 5, 70, 50, "MIC", ctmp, (LCD_menu_main_index == MENU_MAIN_MICGAIN), LCD_Handler_MENU_MIC_G);
+	printMenuButton(163, 5, 74, 50, "MIC", ctmp, (LCD_menu_main_index == MENU_MAIN_MICGAIN), false, LCD_Handler_MENU_MIC_G);
 	sprintf(ctmp, "%d", TRX.Agc_speed);
-	printMenuButton(230, 5, 70, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), LCD_Handler_MENU_AGC_S);
-	printMenuButton(5, 60, 70, 50, "LCD", "CALIBRATE", false, LCD_Handler_LCD_Calibrate);
+	printMenuButton(242, 5, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
+	
+	printMenuButton(5, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
+	printMenuButton(84, 60, 74, 50, "PREAMP", "UHF", TRX.Preamp_UHF, true, LCD_Handler_MENU_PREAMP_UHF);
+	printMenuButton(163, 60, 74, 50, "PREAMP", "HF", TRX.Preamp_HF, true, LCD_Handler_MENU_PREAMP_HF);
+	printMenuButton(242, 60, 74, 50, "ATT", "20dB", TRX.Att, true, LCD_Handler_MENU_ATT);
+	
+	printMenuButton(5, 115, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
+	printMenuButton(84, 115, 74, 50, "BPF", "Band filters", TRX.BPF, true, LCD_Handler_MENU_BPF);
 }
 
 void LCD_redraw(void) {
@@ -234,10 +241,31 @@ void LCD_Handler_BAND(void)
 	LCD_displayTopButtons(true);
 }
 
-void LCD_Handler_PREAMP(void)
+void LCD_Handler_MENU_ATT(void)
 {
-	TRX.Preamp = !TRX.Preamp;
-	LCD_displayTopButtons(false);
+	TRX.Att = !TRX.Att;
+	LCD_needRedrawMainMenu = true;
+	NeedSaveSettings=true;
+}
+
+void LCD_Handler_MENU_BPF(void)
+{
+	TRX.BPF = !TRX.BPF;
+	LCD_needRedrawMainMenu = true;
+	NeedSaveSettings=true;
+}
+
+void LCD_Handler_MENU_PREAMP_UHF(void)
+{
+	TRX.Preamp_UHF = !TRX.Preamp_UHF;
+	LCD_needRedrawMainMenu = true;
+	NeedSaveSettings=true;
+}
+
+void LCD_Handler_MENU_PREAMP_HF(void)
+{
+	TRX.Preamp_HF = !TRX.Preamp_HF;
+	LCD_needRedrawMainMenu = true;
 	NeedSaveSettings=true;
 }
 
@@ -248,10 +276,10 @@ void LCD_Handler_AGC(void)
 	NeedSaveSettings=true;
 }
 
-void LCD_Handler_MAP(void)
+void LCD_Handler_MENU_MAP(void)
 {
 	TRX.BandMapEnabled=!TRX.BandMapEnabled;
-	LCD_displayTopButtons(false);
+	LCD_needRedrawMainMenu = true;
 	NeedSaveSettings=true;
 }
 
@@ -480,11 +508,13 @@ void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* 
 	button_handlers_count++;
 }
 
-void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, void (*onclick) ())
+void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void (*onclick) ())
 {
-	ILI9341_Fill_RectWH(x, y, width, height, active ? COLOR_YELLOW : COLOR_CYAN);
-	ILI9341_printText(text1, x+(width-strlen(text1)*6*2)/2+2, y+(height-8*2-8*1)/2, COLOR_BLUE, active ? COLOR_YELLOW : COLOR_CYAN, 2);
-	ILI9341_printText(text2, x+(width-strlen(text2)*6*1)/2+2, y+(height-8*2-8*1)/2+8*2+4, COLOR_BLACK, active ? COLOR_YELLOW : COLOR_CYAN, 1);
+	uint16_t color=active ? COLOR_YELLOW : COLOR_DGREEN;
+	if(!switchable) color=active ? COLOR_YELLOW : COLOR_CYAN;
+	ILI9341_Fill_RectWH(x, y, width, height, color);
+	ILI9341_printText(text1, x+(width-strlen(text1)*6*2)/2+1, y+(height-8*2-8*1)/2, COLOR_BLUE, color, 2);
+	ILI9341_printText(text2, x+(width-strlen(text2)*6*1)/2+1, y+(height-8*2-8*1)/2+8*2+4, COLOR_BLACK, color, 1);
 	button_handlers[button_handlers_count].x1=x;
 	button_handlers[button_handlers_count].x2=x+width;
 	button_handlers[button_handlers_count].y1=y;

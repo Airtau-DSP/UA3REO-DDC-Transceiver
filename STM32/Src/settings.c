@@ -6,6 +6,7 @@
 #include "trx_manager.h"
 #include "lcd.h"
 #include "fpga.h"
+#include "helper.h"
 
 //W25Q16
 uint8_t Write_Enable = W25Q16_COMMAND_Write_Enable;
@@ -21,12 +22,13 @@ bool NeedSaveSettings=false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 126) //code to trace new clean flash
+	if (TRX.clean_flash != 127) //code to trace new clean flash
 	{
-		TRX.clean_flash = 126;
+		TRX.clean_flash = 127;
 		TRX.Freq = 7100000;
 		TRX.Mode = TRX_MODE_IQ;
-		TRX.Preamp = true;
+		TRX.Preamp_UHF = true;
+		TRX.Preamp_HF = false;
 		TRX.Agc = true;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
@@ -37,7 +39,10 @@ void LoadSettings(void)
 		TRX.Touchpad_ay=-15.588235;
 		TRX.Touchpad_by=250;
 		TRX.Volume=20;
+		TRX.Att=false;
+		TRX.BPF=true;
 	}
+	HELPER_updateSettings();
 }
 
 void SaveSettings(void)

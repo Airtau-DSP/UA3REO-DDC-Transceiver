@@ -45,6 +45,7 @@
 #include "agc.h"
 #include "settings.h"
 #include "fpga.h"
+#include "helper.h"
 
 uint32_t ms100_counter = 0;
 
@@ -341,6 +342,11 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms100_counter++;
 	FFT_printFFT();
+	if(NeedSaveSettings)
+	{
+		FPGA_NeedSendParams = true;
+		HELPER_updateSettings();
+	}
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
@@ -364,7 +370,6 @@ void TIM6_DAC_IRQHandler(void)
 		FPGA_NeedSendParams = true;
 		if(NeedSaveSettings) SaveSettings();
 	}
-	if(NeedSaveSettings) FPGA_NeedSendParams = true;
 	LCD_doEvents();
 	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
