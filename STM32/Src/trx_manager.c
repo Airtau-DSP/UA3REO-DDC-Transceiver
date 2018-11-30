@@ -54,6 +54,9 @@ void TRX_setFrequency(uint32_t _freq)
 {
 	if (_freq < 100) _freq = 100;
 	if (_freq >= ADCDAC_CLOCK / 2) _freq = ADCDAC_CLOCK / 2;
+	
+	FFT_moveWaterfall(_freq-TRX.Freq);
+	
 	TRX.Freq = _freq;
 	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(TRX.Freq))
 	{

@@ -5,6 +5,7 @@
 #include "arm_const_structs.h"
 #include "functions.h"
 #include "audio_processor.h"
+#include "wm8731.h"
 
 uint32_t FFT_buff_index = 0;
 float32_t FFTInput_A[FFT_SIZE * 2] = { 0 };
@@ -123,6 +124,42 @@ void FFT_printFFT(void)
 
 	FFT_need_fft = true;
 	LCD_busy = false;
+}
+
+void FFT_moveWaterfall(int16_t freq_diff)
+{
+	int16_t new_x=0;
+	freq_diff=freq_diff/FFT_HZ_IN_PIXEL;
+	
+	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
+	{
+		if(freq_diff>0)
+		{
+			for (uint16_t x = 0; x < FFT_PRINT_SIZE; x++)
+			{
+				new_x=x+freq_diff;
+				if(new_x<0 || new_x>FFT_PRINT_SIZE)
+				{
+					wtf_buffer[y][x]=0;
+					continue;
+				};
+				wtf_buffer[y][x]=wtf_buffer[y][new_x];
+			}
+		}
+		if(freq_diff<0)
+		{
+			for (uint16_t x = FFT_PRINT_SIZE; x > 0; x--)
+			{
+				new_x=x+freq_diff;
+				if(new_x<0 || new_x>FFT_PRINT_SIZE)
+				{
+					wtf_buffer[y][x]=0;
+					continue;
+				};
+				wtf_buffer[y][x]=wtf_buffer[y][new_x];
+			}
+		}
+	}
 }
 
 uint16_t getFFTColor(uint8_t height)

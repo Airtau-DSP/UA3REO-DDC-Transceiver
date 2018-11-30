@@ -14,7 +14,7 @@ bool agc_initialised = false;
 void SetupAgcWdsp(void)
 {
 	float32_t tmp;
-	float32_t sample_rate = WM8731_SampleMode * 1000;
+	float32_t sample_rate = WM8731_SAMPLERATE;
 
 	// this is a quick and dirty hack
 	// it initialises the AGC variables once again,
@@ -296,7 +296,7 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 					if (1 && (agc_wdsp.hang_backaverage > agc_wdsp.hang_level))
 					{
 						agc_wdsp.state = 2;
-						agc_wdsp.hang_counter = (int)(agc_wdsp.hangtime * WM8731_SampleMode * 1000);
+						agc_wdsp.hang_counter = (int)(agc_wdsp.hangtime * WM8731_SAMPLERATE);
 						agc_wdsp.decay_type = 1;
 					}
 					else
