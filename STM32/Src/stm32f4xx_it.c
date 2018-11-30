@@ -368,6 +368,7 @@ void TIM6_DAC_IRQHandler(void)
 		WM8731_DMA_samples = 0;
 		WM8731_Buffer_underrun=false;
 		FPGA_NeedSendParams = true;
+		FPGA_NeedGetParams=true;
 		if(NeedSaveSettings) SaveSettings();
 	}
 	LCD_doEvents();
