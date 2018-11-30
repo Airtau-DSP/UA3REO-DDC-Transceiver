@@ -158,7 +158,7 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim4);
 	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
 	logToUART1_str("UA3REO Started\r\n");
-	TRX_inited=true;
+	TRX_inited = true;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -707,7 +707,7 @@ static void MX_FSMC_Init(void)
 void _Error_Handler(char *file, int line)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-	/* User can add his own implementation to report the HAL error return state */
+	  /* User can add his own implementation to report the HAL error return state */
 	while (1)
 	{
 	}
@@ -725,8 +725,8 @@ void _Error_Handler(char *file, int line)
 void assert_failed(uint8_t* file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
-	/* User can add his own implementation to report the file name and line number,
-	   tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+	  /* User can add his own implementation to report the file name and line number,
+		 tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

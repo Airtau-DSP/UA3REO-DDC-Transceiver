@@ -17,7 +17,7 @@ int32_t TRX_s_meter = 1;
 bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
 
-char *MODE_DESCR[10]={
+char *MODE_DESCR[10] = {
 	"LSB",
 	"USB",
 	"IQ",
@@ -38,11 +38,11 @@ void TRX_Init()
 
 void TRX_ptt_change()
 {
-	if(TRX_tune) return;
+	if (TRX_tune) return;
 	bool TRX_new_ptt = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
-	if(TRX_ptt!=TRX_new_ptt)
+	if (TRX_ptt != TRX_new_ptt)
 	{
-		TRX_ptt=TRX_new_ptt;
+		TRX_ptt = TRX_new_ptt;
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
 		start_i2s();
@@ -53,9 +53,9 @@ void TRX_ptt_change()
 void TRX_setFrequency(uint32_t _freq)
 {
 	if (_freq < 100) _freq = 100;
-	if (_freq >= ADCDAC_CLOCK/2) _freq = ADCDAC_CLOCK/2;
+	if (_freq >= ADCDAC_CLOCK / 2) _freq = ADCDAC_CLOCK / 2;
 	TRX.Freq = _freq;
-	if(TRX.BandMapEnabled && TRX_getMode()!=getModeFromFreq(TRX.Freq))
+	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(TRX.Freq))
 	{
 		TRX_setMode(getModeFromFreq(TRX.Freq));
 		LCD_displayTopButtons(false);
@@ -70,7 +70,7 @@ int32_t TRX_getFrequency(void)
 
 void TRX_setMode(uint8_t _mode)
 {
-	if(TRX.Mode==TRX_MODE_LOOPBACK || _mode== TRX_MODE_LOOPBACK)
+	if (TRX.Mode == TRX_MODE_LOOPBACK || _mode == TRX_MODE_LOOPBACK)
 	{
 		TRX.Mode = _mode;
 		start_i2s();
@@ -79,7 +79,7 @@ void TRX_setMode(uint8_t _mode)
 	{
 		TRX.Mode = _mode;
 	}
-	NeedSaveSettings=true;
+	NeedSaveSettings = true;
 }
 
 uint8_t TRX_getMode(void)

@@ -219,7 +219,7 @@ void EXTI2_IRQHandler(void)
   /* USER CODE END EXTI2_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
   /* USER CODE BEGIN EXTI2_IRQn 1 */
-	if(TRX_inited) ENCODER_checkRotate();
+	if (TRX_inited) ENCODER_checkRotate();
   /* USER CODE END EXTI2_IRQn 1 */
 }
 
@@ -233,7 +233,7 @@ void EXTI4_IRQHandler(void)
   /* USER CODE END EXTI4_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
   /* USER CODE BEGIN EXTI4_IRQn 1 */
-	if(TRX_inited && TRX_getMode()!=TRX_MODE_NO_TX) TRX_ptt_change();
+	if (TRX_inited && TRX_getMode() != TRX_MODE_NO_TX) TRX_ptt_change();
   /* USER CODE END EXTI4_IRQn 1 */
 }
 
@@ -318,9 +318,9 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	if (TRX_ptt || TRX_tune || TRX_getMode()==TRX_MODE_LOOPBACK)
+	if (TRX_ptt || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK)
 	{
-		if(TRX_getMode()!=TRX_MODE_NO_TX)
+		if (TRX_getMode() != TRX_MODE_NO_TX)
 			processTxAudio();
 	}
 	else
@@ -342,7 +342,7 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms100_counter++;
 	FFT_printFFT();
-	if(NeedSaveSettings)
+	if (NeedSaveSettings)
 	{
 		FPGA_NeedSendParams = true;
 		HELPER_updateSettings();
@@ -360,16 +360,16 @@ void TIM6_DAC_IRQHandler(void)
 		//logToUART1_float32(Processor_AVG_amplitude);
 		//logToUART1_float32(agc_wdsp.volts);
 		//logToUART1_str("\r\n");
-		
+
 		FPGA_samples = 0;
 		AUDIOPROC_samples = 0;
 		AUDIOPROC_TXA_samples = 0;
 		AUDIOPROC_TXB_samples = 0;
 		WM8731_DMA_samples = 0;
-		WM8731_Buffer_underrun=false;
+		WM8731_Buffer_underrun = false;
 		FPGA_NeedSendParams = true;
-		FPGA_NeedGetParams=true;
-		if(NeedSaveSettings) SaveSettings();
+		FPGA_NeedGetParams = true;
+		if (NeedSaveSettings) SaveSettings();
 	}
 	LCD_doEvents();
 	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();

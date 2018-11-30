@@ -116,16 +116,16 @@ void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 	bx = _bx;
 	ay = _ay;
 	by = _by;
-	
-	if(ax>30) ax=30;
-	if(ax<-30) ax=-30;
-	if(bx>30) bx=30;
-	if(bx<-30) bx=-30;
-	if(ay>30) ay=30;
-	if(ay<-30) ay=-30;
-	if(by>400) by=400;
-	if(by<200) by=200;
-	
+
+	if (ax > 30) ax = 30;
+	if (ax < -30) ax = -30;
+	if (bx > 30) bx = 30;
+	if (bx < -30) bx = -30;
+	if (ay > 30) ay = 30;
+	if (ay < -30) ay = -30;
+	if (by > 400) by = 400;
+	if (by < 200) by = 200;
+
 	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
 	logToUART1_str(dest);
 }
@@ -253,12 +253,12 @@ void Touch_Calibrate(void)
 
 	// Сохранить коэффициенты
 	Touch_Set_Coef(axc[0], bxc[0], ayc[0], byc[0]);
-	TRX.Touchpad_ax=axc[0];
-	TRX.Touchpad_bx=bxc[0];
-	TRX.Touchpad_ay=ayc[0];
-	TRX.Touchpad_by=byc[0];
+	TRX.Touchpad_ax = axc[0];
+	TRX.Touchpad_bx = bxc[0];
+	TRX.Touchpad_ay = ayc[0];
+	TRX.Touchpad_by = byc[0];
 	SaveSettings();
-	
+
 	ILI9341_Fill(COLOR_WHITE);
 	ILI9341_printText("Callibration_End", 50, 100, 0xFFE0, 0x0000, 2);
 	HAL_Delay(1000);	// 1 sec

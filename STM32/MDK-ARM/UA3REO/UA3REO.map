@@ -4237,7 +4237,7 @@ Image component sizes
 
       1924        110          0         20       2480       5429   agc.o
        132         40       2412          0       5500       2176   audio_filters.o
-      1766        184          0         28       3072      18068   audio_processor.o
+      1766        184          0         28       3072      18064   audio_processor.o
        132         14        736          0          0       1278   bands.o
        140         18          0          0          0     709107   bootloader.o
        332         38          0         12          0      15360   encoder.o
@@ -4269,11 +4269,11 @@ Image component sizes
         84         18         24          4          0       1167   system_stm32f4xx_1.o
        240         56         53         55          0       4821   trx_manager.o
        844         46          0          5        202       7381   wire.o
-       738        128          0          9       4096       6896   wm8731.o
+       738        128          0          9       4096       6892   wm8731.o
       1560        176          0         36         20       5919   xpt2046_spi.o
 
     ----------------------------------------------------------------------
-     31478       3308       4940        316      82160     971803   Object Totals
+     31478       3308       4940        316      82160     971795   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         42          0          3         15          6          0   (incl. Padding)
 
@@ -4369,8 +4369,8 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     45884       3762      12432        320      82160    1012338   Grand Totals
-     45884       3762      12432         88      82160    1012338   ELF Image Totals (compressed)
+     45884       3762      12432        320      82160    1012330   Grand Totals
+     45884       3762      12432         88      82160    1012330   ELF Image Totals (compressed)
      45884       3762      12432         88          0          0   ROM Totals
 
 ==============================================================================

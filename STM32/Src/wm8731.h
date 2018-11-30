@@ -31,5 +31,5 @@ void WM8731_TX_mode(void);
 void WM8731_RX_mode(void);
 void WM8731_TXRX_mode(void);
 void I2SEx_Fix(I2S_HandleTypeDef *hi2s);
-	
+
 #endif

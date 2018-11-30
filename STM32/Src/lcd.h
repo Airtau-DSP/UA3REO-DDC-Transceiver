@@ -18,12 +18,12 @@
 
 #define TOUCHPAD_DELAY 100 //anti-bounce
 
-struct button_handler  {
+struct button_handler {
 	uint16_t x1;
 	uint16_t x2;
 	uint16_t y1;
 	uint16_t y2;
-	void (*handler) ();
+	void(*handler) ();
 };
 
 extern void LCD_Init(void);
@@ -36,8 +36,8 @@ void LCD_displayStatusInfoGUI(void);
 extern void LCD_doEvents(void);
 void LCD_redraw(void);
 void LCD_resetTouchpadPins(void);
-void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void (*onclick) ());
-void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void (*onclick) ());
+void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void(*onclick) ());
+void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void(*onclick) ());
 
 extern uint32_t LCD_last_showed_freq;
 extern uint8_t LCD_menu_main_index;

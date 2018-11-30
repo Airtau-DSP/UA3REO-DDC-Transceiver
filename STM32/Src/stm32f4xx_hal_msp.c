@@ -88,13 +88,13 @@ void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
   if(hi2s->Instance==SPI3)
   {
   /* USER CODE BEGIN SPI3_MspInit 0 */
-		
-	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit
-	* in RCC_CFGR register! Hence we need to set it manually here! * WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE() 
-		Line 6112 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
-	*/
-	__HAL_RCC_I2S_CONFIG(RCC_I2SCLKSOURCE_EXT);
-		
+
+		  /* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit
+		  * in RCC_CFGR register! Hence we need to set it manually here! * WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
+			  Line 6112 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
+		  */
+		__HAL_RCC_I2S_CONFIG(RCC_I2SCLKSOURCE_EXT);
+
   /* USER CODE END SPI3_MspInit 0 */
     /* Peripheral clock enable */
     __HAL_RCC_SPI3_CLK_ENABLE();

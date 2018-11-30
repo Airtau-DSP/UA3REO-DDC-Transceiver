@@ -17,7 +17,7 @@ uint8_t Read_Data = W25Q16_COMMAND_Read_Data;
 uint8_t Address[3] = { 0x00 };
 
 struct TRX_SETTINGS TRX;
-bool NeedSaveSettings=false;
+bool NeedSaveSettings = false;
 
 void LoadSettings(void)
 {
@@ -32,24 +32,24 @@ void LoadSettings(void)
 		TRX.Agc = true;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
-		TRX.MicGain_level=2;
-		TRX.BandMapEnabled=true;
-		TRX.Touchpad_ax=11.096;
-		TRX.Touchpad_bx=-32;
-		TRX.Touchpad_ay=-15.588235;
-		TRX.Touchpad_by=250;
-		TRX.Volume=20;
-		TRX.Att=false;
-		TRX.BPF=true;
-		TRX.LineMicIn=false; //false - mic ; true - line
-		TRX.Mute=false;
+		TRX.MicGain_level = 2;
+		TRX.BandMapEnabled = true;
+		TRX.Touchpad_ax = 11.096;
+		TRX.Touchpad_bx = -32;
+		TRX.Touchpad_ay = -15.588235;
+		TRX.Touchpad_by = 250;
+		TRX.Volume = 20;
+		TRX.Att = false;
+		TRX.BPF = true;
+		TRX.LineMicIn = false; //false - mic ; true - line
+		TRX.Mute = false;
 	}
 	HELPER_updateSettings();
 }
 
 void SaveSettings(void)
 {
-	NeedSaveSettings=false;
+	NeedSaveSettings = false;
 	FPGA_NeedSendParams = true;
 	Flash_Sector_Erase();
 	//Flash_Erase_Chip();

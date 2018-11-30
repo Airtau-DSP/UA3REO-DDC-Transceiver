@@ -66,7 +66,7 @@ void FPGA_stop_audio_clock(void) //остановка PLL для I2S и коде
 void FPGA_testbus(void) //проверка целостности шины данных STM32-FPGA
 {
 	logToUART1_str("FPGA Bus Test ");
-	
+
 	FPGA_busy = true;
 	//обмен данными
 
@@ -79,7 +79,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	//in
 	//clock
 	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
-	
+
 	//STAGE 2
 	//out
 	FPGA_writePacket(B8(00000001));
@@ -87,7 +87,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
-	if(FPGA_fpgadata_in_tmp8!=B8(00000001))
+	if (FPGA_fpgadata_in_tmp8 != B8(00000001))
 	{
 		logToUART1_str("ERROR 0 PIN\r\n");
 		logToUART1_num(FPGA_fpgadata_in_tmp8);
@@ -103,7 +103,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
-	if(FPGA_fpgadata_in_tmp8!=B8(00000010))
+	if (FPGA_fpgadata_in_tmp8 != B8(00000010))
 	{
 		logToUART1_str("ERROR 1 PIN\r\n");
 		logToUART1_num(FPGA_fpgadata_in_tmp8);
@@ -119,7 +119,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
-	if(FPGA_fpgadata_in_tmp8!=B8(00000100))
+	if (FPGA_fpgadata_in_tmp8 != B8(00000100))
 	{
 		logToUART1_str("ERROR 2 PIN\r\n");
 		logToUART1_num(FPGA_fpgadata_in_tmp8);
@@ -127,7 +127,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	}
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
-	
+
 	//STAGE 5
 	//out
 	FPGA_writePacket(B8(00001000));
@@ -135,7 +135,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
-	if(FPGA_fpgadata_in_tmp8!=B8(00001000))
+	if (FPGA_fpgadata_in_tmp8 != B8(00001000))
 	{
 		logToUART1_str("ERROR 3 PIN\r\n");
 		logToUART1_num(FPGA_fpgadata_in_tmp8);
@@ -143,9 +143,9 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	}
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
-	
+
 	FPGA_busy = false;
-	
+
 	logToUART1_str("OK\r\n");
 }
 
@@ -156,11 +156,11 @@ void FPGA_fpgadata_stuffclock(void)
 
 	//STAGE 1
 	//out
-	FPGA_fpgadata_out_tmp8=0;
+	FPGA_fpgadata_out_tmp8 = 0;
 	if (FPGA_NeedSendParams) FPGA_fpgadata_out_tmp8 = 1;
 	else if (FPGA_NeedGetParams)  FPGA_fpgadata_out_tmp8 = 2;
 
-	if(FPGA_fpgadata_out_tmp8!=0)
+	if (FPGA_fpgadata_out_tmp8 != 0)
 	{
 		FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 		//clock
@@ -202,7 +202,7 @@ void FPGA_fpgadata_iqclock(void)
 
 void FPGA_fpgadata_sendparam(void)
 {
-	uint32_t TRX_freq_phrase=getPhraseFromFrequency(TRX.Freq);
+	uint32_t TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq);
 	//STAGE 2
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;
@@ -302,14 +302,14 @@ void FPGA_fpgadata_getiq(void)
 	//in Q
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XF);
 	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
-	if(FFTInputBufferInProgress) // A buffer in progress
+	if (FFTInputBufferInProgress) // A buffer in progress
 	{
-		FFTInput_A[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16/32767.0f;
+		FFTInput_A[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16 / 32767.0f;
 		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index + 1];
 	}
 	else // B buffer in progress
 	{
-		FFTInput_B[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16/32767.0f;
+		FFTInput_B[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16 / 32767.0f;
 		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index + 1];
 	}
 	//clock
@@ -345,14 +345,14 @@ void FPGA_fpgadata_getiq(void)
 	//in I
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XF);
 	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
-	if(FFTInputBufferInProgress) // A buffer in progress
+	if (FFTInputBufferInProgress) // A buffer in progress
 	{
-		FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16/32767.0f;
+		FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16 / 32767.0f;
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
 	}
 	else // B buffer in progress
 	{
-		FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16/32767.0f;
+		FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16 / 32767.0f;
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
 	}
 	FPGA_Audio_Buffer_Index++;
@@ -361,7 +361,7 @@ void FPGA_fpgadata_getiq(void)
 	if (FFT_buff_index == FFT_SIZE * 2)
 	{
 		FFT_buff_index = 0;
-		FFTInputBufferInProgress=!FFTInputBufferInProgress;
+		FFTInputBufferInProgress = !FFTInputBufferInProgress;
 	}
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
@@ -370,10 +370,10 @@ void FPGA_fpgadata_getiq(void)
 void FPGA_fpgadata_sendiq(void)
 {
 	FPGA_samples++;
-	
+
 	//STAGE 2 out Q
-	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index]*32767;
-	if(TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
+	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] * 32767;
+	if (TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -402,8 +402,8 @@ void FPGA_fpgadata_sendiq(void)
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 
 	//STAGE 6 out I
-	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]*32767;
-	if(TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
+	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] * 32767;
+	if (TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -435,12 +435,12 @@ void FPGA_fpgadata_sendiq(void)
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE)
 	{
 		FPGA_Audio_Buffer_Index = 0;
-		FPGA_Audio_Buffer_State=true;
+		FPGA_Audio_Buffer_State = true;
 		Processor_NeedBuffer = true;
 	}
 	else if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE / 2)
 	{
-		FPGA_Audio_Buffer_State=false;
+		FPGA_Audio_Buffer_State = false;
 		Processor_NeedBuffer = true;
 	}
 }

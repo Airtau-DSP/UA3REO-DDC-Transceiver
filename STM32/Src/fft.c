@@ -22,21 +22,21 @@ float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
 uint16_t height = 0; //высота столбца в выводе FFT
 uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
 uint16_t tmp = 0;
-uint8_t fft_compress_rate=FFT_SIZE/FFT_PRINT_SIZE;
+uint8_t fft_compress_rate = FFT_SIZE / FFT_PRINT_SIZE;
 float32_t fft_compress_tmp = 0;
 
 bool FFT_need_fft = true; //необходимо полдготовить данные для отображения на экран
 
 void FFT_doFFT(void)
 {
-	if(!FFT_need_fft) return;
-	if(FFTInputBufferInProgress) //B in progress
+	if (!FFT_need_fft) return;
+	if (FFTInputBufferInProgress) //B in progress
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
 		{
-			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2*PI*i/FFT_SIZE));
-			FFTInput_A[i*2] = multiplier * FFTInput_A[i*2];
-			FFTInput_A[i*2+1] = multiplier * FFTInput_A[i*2+1];
+			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2 * PI*i / FFT_SIZE));
+			FFTInput_A[i * 2] = multiplier * FFTInput_A[i * 2];
+			FFTInput_A[i * 2 + 1] = multiplier * FFTInput_A[i * 2 + 1];
 		}
 		arm_cfft_f32(S, FFTInput_A, 0, 1);
 		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
@@ -45,9 +45,9 @@ void FFT_doFFT(void)
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
 		{
-			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2*PI*i/FFT_SIZE));
-			FFTInput_B[i*2] = multiplier * FFTInput_B[i*2];
-			FFTInput_B[i*2+1] = multiplier * FFTInput_B[i*2+1];
+			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2 * PI*i / FFT_SIZE));
+			FFTInput_B[i * 2] = multiplier * FFTInput_B[i * 2];
+			FFTInput_B[i * 2 + 1] = multiplier * FFTInput_B[i * 2 + 1];
 		}
 		arm_cfft_f32(S, FFTInput_B, 0, 1);
 		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
@@ -56,23 +56,23 @@ void FFT_doFFT(void)
 	if (maxValueErrors > 100 || maxValueErrors == 0)
 	{
 		arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
-		if(maxValue>Processor_AVG_amplitude*FFT_MAX) maxValue=Processor_AVG_amplitude*FFT_MAX;
+		if (maxValue > Processor_AVG_amplitude*FFT_MAX) maxValue = Processor_AVG_amplitude * FFT_MAX;
 	}
 	maxValueErrors = 0;
 	// Нормируем АЧХ к единице
 	for (uint16_t n = 0; n < FFT_SIZE; n++)
 	{
 		FFTOutput[n] = FFTOutput[n] / maxValue;
-		if(FFTOutput[n]>1) FFTOutput[n]=1;
+		if (FFTOutput[n] > 1) FFTOutput[n] = 1;
 	}
 	//Compress FFT_SIZE to FFT_PRINT_SIZE
 	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
 	{
-		fft_compress_tmp=0;
+		fft_compress_tmp = 0;
 		for (uint8_t c = 0; c < fft_compress_rate; c++)
-			fft_compress_tmp+=FFTOutput[n*fft_compress_rate+c];
-		FFTOutput[n] = fft_compress_tmp/fft_compress_rate;
-		if(FFTOutput[n]>1) FFTOutput[n]=1;
+			fft_compress_tmp += FFTOutput[n*fft_compress_rate + c];
+		FFTOutput[n] = fft_compress_tmp / fft_compress_rate;
+		if (FFTOutput[n] > 1) FFTOutput[n] = 1;
 	}
 	//
 	FFT_need_fft = false;
@@ -80,12 +80,12 @@ void FFT_doFFT(void)
 
 void FFT_printFFT(void)
 {
-	if(LCD_busy) return;
-	if(TRX_ptt || TRX_tune || TRX_getMode()==TRX_MODE_LOOPBACK) return;
+	if (LCD_busy) return;
+	if (TRX_ptt || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK) return;
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
-	LCD_busy=true;
-	
+	LCD_busy = true;
+
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET) + FFT_MAX_HEIGHT, COLOR_GREEN);
 
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //смещаем водопад вниз
@@ -106,9 +106,9 @@ void FFT_printFFT(void)
 		}
 		else
 			tmp = getFFTColor(height);
-		
+
 		wtf_buffer[0][new_x] = tmp;
-		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, - FFT_MAX_HEIGHT - 1, COLOR_BLACK);
+		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT - 1, COLOR_BLACK);
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
 
@@ -120,9 +120,9 @@ void FFT_printFFT(void)
 			ILI9341_DrawPixel(x + 1, FFT_BOTTOM_OFFSET + y, wtf_buffer[y][x]);
 		}
 	}
-	
+
 	FFT_need_fft = true;
-	LCD_busy=false;
+	LCD_busy = false;
 }
 
 uint16_t getFFTColor(uint8_t height)
@@ -132,12 +132,12 @@ uint16_t getFFTColor(uint8_t height)
 	//0 0 255
 	//255 255 0
 	//255 0 0
-	
+
 	uint8_t red = 0;
 	uint8_t green = 0;
 	uint8_t blue = 0;
-	
-	if (height <= FFT_MAX_HEIGHT / 3) 
+
+	if (height <= FFT_MAX_HEIGHT / 3)
 	{
 		blue = (height * 255 / (FFT_MAX_HEIGHT / 3));
 	}
@@ -145,13 +145,13 @@ uint16_t getFFTColor(uint8_t height)
 	{
 		green = ((height - FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
 		red = green;
-		blue = 255-green;
+		blue = 255 - green;
 	}
 	else
 	{
 		red = ((height - 2 * FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
-		blue = 255-red;
-		green = 255-red;
+		blue = 255 - red;
+		green = 255 - red;
 	}
 	return rgb888torgb565(red, green, blue);
 }

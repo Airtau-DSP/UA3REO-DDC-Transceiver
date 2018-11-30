@@ -9,7 +9,7 @@
 extern UART_HandleTypeDef huart6;
 
 extern void HELPER_updateSettings(void);
-	
+
 void HELPER_setBPF(uint8_t val);
 void HELPER_setAMP(bool val);
 void HELPER_setAMP_POWER(bool val);
