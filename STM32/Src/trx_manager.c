@@ -8,6 +8,7 @@
 #include "fpga.h"
 #include "bands.h"
 #include "helper.h"
+#include "audio_filters.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 bool TRX_ptt = 0;
@@ -16,7 +17,6 @@ bool TRX_inited = false;
 int32_t TRX_s_meter = 1;
 bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
-uint16_t TRX_Filter_Width=2700;
 
 char *MODE_DESCR[10] = {
 	"LSB",
@@ -62,22 +62,23 @@ void TRX_setFrequency(uint32_t _freq)
 	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(TRX.Freq))
 	{
 		TRX_setMode(getModeFromFreq(TRX.Freq));
-				switch(TRX_getMode())
+		switch(TRX_getMode())
 		{
 			case TRX_MODE_LSB:
 			case TRX_MODE_USB:
 			case TRX_MODE_DIGI_L:
 			case TRX_MODE_DIGI_U:
 			case TRX_MODE_AM:
-				TRX_Filter_Width=TRX.SSB_Filter;
+				TRX.Filter_Width=TRX.SSB_Filter;
 				break;
 			case TRX_MODE_CW:
-				TRX_Filter_Width=TRX.CW_Filter;
+				TRX.Filter_Width=TRX.CW_Filter;
 				break;
 			case TRX_MODE_FM:
-				TRX_Filter_Width=TRX.FM_Filter;
+				TRX.Filter_Width=TRX.FM_Filter;
 				break;
 		}
+		InitFilters();
 		LCD_displayTopButtons(false);
 	}
 	FPGA_NeedSendParams = true;

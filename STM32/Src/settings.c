@@ -47,6 +47,7 @@ void LoadSettings(void)
 		TRX.CW_Filter=500;
 		TRX.SSB_Filter=2700;
 		TRX.FM_Filter=15000;
+		TRX.Filter_Width=2700;
 	}
 	HELPER_updateSettings();
 }

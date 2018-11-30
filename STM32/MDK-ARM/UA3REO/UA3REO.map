@@ -227,29 +227,24 @@ Section Cross References
     lcd.o(i.LCD_Handler_MODE_AM) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_AM) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_AM) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_AM) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_AM) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_BACK) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_BACK) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_CW) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_CW) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_CW) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_CW) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_CW) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_DIGL) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_DIGL) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_DIGL) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_DIGL) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_DIGL) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_DIGU) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_DIGU) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_DIGU) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_DIGU) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_DIGU) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_FM) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_FM) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_FM) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_FM) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_FM) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_IQ) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_IQ) refers to lcd.o(i.LCD_redraw) for LCD_redraw
@@ -260,12 +255,10 @@ Section Cross References
     lcd.o(i.LCD_Handler_MODE_LSB) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_LSB) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_LSB) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_LSB) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_LSB) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MODE_USB) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
     lcd.o(i.LCD_Handler_MODE_USB) refers to lcd.o(i.LCD_redraw) for LCD_redraw
     lcd.o(i.LCD_Handler_MODE_USB) refers to settings.o(.bss) for TRX
-    lcd.o(i.LCD_Handler_MODE_USB) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_MODE_USB) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_MUTE) refers to lcd.o(i.LCD_displayTopButtons) for LCD_displayTopButtons
     lcd.o(i.LCD_Handler_MUTE) refers to settings.o(.bss) for TRX
@@ -279,133 +272,111 @@ Section Cross References
     lcd.o(i.LCD_Handler_WIDTH) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_03) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_03) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_03) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_03) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_03) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_03) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_05) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_05) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_05) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_05) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_05) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_05) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_100) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_100) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_100) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_100) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_100) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_100) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_14) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_14) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_14) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_14) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_14) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_14) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_150) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_150) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_150) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_150) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_150) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_150) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_16) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_16) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_16) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_16) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_16) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_16) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_18) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_18) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_18) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_18) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_18) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_18) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_21) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_21) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_21) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_21) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_21) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_21) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_23) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_23) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_23) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_23) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_23) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_23) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_25) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_25) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_25) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_25) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_25) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_25) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_27) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_27) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_27) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_27) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_27) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_27) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_29) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_29) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_29) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_29) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_29) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_29) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_30) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_30) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_30) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_30) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_30) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_30) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_32) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_32) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_32) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_32) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_32) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_32) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_34) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_34) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_34) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_34) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_34) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_34) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_50) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_50) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_50) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_50) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_50) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_50) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_60) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_60) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_60) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_60) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_60) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_60) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_70) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_70) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_70) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_70) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_70) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_70) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_80) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_80) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_80) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_80) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_80) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_80) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_85) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_85) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_85) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_85) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_85) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_85) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_90) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_90) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_90) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_90) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_90) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_90) refers to lcd.o(.data) for .data
     lcd.o(i.LCD_Handler_WIDTH_95) refers to audio_filters.o(i.InitFilters) for InitFilters
     lcd.o(i.LCD_Handler_WIDTH_95) refers to lcd.o(i.LCD_redraw) for LCD_redraw
-    lcd.o(i.LCD_Handler_WIDTH_95) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_Handler_WIDTH_95) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_Handler_WIDTH_95) refers to settings.o(.data) for NeedSaveSettings
     lcd.o(i.LCD_Handler_WIDTH_95) refers to lcd.o(.data) for .data
@@ -481,8 +452,8 @@ Section Cross References
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_BAND_15) for LCD_Handler_BAND_15
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_BAND_12) for LCD_Handler_BAND_12
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_BAND_10) for LCD_Handler_BAND_10
-    lcd.o(i.LCD_displayTopButtons) refers to trx_manager.o(.data) for MODE_DESCR
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_LSB) for LCD_Handler_MODE_LSB
+    lcd.o(i.LCD_displayTopButtons) refers to trx_manager.o(.data) for MODE_DESCR
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_USB) for LCD_Handler_MODE_USB
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_IQ) for LCD_Handler_MODE_IQ
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_CW) for LCD_Handler_MODE_CW
@@ -492,8 +463,8 @@ Section Cross References
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_FM) for LCD_Handler_MODE_FM
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_AM) for LCD_Handler_MODE_AM
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE_LOOP) for LCD_Handler_MODE_LOOP
+    lcd.o(i.LCD_displayTopButtons) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_WIDTH_BACK) for LCD_Handler_WIDTH_BACK
-    lcd.o(i.LCD_displayTopButtons) refers to trx_manager.o(.data) for TRX_Filter_Width
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_WIDTH_18) for LCD_Handler_WIDTH_18
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_WIDTH_21) for LCD_Handler_WIDTH_21
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_WIDTH_23) for LCD_Handler_WIDTH_23
@@ -519,9 +490,9 @@ Section Cross References
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MODE) for LCD_Handler_MODE
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_WIDTH) for LCD_Handler_WIDTH
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_TUNE) for LCD_Handler_TUNE
+    lcd.o(i.LCD_displayTopButtons) refers to trx_manager.o(.data) for TRX_tune
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_BAND) for LCD_Handler_BAND
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_AGC) for LCD_Handler_AGC
-    lcd.o(i.LCD_displayTopButtons) refers to settings.o(.bss) for TRX
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_FAST) for LCD_Handler_FAST
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MUTE) for LCD_Handler_MUTE
     lcd.o(i.LCD_displayTopButtons) refers to lcd.o(i.LCD_Handler_MENU) for LCD_Handler_MENU
@@ -561,9 +532,9 @@ Section Cross References
     trx_manager.o(i.TRX_setFrequency) refers to fft.o(i.FFT_moveWaterfall) for FFT_moveWaterfall
     trx_manager.o(i.TRX_setFrequency) refers to bands.o(i.getModeFromFreq) for getModeFromFreq
     trx_manager.o(i.TRX_setFrequency) refers to trx_manager.o(i.TRX_setMode) for TRX_setMode
+    trx_manager.o(i.TRX_setFrequency) refers to audio_filters.o(i.InitFilters) for InitFilters
     trx_manager.o(i.TRX_setFrequency) refers to lcd.o(i.LCD_displayTopButtons) for LCD_displayTopButtons
     trx_manager.o(i.TRX_setFrequency) refers to settings.o(.bss) for TRX
-    trx_manager.o(i.TRX_setFrequency) refers to trx_manager.o(.data) for .data
     trx_manager.o(i.TRX_setFrequency) refers to fpga.o(.data) for FPGA_NeedSendParams
     trx_manager.o(i.TRX_setMode) refers to wm8731.o(i.start_i2s) for start_i2s
     trx_manager.o(i.TRX_setMode) refers to settings.o(.bss) for TRX
@@ -701,7 +672,7 @@ Section Cross References
     audio_filters.o(i.InitFilters) refers to arm_iir_lattice_init_f32.o(.text) for arm_iir_lattice_init_f32
     audio_filters.o(i.InitFilters) refers to audio_filters.o(.bss) for .bss
     audio_filters.o(i.InitFilters) refers to audio_filters.o(.constdata) for .constdata
-    audio_filters.o(i.InitFilters) refers to trx_manager.o(.data) for TRX_Filter_Width
+    audio_filters.o(i.InitFilters) refers to settings.o(.bss) for TRX
     agc.o(i.RxAgcWdsp) refers to functions.o(i.log10f_fast) for log10f_fast
     agc.o(i.RxAgcWdsp) refers to trx_manager.o(i.TRX_getMode) for TRX_getMode
     agc.o(i.RxAgcWdsp) refers to trx_manager.o(.data) for TRX_agc_wdsp_action
@@ -3103,220 +3074,220 @@ Image Symbol Table
     i.LCD_Handler_MENU_VOLUME                0x080067b0   Section        0  lcd.o(i.LCD_Handler_MENU_VOLUME)
     i.LCD_Handler_MODE                       0x080067c0   Section        0  lcd.o(i.LCD_Handler_MODE)
     i.LCD_Handler_MODE_AM                    0x080067d0   Section        0  lcd.o(i.LCD_Handler_MODE_AM)
-    i.LCD_Handler_MODE_BACK                  0x080067fc   Section        0  lcd.o(i.LCD_Handler_MODE_BACK)
-    i.LCD_Handler_MODE_CW                    0x0800680c   Section        0  lcd.o(i.LCD_Handler_MODE_CW)
-    i.LCD_Handler_MODE_DIGL                  0x08006838   Section        0  lcd.o(i.LCD_Handler_MODE_DIGL)
-    i.LCD_Handler_MODE_DIGU                  0x08006864   Section        0  lcd.o(i.LCD_Handler_MODE_DIGU)
-    i.LCD_Handler_MODE_FM                    0x08006890   Section        0  lcd.o(i.LCD_Handler_MODE_FM)
-    i.LCD_Handler_MODE_IQ                    0x080068bc   Section        0  lcd.o(i.LCD_Handler_MODE_IQ)
-    i.LCD_Handler_MODE_LOOP                  0x080068d8   Section        0  lcd.o(i.LCD_Handler_MODE_LOOP)
-    i.LCD_Handler_MODE_LSB                   0x080068f4   Section        0  lcd.o(i.LCD_Handler_MODE_LSB)
-    i.LCD_Handler_MODE_USB                   0x08006920   Section        0  lcd.o(i.LCD_Handler_MODE_USB)
-    i.LCD_Handler_MUTE                       0x0800694c   Section        0  lcd.o(i.LCD_Handler_MUTE)
-    i.LCD_Handler_TUNE                       0x08006978   Section        0  lcd.o(i.LCD_Handler_TUNE)
-    i.LCD_Handler_WIDTH                      0x080069ac   Section        0  lcd.o(i.LCD_Handler_WIDTH)
-    i.LCD_Handler_WIDTH_03                   0x080069bc   Section        0  lcd.o(i.LCD_Handler_WIDTH_03)
-    i.LCD_Handler_WIDTH_05                   0x080069f4   Section        0  lcd.o(i.LCD_Handler_WIDTH_05)
-    i.LCD_Handler_WIDTH_100                  0x08006a2c   Section        0  lcd.o(i.LCD_Handler_WIDTH_100)
-    i.LCD_Handler_WIDTH_14                   0x08006a64   Section        0  lcd.o(i.LCD_Handler_WIDTH_14)
-    i.LCD_Handler_WIDTH_150                  0x08006a9c   Section        0  lcd.o(i.LCD_Handler_WIDTH_150)
-    i.LCD_Handler_WIDTH_16                   0x08006ad4   Section        0  lcd.o(i.LCD_Handler_WIDTH_16)
-    i.LCD_Handler_WIDTH_18                   0x08006b0c   Section        0  lcd.o(i.LCD_Handler_WIDTH_18)
-    i.LCD_Handler_WIDTH_21                   0x08006b44   Section        0  lcd.o(i.LCD_Handler_WIDTH_21)
-    i.LCD_Handler_WIDTH_23                   0x08006b7c   Section        0  lcd.o(i.LCD_Handler_WIDTH_23)
-    i.LCD_Handler_WIDTH_25                   0x08006bb4   Section        0  lcd.o(i.LCD_Handler_WIDTH_25)
-    i.LCD_Handler_WIDTH_27                   0x08006bec   Section        0  lcd.o(i.LCD_Handler_WIDTH_27)
-    i.LCD_Handler_WIDTH_29                   0x08006c24   Section        0  lcd.o(i.LCD_Handler_WIDTH_29)
-    i.LCD_Handler_WIDTH_30                   0x08006c5c   Section        0  lcd.o(i.LCD_Handler_WIDTH_30)
-    i.LCD_Handler_WIDTH_32                   0x08006c94   Section        0  lcd.o(i.LCD_Handler_WIDTH_32)
-    i.LCD_Handler_WIDTH_34                   0x08006ccc   Section        0  lcd.o(i.LCD_Handler_WIDTH_34)
-    i.LCD_Handler_WIDTH_50                   0x08006d04   Section        0  lcd.o(i.LCD_Handler_WIDTH_50)
-    i.LCD_Handler_WIDTH_60                   0x08006d3c   Section        0  lcd.o(i.LCD_Handler_WIDTH_60)
-    i.LCD_Handler_WIDTH_70                   0x08006d74   Section        0  lcd.o(i.LCD_Handler_WIDTH_70)
-    i.LCD_Handler_WIDTH_80                   0x08006dac   Section        0  lcd.o(i.LCD_Handler_WIDTH_80)
-    i.LCD_Handler_WIDTH_85                   0x08006de4   Section        0  lcd.o(i.LCD_Handler_WIDTH_85)
-    i.LCD_Handler_WIDTH_90                   0x08006e1c   Section        0  lcd.o(i.LCD_Handler_WIDTH_90)
-    i.LCD_Handler_WIDTH_95                   0x08006e54   Section        0  lcd.o(i.LCD_Handler_WIDTH_95)
-    i.LCD_Handler_WIDTH_BACK                 0x08006e8c   Section        0  lcd.o(i.LCD_Handler_WIDTH_BACK)
-    i.LCD_Init                               0x08006e9c   Section        0  lcd.o(i.LCD_Init)
-    i.LCD_checkTouchPad                      0x08006ecc   Section        0  lcd.o(i.LCD_checkTouchPad)
-    i.LCD_displayFreqInfo                    0x08007008   Section        0  lcd.o(i.LCD_displayFreqInfo)
-    i.LCD_displayMainMenu                    0x080071f4   Section        0  lcd.o(i.LCD_displayMainMenu)
-    i.LCD_displayStatusInfoBar               0x08007464   Section        0  lcd.o(i.LCD_displayStatusInfoBar)
-    i.LCD_displayStatusInfoGUI               0x08007598   Section        0  lcd.o(i.LCD_displayStatusInfoGUI)
-    i.LCD_displayTopButtons                  0x08007698   Section        0  lcd.o(i.LCD_displayTopButtons)
-    i.LCD_doEvents                           0x080081b4   Section        0  lcd.o(i.LCD_doEvents)
-    i.LCD_redraw                             0x080081e0   Section        0  lcd.o(i.LCD_redraw)
-    i.LoadSettings                           0x0800821c   Section        0  settings.o(i.LoadSettings)
-    i.MX_DMA_Init                            0x0800829c   Section        0  main_1.o(i.MX_DMA_Init)
-    MX_DMA_Init                              0x0800829d   Thumb Code   174  main_1.o(i.MX_DMA_Init)
-    i.MX_FSMC_Init                           0x08008358   Section        0  main_1.o(i.MX_FSMC_Init)
-    MX_FSMC_Init                             0x08008359   Thumb Code   112  main_1.o(i.MX_FSMC_Init)
-    i.MX_GPIO_Init                           0x080083d0   Section        0  main_1.o(i.MX_GPIO_Init)
-    MX_GPIO_Init                             0x080083d1   Thumb Code   508  main_1.o(i.MX_GPIO_Init)
-    i.MX_I2S3_Init                           0x080085ec   Section        0  main_1.o(i.MX_I2S3_Init)
-    MX_I2S3_Init                             0x080085ed   Thumb Code    48  main_1.o(i.MX_I2S3_Init)
-    i.MX_SPI1_Init                           0x08008624   Section        0  main_1.o(i.MX_SPI1_Init)
-    MX_SPI1_Init                             0x08008625   Thumb Code    54  main_1.o(i.MX_SPI1_Init)
-    i.MX_SPI2_Init                           0x08008664   Section        0  main_1.o(i.MX_SPI2_Init)
-    MX_SPI2_Init                             0x08008665   Thumb Code    56  main_1.o(i.MX_SPI2_Init)
-    i.MX_TIM4_Init                           0x080086a4   Section        0  main_1.o(i.MX_TIM4_Init)
-    MX_TIM4_Init                             0x080086a5   Thumb Code    76  main_1.o(i.MX_TIM4_Init)
-    i.MX_TIM5_Init                           0x080086f8   Section        0  main_1.o(i.MX_TIM5_Init)
-    MX_TIM5_Init                             0x080086f9   Thumb Code    76  main_1.o(i.MX_TIM5_Init)
-    i.MemManage_Handler                      0x0800874c   Section        0  stm32f4xx_it.o(i.MemManage_Handler)
-    i.NMI_Handler                            0x0800874e   Section        0  stm32f4xx_it.o(i.NMI_Handler)
-    i.NVIC_SetPriority                       0x08008750   Section        0  stm32f4xx_hal_cortex.o(i.NVIC_SetPriority)
-    NVIC_SetPriority                         0x08008751   Thumb Code    32  stm32f4xx_hal_cortex.o(i.NVIC_SetPriority)
-    i.PendSV_Handler                         0x08008770   Section        0  stm32f4xx_it.o(i.PendSV_Handler)
-    i.RxAgcWdsp                              0x08008774   Section        0  agc.o(i.RxAgcWdsp)
-    i.SPI_CheckFlag_BSY                      0x08008b0c   Section        0  stm32f4xx_hal_spi.o(i.SPI_CheckFlag_BSY)
-    SPI_CheckFlag_BSY                        0x08008b0d   Thumb Code    32  stm32f4xx_hal_spi.o(i.SPI_CheckFlag_BSY)
-    i.SPI_WaitFlagStateUntilTimeout          0x08008b2c   Section        0  stm32f4xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout)
-    SPI_WaitFlagStateUntilTimeout            0x08008b2d   Thumb Code   150  stm32f4xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout)
-    i.SVC_Handler                            0x08008bc2   Section        0  stm32f4xx_it.o(i.SVC_Handler)
-    i.SaveSettings                           0x08008bc4   Section        0  settings.o(i.SaveSettings)
-    i.SetupAgcWdsp                           0x08008bec   Section        0  agc.o(i.SetupAgcWdsp)
-    i.Spi_Master_Transmit                    0x08008f88   Section        0  xpt2046_spi.o(i.Spi_Master_Transmit)
-    i.SysTick_Handler                        0x08008fb0   Section        0  stm32f4xx_it.o(i.SysTick_Handler)
-    i.SystemClock_Config                     0x08008fc0   Section        0  main_1.o(i.SystemClock_Config)
-    i.SystemInit                             0x08009060   Section        0  system_stm32f4xx_1.o(i.SystemInit)
-    i.TIM4_IRQHandler                        0x080090b4   Section        0  stm32f4xx_it.o(i.TIM4_IRQHandler)
-    i.TIM5_IRQHandler                        0x080090d8   Section        0  stm32f4xx_it.o(i.TIM5_IRQHandler)
-    i.TIM6_DAC_IRQHandler                    0x0800911c   Section        0  stm32f4xx_it.o(i.TIM6_DAC_IRQHandler)
-    i.TIM_Base_SetConfig                     0x080091c8   Section        0  stm32f4xx_hal_tim.o(i.TIM_Base_SetConfig)
-    i.TIM_ETR_SetConfig                      0x08009288   Section        0  stm32f4xx_hal_tim.o(i.TIM_ETR_SetConfig)
-    TIM_ETR_SetConfig                        0x08009289   Thumb Code    20  stm32f4xx_hal_tim.o(i.TIM_ETR_SetConfig)
-    i.TIM_ITRx_SetConfig                     0x0800929c   Section        0  stm32f4xx_hal_tim.o(i.TIM_ITRx_SetConfig)
-    TIM_ITRx_SetConfig                       0x0800929d   Thumb Code    16  stm32f4xx_hal_tim.o(i.TIM_ITRx_SetConfig)
-    i.TIM_TI1_ConfigInputStage               0x080092ac   Section        0  stm32f4xx_hal_tim.o(i.TIM_TI1_ConfigInputStage)
-    TIM_TI1_ConfigInputStage                 0x080092ad   Thumb Code    34  stm32f4xx_hal_tim.o(i.TIM_TI1_ConfigInputStage)
-    i.TIM_TI2_ConfigInputStage               0x080092ce   Section        0  stm32f4xx_hal_tim.o(i.TIM_TI2_ConfigInputStage)
-    TIM_TI2_ConfigInputStage                 0x080092cf   Thumb Code    36  stm32f4xx_hal_tim.o(i.TIM_TI2_ConfigInputStage)
-    i.TRX_Init                               0x080092f4   Section        0  trx_manager.o(i.TRX_Init)
-    i.TRX_getFrequency                       0x08009314   Section        0  trx_manager.o(i.TRX_getFrequency)
-    i.TRX_getMode                            0x08009320   Section        0  trx_manager.o(i.TRX_getMode)
-    i.TRX_ptt_change                         0x0800932c   Section        0  trx_manager.o(i.TRX_ptt_change)
-    i.TRX_setFrequency                       0x08009374   Section        0  trx_manager.o(i.TRX_setFrequency)
-    i.TRX_setMode                            0x080093f0   Section        0  trx_manager.o(i.TRX_setMode)
-    i.Touch_Calibrate                        0x08009418   Section        0  xpt2046_spi.o(i.Touch_Calibrate)
-    i.Touch_Set_Coef                         0x080097f0   Section        0  xpt2046_spi.o(i.Touch_Set_Coef)
-    i.UA3REO_I2SEx_TxRxDMACplt               0x080098ec   Section        0  wm8731.o(i.UA3REO_I2SEx_TxRxDMACplt)
-    UA3REO_I2SEx_TxRxDMACplt                 0x080098ed   Thumb Code     6  wm8731.o(i.UA3REO_I2SEx_TxRxDMACplt)
-    i.UA3REO_I2SEx_TxRxDMAHalfCplt           0x080098f2   Section        0  wm8731.o(i.UA3REO_I2SEx_TxRxDMAHalfCplt)
-    UA3REO_I2SEx_TxRxDMAHalfCplt             0x080098f3   Thumb Code     6  wm8731.o(i.UA3REO_I2SEx_TxRxDMAHalfCplt)
-    i.UART_SetConfig                         0x080098f8   Section        0  stm32f4xx_hal_uart.o(i.UART_SetConfig)
-    UART_SetConfig                           0x080098f9   Thumb Code   676  stm32f4xx_hal_uart.o(i.UART_SetConfig)
-    i.UART_WaitOnFlagUntilTimeout            0x08009ba4   Section        0  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
-    UART_WaitOnFlagUntilTimeout              0x08009ba5   Thumb Code   100  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
-    i.UsageFault_Handler                     0x08009c08   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
-    i.WM8731_Init                            0x08009c0c   Section        0  wm8731.o(i.WM8731_Init)
-    i.WM8731_RX_mode                         0x08009c5c   Section        0  wm8731.o(i.WM8731_RX_mode)
-    i.WM8731_SendI2CCommand                  0x08009ca2   Section        0  wm8731.o(i.WM8731_SendI2CCommand)
-    i.WM8731_TXRX_mode                       0x08009ce0   Section        0  wm8731.o(i.WM8731_TXRX_mode)
-    i.WM8731_TX_mode                         0x08009d50   Section        0  wm8731.o(i.WM8731_TX_mode)
-    i._Error_Handler                         0x08009dc0   Section        0  main_1.o(i._Error_Handler)
-    i.__0sprintf                             0x08009dc4   Section        0  printfa.o(i.__0sprintf)
-    i.__ARM_fpclassifyf                      0x08009dec   Section        0  fpclassifyf.o(i.__ARM_fpclassifyf)
-    i.__hardfp_ceil                          0x08009e18   Section        0  ceil.o(i.__hardfp_ceil)
-    i.__hardfp_expf                          0x08009f30   Section        0  expf.o(i.__hardfp_expf)
-    i.__hardfp_frexpf                        0x0800a118   Section        0  frexpf.o(i.__hardfp_frexpf)
-    i.__hardfp_log10f                        0x0800a16c   Section        0  log10f.o(i.__hardfp_log10f)
-    i.__hardfp_powf                          0x0800a2ec   Section        0  powf.o(i.__hardfp_powf)
-    i.__hardfp_round                         0x0800a950   Section        0  round.o(i.__hardfp_round)
-    i.__mathlib_flt_divzero                  0x0800aa30   Section        0  funder.o(i.__mathlib_flt_divzero)
-    i.__mathlib_flt_infnan                   0x0800aa44   Section        0  funder.o(i.__mathlib_flt_infnan)
-    i.__mathlib_flt_infnan2                  0x0800aa4a   Section        0  funder.o(i.__mathlib_flt_infnan2)
-    i.__mathlib_flt_invalid                  0x0800aa50   Section        0  funder.o(i.__mathlib_flt_invalid)
-    i.__mathlib_flt_overflow                 0x0800aa60   Section        0  funder.o(i.__mathlib_flt_overflow)
-    i.__mathlib_flt_underflow                0x0800aa70   Section        0  funder.o(i.__mathlib_flt_underflow)
-    i.__scatterload_copy                     0x0800aa80   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x0800aa8e   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x0800aa90   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i.__set_errno                            0x0800aaa0   Section        0  errno.o(i.__set_errno)
-    i._fp_digits                             0x0800aaac   Section        0  printfa.o(i._fp_digits)
-    _fp_digits                               0x0800aaad   Thumb Code   366  printfa.o(i._fp_digits)
-    i._printf_core                           0x0800ac30   Section        0  printfa.o(i._printf_core)
-    _printf_core                             0x0800ac31   Thumb Code  1744  printfa.o(i._printf_core)
-    i._printf_post_padding                   0x0800b30c   Section        0  printfa.o(i._printf_post_padding)
-    _printf_post_padding                     0x0800b30d   Thumb Code    36  printfa.o(i._printf_post_padding)
-    i._printf_pre_padding                    0x0800b330   Section        0  printfa.o(i._printf_pre_padding)
-    _printf_pre_padding                      0x0800b331   Thumb Code    46  printfa.o(i._printf_pre_padding)
-    i._sputc                                 0x0800b35e   Section        0  printfa.o(i._sputc)
-    _sputc                                   0x0800b35f   Thumb Code    10  printfa.o(i._sputc)
-    i.addSymbols                             0x0800b368   Section        0  functions.o(i.addSymbols)
-    i.checkBootloaderButton                  0x0800b3c8   Section        0  bootloader.o(i.checkBootloaderButton)
-    i.delay_us                               0x0800b41c   Section        0  functions.o(i.delay_us)
-    i.getFFTColor                            0x0800b460   Section        0  fft.o(i.getFFTColor)
-    i.getModeFromFreq                        0x0800b4a8   Section        0  bands.o(i.getModeFromFreq)
-    i.getPhraseFromFrequency                 0x0800b52c   Section        0  functions.o(i.getPhraseFromFrequency)
-    i.i2c_begin                              0x0800b570   Section        0  wire.o(i.i2c_begin)
-    i.i2c_beginTransmission_u8               0x0800b5ac   Section        0  wire.o(i.i2c_beginTransmission_u8)
-    i.i2c_endTransmission                    0x0800b5c0   Section        0  wire.o(i.i2c_endTransmission)
-    i.i2c_get_ack                            0x0800b634   Section        0  wire.o(i.i2c_get_ack)
-    i.i2c_shift_out                          0x0800b708   Section        0  wire.o(i.i2c_shift_out)
-    i.i2c_start                              0x0800b7a8   Section        0  wire.o(i.i2c_start)
-    i.i2c_stop                               0x0800b7fc   Section        0  wire.o(i.i2c_stop)
-    i.i2c_writeOneByte                       0x0800b888   Section        0  wire.o(i.i2c_writeOneByte)
-    i.i2c_write_u8                           0x0800b89c   Section        0  wire.o(i.i2c_write_u8)
-    i.initAudioProcessor                     0x0800b8bc   Section        0  audio_processor.o(i.initAudioProcessor)
-    i.isTouch                                0x0800b8cc   Section        0  xpt2046_spi.o(i.isTouch)
-    i.log10f_fast                            0x0800b8e4   Section        0  functions.o(i.log10f_fast)
-    i.logToUART1_num                         0x0800b944   Section        0  functions.o(i.logToUART1_num)
-    i.logToUART1_str                         0x0800b970   Section        0  functions.o(i.logToUART1_str)
-    i.main                                   0x0800b990   Section        0  main_1.o(i.main)
-    i.printButton                            0x0800bae4   Section        0  lcd.o(i.printButton)
-    i.printMenuButton                        0x0800bb80   Section        0  lcd.o(i.printMenuButton)
-    i.processRxAudio                         0x0800bc4c   Section        0  audio_processor.o(i.processRxAudio)
-    i.processTxAudio                         0x0800c000   Section        0  audio_processor.o(i.processTxAudio)
-    i.readHalfFromCircleBuffer32             0x0800c324   Section        0  functions.o(i.readHalfFromCircleBuffer32)
-    i.readHalfFromCircleBufferU32            0x0800c364   Section        0  functions.o(i.readHalfFromCircleBufferU32)
-    i.rgb888torgb565                         0x0800c3a4   Section        0  ma_ili9341.o(i.rgb888torgb565)
-    i.start_i2s                              0x0800c3b4   Section        0  wm8731.o(i.start_i2s)
-    .constdata                               0x0800c43c   Section     5232  audio_filters.o(.constdata)
-    .constdata                               0x0800d8ac   Section       36  bands.o(.constdata)
-    <Data1>                                  0x0800d8ac   Data          36  bands.o(.constdata)
-    .constdata                               0x0800d8d0   Section       36  bands.o(.constdata)
-    <Data2>                                  0x0800d8d0   Data          36  bands.o(.constdata)
-    .constdata                               0x0800d8f4   Section       72  bands.o(.constdata)
-    <Data3>                                  0x0800d8f4   Data          72  bands.o(.constdata)
-    .constdata                               0x0800d93c   Section       24  bands.o(.constdata)
-    <Data4>                                  0x0800d93c   Data          24  bands.o(.constdata)
-    .constdata                               0x0800d954   Section       60  bands.o(.constdata)
-    <Data5>                                  0x0800d954   Data          60  bands.o(.constdata)
-    .constdata                               0x0800d990   Section       48  bands.o(.constdata)
-    <Data6>                                  0x0800d990   Data          48  bands.o(.constdata)
-    .constdata                               0x0800d9c0   Section       48  bands.o(.constdata)
-    <Data7>                                  0x0800d9c0   Data          48  bands.o(.constdata)
-    .constdata                               0x0800d9f0   Section       60  bands.o(.constdata)
-    <Data8>                                  0x0800d9f0   Data          60  bands.o(.constdata)
-    .constdata                               0x0800da2c   Section      132  bands.o(.constdata)
-    <Data9>                                  0x0800da2c   Data         132  bands.o(.constdata)
-    .constdata                               0x0800dab0   Section      180  bands.o(.constdata)
-    .constdata                               0x0800db64   Section        8  stm32f4xx_hal_dma.o(.constdata)
-    flagBitshiftOffset                       0x0800db64   Data           8  stm32f4xx_hal_dma.o(.constdata)
-    .constdata                               0x0800db6c   Section       16  system_stm32f4xx_1.o(.constdata)
-    .constdata                               0x0800db7c   Section        8  system_stm32f4xx_1.o(.constdata)
-    .constdata                               0x0800db84   Section     1280  ma_ili9341.o(.constdata)
-    font1                                    0x0800db84   Data        1280  ma_ili9341.o(.constdata)
-    .constdata                               0x0800e084   Section       16  arm_const_structs.o(.constdata)
-    .constdata                               0x0800e094   Section     4096  arm_common_tables.o(.constdata)
-    .constdata                               0x0800f094   Section      896  arm_common_tables.o(.constdata)
-    .constdata                               0x0800f414   Section     2052  arm_common_tables.o(.constdata)
-    .constdata                               0x0800fc18   Section       48  expf.o(.constdata)
-    twotokover4top                           0x0800fc18   Data          16  expf.o(.constdata)
-    twotokover4bot                           0x0800fc28   Data          16  expf.o(.constdata)
-    twotokover4all                           0x0800fc38   Data          16  expf.o(.constdata)
-    .constdata                               0x0800fc48   Section       64  log10f.o(.constdata)
-    logahi                                   0x0800fc48   Data          32  log10f.o(.constdata)
-    logalo                                   0x0800fc68   Data          32  log10f.o(.constdata)
-    .constdata                               0x0800fc88   Section      320  powf.o(.constdata)
-    table                                    0x0800fc88   Data         128  powf.o(.constdata)
-    powersof2to1over16top                    0x0800fd08   Data          64  powf.o(.constdata)
-    powersof2to1over16bot                    0x0800fd48   Data          64  powf.o(.constdata)
-    powersof2to1over16all                    0x0800fd88   Data          64  powf.o(.constdata)
-    .conststring                             0x0800fdc8   Section       53  trx_manager.o(.conststring)
-    .conststring                             0x0800fe00   Section       40  bands.o(.conststring)
+    i.LCD_Handler_MODE_BACK                  0x080067f4   Section        0  lcd.o(i.LCD_Handler_MODE_BACK)
+    i.LCD_Handler_MODE_CW                    0x08006804   Section        0  lcd.o(i.LCD_Handler_MODE_CW)
+    i.LCD_Handler_MODE_DIGL                  0x08006828   Section        0  lcd.o(i.LCD_Handler_MODE_DIGL)
+    i.LCD_Handler_MODE_DIGU                  0x0800684c   Section        0  lcd.o(i.LCD_Handler_MODE_DIGU)
+    i.LCD_Handler_MODE_FM                    0x08006870   Section        0  lcd.o(i.LCD_Handler_MODE_FM)
+    i.LCD_Handler_MODE_IQ                    0x08006894   Section        0  lcd.o(i.LCD_Handler_MODE_IQ)
+    i.LCD_Handler_MODE_LOOP                  0x080068b0   Section        0  lcd.o(i.LCD_Handler_MODE_LOOP)
+    i.LCD_Handler_MODE_LSB                   0x080068cc   Section        0  lcd.o(i.LCD_Handler_MODE_LSB)
+    i.LCD_Handler_MODE_USB                   0x080068f0   Section        0  lcd.o(i.LCD_Handler_MODE_USB)
+    i.LCD_Handler_MUTE                       0x08006914   Section        0  lcd.o(i.LCD_Handler_MUTE)
+    i.LCD_Handler_TUNE                       0x08006940   Section        0  lcd.o(i.LCD_Handler_TUNE)
+    i.LCD_Handler_WIDTH                      0x08006974   Section        0  lcd.o(i.LCD_Handler_WIDTH)
+    i.LCD_Handler_WIDTH_03                   0x08006984   Section        0  lcd.o(i.LCD_Handler_WIDTH_03)
+    i.LCD_Handler_WIDTH_05                   0x080069b4   Section        0  lcd.o(i.LCD_Handler_WIDTH_05)
+    i.LCD_Handler_WIDTH_100                  0x080069e4   Section        0  lcd.o(i.LCD_Handler_WIDTH_100)
+    i.LCD_Handler_WIDTH_14                   0x08006a14   Section        0  lcd.o(i.LCD_Handler_WIDTH_14)
+    i.LCD_Handler_WIDTH_150                  0x08006a44   Section        0  lcd.o(i.LCD_Handler_WIDTH_150)
+    i.LCD_Handler_WIDTH_16                   0x08006a74   Section        0  lcd.o(i.LCD_Handler_WIDTH_16)
+    i.LCD_Handler_WIDTH_18                   0x08006aa4   Section        0  lcd.o(i.LCD_Handler_WIDTH_18)
+    i.LCD_Handler_WIDTH_21                   0x08006ad4   Section        0  lcd.o(i.LCD_Handler_WIDTH_21)
+    i.LCD_Handler_WIDTH_23                   0x08006b04   Section        0  lcd.o(i.LCD_Handler_WIDTH_23)
+    i.LCD_Handler_WIDTH_25                   0x08006b34   Section        0  lcd.o(i.LCD_Handler_WIDTH_25)
+    i.LCD_Handler_WIDTH_27                   0x08006b64   Section        0  lcd.o(i.LCD_Handler_WIDTH_27)
+    i.LCD_Handler_WIDTH_29                   0x08006b94   Section        0  lcd.o(i.LCD_Handler_WIDTH_29)
+    i.LCD_Handler_WIDTH_30                   0x08006bc4   Section        0  lcd.o(i.LCD_Handler_WIDTH_30)
+    i.LCD_Handler_WIDTH_32                   0x08006bf4   Section        0  lcd.o(i.LCD_Handler_WIDTH_32)
+    i.LCD_Handler_WIDTH_34                   0x08006c24   Section        0  lcd.o(i.LCD_Handler_WIDTH_34)
+    i.LCD_Handler_WIDTH_50                   0x08006c54   Section        0  lcd.o(i.LCD_Handler_WIDTH_50)
+    i.LCD_Handler_WIDTH_60                   0x08006c84   Section        0  lcd.o(i.LCD_Handler_WIDTH_60)
+    i.LCD_Handler_WIDTH_70                   0x08006cb4   Section        0  lcd.o(i.LCD_Handler_WIDTH_70)
+    i.LCD_Handler_WIDTH_80                   0x08006ce4   Section        0  lcd.o(i.LCD_Handler_WIDTH_80)
+    i.LCD_Handler_WIDTH_85                   0x08006d14   Section        0  lcd.o(i.LCD_Handler_WIDTH_85)
+    i.LCD_Handler_WIDTH_90                   0x08006d44   Section        0  lcd.o(i.LCD_Handler_WIDTH_90)
+    i.LCD_Handler_WIDTH_95                   0x08006d74   Section        0  lcd.o(i.LCD_Handler_WIDTH_95)
+    i.LCD_Handler_WIDTH_BACK                 0x08006da4   Section        0  lcd.o(i.LCD_Handler_WIDTH_BACK)
+    i.LCD_Init                               0x08006db4   Section        0  lcd.o(i.LCD_Init)
+    i.LCD_checkTouchPad                      0x08006de4   Section        0  lcd.o(i.LCD_checkTouchPad)
+    i.LCD_displayFreqInfo                    0x08006f20   Section        0  lcd.o(i.LCD_displayFreqInfo)
+    i.LCD_displayMainMenu                    0x0800710c   Section        0  lcd.o(i.LCD_displayMainMenu)
+    i.LCD_displayStatusInfoBar               0x0800737c   Section        0  lcd.o(i.LCD_displayStatusInfoBar)
+    i.LCD_displayStatusInfoGUI               0x080074b0   Section        0  lcd.o(i.LCD_displayStatusInfoGUI)
+    i.LCD_displayTopButtons                  0x080075b0   Section        0  lcd.o(i.LCD_displayTopButtons)
+    i.LCD_doEvents                           0x080080d0   Section        0  lcd.o(i.LCD_doEvents)
+    i.LCD_redraw                             0x080080fc   Section        0  lcd.o(i.LCD_redraw)
+    i.LoadSettings                           0x08008138   Section        0  settings.o(i.LoadSettings)
+    i.MX_DMA_Init                            0x080081bc   Section        0  main_1.o(i.MX_DMA_Init)
+    MX_DMA_Init                              0x080081bd   Thumb Code   174  main_1.o(i.MX_DMA_Init)
+    i.MX_FSMC_Init                           0x08008278   Section        0  main_1.o(i.MX_FSMC_Init)
+    MX_FSMC_Init                             0x08008279   Thumb Code   112  main_1.o(i.MX_FSMC_Init)
+    i.MX_GPIO_Init                           0x080082f0   Section        0  main_1.o(i.MX_GPIO_Init)
+    MX_GPIO_Init                             0x080082f1   Thumb Code   508  main_1.o(i.MX_GPIO_Init)
+    i.MX_I2S3_Init                           0x0800850c   Section        0  main_1.o(i.MX_I2S3_Init)
+    MX_I2S3_Init                             0x0800850d   Thumb Code    48  main_1.o(i.MX_I2S3_Init)
+    i.MX_SPI1_Init                           0x08008544   Section        0  main_1.o(i.MX_SPI1_Init)
+    MX_SPI1_Init                             0x08008545   Thumb Code    54  main_1.o(i.MX_SPI1_Init)
+    i.MX_SPI2_Init                           0x08008584   Section        0  main_1.o(i.MX_SPI2_Init)
+    MX_SPI2_Init                             0x08008585   Thumb Code    56  main_1.o(i.MX_SPI2_Init)
+    i.MX_TIM4_Init                           0x080085c4   Section        0  main_1.o(i.MX_TIM4_Init)
+    MX_TIM4_Init                             0x080085c5   Thumb Code    76  main_1.o(i.MX_TIM4_Init)
+    i.MX_TIM5_Init                           0x08008618   Section        0  main_1.o(i.MX_TIM5_Init)
+    MX_TIM5_Init                             0x08008619   Thumb Code    76  main_1.o(i.MX_TIM5_Init)
+    i.MemManage_Handler                      0x0800866c   Section        0  stm32f4xx_it.o(i.MemManage_Handler)
+    i.NMI_Handler                            0x0800866e   Section        0  stm32f4xx_it.o(i.NMI_Handler)
+    i.NVIC_SetPriority                       0x08008670   Section        0  stm32f4xx_hal_cortex.o(i.NVIC_SetPriority)
+    NVIC_SetPriority                         0x08008671   Thumb Code    32  stm32f4xx_hal_cortex.o(i.NVIC_SetPriority)
+    i.PendSV_Handler                         0x08008690   Section        0  stm32f4xx_it.o(i.PendSV_Handler)
+    i.RxAgcWdsp                              0x08008694   Section        0  agc.o(i.RxAgcWdsp)
+    i.SPI_CheckFlag_BSY                      0x08008a2c   Section        0  stm32f4xx_hal_spi.o(i.SPI_CheckFlag_BSY)
+    SPI_CheckFlag_BSY                        0x08008a2d   Thumb Code    32  stm32f4xx_hal_spi.o(i.SPI_CheckFlag_BSY)
+    i.SPI_WaitFlagStateUntilTimeout          0x08008a4c   Section        0  stm32f4xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout)
+    SPI_WaitFlagStateUntilTimeout            0x08008a4d   Thumb Code   150  stm32f4xx_hal_spi.o(i.SPI_WaitFlagStateUntilTimeout)
+    i.SVC_Handler                            0x08008ae2   Section        0  stm32f4xx_it.o(i.SVC_Handler)
+    i.SaveSettings                           0x08008ae4   Section        0  settings.o(i.SaveSettings)
+    i.SetupAgcWdsp                           0x08008b0c   Section        0  agc.o(i.SetupAgcWdsp)
+    i.Spi_Master_Transmit                    0x08008ea8   Section        0  xpt2046_spi.o(i.Spi_Master_Transmit)
+    i.SysTick_Handler                        0x08008ed0   Section        0  stm32f4xx_it.o(i.SysTick_Handler)
+    i.SystemClock_Config                     0x08008ee0   Section        0  main_1.o(i.SystemClock_Config)
+    i.SystemInit                             0x08008f80   Section        0  system_stm32f4xx_1.o(i.SystemInit)
+    i.TIM4_IRQHandler                        0x08008fd4   Section        0  stm32f4xx_it.o(i.TIM4_IRQHandler)
+    i.TIM5_IRQHandler                        0x08008ff8   Section        0  stm32f4xx_it.o(i.TIM5_IRQHandler)
+    i.TIM6_DAC_IRQHandler                    0x0800903c   Section        0  stm32f4xx_it.o(i.TIM6_DAC_IRQHandler)
+    i.TIM_Base_SetConfig                     0x080090e8   Section        0  stm32f4xx_hal_tim.o(i.TIM_Base_SetConfig)
+    i.TIM_ETR_SetConfig                      0x080091a8   Section        0  stm32f4xx_hal_tim.o(i.TIM_ETR_SetConfig)
+    TIM_ETR_SetConfig                        0x080091a9   Thumb Code    20  stm32f4xx_hal_tim.o(i.TIM_ETR_SetConfig)
+    i.TIM_ITRx_SetConfig                     0x080091bc   Section        0  stm32f4xx_hal_tim.o(i.TIM_ITRx_SetConfig)
+    TIM_ITRx_SetConfig                       0x080091bd   Thumb Code    16  stm32f4xx_hal_tim.o(i.TIM_ITRx_SetConfig)
+    i.TIM_TI1_ConfigInputStage               0x080091cc   Section        0  stm32f4xx_hal_tim.o(i.TIM_TI1_ConfigInputStage)
+    TIM_TI1_ConfigInputStage                 0x080091cd   Thumb Code    34  stm32f4xx_hal_tim.o(i.TIM_TI1_ConfigInputStage)
+    i.TIM_TI2_ConfigInputStage               0x080091ee   Section        0  stm32f4xx_hal_tim.o(i.TIM_TI2_ConfigInputStage)
+    TIM_TI2_ConfigInputStage                 0x080091ef   Thumb Code    36  stm32f4xx_hal_tim.o(i.TIM_TI2_ConfigInputStage)
+    i.TRX_Init                               0x08009214   Section        0  trx_manager.o(i.TRX_Init)
+    i.TRX_getFrequency                       0x08009234   Section        0  trx_manager.o(i.TRX_getFrequency)
+    i.TRX_getMode                            0x08009240   Section        0  trx_manager.o(i.TRX_getMode)
+    i.TRX_ptt_change                         0x0800924c   Section        0  trx_manager.o(i.TRX_ptt_change)
+    i.TRX_setFrequency                       0x08009294   Section        0  trx_manager.o(i.TRX_setFrequency)
+    i.TRX_setMode                            0x08009310   Section        0  trx_manager.o(i.TRX_setMode)
+    i.Touch_Calibrate                        0x08009338   Section        0  xpt2046_spi.o(i.Touch_Calibrate)
+    i.Touch_Set_Coef                         0x08009710   Section        0  xpt2046_spi.o(i.Touch_Set_Coef)
+    i.UA3REO_I2SEx_TxRxDMACplt               0x0800980c   Section        0  wm8731.o(i.UA3REO_I2SEx_TxRxDMACplt)
+    UA3REO_I2SEx_TxRxDMACplt                 0x0800980d   Thumb Code     6  wm8731.o(i.UA3REO_I2SEx_TxRxDMACplt)
+    i.UA3REO_I2SEx_TxRxDMAHalfCplt           0x08009812   Section        0  wm8731.o(i.UA3REO_I2SEx_TxRxDMAHalfCplt)
+    UA3REO_I2SEx_TxRxDMAHalfCplt             0x08009813   Thumb Code     6  wm8731.o(i.UA3REO_I2SEx_TxRxDMAHalfCplt)
+    i.UART_SetConfig                         0x08009818   Section        0  stm32f4xx_hal_uart.o(i.UART_SetConfig)
+    UART_SetConfig                           0x08009819   Thumb Code   676  stm32f4xx_hal_uart.o(i.UART_SetConfig)
+    i.UART_WaitOnFlagUntilTimeout            0x08009ac4   Section        0  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
+    UART_WaitOnFlagUntilTimeout              0x08009ac5   Thumb Code   100  stm32f4xx_hal_uart.o(i.UART_WaitOnFlagUntilTimeout)
+    i.UsageFault_Handler                     0x08009b28   Section        0  stm32f4xx_it.o(i.UsageFault_Handler)
+    i.WM8731_Init                            0x08009b2c   Section        0  wm8731.o(i.WM8731_Init)
+    i.WM8731_RX_mode                         0x08009b7c   Section        0  wm8731.o(i.WM8731_RX_mode)
+    i.WM8731_SendI2CCommand                  0x08009bc2   Section        0  wm8731.o(i.WM8731_SendI2CCommand)
+    i.WM8731_TXRX_mode                       0x08009c00   Section        0  wm8731.o(i.WM8731_TXRX_mode)
+    i.WM8731_TX_mode                         0x08009c70   Section        0  wm8731.o(i.WM8731_TX_mode)
+    i._Error_Handler                         0x08009ce0   Section        0  main_1.o(i._Error_Handler)
+    i.__0sprintf                             0x08009ce4   Section        0  printfa.o(i.__0sprintf)
+    i.__ARM_fpclassifyf                      0x08009d0c   Section        0  fpclassifyf.o(i.__ARM_fpclassifyf)
+    i.__hardfp_ceil                          0x08009d38   Section        0  ceil.o(i.__hardfp_ceil)
+    i.__hardfp_expf                          0x08009e50   Section        0  expf.o(i.__hardfp_expf)
+    i.__hardfp_frexpf                        0x0800a038   Section        0  frexpf.o(i.__hardfp_frexpf)
+    i.__hardfp_log10f                        0x0800a08c   Section        0  log10f.o(i.__hardfp_log10f)
+    i.__hardfp_powf                          0x0800a20c   Section        0  powf.o(i.__hardfp_powf)
+    i.__hardfp_round                         0x0800a870   Section        0  round.o(i.__hardfp_round)
+    i.__mathlib_flt_divzero                  0x0800a950   Section        0  funder.o(i.__mathlib_flt_divzero)
+    i.__mathlib_flt_infnan                   0x0800a964   Section        0  funder.o(i.__mathlib_flt_infnan)
+    i.__mathlib_flt_infnan2                  0x0800a96a   Section        0  funder.o(i.__mathlib_flt_infnan2)
+    i.__mathlib_flt_invalid                  0x0800a970   Section        0  funder.o(i.__mathlib_flt_invalid)
+    i.__mathlib_flt_overflow                 0x0800a980   Section        0  funder.o(i.__mathlib_flt_overflow)
+    i.__mathlib_flt_underflow                0x0800a990   Section        0  funder.o(i.__mathlib_flt_underflow)
+    i.__scatterload_copy                     0x0800a9a0   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x0800a9ae   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x0800a9b0   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i.__set_errno                            0x0800a9c0   Section        0  errno.o(i.__set_errno)
+    i._fp_digits                             0x0800a9cc   Section        0  printfa.o(i._fp_digits)
+    _fp_digits                               0x0800a9cd   Thumb Code   366  printfa.o(i._fp_digits)
+    i._printf_core                           0x0800ab50   Section        0  printfa.o(i._printf_core)
+    _printf_core                             0x0800ab51   Thumb Code  1744  printfa.o(i._printf_core)
+    i._printf_post_padding                   0x0800b22c   Section        0  printfa.o(i._printf_post_padding)
+    _printf_post_padding                     0x0800b22d   Thumb Code    36  printfa.o(i._printf_post_padding)
+    i._printf_pre_padding                    0x0800b250   Section        0  printfa.o(i._printf_pre_padding)
+    _printf_pre_padding                      0x0800b251   Thumb Code    46  printfa.o(i._printf_pre_padding)
+    i._sputc                                 0x0800b27e   Section        0  printfa.o(i._sputc)
+    _sputc                                   0x0800b27f   Thumb Code    10  printfa.o(i._sputc)
+    i.addSymbols                             0x0800b288   Section        0  functions.o(i.addSymbols)
+    i.checkBootloaderButton                  0x0800b2e8   Section        0  bootloader.o(i.checkBootloaderButton)
+    i.delay_us                               0x0800b33c   Section        0  functions.o(i.delay_us)
+    i.getFFTColor                            0x0800b380   Section        0  fft.o(i.getFFTColor)
+    i.getModeFromFreq                        0x0800b3c8   Section        0  bands.o(i.getModeFromFreq)
+    i.getPhraseFromFrequency                 0x0800b44c   Section        0  functions.o(i.getPhraseFromFrequency)
+    i.i2c_begin                              0x0800b490   Section        0  wire.o(i.i2c_begin)
+    i.i2c_beginTransmission_u8               0x0800b4cc   Section        0  wire.o(i.i2c_beginTransmission_u8)
+    i.i2c_endTransmission                    0x0800b4e0   Section        0  wire.o(i.i2c_endTransmission)
+    i.i2c_get_ack                            0x0800b554   Section        0  wire.o(i.i2c_get_ack)
+    i.i2c_shift_out                          0x0800b628   Section        0  wire.o(i.i2c_shift_out)
+    i.i2c_start                              0x0800b6c8   Section        0  wire.o(i.i2c_start)
+    i.i2c_stop                               0x0800b71c   Section        0  wire.o(i.i2c_stop)
+    i.i2c_writeOneByte                       0x0800b7a8   Section        0  wire.o(i.i2c_writeOneByte)
+    i.i2c_write_u8                           0x0800b7bc   Section        0  wire.o(i.i2c_write_u8)
+    i.initAudioProcessor                     0x0800b7dc   Section        0  audio_processor.o(i.initAudioProcessor)
+    i.isTouch                                0x0800b7ec   Section        0  xpt2046_spi.o(i.isTouch)
+    i.log10f_fast                            0x0800b804   Section        0  functions.o(i.log10f_fast)
+    i.logToUART1_num                         0x0800b864   Section        0  functions.o(i.logToUART1_num)
+    i.logToUART1_str                         0x0800b890   Section        0  functions.o(i.logToUART1_str)
+    i.main                                   0x0800b8b0   Section        0  main_1.o(i.main)
+    i.printButton                            0x0800ba04   Section        0  lcd.o(i.printButton)
+    i.printMenuButton                        0x0800baa0   Section        0  lcd.o(i.printMenuButton)
+    i.processRxAudio                         0x0800bb6c   Section        0  audio_processor.o(i.processRxAudio)
+    i.processTxAudio                         0x0800bf28   Section        0  audio_processor.o(i.processTxAudio)
+    i.readHalfFromCircleBuffer32             0x0800c24c   Section        0  functions.o(i.readHalfFromCircleBuffer32)
+    i.readHalfFromCircleBufferU32            0x0800c28c   Section        0  functions.o(i.readHalfFromCircleBufferU32)
+    i.rgb888torgb565                         0x0800c2cc   Section        0  ma_ili9341.o(i.rgb888torgb565)
+    i.start_i2s                              0x0800c2dc   Section        0  wm8731.o(i.start_i2s)
+    .constdata                               0x0800c364   Section     5200  audio_filters.o(.constdata)
+    .constdata                               0x0800d7b4   Section       36  bands.o(.constdata)
+    <Data1>                                  0x0800d7b4   Data          36  bands.o(.constdata)
+    .constdata                               0x0800d7d8   Section       36  bands.o(.constdata)
+    <Data2>                                  0x0800d7d8   Data          36  bands.o(.constdata)
+    .constdata                               0x0800d7fc   Section       72  bands.o(.constdata)
+    <Data3>                                  0x0800d7fc   Data          72  bands.o(.constdata)
+    .constdata                               0x0800d844   Section       24  bands.o(.constdata)
+    <Data4>                                  0x0800d844   Data          24  bands.o(.constdata)
+    .constdata                               0x0800d85c   Section       60  bands.o(.constdata)
+    <Data5>                                  0x0800d85c   Data          60  bands.o(.constdata)
+    .constdata                               0x0800d898   Section       48  bands.o(.constdata)
+    <Data6>                                  0x0800d898   Data          48  bands.o(.constdata)
+    .constdata                               0x0800d8c8   Section       48  bands.o(.constdata)
+    <Data7>                                  0x0800d8c8   Data          48  bands.o(.constdata)
+    .constdata                               0x0800d8f8   Section       60  bands.o(.constdata)
+    <Data8>                                  0x0800d8f8   Data          60  bands.o(.constdata)
+    .constdata                               0x0800d934   Section      132  bands.o(.constdata)
+    <Data9>                                  0x0800d934   Data         132  bands.o(.constdata)
+    .constdata                               0x0800d9b8   Section      180  bands.o(.constdata)
+    .constdata                               0x0800da6c   Section        8  stm32f4xx_hal_dma.o(.constdata)
+    flagBitshiftOffset                       0x0800da6c   Data           8  stm32f4xx_hal_dma.o(.constdata)
+    .constdata                               0x0800da74   Section       16  system_stm32f4xx_1.o(.constdata)
+    .constdata                               0x0800da84   Section        8  system_stm32f4xx_1.o(.constdata)
+    .constdata                               0x0800da8c   Section     1280  ma_ili9341.o(.constdata)
+    font1                                    0x0800da8c   Data        1280  ma_ili9341.o(.constdata)
+    .constdata                               0x0800df8c   Section       16  arm_const_structs.o(.constdata)
+    .constdata                               0x0800df9c   Section     4096  arm_common_tables.o(.constdata)
+    .constdata                               0x0800ef9c   Section      896  arm_common_tables.o(.constdata)
+    .constdata                               0x0800f31c   Section     2052  arm_common_tables.o(.constdata)
+    .constdata                               0x0800fb20   Section       48  expf.o(.constdata)
+    twotokover4top                           0x0800fb20   Data          16  expf.o(.constdata)
+    twotokover4bot                           0x0800fb30   Data          16  expf.o(.constdata)
+    twotokover4all                           0x0800fb40   Data          16  expf.o(.constdata)
+    .constdata                               0x0800fb50   Section       64  log10f.o(.constdata)
+    logahi                                   0x0800fb50   Data          32  log10f.o(.constdata)
+    logalo                                   0x0800fb70   Data          32  log10f.o(.constdata)
+    .constdata                               0x0800fb90   Section      320  powf.o(.constdata)
+    table                                    0x0800fb90   Data         128  powf.o(.constdata)
+    powersof2to1over16top                    0x0800fc10   Data          64  powf.o(.constdata)
+    powersof2to1over16bot                    0x0800fc50   Data          64  powf.o(.constdata)
+    powersof2to1over16all                    0x0800fc90   Data          64  powf.o(.constdata)
+    .conststring                             0x0800fcd0   Section       53  trx_manager.o(.conststring)
+    .conststring                             0x0800fd08   Section       40  bands.o(.conststring)
     .data                                    0x20000000   Section       12  encoder.o(.data)
     .data                                    0x2000000c   Section        4  fft.o(.data)
     .data                                    0x20000010   Section       28  fft.o(.data)
@@ -3725,212 +3696,212 @@ Image Symbol Table
     LCD_Handler_MENU_PREAMP_UHF              0x08006789   Thumb Code    26  lcd.o(i.LCD_Handler_MENU_PREAMP_UHF)
     LCD_Handler_MENU_VOLUME                  0x080067b1   Thumb Code    12  lcd.o(i.LCD_Handler_MENU_VOLUME)
     LCD_Handler_MODE                         0x080067c1   Thumb Code    10  lcd.o(i.LCD_Handler_MODE)
-    LCD_Handler_MODE_AM                      0x080067d1   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_AM)
-    LCD_Handler_MODE_BACK                    0x080067fd   Thumb Code    10  lcd.o(i.LCD_Handler_MODE_BACK)
-    LCD_Handler_MODE_CW                      0x0800680d   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_CW)
-    LCD_Handler_MODE_DIGL                    0x08006839   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_DIGL)
-    LCD_Handler_MODE_DIGU                    0x08006865   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_DIGU)
-    LCD_Handler_MODE_FM                      0x08006891   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_FM)
-    LCD_Handler_MODE_IQ                      0x080068bd   Thumb Code    22  lcd.o(i.LCD_Handler_MODE_IQ)
-    LCD_Handler_MODE_LOOP                    0x080068d9   Thumb Code    22  lcd.o(i.LCD_Handler_MODE_LOOP)
-    LCD_Handler_MODE_LSB                     0x080068f5   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_LSB)
-    LCD_Handler_MODE_USB                     0x08006921   Thumb Code    30  lcd.o(i.LCD_Handler_MODE_USB)
-    LCD_Handler_MUTE                         0x0800694d   Thumb Code    34  lcd.o(i.LCD_Handler_MUTE)
-    LCD_Handler_TUNE                         0x08006979   Thumb Code    40  lcd.o(i.LCD_Handler_TUNE)
-    LCD_Handler_WIDTH                        0x080069ad   Thumb Code    10  lcd.o(i.LCD_Handler_WIDTH)
-    LCD_Handler_WIDTH_03                     0x080069bd   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_03)
-    LCD_Handler_WIDTH_05                     0x080069f5   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_05)
-    LCD_Handler_WIDTH_100                    0x08006a2d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_100)
-    LCD_Handler_WIDTH_14                     0x08006a65   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_14)
-    LCD_Handler_WIDTH_150                    0x08006a9d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_150)
-    LCD_Handler_WIDTH_16                     0x08006ad5   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_16)
-    LCD_Handler_WIDTH_18                     0x08006b0d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_18)
-    LCD_Handler_WIDTH_21                     0x08006b45   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_21)
-    LCD_Handler_WIDTH_23                     0x08006b7d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_23)
-    LCD_Handler_WIDTH_25                     0x08006bb5   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_25)
-    LCD_Handler_WIDTH_27                     0x08006bed   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_27)
-    LCD_Handler_WIDTH_29                     0x08006c25   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_29)
-    LCD_Handler_WIDTH_30                     0x08006c5d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_30)
-    LCD_Handler_WIDTH_32                     0x08006c95   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_32)
-    LCD_Handler_WIDTH_34                     0x08006ccd   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_34)
-    LCD_Handler_WIDTH_50                     0x08006d05   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_50)
-    LCD_Handler_WIDTH_60                     0x08006d3d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_60)
-    LCD_Handler_WIDTH_70                     0x08006d75   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_70)
-    LCD_Handler_WIDTH_80                     0x08006dad   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_80)
-    LCD_Handler_WIDTH_85                     0x08006de5   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_85)
-    LCD_Handler_WIDTH_90                     0x08006e1d   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_90)
-    LCD_Handler_WIDTH_95                     0x08006e55   Thumb Code    38  lcd.o(i.LCD_Handler_WIDTH_95)
-    LCD_Handler_WIDTH_BACK                   0x08006e8d   Thumb Code    10  lcd.o(i.LCD_Handler_WIDTH_BACK)
-    LCD_Init                                 0x08006e9d   Thumb Code    42  lcd.o(i.LCD_Init)
-    LCD_checkTouchPad                        0x08006ecd   Thumb Code   274  lcd.o(i.LCD_checkTouchPad)
-    LCD_displayFreqInfo                      0x08007009   Thumb Code   458  lcd.o(i.LCD_displayFreqInfo)
-    LCD_displayMainMenu                      0x080071f5   Thumb Code   432  lcd.o(i.LCD_displayMainMenu)
-    LCD_displayStatusInfoBar                 0x08007465   Thumb Code   254  lcd.o(i.LCD_displayStatusInfoBar)
-    LCD_displayStatusInfoGUI                 0x08007599   Thumb Code   206  lcd.o(i.LCD_displayStatusInfoGUI)
-    LCD_displayTopButtons                    0x08007699   Thumb Code  2742  lcd.o(i.LCD_displayTopButtons)
-    LCD_doEvents                             0x080081b5   Thumb Code    38  lcd.o(i.LCD_doEvents)
-    LCD_redraw                               0x080081e1   Thumb Code    54  lcd.o(i.LCD_redraw)
-    LoadSettings                             0x0800821d   Thumb Code   112  settings.o(i.LoadSettings)
-    MemManage_Handler                        0x0800874d   Thumb Code     2  stm32f4xx_it.o(i.MemManage_Handler)
-    NMI_Handler                              0x0800874f   Thumb Code     2  stm32f4xx_it.o(i.NMI_Handler)
-    PendSV_Handler                           0x08008771   Thumb Code     2  stm32f4xx_it.o(i.PendSV_Handler)
-    RxAgcWdsp                                0x08008775   Thumb Code   896  agc.o(i.RxAgcWdsp)
-    SVC_Handler                              0x08008bc3   Thumb Code     2  stm32f4xx_it.o(i.SVC_Handler)
-    SaveSettings                             0x08008bc5   Thumb Code    32  settings.o(i.SaveSettings)
-    SetupAgcWdsp                             0x08008bed   Thumb Code   854  agc.o(i.SetupAgcWdsp)
-    Spi_Master_Transmit                      0x08008f89   Thumb Code    34  xpt2046_spi.o(i.Spi_Master_Transmit)
-    SysTick_Handler                          0x08008fb1   Thumb Code    14  stm32f4xx_it.o(i.SysTick_Handler)
-    SystemClock_Config                       0x08008fc1   Thumb Code   152  main_1.o(i.SystemClock_Config)
-    SystemInit                               0x08009061   Thumb Code    66  system_stm32f4xx_1.o(i.SystemInit)
-    TIM4_IRQHandler                          0x080090b5   Thumb Code    26  stm32f4xx_it.o(i.TIM4_IRQHandler)
-    TIM5_IRQHandler                          0x080090d9   Thumb Code    54  stm32f4xx_it.o(i.TIM5_IRQHandler)
-    TIM6_DAC_IRQHandler                      0x0800911d   Thumb Code   118  stm32f4xx_it.o(i.TIM6_DAC_IRQHandler)
-    TIM_Base_SetConfig                       0x080091c9   Thumb Code   148  stm32f4xx_hal_tim.o(i.TIM_Base_SetConfig)
-    TRX_Init                                 0x080092f5   Thumb Code    22  trx_manager.o(i.TRX_Init)
-    TRX_getFrequency                         0x08009315   Thumb Code     6  trx_manager.o(i.TRX_getFrequency)
-    TRX_getMode                              0x08009321   Thumb Code     6  trx_manager.o(i.TRX_getMode)
-    TRX_ptt_change                           0x0800932d   Thumb Code    58  trx_manager.o(i.TRX_ptt_change)
-    TRX_setFrequency                         0x08009375   Thumb Code   108  trx_manager.o(i.TRX_setFrequency)
-    TRX_setMode                              0x080093f1   Thumb Code    32  trx_manager.o(i.TRX_setMode)
-    Touch_Calibrate                          0x08009419   Thumb Code   900  xpt2046_spi.o(i.Touch_Calibrate)
-    Touch_Set_Coef                           0x080097f1   Thumb Code   176  xpt2046_spi.o(i.Touch_Set_Coef)
-    UsageFault_Handler                       0x08009c09   Thumb Code     2  stm32f4xx_it.o(i.UsageFault_Handler)
-    WM8731_Init                              0x08009c0d   Thumb Code    58  wm8731.o(i.WM8731_Init)
-    WM8731_RX_mode                           0x08009c5d   Thumb Code    70  wm8731.o(i.WM8731_RX_mode)
-    WM8731_SendI2CCommand                    0x08009ca3   Thumb Code    60  wm8731.o(i.WM8731_SendI2CCommand)
-    WM8731_TXRX_mode                         0x08009ce1   Thumb Code   106  wm8731.o(i.WM8731_TXRX_mode)
-    WM8731_TX_mode                           0x08009d51   Thumb Code   106  wm8731.o(i.WM8731_TX_mode)
-    _Error_Handler                           0x08009dc1   Thumb Code     2  main_1.o(i._Error_Handler)
-    __0sprintf                               0x08009dc5   Thumb Code    34  printfa.o(i.__0sprintf)
-    __1sprintf                               0x08009dc5   Thumb Code     0  printfa.o(i.__0sprintf)
-    __2sprintf                               0x08009dc5   Thumb Code     0  printfa.o(i.__0sprintf)
-    __c89sprintf                             0x08009dc5   Thumb Code     0  printfa.o(i.__0sprintf)
-    sprintf                                  0x08009dc5   Thumb Code     0  printfa.o(i.__0sprintf)
-    __ARM_fpclassifyf                        0x08009ded   Thumb Code    38  fpclassifyf.o(i.__ARM_fpclassifyf)
-    __hardfp_ceil                            0x08009e19   Thumb Code   252  ceil.o(i.__hardfp_ceil)
-    __hardfp_expf                            0x08009f31   Thumb Code   426  expf.o(i.__hardfp_expf)
-    __mathlib_expf                           0x08009f31   Thumb Code     0  expf.o(i.__hardfp_expf)
-    __hardfp_frexpf                          0x0800a119   Thumb Code    80  frexpf.o(i.__hardfp_frexpf)
-    __hardfp_log10f                          0x0800a16d   Thumb Code   332  log10f.o(i.__hardfp_log10f)
-    __hardfp_powf                            0x0800a2ed   Thumb Code  1606  powf.o(i.__hardfp_powf)
-    __mathlib_powf                           0x0800a2ed   Thumb Code     0  powf.o(i.__hardfp_powf)
-    __hardfp_round                           0x0800a951   Thumb Code   194  round.o(i.__hardfp_round)
-    __mathlib_flt_divzero                    0x0800aa31   Thumb Code    14  funder.o(i.__mathlib_flt_divzero)
-    __mathlib_flt_infnan                     0x0800aa45   Thumb Code     6  funder.o(i.__mathlib_flt_infnan)
-    __mathlib_flt_infnan2                    0x0800aa4b   Thumb Code     6  funder.o(i.__mathlib_flt_infnan2)
-    __mathlib_flt_invalid                    0x0800aa51   Thumb Code    10  funder.o(i.__mathlib_flt_invalid)
-    __mathlib_flt_overflow                   0x0800aa61   Thumb Code    10  funder.o(i.__mathlib_flt_overflow)
-    __mathlib_flt_underflow                  0x0800aa71   Thumb Code    10  funder.o(i.__mathlib_flt_underflow)
-    __scatterload_copy                       0x0800aa81   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x0800aa8f   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x0800aa91   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    __set_errno                              0x0800aaa1   Thumb Code     6  errno.o(i.__set_errno)
-    addSymbols                               0x0800b369   Thumb Code    96  functions.o(i.addSymbols)
-    checkBootloaderButton                    0x0800b3c9   Thumb Code    74  bootloader.o(i.checkBootloaderButton)
-    delay_us                                 0x0800b41d   Thumb Code    52  functions.o(i.delay_us)
-    getFFTColor                              0x0800b461   Thumb Code    70  fft.o(i.getFFTColor)
-    getModeFromFreq                          0x0800b4a9   Thumb Code   118  bands.o(i.getModeFromFreq)
-    getPhraseFromFrequency                   0x0800b52d   Thumb Code    50  functions.o(i.getPhraseFromFrequency)
-    i2c_begin                                0x0800b571   Thumb Code    54  wire.o(i.i2c_begin)
-    i2c_beginTransmission_u8                 0x0800b5ad   Thumb Code    16  wire.o(i.i2c_beginTransmission_u8)
-    i2c_endTransmission                      0x0800b5c1   Thumb Code   106  wire.o(i.i2c_endTransmission)
-    i2c_get_ack                              0x0800b635   Thumb Code   208  wire.o(i.i2c_get_ack)
-    i2c_shift_out                            0x0800b709   Thumb Code   156  wire.o(i.i2c_shift_out)
-    i2c_start                                0x0800b7a9   Thumb Code    78  wire.o(i.i2c_start)
-    i2c_stop                                 0x0800b7fd   Thumb Code   136  wire.o(i.i2c_stop)
-    i2c_writeOneByte                         0x0800b889   Thumb Code    20  wire.o(i.i2c_writeOneByte)
-    i2c_write_u8                             0x0800b89d   Thumb Code    24  wire.o(i.i2c_write_u8)
-    initAudioProcessor                       0x0800b8bd   Thumb Code    14  audio_processor.o(i.initAudioProcessor)
-    isTouch                                  0x0800b8cd   Thumb Code    20  xpt2046_spi.o(i.isTouch)
-    log10f_fast                              0x0800b8e5   Thumb Code    74  functions.o(i.log10f_fast)
-    logToUART1_num                           0x0800b945   Thumb Code    34  functions.o(i.logToUART1_num)
-    logToUART1_str                           0x0800b971   Thumb Code    26  functions.o(i.logToUART1_str)
-    main                                     0x0800b991   Thumb Code   292  main_1.o(i.main)
-    printButton                              0x0800bae5   Thumb Code   148  lcd.o(i.printButton)
-    printMenuButton                          0x0800bb81   Thumb Code   194  lcd.o(i.printMenuButton)
-    processRxAudio                           0x0800bc4d   Thumb Code   864  audio_processor.o(i.processRxAudio)
-    processTxAudio                           0x0800c001   Thumb Code   714  audio_processor.o(i.processTxAudio)
-    readHalfFromCircleBuffer32               0x0800c325   Thumb Code    64  functions.o(i.readHalfFromCircleBuffer32)
-    readHalfFromCircleBufferU32              0x0800c365   Thumb Code    64  functions.o(i.readHalfFromCircleBufferU32)
-    rgb888torgb565                           0x0800c3a5   Thumb Code    16  ma_ili9341.o(i.rgb888torgb565)
-    start_i2s                                0x0800c3b5   Thumb Code    86  wm8731.o(i.start_i2s)
-    i_rx_3k6_coeffs                          0x0800c43c   Data         356  audio_filters.o(.constdata)
-    q_rx_3k6_coeffs                          0x0800c5a0   Data         356  audio_filters.o(.constdata)
-    i_tx_coeffs                              0x0800c704   Data         804  audio_filters.o(.constdata)
-    q_tx_coeffs                              0x0800ca28   Data         804  audio_filters.o(.constdata)
-    IIR_LPF_0k3_PKcoeffs                     0x0800cd4c   Data          28  audio_filters.o(.constdata)
-    IIR_LPF_0k3_PVcoeffs                     0x0800cd68   Data          32  audio_filters.o(.constdata)
-    IIR_LPF_0k5_PKcoeffs                     0x0800cd88   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_0k5_PVcoeffs                     0x0800cdb4   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_1k4_PKcoeffs                     0x0800cde4   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_1k4_PVcoeffs                     0x0800ce10   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_1k6_PKcoeffs                     0x0800ce40   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_1k6_PVcoeffs                     0x0800ce6c   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_1k8_PKcoeffs                     0x0800ce9c   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_1k8_PVcoeffs                     0x0800cec8   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_2k1_PKcoeffs                     0x0800cef8   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_2k1_PVcoeffs                     0x0800cf24   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_2k3_PKcoeffs                     0x0800cf54   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_2k3_PVcoeffs                     0x0800cf80   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_2k5_PKcoeffs                     0x0800cfb0   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_2k5_PVcoeffs                     0x0800cfdc   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_2k7_PKcoeffs                     0x0800d00c   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_2k7_PVcoeffs                     0x0800d038   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_2k9_PKcoeffs                     0x0800d068   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_2k9_PVcoeffs                     0x0800d094   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_3k0_PKcoeffs                     0x0800d0c4   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_3k0_PVcoeffs                     0x0800d0f0   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_3k2_PKcoeffs                     0x0800d120   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_3k2_PVcoeffs                     0x0800d14c   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_3k4_PKcoeffs                     0x0800d17c   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_3k4_PVcoeffs                     0x0800d1a8   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_3k6_PKcoeffs                     0x0800d1d8   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_3k6_PVcoeffs                     0x0800d204   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_3k8_PKcoeffs                     0x0800d234   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_3k8_PVcoeffs                     0x0800d260   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_4k0_PKcoeffs                     0x0800d290   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_4k0_PVcoeffs                     0x0800d2bc   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_4k2_PKcoeffs                     0x0800d2ec   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_4k2_PVcoeffs                     0x0800d318   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_4k4_PKcoeffs                     0x0800d348   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_4k4_PVcoeffs                     0x0800d374   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_4k6_PKcoeffs                     0x0800d3a4   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_4k6_PVcoeffs                     0x0800d3d0   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_4k8_PKcoeffs                     0x0800d400   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_4k8_PVcoeffs                     0x0800d42c   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_5k0_PKcoeffs                     0x0800d45c   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_5k0_PVcoeffs                     0x0800d488   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_5k5_PKcoeffs                     0x0800d4b8   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_5k5_PVcoeffs                     0x0800d4e4   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_6k0_PKcoeffs                     0x0800d514   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_6k0_PVcoeffs                     0x0800d540   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_6k5_PKcoeffs                     0x0800d570   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_6k5_PVcoeffs                     0x0800d59c   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_7k0_PKcoeffs                     0x0800d5cc   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_7k0_PVcoeffs                     0x0800d5f8   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_7k5_PKcoeffs                     0x0800d628   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_7k5_PVcoeffs                     0x0800d654   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_8k0_PKcoeffs                     0x0800d684   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_8k0_PVcoeffs                     0x0800d6b0   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_8k5_PKcoeffs                     0x0800d6e0   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_8k5_PVcoeffs                     0x0800d70c   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_9k0_PKcoeffs                     0x0800d73c   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_9k0_PVcoeffs                     0x0800d768   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_9k5_PKcoeffs                     0x0800d798   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_9k5_PVcoeffs                     0x0800d7c4   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_10k0_PKcoeffs                    0x0800d7f4   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_10k0_PVcoeffs                    0x0800d820   Data          48  audio_filters.o(.constdata)
-    IIR_LPF_15k0_PKcoeffs                    0x0800d850   Data          44  audio_filters.o(.constdata)
-    IIR_LPF_15k0_PVcoeffs                    0x0800d87c   Data          48  audio_filters.o(.constdata)
-    BANDS                                    0x0800dab0   Data         180  bands.o(.constdata)
-    AHBPrescTable                            0x0800db6c   Data          16  system_stm32f4xx_1.o(.constdata)
-    APBPrescTable                            0x0800db7c   Data           8  system_stm32f4xx_1.o(.constdata)
-    arm_cfft_sR_f32_len512                   0x0800e084   Data          16  arm_const_structs.o(.constdata)
-    twiddleCoef_512                          0x0800e094   Data        4096  arm_common_tables.o(.constdata)
-    armBitRevIndexTable512                   0x0800f094   Data         896  arm_common_tables.o(.constdata)
-    sinTable_f32                             0x0800f414   Data        2052  arm_common_tables.o(.constdata)
-    Region$$Table$$Base                      0x0800fe28   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x0800fe48   Number         0  anon$$obj.o(Region$$Table)
+    LCD_Handler_MODE_AM                      0x080067d1   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_AM)
+    LCD_Handler_MODE_BACK                    0x080067f5   Thumb Code    10  lcd.o(i.LCD_Handler_MODE_BACK)
+    LCD_Handler_MODE_CW                      0x08006805   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_CW)
+    LCD_Handler_MODE_DIGL                    0x08006829   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_DIGL)
+    LCD_Handler_MODE_DIGU                    0x0800684d   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_DIGU)
+    LCD_Handler_MODE_FM                      0x08006871   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_FM)
+    LCD_Handler_MODE_IQ                      0x08006895   Thumb Code    22  lcd.o(i.LCD_Handler_MODE_IQ)
+    LCD_Handler_MODE_LOOP                    0x080068b1   Thumb Code    22  lcd.o(i.LCD_Handler_MODE_LOOP)
+    LCD_Handler_MODE_LSB                     0x080068cd   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_LSB)
+    LCD_Handler_MODE_USB                     0x080068f1   Thumb Code    28  lcd.o(i.LCD_Handler_MODE_USB)
+    LCD_Handler_MUTE                         0x08006915   Thumb Code    34  lcd.o(i.LCD_Handler_MUTE)
+    LCD_Handler_TUNE                         0x08006941   Thumb Code    40  lcd.o(i.LCD_Handler_TUNE)
+    LCD_Handler_WIDTH                        0x08006975   Thumb Code    10  lcd.o(i.LCD_Handler_WIDTH)
+    LCD_Handler_WIDTH_03                     0x08006985   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_03)
+    LCD_Handler_WIDTH_05                     0x080069b5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_05)
+    LCD_Handler_WIDTH_100                    0x080069e5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_100)
+    LCD_Handler_WIDTH_14                     0x08006a15   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_14)
+    LCD_Handler_WIDTH_150                    0x08006a45   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_150)
+    LCD_Handler_WIDTH_16                     0x08006a75   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_16)
+    LCD_Handler_WIDTH_18                     0x08006aa5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_18)
+    LCD_Handler_WIDTH_21                     0x08006ad5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_21)
+    LCD_Handler_WIDTH_23                     0x08006b05   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_23)
+    LCD_Handler_WIDTH_25                     0x08006b35   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_25)
+    LCD_Handler_WIDTH_27                     0x08006b65   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_27)
+    LCD_Handler_WIDTH_29                     0x08006b95   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_29)
+    LCD_Handler_WIDTH_30                     0x08006bc5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_30)
+    LCD_Handler_WIDTH_32                     0x08006bf5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_32)
+    LCD_Handler_WIDTH_34                     0x08006c25   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_34)
+    LCD_Handler_WIDTH_50                     0x08006c55   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_50)
+    LCD_Handler_WIDTH_60                     0x08006c85   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_60)
+    LCD_Handler_WIDTH_70                     0x08006cb5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_70)
+    LCD_Handler_WIDTH_80                     0x08006ce5   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_80)
+    LCD_Handler_WIDTH_85                     0x08006d15   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_85)
+    LCD_Handler_WIDTH_90                     0x08006d45   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_90)
+    LCD_Handler_WIDTH_95                     0x08006d75   Thumb Code    36  lcd.o(i.LCD_Handler_WIDTH_95)
+    LCD_Handler_WIDTH_BACK                   0x08006da5   Thumb Code    10  lcd.o(i.LCD_Handler_WIDTH_BACK)
+    LCD_Init                                 0x08006db5   Thumb Code    42  lcd.o(i.LCD_Init)
+    LCD_checkTouchPad                        0x08006de5   Thumb Code   274  lcd.o(i.LCD_checkTouchPad)
+    LCD_displayFreqInfo                      0x08006f21   Thumb Code   458  lcd.o(i.LCD_displayFreqInfo)
+    LCD_displayMainMenu                      0x0800710d   Thumb Code   432  lcd.o(i.LCD_displayMainMenu)
+    LCD_displayStatusInfoBar                 0x0800737d   Thumb Code   254  lcd.o(i.LCD_displayStatusInfoBar)
+    LCD_displayStatusInfoGUI                 0x080074b1   Thumb Code   206  lcd.o(i.LCD_displayStatusInfoGUI)
+    LCD_displayTopButtons                    0x080075b1   Thumb Code  2748  lcd.o(i.LCD_displayTopButtons)
+    LCD_doEvents                             0x080080d1   Thumb Code    38  lcd.o(i.LCD_doEvents)
+    LCD_redraw                               0x080080fd   Thumb Code    54  lcd.o(i.LCD_redraw)
+    LoadSettings                             0x08008139   Thumb Code   114  settings.o(i.LoadSettings)
+    MemManage_Handler                        0x0800866d   Thumb Code     2  stm32f4xx_it.o(i.MemManage_Handler)
+    NMI_Handler                              0x0800866f   Thumb Code     2  stm32f4xx_it.o(i.NMI_Handler)
+    PendSV_Handler                           0x08008691   Thumb Code     2  stm32f4xx_it.o(i.PendSV_Handler)
+    RxAgcWdsp                                0x08008695   Thumb Code   896  agc.o(i.RxAgcWdsp)
+    SVC_Handler                              0x08008ae3   Thumb Code     2  stm32f4xx_it.o(i.SVC_Handler)
+    SaveSettings                             0x08008ae5   Thumb Code    32  settings.o(i.SaveSettings)
+    SetupAgcWdsp                             0x08008b0d   Thumb Code   854  agc.o(i.SetupAgcWdsp)
+    Spi_Master_Transmit                      0x08008ea9   Thumb Code    34  xpt2046_spi.o(i.Spi_Master_Transmit)
+    SysTick_Handler                          0x08008ed1   Thumb Code    14  stm32f4xx_it.o(i.SysTick_Handler)
+    SystemClock_Config                       0x08008ee1   Thumb Code   152  main_1.o(i.SystemClock_Config)
+    SystemInit                               0x08008f81   Thumb Code    66  system_stm32f4xx_1.o(i.SystemInit)
+    TIM4_IRQHandler                          0x08008fd5   Thumb Code    26  stm32f4xx_it.o(i.TIM4_IRQHandler)
+    TIM5_IRQHandler                          0x08008ff9   Thumb Code    54  stm32f4xx_it.o(i.TIM5_IRQHandler)
+    TIM6_DAC_IRQHandler                      0x0800903d   Thumb Code   118  stm32f4xx_it.o(i.TIM6_DAC_IRQHandler)
+    TIM_Base_SetConfig                       0x080090e9   Thumb Code   148  stm32f4xx_hal_tim.o(i.TIM_Base_SetConfig)
+    TRX_Init                                 0x08009215   Thumb Code    22  trx_manager.o(i.TRX_Init)
+    TRX_getFrequency                         0x08009235   Thumb Code     6  trx_manager.o(i.TRX_getFrequency)
+    TRX_getMode                              0x08009241   Thumb Code     6  trx_manager.o(i.TRX_getMode)
+    TRX_ptt_change                           0x0800924d   Thumb Code    58  trx_manager.o(i.TRX_ptt_change)
+    TRX_setFrequency                         0x08009295   Thumb Code   110  trx_manager.o(i.TRX_setFrequency)
+    TRX_setMode                              0x08009311   Thumb Code    32  trx_manager.o(i.TRX_setMode)
+    Touch_Calibrate                          0x08009339   Thumb Code   900  xpt2046_spi.o(i.Touch_Calibrate)
+    Touch_Set_Coef                           0x08009711   Thumb Code   176  xpt2046_spi.o(i.Touch_Set_Coef)
+    UsageFault_Handler                       0x08009b29   Thumb Code     2  stm32f4xx_it.o(i.UsageFault_Handler)
+    WM8731_Init                              0x08009b2d   Thumb Code    58  wm8731.o(i.WM8731_Init)
+    WM8731_RX_mode                           0x08009b7d   Thumb Code    70  wm8731.o(i.WM8731_RX_mode)
+    WM8731_SendI2CCommand                    0x08009bc3   Thumb Code    60  wm8731.o(i.WM8731_SendI2CCommand)
+    WM8731_TXRX_mode                         0x08009c01   Thumb Code   106  wm8731.o(i.WM8731_TXRX_mode)
+    WM8731_TX_mode                           0x08009c71   Thumb Code   106  wm8731.o(i.WM8731_TX_mode)
+    _Error_Handler                           0x08009ce1   Thumb Code     2  main_1.o(i._Error_Handler)
+    __0sprintf                               0x08009ce5   Thumb Code    34  printfa.o(i.__0sprintf)
+    __1sprintf                               0x08009ce5   Thumb Code     0  printfa.o(i.__0sprintf)
+    __2sprintf                               0x08009ce5   Thumb Code     0  printfa.o(i.__0sprintf)
+    __c89sprintf                             0x08009ce5   Thumb Code     0  printfa.o(i.__0sprintf)
+    sprintf                                  0x08009ce5   Thumb Code     0  printfa.o(i.__0sprintf)
+    __ARM_fpclassifyf                        0x08009d0d   Thumb Code    38  fpclassifyf.o(i.__ARM_fpclassifyf)
+    __hardfp_ceil                            0x08009d39   Thumb Code   252  ceil.o(i.__hardfp_ceil)
+    __hardfp_expf                            0x08009e51   Thumb Code   426  expf.o(i.__hardfp_expf)
+    __mathlib_expf                           0x08009e51   Thumb Code     0  expf.o(i.__hardfp_expf)
+    __hardfp_frexpf                          0x0800a039   Thumb Code    80  frexpf.o(i.__hardfp_frexpf)
+    __hardfp_log10f                          0x0800a08d   Thumb Code   332  log10f.o(i.__hardfp_log10f)
+    __hardfp_powf                            0x0800a20d   Thumb Code  1606  powf.o(i.__hardfp_powf)
+    __mathlib_powf                           0x0800a20d   Thumb Code     0  powf.o(i.__hardfp_powf)
+    __hardfp_round                           0x0800a871   Thumb Code   194  round.o(i.__hardfp_round)
+    __mathlib_flt_divzero                    0x0800a951   Thumb Code    14  funder.o(i.__mathlib_flt_divzero)
+    __mathlib_flt_infnan                     0x0800a965   Thumb Code     6  funder.o(i.__mathlib_flt_infnan)
+    __mathlib_flt_infnan2                    0x0800a96b   Thumb Code     6  funder.o(i.__mathlib_flt_infnan2)
+    __mathlib_flt_invalid                    0x0800a971   Thumb Code    10  funder.o(i.__mathlib_flt_invalid)
+    __mathlib_flt_overflow                   0x0800a981   Thumb Code    10  funder.o(i.__mathlib_flt_overflow)
+    __mathlib_flt_underflow                  0x0800a991   Thumb Code    10  funder.o(i.__mathlib_flt_underflow)
+    __scatterload_copy                       0x0800a9a1   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x0800a9af   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x0800a9b1   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    __set_errno                              0x0800a9c1   Thumb Code     6  errno.o(i.__set_errno)
+    addSymbols                               0x0800b289   Thumb Code    96  functions.o(i.addSymbols)
+    checkBootloaderButton                    0x0800b2e9   Thumb Code    74  bootloader.o(i.checkBootloaderButton)
+    delay_us                                 0x0800b33d   Thumb Code    52  functions.o(i.delay_us)
+    getFFTColor                              0x0800b381   Thumb Code    70  fft.o(i.getFFTColor)
+    getModeFromFreq                          0x0800b3c9   Thumb Code   118  bands.o(i.getModeFromFreq)
+    getPhraseFromFrequency                   0x0800b44d   Thumb Code    50  functions.o(i.getPhraseFromFrequency)
+    i2c_begin                                0x0800b491   Thumb Code    54  wire.o(i.i2c_begin)
+    i2c_beginTransmission_u8                 0x0800b4cd   Thumb Code    16  wire.o(i.i2c_beginTransmission_u8)
+    i2c_endTransmission                      0x0800b4e1   Thumb Code   106  wire.o(i.i2c_endTransmission)
+    i2c_get_ack                              0x0800b555   Thumb Code   208  wire.o(i.i2c_get_ack)
+    i2c_shift_out                            0x0800b629   Thumb Code   156  wire.o(i.i2c_shift_out)
+    i2c_start                                0x0800b6c9   Thumb Code    78  wire.o(i.i2c_start)
+    i2c_stop                                 0x0800b71d   Thumb Code   136  wire.o(i.i2c_stop)
+    i2c_writeOneByte                         0x0800b7a9   Thumb Code    20  wire.o(i.i2c_writeOneByte)
+    i2c_write_u8                             0x0800b7bd   Thumb Code    24  wire.o(i.i2c_write_u8)
+    initAudioProcessor                       0x0800b7dd   Thumb Code    14  audio_processor.o(i.initAudioProcessor)
+    isTouch                                  0x0800b7ed   Thumb Code    20  xpt2046_spi.o(i.isTouch)
+    log10f_fast                              0x0800b805   Thumb Code    74  functions.o(i.log10f_fast)
+    logToUART1_num                           0x0800b865   Thumb Code    34  functions.o(i.logToUART1_num)
+    logToUART1_str                           0x0800b891   Thumb Code    26  functions.o(i.logToUART1_str)
+    main                                     0x0800b8b1   Thumb Code   292  main_1.o(i.main)
+    printButton                              0x0800ba05   Thumb Code   148  lcd.o(i.printButton)
+    printMenuButton                          0x0800baa1   Thumb Code   194  lcd.o(i.printMenuButton)
+    processRxAudio                           0x0800bb6d   Thumb Code   872  audio_processor.o(i.processRxAudio)
+    processTxAudio                           0x0800bf29   Thumb Code   714  audio_processor.o(i.processTxAudio)
+    readHalfFromCircleBuffer32               0x0800c24d   Thumb Code    64  functions.o(i.readHalfFromCircleBuffer32)
+    readHalfFromCircleBufferU32              0x0800c28d   Thumb Code    64  functions.o(i.readHalfFromCircleBufferU32)
+    rgb888torgb565                           0x0800c2cd   Thumb Code    16  ma_ili9341.o(i.rgb888torgb565)
+    start_i2s                                0x0800c2dd   Thumb Code    86  wm8731.o(i.start_i2s)
+    i_rx_3k6_coeffs                          0x0800c364   Data         356  audio_filters.o(.constdata)
+    q_rx_3k6_coeffs                          0x0800c4c8   Data         356  audio_filters.o(.constdata)
+    i_tx_coeffs                              0x0800c62c   Data         804  audio_filters.o(.constdata)
+    q_tx_coeffs                              0x0800c950   Data         804  audio_filters.o(.constdata)
+    IIR_LPF_0k3_PKcoeffs                     0x0800cc74   Data          28  audio_filters.o(.constdata)
+    IIR_LPF_0k3_PVcoeffs                     0x0800cc90   Data          32  audio_filters.o(.constdata)
+    IIR_LPF_0k5_PKcoeffs                     0x0800ccb0   Data          28  audio_filters.o(.constdata)
+    IIR_LPF_0k5_PVcoeffs                     0x0800cccc   Data          32  audio_filters.o(.constdata)
+    IIR_LPF_1k4_PKcoeffs                     0x0800ccec   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_1k4_PVcoeffs                     0x0800cd18   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_1k6_PKcoeffs                     0x0800cd48   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_1k6_PVcoeffs                     0x0800cd74   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_1k8_PKcoeffs                     0x0800cda4   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_1k8_PVcoeffs                     0x0800cdd0   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_2k1_PKcoeffs                     0x0800ce00   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_2k1_PVcoeffs                     0x0800ce2c   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_2k3_PKcoeffs                     0x0800ce5c   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_2k3_PVcoeffs                     0x0800ce88   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_2k5_PKcoeffs                     0x0800ceb8   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_2k5_PVcoeffs                     0x0800cee4   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_2k7_PKcoeffs                     0x0800cf14   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_2k7_PVcoeffs                     0x0800cf40   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_2k9_PKcoeffs                     0x0800cf70   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_2k9_PVcoeffs                     0x0800cf9c   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_3k0_PKcoeffs                     0x0800cfcc   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_3k0_PVcoeffs                     0x0800cff8   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_3k2_PKcoeffs                     0x0800d028   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_3k2_PVcoeffs                     0x0800d054   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_3k4_PKcoeffs                     0x0800d084   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_3k4_PVcoeffs                     0x0800d0b0   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_3k6_PKcoeffs                     0x0800d0e0   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_3k6_PVcoeffs                     0x0800d10c   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_3k8_PKcoeffs                     0x0800d13c   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_3k8_PVcoeffs                     0x0800d168   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_4k0_PKcoeffs                     0x0800d198   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_4k0_PVcoeffs                     0x0800d1c4   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_4k2_PKcoeffs                     0x0800d1f4   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_4k2_PVcoeffs                     0x0800d220   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_4k4_PKcoeffs                     0x0800d250   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_4k4_PVcoeffs                     0x0800d27c   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_4k6_PKcoeffs                     0x0800d2ac   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_4k6_PVcoeffs                     0x0800d2d8   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_4k8_PKcoeffs                     0x0800d308   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_4k8_PVcoeffs                     0x0800d334   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_5k0_PKcoeffs                     0x0800d364   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_5k0_PVcoeffs                     0x0800d390   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_5k5_PKcoeffs                     0x0800d3c0   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_5k5_PVcoeffs                     0x0800d3ec   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_6k0_PKcoeffs                     0x0800d41c   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_6k0_PVcoeffs                     0x0800d448   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_6k5_PKcoeffs                     0x0800d478   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_6k5_PVcoeffs                     0x0800d4a4   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_7k0_PKcoeffs                     0x0800d4d4   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_7k0_PVcoeffs                     0x0800d500   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_7k5_PKcoeffs                     0x0800d530   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_7k5_PVcoeffs                     0x0800d55c   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_8k0_PKcoeffs                     0x0800d58c   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_8k0_PVcoeffs                     0x0800d5b8   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_8k5_PKcoeffs                     0x0800d5e8   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_8k5_PVcoeffs                     0x0800d614   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_9k0_PKcoeffs                     0x0800d644   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_9k0_PVcoeffs                     0x0800d670   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_9k5_PKcoeffs                     0x0800d6a0   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_9k5_PVcoeffs                     0x0800d6cc   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_10k0_PKcoeffs                    0x0800d6fc   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_10k0_PVcoeffs                    0x0800d728   Data          48  audio_filters.o(.constdata)
+    IIR_LPF_15k0_PKcoeffs                    0x0800d758   Data          44  audio_filters.o(.constdata)
+    IIR_LPF_15k0_PVcoeffs                    0x0800d784   Data          48  audio_filters.o(.constdata)
+    BANDS                                    0x0800d9b8   Data         180  bands.o(.constdata)
+    AHBPrescTable                            0x0800da74   Data          16  system_stm32f4xx_1.o(.constdata)
+    APBPrescTable                            0x0800da84   Data           8  system_stm32f4xx_1.o(.constdata)
+    arm_cfft_sR_f32_len512                   0x0800df8c   Data          16  arm_const_structs.o(.constdata)
+    twiddleCoef_512                          0x0800df9c   Data        4096  arm_common_tables.o(.constdata)
+    armBitRevIndexTable512                   0x0800ef9c   Data         896  arm_common_tables.o(.constdata)
+    sinTable_f32                             0x0800f31c   Data        2052  arm_common_tables.o(.constdata)
+    Region$$Table$$Base                      0x0800fd30   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x0800fd50   Number         0  anon$$obj.o(Region$$Table)
     ENCODER_ALast                            0x20000000   Data           4  encoder.o(.data)
     ENCODER_AVal                             0x20000004   Data           4  encoder.o(.data)
     ENCODER_slowler                          0x20000008   Data           4  encoder.o(.data)
@@ -3972,7 +3943,6 @@ Image Symbol Table
     LCD_freq_string_mhz                      0x20000064   Data           6  lcd.o(.data)
     TRX_ptt                                  0x2000006c   Data           1  trx_manager.o(.data)
     TRX_tune                                 0x2000006d   Data           1  trx_manager.o(.data)
-    TRX_Filter_Width                         0x2000006e   Data           2  trx_manager.o(.data)
     TRX_freq_phrase                          0x20000070   Data           4  trx_manager.o(.data)
     TRX_inited                               0x20000074   Data           1  trx_manager.o(.data)
     TRX_s_meter                              0x20000078   Data           4  trx_manager.o(.data)
@@ -4069,9 +4039,9 @@ Memory Map of the image
 
   Image Entry point : 0x08000249
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000ff88, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x0000fea4])
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x0000fe90, Max: 0x00080000, ABSOLUTE, COMPRESSED[0x0000fda8])
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000fe48, Max: 0x00080000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x0000fd50, Max: 0x00080000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -4310,192 +4280,192 @@ Memory Map of the image
     0x08006788   0x08006788   0x00000028   Code   RO          571    i.LCD_Handler_MENU_PREAMP_UHF  lcd.o
     0x080067b0   0x080067b0   0x00000010   Code   RO          572    i.LCD_Handler_MENU_VOLUME  lcd.o
     0x080067c0   0x080067c0   0x00000010   Code   RO          573    i.LCD_Handler_MODE  lcd.o
-    0x080067d0   0x080067d0   0x0000002c   Code   RO          574    i.LCD_Handler_MODE_AM  lcd.o
-    0x080067fc   0x080067fc   0x00000010   Code   RO          575    i.LCD_Handler_MODE_BACK  lcd.o
-    0x0800680c   0x0800680c   0x0000002c   Code   RO          576    i.LCD_Handler_MODE_CW  lcd.o
-    0x08006838   0x08006838   0x0000002c   Code   RO          577    i.LCD_Handler_MODE_DIGL  lcd.o
-    0x08006864   0x08006864   0x0000002c   Code   RO          578    i.LCD_Handler_MODE_DIGU  lcd.o
-    0x08006890   0x08006890   0x0000002c   Code   RO          579    i.LCD_Handler_MODE_FM  lcd.o
-    0x080068bc   0x080068bc   0x0000001c   Code   RO          580    i.LCD_Handler_MODE_IQ  lcd.o
-    0x080068d8   0x080068d8   0x0000001c   Code   RO          581    i.LCD_Handler_MODE_LOOP  lcd.o
-    0x080068f4   0x080068f4   0x0000002c   Code   RO          582    i.LCD_Handler_MODE_LSB  lcd.o
-    0x08006920   0x08006920   0x0000002c   Code   RO          583    i.LCD_Handler_MODE_USB  lcd.o
-    0x0800694c   0x0800694c   0x0000002c   Code   RO          584    i.LCD_Handler_MUTE  lcd.o
-    0x08006978   0x08006978   0x00000034   Code   RO          585    i.LCD_Handler_TUNE  lcd.o
-    0x080069ac   0x080069ac   0x00000010   Code   RO          586    i.LCD_Handler_WIDTH  lcd.o
-    0x080069bc   0x080069bc   0x00000038   Code   RO          587    i.LCD_Handler_WIDTH_03  lcd.o
-    0x080069f4   0x080069f4   0x00000038   Code   RO          588    i.LCD_Handler_WIDTH_05  lcd.o
-    0x08006a2c   0x08006a2c   0x00000038   Code   RO          589    i.LCD_Handler_WIDTH_100  lcd.o
-    0x08006a64   0x08006a64   0x00000038   Code   RO          590    i.LCD_Handler_WIDTH_14  lcd.o
-    0x08006a9c   0x08006a9c   0x00000038   Code   RO          591    i.LCD_Handler_WIDTH_150  lcd.o
-    0x08006ad4   0x08006ad4   0x00000038   Code   RO          592    i.LCD_Handler_WIDTH_16  lcd.o
-    0x08006b0c   0x08006b0c   0x00000038   Code   RO          593    i.LCD_Handler_WIDTH_18  lcd.o
-    0x08006b44   0x08006b44   0x00000038   Code   RO          594    i.LCD_Handler_WIDTH_21  lcd.o
-    0x08006b7c   0x08006b7c   0x00000038   Code   RO          595    i.LCD_Handler_WIDTH_23  lcd.o
-    0x08006bb4   0x08006bb4   0x00000038   Code   RO          596    i.LCD_Handler_WIDTH_25  lcd.o
-    0x08006bec   0x08006bec   0x00000038   Code   RO          597    i.LCD_Handler_WIDTH_27  lcd.o
-    0x08006c24   0x08006c24   0x00000038   Code   RO          598    i.LCD_Handler_WIDTH_29  lcd.o
-    0x08006c5c   0x08006c5c   0x00000038   Code   RO          599    i.LCD_Handler_WIDTH_30  lcd.o
-    0x08006c94   0x08006c94   0x00000038   Code   RO          600    i.LCD_Handler_WIDTH_32  lcd.o
-    0x08006ccc   0x08006ccc   0x00000038   Code   RO          601    i.LCD_Handler_WIDTH_34  lcd.o
-    0x08006d04   0x08006d04   0x00000038   Code   RO          602    i.LCD_Handler_WIDTH_50  lcd.o
-    0x08006d3c   0x08006d3c   0x00000038   Code   RO          603    i.LCD_Handler_WIDTH_60  lcd.o
-    0x08006d74   0x08006d74   0x00000038   Code   RO          604    i.LCD_Handler_WIDTH_70  lcd.o
-    0x08006dac   0x08006dac   0x00000038   Code   RO          605    i.LCD_Handler_WIDTH_80  lcd.o
-    0x08006de4   0x08006de4   0x00000038   Code   RO          606    i.LCD_Handler_WIDTH_85  lcd.o
-    0x08006e1c   0x08006e1c   0x00000038   Code   RO          607    i.LCD_Handler_WIDTH_90  lcd.o
-    0x08006e54   0x08006e54   0x00000038   Code   RO          608    i.LCD_Handler_WIDTH_95  lcd.o
-    0x08006e8c   0x08006e8c   0x00000010   Code   RO          609    i.LCD_Handler_WIDTH_BACK  lcd.o
-    0x08006e9c   0x08006e9c   0x00000030   Code   RO          610    i.LCD_Init          lcd.o
-    0x08006ecc   0x08006ecc   0x0000013c   Code   RO          611    i.LCD_checkTouchPad  lcd.o
-    0x08007008   0x08007008   0x000001ec   Code   RO          612    i.LCD_displayFreqInfo  lcd.o
-    0x080071f4   0x080071f4   0x00000270   Code   RO          613    i.LCD_displayMainMenu  lcd.o
-    0x08007464   0x08007464   0x00000134   Code   RO          614    i.LCD_displayStatusInfoBar  lcd.o
-    0x08007598   0x08007598   0x00000100   Code   RO          615    i.LCD_displayStatusInfoGUI  lcd.o
-    0x08007698   0x08007698   0x00000b1c   Code   RO          616    i.LCD_displayTopButtons  lcd.o
-    0x080081b4   0x080081b4   0x0000002c   Code   RO          617    i.LCD_doEvents      lcd.o
-    0x080081e0   0x080081e0   0x0000003c   Code   RO          618    i.LCD_redraw        lcd.o
-    0x0800821c   0x0800821c   0x00000080   Code   RO         1466    i.LoadSettings      settings.o
-    0x0800829c   0x0800829c   0x000000bc   Code   RO         1629    i.MX_DMA_Init       main_1.o
-    0x08008358   0x08008358   0x00000078   Code   RO         1630    i.MX_FSMC_Init      main_1.o
-    0x080083d0   0x080083d0   0x0000021c   Code   RO         1631    i.MX_GPIO_Init      main_1.o
-    0x080085ec   0x080085ec   0x00000038   Code   RO         1632    i.MX_I2S3_Init      main_1.o
-    0x08008624   0x08008624   0x00000040   Code   RO         1633    i.MX_SPI1_Init      main_1.o
-    0x08008664   0x08008664   0x00000040   Code   RO         1634    i.MX_SPI2_Init      main_1.o
-    0x080086a4   0x080086a4   0x00000054   Code   RO         1635    i.MX_TIM4_Init      main_1.o
-    0x080086f8   0x080086f8   0x00000054   Code   RO         1636    i.MX_TIM5_Init      main_1.o
-    0x0800874c   0x0800874c   0x00000002   Code   RO         1767    i.MemManage_Handler  stm32f4xx_it.o
-    0x0800874e   0x0800874e   0x00000002   Code   RO         1768    i.NMI_Handler       stm32f4xx_it.o
-    0x08008750   0x08008750   0x00000020   Code   RO         4790    i.NVIC_SetPriority  stm32f4xx_hal_cortex.o
-    0x08008770   0x08008770   0x00000002   Code   RO         1769    i.PendSV_Handler    stm32f4xx_it.o
-    0x08008772   0x08008772   0x00000002   PAD
-    0x08008774   0x08008774   0x00000398   Code   RO         1425    i.RxAgcWdsp         agc.o
-    0x08008b0c   0x08008b0c   0x00000020   Code   RO         2555    i.SPI_CheckFlag_BSY  stm32f4xx_hal_spi.o
-    0x08008b2c   0x08008b2c   0x00000096   Code   RO         2573    i.SPI_WaitFlagStateUntilTimeout  stm32f4xx_hal_spi.o
-    0x08008bc2   0x08008bc2   0x00000002   Code   RO         1770    i.SVC_Handler       stm32f4xx_it.o
-    0x08008bc4   0x08008bc4   0x00000028   Code   RO         1467    i.SaveSettings      settings.o
-    0x08008bec   0x08008bec   0x0000039c   Code   RO         1426    i.SetupAgcWdsp      agc.o
-    0x08008f88   0x08008f88   0x00000028   Code   RO         5318    i.Spi_Master_Transmit  xpt2046_spi.o
-    0x08008fb0   0x08008fb0   0x0000000e   Code   RO         1771    i.SysTick_Handler   stm32f4xx_it.o
-    0x08008fbe   0x08008fbe   0x00000002   PAD
-    0x08008fc0   0x08008fc0   0x000000a0   Code   RO         1637    i.SystemClock_Config  main_1.o
-    0x08009060   0x08009060   0x00000054   Code   RO         5079    i.SystemInit        system_stm32f4xx_1.o
-    0x080090b4   0x080090b4   0x00000024   Code   RO         1772    i.TIM4_IRQHandler   stm32f4xx_it.o
-    0x080090d8   0x080090d8   0x00000044   Code   RO         1773    i.TIM5_IRQHandler   stm32f4xx_it.o
-    0x0800911c   0x0800911c   0x000000ac   Code   RO         1774    i.TIM6_DAC_IRQHandler  stm32f4xx_it.o
-    0x080091c8   0x080091c8   0x000000c0   Code   RO         2923    i.TIM_Base_SetConfig  stm32f4xx_hal_tim.o
-    0x08009288   0x08009288   0x00000014   Code   RO         2930    i.TIM_ETR_SetConfig  stm32f4xx_hal_tim.o
-    0x0800929c   0x0800929c   0x00000010   Code   RO         2931    i.TIM_ITRx_SetConfig  stm32f4xx_hal_tim.o
-    0x080092ac   0x080092ac   0x00000022   Code   RO         2937    i.TIM_TI1_ConfigInputStage  stm32f4xx_hal_tim.o
-    0x080092ce   0x080092ce   0x00000024   Code   RO         2939    i.TIM_TI2_ConfigInputStage  stm32f4xx_hal_tim.o
-    0x080092f2   0x080092f2   0x00000002   PAD
-    0x080092f4   0x080092f4   0x00000020   Code   RO         1015    i.TRX_Init          trx_manager.o
-    0x08009314   0x08009314   0x0000000c   Code   RO         1016    i.TRX_getFrequency  trx_manager.o
-    0x08009320   0x08009320   0x0000000c   Code   RO         1017    i.TRX_getMode       trx_manager.o
-    0x0800932c   0x0800932c   0x00000048   Code   RO         1018    i.TRX_ptt_change    trx_manager.o
-    0x08009374   0x08009374   0x0000007c   Code   RO         1019    i.TRX_setFrequency  trx_manager.o
-    0x080093f0   0x080093f0   0x00000028   Code   RO         1020    i.TRX_setMode       trx_manager.o
-    0x08009418   0x08009418   0x000003d8   Code   RO         5319    i.Touch_Calibrate   xpt2046_spi.o
-    0x080097f0   0x080097f0   0x000000fc   Code   RO         5320    i.Touch_Set_Coef    xpt2046_spi.o
-    0x080098ec   0x080098ec   0x00000006   Code   RO         1090    i.UA3REO_I2SEx_TxRxDMACplt  wm8731.o
-    0x080098f2   0x080098f2   0x00000006   Code   RO         1091    i.UA3REO_I2SEx_TxRxDMAHalfCplt  wm8731.o
-    0x080098f8   0x080098f8   0x000002ac   Code   RO         3758    i.UART_SetConfig    stm32f4xx_hal_uart.o
-    0x08009ba4   0x08009ba4   0x00000064   Code   RO         3760    i.UART_WaitOnFlagUntilTimeout  stm32f4xx_hal_uart.o
-    0x08009c08   0x08009c08   0x00000002   Code   RO         1775    i.UsageFault_Handler  stm32f4xx_it.o
-    0x08009c0a   0x08009c0a   0x00000002   PAD
-    0x08009c0c   0x08009c0c   0x00000050   Code   RO         1092    i.WM8731_Init       wm8731.o
-    0x08009c5c   0x08009c5c   0x00000046   Code   RO         1093    i.WM8731_RX_mode    wm8731.o
-    0x08009ca2   0x08009ca2   0x0000003c   Code   RO         1094    i.WM8731_SendI2CCommand  wm8731.o
-    0x08009cde   0x08009cde   0x00000002   PAD
-    0x08009ce0   0x08009ce0   0x00000070   Code   RO         1095    i.WM8731_TXRX_mode  wm8731.o
-    0x08009d50   0x08009d50   0x00000070   Code   RO         1096    i.WM8731_TX_mode    wm8731.o
-    0x08009dc0   0x08009dc0   0x00000002   Code   RO         1638    i._Error_Handler    main_1.o
-    0x08009dc2   0x08009dc2   0x00000002   PAD
-    0x08009dc4   0x08009dc4   0x00000028   Code   RO         6283    i.__0sprintf        mc_w.l(printfa.o)
-    0x08009dec   0x08009dec   0x00000026   Code   RO         6325    i.__ARM_fpclassifyf  m_wm.l(fpclassifyf.o)
-    0x08009e12   0x08009e12   0x00000006   PAD
-    0x08009e18   0x08009e18   0x00000118   Code   RO         5973    i.__hardfp_ceil     m_wm.l(ceil.o)
-    0x08009f30   0x08009f30   0x000001e8   Code   RO         5979    i.__hardfp_expf     m_wm.l(expf.o)
-    0x0800a118   0x0800a118   0x00000054   Code   RO         5993    i.__hardfp_frexpf   m_wm.l(frexpf.o)
-    0x0800a16c   0x0800a16c   0x00000180   Code   RO         5999    i.__hardfp_log10f   m_wm.l(log10f.o)
-    0x0800a2ec   0x0800a2ec   0x00000664   Code   RO         6013    i.__hardfp_powf     m_wm.l(powf.o)
-    0x0800a950   0x0800a950   0x000000e0   Code   RO         6027    i.__hardfp_round    m_wm.l(round.o)
-    0x0800aa30   0x0800aa30   0x00000014   Code   RO         6327    i.__mathlib_flt_divzero  m_wm.l(funder.o)
-    0x0800aa44   0x0800aa44   0x00000006   Code   RO         6328    i.__mathlib_flt_infnan  m_wm.l(funder.o)
-    0x0800aa4a   0x0800aa4a   0x00000006   Code   RO         6329    i.__mathlib_flt_infnan2  m_wm.l(funder.o)
-    0x0800aa50   0x0800aa50   0x00000010   Code   RO         6330    i.__mathlib_flt_invalid  m_wm.l(funder.o)
-    0x0800aa60   0x0800aa60   0x00000010   Code   RO         6331    i.__mathlib_flt_overflow  m_wm.l(funder.o)
-    0x0800aa70   0x0800aa70   0x00000010   Code   RO         6333    i.__mathlib_flt_underflow  m_wm.l(funder.o)
-    0x0800aa80   0x0800aa80   0x0000000e   Code   RO         6428    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x0800aa8e   0x0800aa8e   0x00000002   Code   RO         6429    i.__scatterload_null  mc_w.l(handlers.o)
-    0x0800aa90   0x0800aa90   0x0000000e   Code   RO         6430    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x0800aa9e   0x0800aa9e   0x00000002   PAD
-    0x0800aaa0   0x0800aaa0   0x0000000c   Code   RO         6394    i.__set_errno       mc_w.l(errno.o)
-    0x0800aaac   0x0800aaac   0x00000184   Code   RO         6288    i._fp_digits        mc_w.l(printfa.o)
-    0x0800ac30   0x0800ac30   0x000006dc   Code   RO         6289    i._printf_core      mc_w.l(printfa.o)
-    0x0800b30c   0x0800b30c   0x00000024   Code   RO         6290    i._printf_post_padding  mc_w.l(printfa.o)
-    0x0800b330   0x0800b330   0x0000002e   Code   RO         6291    i._printf_pre_padding  mc_w.l(printfa.o)
-    0x0800b35e   0x0800b35e   0x0000000a   Code   RO         6293    i._sputc            mc_w.l(printfa.o)
-    0x0800b368   0x0800b368   0x00000060   Code   RO          421    i.addSymbols        functions.o
-    0x0800b3c8   0x0800b3c8   0x00000054   Code   RO           14    i.checkBootloaderButton  bootloader.o
-    0x0800b41c   0x0800b41c   0x00000044   Code   RO          422    i.delay_us          functions.o
-    0x0800b460   0x0800b460   0x00000046   Code   RO          242    i.getFFTColor       fft.o
-    0x0800b4a6   0x0800b4a6   0x00000002   PAD
-    0x0800b4a8   0x0800b4a8   0x00000084   Code   RO         1524    i.getModeFromFreq   bands.o
-    0x0800b52c   0x0800b52c   0x00000044   Code   RO          424    i.getPhraseFromFrequency  functions.o
-    0x0800b570   0x0800b570   0x0000003c   Code   RO         1178    i.i2c_begin         wire.o
-    0x0800b5ac   0x0800b5ac   0x00000014   Code   RO         1180    i.i2c_beginTransmission_u8  wire.o
-    0x0800b5c0   0x0800b5c0   0x00000074   Code   RO         1181    i.i2c_endTransmission  wire.o
-    0x0800b634   0x0800b634   0x000000d4   Code   RO         1182    i.i2c_get_ack       wire.o
-    0x0800b708   0x0800b708   0x000000a0   Code   RO         1190    i.i2c_shift_out     wire.o
-    0x0800b7a8   0x0800b7a8   0x00000054   Code   RO         1191    i.i2c_start         wire.o
-    0x0800b7fc   0x0800b7fc   0x0000008c   Code   RO         1192    i.i2c_stop          wire.o
-    0x0800b888   0x0800b888   0x00000014   Code   RO         1193    i.i2c_writeOneByte  wire.o
-    0x0800b89c   0x0800b89c   0x00000020   Code   RO         1197    i.i2c_write_u8      wire.o
-    0x0800b8bc   0x0800b8bc   0x0000000e   Code   RO         1329    i.initAudioProcessor  audio_processor.o
-    0x0800b8ca   0x0800b8ca   0x00000002   PAD
-    0x0800b8cc   0x0800b8cc   0x00000018   Code   RO         5321    i.isTouch           xpt2046_spi.o
-    0x0800b8e4   0x0800b8e4   0x00000060   Code   RO          426    i.log10f_fast       functions.o
-    0x0800b944   0x0800b944   0x0000002c   Code   RO          430    i.logToUART1_num    functions.o
-    0x0800b970   0x0800b970   0x00000020   Code   RO          434    i.logToUART1_str    functions.o
-    0x0800b990   0x0800b990   0x00000154   Code   RO         1639    i.main              main_1.o
-    0x0800bae4   0x0800bae4   0x0000009c   Code   RO          619    i.printButton       lcd.o
-    0x0800bb80   0x0800bb80   0x000000cc   Code   RO          620    i.printMenuButton   lcd.o
-    0x0800bc4c   0x0800bc4c   0x000003b4   Code   RO         1330    i.processRxAudio    audio_processor.o
-    0x0800c000   0x0800c000   0x00000324   Code   RO         1331    i.processTxAudio    audio_processor.o
-    0x0800c324   0x0800c324   0x00000040   Code   RO          435    i.readHalfFromCircleBuffer32  functions.o
-    0x0800c364   0x0800c364   0x00000040   Code   RO          437    i.readHalfFromCircleBufferU32  functions.o
-    0x0800c3a4   0x0800c3a4   0x00000010   Code   RO         5144    i.rgb888torgb565    ma_ili9341.o
-    0x0800c3b4   0x0800c3b4   0x00000088   Code   RO         1097    i.start_i2s         wm8731.o
-    0x0800c43c   0x0800c43c   0x00001470   Data   RO         1395    .constdata          audio_filters.o
-    0x0800d8ac   0x0800d8ac   0x00000024   Data   RO         1525    .constdata          bands.o
-    0x0800d8d0   0x0800d8d0   0x00000024   Data   RO         1526    .constdata          bands.o
-    0x0800d8f4   0x0800d8f4   0x00000048   Data   RO         1527    .constdata          bands.o
-    0x0800d93c   0x0800d93c   0x00000018   Data   RO         1528    .constdata          bands.o
-    0x0800d954   0x0800d954   0x0000003c   Data   RO         1529    .constdata          bands.o
-    0x0800d990   0x0800d990   0x00000030   Data   RO         1530    .constdata          bands.o
-    0x0800d9c0   0x0800d9c0   0x00000030   Data   RO         1531    .constdata          bands.o
-    0x0800d9f0   0x0800d9f0   0x0000003c   Data   RO         1532    .constdata          bands.o
-    0x0800da2c   0x0800da2c   0x00000084   Data   RO         1533    .constdata          bands.o
-    0x0800dab0   0x0800dab0   0x000000b4   Data   RO         1534    .constdata          bands.o
-    0x0800db64   0x0800db64   0x00000008   Data   RO         4507    .constdata          stm32f4xx_hal_dma.o
-    0x0800db6c   0x0800db6c   0x00000010   Data   RO         5080    .constdata          system_stm32f4xx_1.o
-    0x0800db7c   0x0800db7c   0x00000008   Data   RO         5081    .constdata          system_stm32f4xx_1.o
-    0x0800db84   0x0800db84   0x00000500   Data   RO         5145    .constdata          ma_ili9341.o
-    0x0800e084   0x0800e084   0x00000010   Data   RO         5736    .constdata          arm_cortexM4lf_math.lib(arm_const_structs.o)
-    0x0800e094   0x0800e094   0x00001000   Data   RO         5900    .constdata          arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0800f094   0x0800f094   0x00000380   Data   RO         5929    .constdata          arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0800f414   0x0800f414   0x00000804   Data   RO         5950    .constdata          arm_cortexM4lf_math.lib(arm_common_tables.o)
-    0x0800fc18   0x0800fc18   0x00000030   Data   RO         5982    .constdata          m_wm.l(expf.o)
-    0x0800fc48   0x0800fc48   0x00000040   Data   RO         6002    .constdata          m_wm.l(log10f.o)
-    0x0800fc88   0x0800fc88   0x00000140   Data   RO         6016    .constdata          m_wm.l(powf.o)
-    0x0800fdc8   0x0800fdc8   0x00000035   Data   RO         1021    .conststring        trx_manager.o
-    0x0800fdfd   0x0800fdfd   0x00000003   PAD
-    0x0800fe00   0x0800fe00   0x00000028   Data   RO         1535    .conststring        bands.o
-    0x0800fe28   0x0800fe28   0x00000020   Data   RO         6426    Region$$Table       anon$$obj.o
+    0x080067d0   0x080067d0   0x00000024   Code   RO          574    i.LCD_Handler_MODE_AM  lcd.o
+    0x080067f4   0x080067f4   0x00000010   Code   RO          575    i.LCD_Handler_MODE_BACK  lcd.o
+    0x08006804   0x08006804   0x00000024   Code   RO          576    i.LCD_Handler_MODE_CW  lcd.o
+    0x08006828   0x08006828   0x00000024   Code   RO          577    i.LCD_Handler_MODE_DIGL  lcd.o
+    0x0800684c   0x0800684c   0x00000024   Code   RO          578    i.LCD_Handler_MODE_DIGU  lcd.o
+    0x08006870   0x08006870   0x00000024   Code   RO          579    i.LCD_Handler_MODE_FM  lcd.o
+    0x08006894   0x08006894   0x0000001c   Code   RO          580    i.LCD_Handler_MODE_IQ  lcd.o
+    0x080068b0   0x080068b0   0x0000001c   Code   RO          581    i.LCD_Handler_MODE_LOOP  lcd.o
+    0x080068cc   0x080068cc   0x00000024   Code   RO          582    i.LCD_Handler_MODE_LSB  lcd.o
+    0x080068f0   0x080068f0   0x00000024   Code   RO          583    i.LCD_Handler_MODE_USB  lcd.o
+    0x08006914   0x08006914   0x0000002c   Code   RO          584    i.LCD_Handler_MUTE  lcd.o
+    0x08006940   0x08006940   0x00000034   Code   RO          585    i.LCD_Handler_TUNE  lcd.o
+    0x08006974   0x08006974   0x00000010   Code   RO          586    i.LCD_Handler_WIDTH  lcd.o
+    0x08006984   0x08006984   0x00000030   Code   RO          587    i.LCD_Handler_WIDTH_03  lcd.o
+    0x080069b4   0x080069b4   0x00000030   Code   RO          588    i.LCD_Handler_WIDTH_05  lcd.o
+    0x080069e4   0x080069e4   0x00000030   Code   RO          589    i.LCD_Handler_WIDTH_100  lcd.o
+    0x08006a14   0x08006a14   0x00000030   Code   RO          590    i.LCD_Handler_WIDTH_14  lcd.o
+    0x08006a44   0x08006a44   0x00000030   Code   RO          591    i.LCD_Handler_WIDTH_150  lcd.o
+    0x08006a74   0x08006a74   0x00000030   Code   RO          592    i.LCD_Handler_WIDTH_16  lcd.o
+    0x08006aa4   0x08006aa4   0x00000030   Code   RO          593    i.LCD_Handler_WIDTH_18  lcd.o
+    0x08006ad4   0x08006ad4   0x00000030   Code   RO          594    i.LCD_Handler_WIDTH_21  lcd.o
+    0x08006b04   0x08006b04   0x00000030   Code   RO          595    i.LCD_Handler_WIDTH_23  lcd.o
+    0x08006b34   0x08006b34   0x00000030   Code   RO          596    i.LCD_Handler_WIDTH_25  lcd.o
+    0x08006b64   0x08006b64   0x00000030   Code   RO          597    i.LCD_Handler_WIDTH_27  lcd.o
+    0x08006b94   0x08006b94   0x00000030   Code   RO          598    i.LCD_Handler_WIDTH_29  lcd.o
+    0x08006bc4   0x08006bc4   0x00000030   Code   RO          599    i.LCD_Handler_WIDTH_30  lcd.o
+    0x08006bf4   0x08006bf4   0x00000030   Code   RO          600    i.LCD_Handler_WIDTH_32  lcd.o
+    0x08006c24   0x08006c24   0x00000030   Code   RO          601    i.LCD_Handler_WIDTH_34  lcd.o
+    0x08006c54   0x08006c54   0x00000030   Code   RO          602    i.LCD_Handler_WIDTH_50  lcd.o
+    0x08006c84   0x08006c84   0x00000030   Code   RO          603    i.LCD_Handler_WIDTH_60  lcd.o
+    0x08006cb4   0x08006cb4   0x00000030   Code   RO          604    i.LCD_Handler_WIDTH_70  lcd.o
+    0x08006ce4   0x08006ce4   0x00000030   Code   RO          605    i.LCD_Handler_WIDTH_80  lcd.o
+    0x08006d14   0x08006d14   0x00000030   Code   RO          606    i.LCD_Handler_WIDTH_85  lcd.o
+    0x08006d44   0x08006d44   0x00000030   Code   RO          607    i.LCD_Handler_WIDTH_90  lcd.o
+    0x08006d74   0x08006d74   0x00000030   Code   RO          608    i.LCD_Handler_WIDTH_95  lcd.o
+    0x08006da4   0x08006da4   0x00000010   Code   RO          609    i.LCD_Handler_WIDTH_BACK  lcd.o
+    0x08006db4   0x08006db4   0x00000030   Code   RO          610    i.LCD_Init          lcd.o
+    0x08006de4   0x08006de4   0x0000013c   Code   RO          611    i.LCD_checkTouchPad  lcd.o
+    0x08006f20   0x08006f20   0x000001ec   Code   RO          612    i.LCD_displayFreqInfo  lcd.o
+    0x0800710c   0x0800710c   0x00000270   Code   RO          613    i.LCD_displayMainMenu  lcd.o
+    0x0800737c   0x0800737c   0x00000134   Code   RO          614    i.LCD_displayStatusInfoBar  lcd.o
+    0x080074b0   0x080074b0   0x00000100   Code   RO          615    i.LCD_displayStatusInfoGUI  lcd.o
+    0x080075b0   0x080075b0   0x00000b20   Code   RO          616    i.LCD_displayTopButtons  lcd.o
+    0x080080d0   0x080080d0   0x0000002c   Code   RO          617    i.LCD_doEvents      lcd.o
+    0x080080fc   0x080080fc   0x0000003c   Code   RO          618    i.LCD_redraw        lcd.o
+    0x08008138   0x08008138   0x00000084   Code   RO         1466    i.LoadSettings      settings.o
+    0x080081bc   0x080081bc   0x000000bc   Code   RO         1629    i.MX_DMA_Init       main_1.o
+    0x08008278   0x08008278   0x00000078   Code   RO         1630    i.MX_FSMC_Init      main_1.o
+    0x080082f0   0x080082f0   0x0000021c   Code   RO         1631    i.MX_GPIO_Init      main_1.o
+    0x0800850c   0x0800850c   0x00000038   Code   RO         1632    i.MX_I2S3_Init      main_1.o
+    0x08008544   0x08008544   0x00000040   Code   RO         1633    i.MX_SPI1_Init      main_1.o
+    0x08008584   0x08008584   0x00000040   Code   RO         1634    i.MX_SPI2_Init      main_1.o
+    0x080085c4   0x080085c4   0x00000054   Code   RO         1635    i.MX_TIM4_Init      main_1.o
+    0x08008618   0x08008618   0x00000054   Code   RO         1636    i.MX_TIM5_Init      main_1.o
+    0x0800866c   0x0800866c   0x00000002   Code   RO         1767    i.MemManage_Handler  stm32f4xx_it.o
+    0x0800866e   0x0800866e   0x00000002   Code   RO         1768    i.NMI_Handler       stm32f4xx_it.o
+    0x08008670   0x08008670   0x00000020   Code   RO         4790    i.NVIC_SetPriority  stm32f4xx_hal_cortex.o
+    0x08008690   0x08008690   0x00000002   Code   RO         1769    i.PendSV_Handler    stm32f4xx_it.o
+    0x08008692   0x08008692   0x00000002   PAD
+    0x08008694   0x08008694   0x00000398   Code   RO         1425    i.RxAgcWdsp         agc.o
+    0x08008a2c   0x08008a2c   0x00000020   Code   RO         2555    i.SPI_CheckFlag_BSY  stm32f4xx_hal_spi.o
+    0x08008a4c   0x08008a4c   0x00000096   Code   RO         2573    i.SPI_WaitFlagStateUntilTimeout  stm32f4xx_hal_spi.o
+    0x08008ae2   0x08008ae2   0x00000002   Code   RO         1770    i.SVC_Handler       stm32f4xx_it.o
+    0x08008ae4   0x08008ae4   0x00000028   Code   RO         1467    i.SaveSettings      settings.o
+    0x08008b0c   0x08008b0c   0x0000039c   Code   RO         1426    i.SetupAgcWdsp      agc.o
+    0x08008ea8   0x08008ea8   0x00000028   Code   RO         5318    i.Spi_Master_Transmit  xpt2046_spi.o
+    0x08008ed0   0x08008ed0   0x0000000e   Code   RO         1771    i.SysTick_Handler   stm32f4xx_it.o
+    0x08008ede   0x08008ede   0x00000002   PAD
+    0x08008ee0   0x08008ee0   0x000000a0   Code   RO         1637    i.SystemClock_Config  main_1.o
+    0x08008f80   0x08008f80   0x00000054   Code   RO         5079    i.SystemInit        system_stm32f4xx_1.o
+    0x08008fd4   0x08008fd4   0x00000024   Code   RO         1772    i.TIM4_IRQHandler   stm32f4xx_it.o
+    0x08008ff8   0x08008ff8   0x00000044   Code   RO         1773    i.TIM5_IRQHandler   stm32f4xx_it.o
+    0x0800903c   0x0800903c   0x000000ac   Code   RO         1774    i.TIM6_DAC_IRQHandler  stm32f4xx_it.o
+    0x080090e8   0x080090e8   0x000000c0   Code   RO         2923    i.TIM_Base_SetConfig  stm32f4xx_hal_tim.o
+    0x080091a8   0x080091a8   0x00000014   Code   RO         2930    i.TIM_ETR_SetConfig  stm32f4xx_hal_tim.o
+    0x080091bc   0x080091bc   0x00000010   Code   RO         2931    i.TIM_ITRx_SetConfig  stm32f4xx_hal_tim.o
+    0x080091cc   0x080091cc   0x00000022   Code   RO         2937    i.TIM_TI1_ConfigInputStage  stm32f4xx_hal_tim.o
+    0x080091ee   0x080091ee   0x00000024   Code   RO         2939    i.TIM_TI2_ConfigInputStage  stm32f4xx_hal_tim.o
+    0x08009212   0x08009212   0x00000002   PAD
+    0x08009214   0x08009214   0x00000020   Code   RO         1015    i.TRX_Init          trx_manager.o
+    0x08009234   0x08009234   0x0000000c   Code   RO         1016    i.TRX_getFrequency  trx_manager.o
+    0x08009240   0x08009240   0x0000000c   Code   RO         1017    i.TRX_getMode       trx_manager.o
+    0x0800924c   0x0800924c   0x00000048   Code   RO         1018    i.TRX_ptt_change    trx_manager.o
+    0x08009294   0x08009294   0x0000007c   Code   RO         1019    i.TRX_setFrequency  trx_manager.o
+    0x08009310   0x08009310   0x00000028   Code   RO         1020    i.TRX_setMode       trx_manager.o
+    0x08009338   0x08009338   0x000003d8   Code   RO         5319    i.Touch_Calibrate   xpt2046_spi.o
+    0x08009710   0x08009710   0x000000fc   Code   RO         5320    i.Touch_Set_Coef    xpt2046_spi.o
+    0x0800980c   0x0800980c   0x00000006   Code   RO         1090    i.UA3REO_I2SEx_TxRxDMACplt  wm8731.o
+    0x08009812   0x08009812   0x00000006   Code   RO         1091    i.UA3REO_I2SEx_TxRxDMAHalfCplt  wm8731.o
+    0x08009818   0x08009818   0x000002ac   Code   RO         3758    i.UART_SetConfig    stm32f4xx_hal_uart.o
+    0x08009ac4   0x08009ac4   0x00000064   Code   RO         3760    i.UART_WaitOnFlagUntilTimeout  stm32f4xx_hal_uart.o
+    0x08009b28   0x08009b28   0x00000002   Code   RO         1775    i.UsageFault_Handler  stm32f4xx_it.o
+    0x08009b2a   0x08009b2a   0x00000002   PAD
+    0x08009b2c   0x08009b2c   0x00000050   Code   RO         1092    i.WM8731_Init       wm8731.o
+    0x08009b7c   0x08009b7c   0x00000046   Code   RO         1093    i.WM8731_RX_mode    wm8731.o
+    0x08009bc2   0x08009bc2   0x0000003c   Code   RO         1094    i.WM8731_SendI2CCommand  wm8731.o
+    0x08009bfe   0x08009bfe   0x00000002   PAD
+    0x08009c00   0x08009c00   0x00000070   Code   RO         1095    i.WM8731_TXRX_mode  wm8731.o
+    0x08009c70   0x08009c70   0x00000070   Code   RO         1096    i.WM8731_TX_mode    wm8731.o
+    0x08009ce0   0x08009ce0   0x00000002   Code   RO         1638    i._Error_Handler    main_1.o
+    0x08009ce2   0x08009ce2   0x00000002   PAD
+    0x08009ce4   0x08009ce4   0x00000028   Code   RO         6283    i.__0sprintf        mc_w.l(printfa.o)
+    0x08009d0c   0x08009d0c   0x00000026   Code   RO         6325    i.__ARM_fpclassifyf  m_wm.l(fpclassifyf.o)
+    0x08009d32   0x08009d32   0x00000006   PAD
+    0x08009d38   0x08009d38   0x00000118   Code   RO         5973    i.__hardfp_ceil     m_wm.l(ceil.o)
+    0x08009e50   0x08009e50   0x000001e8   Code   RO         5979    i.__hardfp_expf     m_wm.l(expf.o)
+    0x0800a038   0x0800a038   0x00000054   Code   RO         5993    i.__hardfp_frexpf   m_wm.l(frexpf.o)
+    0x0800a08c   0x0800a08c   0x00000180   Code   RO         5999    i.__hardfp_log10f   m_wm.l(log10f.o)
+    0x0800a20c   0x0800a20c   0x00000664   Code   RO         6013    i.__hardfp_powf     m_wm.l(powf.o)
+    0x0800a870   0x0800a870   0x000000e0   Code   RO         6027    i.__hardfp_round    m_wm.l(round.o)
+    0x0800a950   0x0800a950   0x00000014   Code   RO         6327    i.__mathlib_flt_divzero  m_wm.l(funder.o)
+    0x0800a964   0x0800a964   0x00000006   Code   RO         6328    i.__mathlib_flt_infnan  m_wm.l(funder.o)
+    0x0800a96a   0x0800a96a   0x00000006   Code   RO         6329    i.__mathlib_flt_infnan2  m_wm.l(funder.o)
+    0x0800a970   0x0800a970   0x00000010   Code   RO         6330    i.__mathlib_flt_invalid  m_wm.l(funder.o)
+    0x0800a980   0x0800a980   0x00000010   Code   RO         6331    i.__mathlib_flt_overflow  m_wm.l(funder.o)
+    0x0800a990   0x0800a990   0x00000010   Code   RO         6333    i.__mathlib_flt_underflow  m_wm.l(funder.o)
+    0x0800a9a0   0x0800a9a0   0x0000000e   Code   RO         6428    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x0800a9ae   0x0800a9ae   0x00000002   Code   RO         6429    i.__scatterload_null  mc_w.l(handlers.o)
+    0x0800a9b0   0x0800a9b0   0x0000000e   Code   RO         6430    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x0800a9be   0x0800a9be   0x00000002   PAD
+    0x0800a9c0   0x0800a9c0   0x0000000c   Code   RO         6394    i.__set_errno       mc_w.l(errno.o)
+    0x0800a9cc   0x0800a9cc   0x00000184   Code   RO         6288    i._fp_digits        mc_w.l(printfa.o)
+    0x0800ab50   0x0800ab50   0x000006dc   Code   RO         6289    i._printf_core      mc_w.l(printfa.o)
+    0x0800b22c   0x0800b22c   0x00000024   Code   RO         6290    i._printf_post_padding  mc_w.l(printfa.o)
+    0x0800b250   0x0800b250   0x0000002e   Code   RO         6291    i._printf_pre_padding  mc_w.l(printfa.o)
+    0x0800b27e   0x0800b27e   0x0000000a   Code   RO         6293    i._sputc            mc_w.l(printfa.o)
+    0x0800b288   0x0800b288   0x00000060   Code   RO          421    i.addSymbols        functions.o
+    0x0800b2e8   0x0800b2e8   0x00000054   Code   RO           14    i.checkBootloaderButton  bootloader.o
+    0x0800b33c   0x0800b33c   0x00000044   Code   RO          422    i.delay_us          functions.o
+    0x0800b380   0x0800b380   0x00000046   Code   RO          242    i.getFFTColor       fft.o
+    0x0800b3c6   0x0800b3c6   0x00000002   PAD
+    0x0800b3c8   0x0800b3c8   0x00000084   Code   RO         1524    i.getModeFromFreq   bands.o
+    0x0800b44c   0x0800b44c   0x00000044   Code   RO          424    i.getPhraseFromFrequency  functions.o
+    0x0800b490   0x0800b490   0x0000003c   Code   RO         1178    i.i2c_begin         wire.o
+    0x0800b4cc   0x0800b4cc   0x00000014   Code   RO         1180    i.i2c_beginTransmission_u8  wire.o
+    0x0800b4e0   0x0800b4e0   0x00000074   Code   RO         1181    i.i2c_endTransmission  wire.o
+    0x0800b554   0x0800b554   0x000000d4   Code   RO         1182    i.i2c_get_ack       wire.o
+    0x0800b628   0x0800b628   0x000000a0   Code   RO         1190    i.i2c_shift_out     wire.o
+    0x0800b6c8   0x0800b6c8   0x00000054   Code   RO         1191    i.i2c_start         wire.o
+    0x0800b71c   0x0800b71c   0x0000008c   Code   RO         1192    i.i2c_stop          wire.o
+    0x0800b7a8   0x0800b7a8   0x00000014   Code   RO         1193    i.i2c_writeOneByte  wire.o
+    0x0800b7bc   0x0800b7bc   0x00000020   Code   RO         1197    i.i2c_write_u8      wire.o
+    0x0800b7dc   0x0800b7dc   0x0000000e   Code   RO         1329    i.initAudioProcessor  audio_processor.o
+    0x0800b7ea   0x0800b7ea   0x00000002   PAD
+    0x0800b7ec   0x0800b7ec   0x00000018   Code   RO         5321    i.isTouch           xpt2046_spi.o
+    0x0800b804   0x0800b804   0x00000060   Code   RO          426    i.log10f_fast       functions.o
+    0x0800b864   0x0800b864   0x0000002c   Code   RO          430    i.logToUART1_num    functions.o
+    0x0800b890   0x0800b890   0x00000020   Code   RO          434    i.logToUART1_str    functions.o
+    0x0800b8b0   0x0800b8b0   0x00000154   Code   RO         1639    i.main              main_1.o
+    0x0800ba04   0x0800ba04   0x0000009c   Code   RO          619    i.printButton       lcd.o
+    0x0800baa0   0x0800baa0   0x000000cc   Code   RO          620    i.printMenuButton   lcd.o
+    0x0800bb6c   0x0800bb6c   0x000003bc   Code   RO         1330    i.processRxAudio    audio_processor.o
+    0x0800bf28   0x0800bf28   0x00000324   Code   RO         1331    i.processTxAudio    audio_processor.o
+    0x0800c24c   0x0800c24c   0x00000040   Code   RO          435    i.readHalfFromCircleBuffer32  functions.o
+    0x0800c28c   0x0800c28c   0x00000040   Code   RO          437    i.readHalfFromCircleBufferU32  functions.o
+    0x0800c2cc   0x0800c2cc   0x00000010   Code   RO         5144    i.rgb888torgb565    ma_ili9341.o
+    0x0800c2dc   0x0800c2dc   0x00000088   Code   RO         1097    i.start_i2s         wm8731.o
+    0x0800c364   0x0800c364   0x00001450   Data   RO         1395    .constdata          audio_filters.o
+    0x0800d7b4   0x0800d7b4   0x00000024   Data   RO         1525    .constdata          bands.o
+    0x0800d7d8   0x0800d7d8   0x00000024   Data   RO         1526    .constdata          bands.o
+    0x0800d7fc   0x0800d7fc   0x00000048   Data   RO         1527    .constdata          bands.o
+    0x0800d844   0x0800d844   0x00000018   Data   RO         1528    .constdata          bands.o
+    0x0800d85c   0x0800d85c   0x0000003c   Data   RO         1529    .constdata          bands.o
+    0x0800d898   0x0800d898   0x00000030   Data   RO         1530    .constdata          bands.o
+    0x0800d8c8   0x0800d8c8   0x00000030   Data   RO         1531    .constdata          bands.o
+    0x0800d8f8   0x0800d8f8   0x0000003c   Data   RO         1532    .constdata          bands.o
+    0x0800d934   0x0800d934   0x00000084   Data   RO         1533    .constdata          bands.o
+    0x0800d9b8   0x0800d9b8   0x000000b4   Data   RO         1534    .constdata          bands.o
+    0x0800da6c   0x0800da6c   0x00000008   Data   RO         4507    .constdata          stm32f4xx_hal_dma.o
+    0x0800da74   0x0800da74   0x00000010   Data   RO         5080    .constdata          system_stm32f4xx_1.o
+    0x0800da84   0x0800da84   0x00000008   Data   RO         5081    .constdata          system_stm32f4xx_1.o
+    0x0800da8c   0x0800da8c   0x00000500   Data   RO         5145    .constdata          ma_ili9341.o
+    0x0800df8c   0x0800df8c   0x00000010   Data   RO         5736    .constdata          arm_cortexM4lf_math.lib(arm_const_structs.o)
+    0x0800df9c   0x0800df9c   0x00001000   Data   RO         5900    .constdata          arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0800ef9c   0x0800ef9c   0x00000380   Data   RO         5929    .constdata          arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0800f31c   0x0800f31c   0x00000804   Data   RO         5950    .constdata          arm_cortexM4lf_math.lib(arm_common_tables.o)
+    0x0800fb20   0x0800fb20   0x00000030   Data   RO         5982    .constdata          m_wm.l(expf.o)
+    0x0800fb50   0x0800fb50   0x00000040   Data   RO         6002    .constdata          m_wm.l(log10f.o)
+    0x0800fb90   0x0800fb90   0x00000140   Data   RO         6016    .constdata          m_wm.l(powf.o)
+    0x0800fcd0   0x0800fcd0   0x00000035   Data   RO         1021    .conststring        trx_manager.o
+    0x0800fd05   0x0800fd05   0x00000003   PAD
+    0x0800fd08   0x0800fd08   0x00000028   Data   RO         1535    .conststring        bands.o
+    0x0800fd30   0x0800fd30   0x00000020   Data   RO         6426    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800fe48, Size: 0x00014238, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x0000005c])
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x0800fd50, Size: 0x00014238, Max: 0x00020000, ABSOLUTE, COMPRESSED[0x00000058])
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
@@ -4554,8 +4524,8 @@ Image component sizes
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Object Name
 
       1844        106          0         20       2480       5421   agc.o
-      1148         94       5232          0       5500       6890   audio_filters.o
-      1766        184          0         28       3072      18064   audio_processor.o
+      1148         92       5200          0       5500       6894   audio_filters.o
+      1774        184          0         28       3072      18076   audio_processor.o
        132         14        736          0          0       1278   bands.o
        140         18          0          0          0     709107   bootloader.o
        356         38          0         12          0      15368   encoder.o
@@ -4563,10 +4533,10 @@ Image component sizes
       1622        242          0         20       2048       8483   fpga.o
        532         72          0          0          0       5948   functions.o
        612        240          0          5          0       4733   helper.o
-      7866       1610          0         42        192      41270   lcd.o
+      7638       1434          0         42        192      41182   lcd.o
       1198         68       1280          4          0      16837   ma_ili9341.o
       1702        152          0          0       1020       8676   main_1.o
-       480         70          0          9         44       4707   settings.o
+       484         72          0          9         44       4731   settings.o
         36          8        392          0       2048        840   startup_stm32f407xx.o
        180         28          0         12          0       4605   stm32f4xx_hal.o
        228         14          0          0          0      32181   stm32f4xx_hal_cortex.o
@@ -4585,13 +4555,13 @@ Image component sizes
        462        108          0          4          0       9234   stm32f4xx_it.o
        216         12          0          0          0       2719   stm32f4xx_ll_fsmc.o
         84         18         24          4          0       1167   system_stm32f4xx_1.o
-       292         70         53         55          0       4974   trx_manager.o
+       292         68         53         55          0       4941   trx_manager.o
        844         46          0          5        202       7381   wire.o
        738        128          0          8       4096       6842   wm8731.o
       1560        176          0         36         20       5919   xpt2046_spi.o
 
     ----------------------------------------------------------------------
-     35434       4046       7760        316      82168     990660   Object Totals
+     35218       3868       7728        316      82168     990579   Object Totals
          0          0         32          0          0          0   (incl. Generated)
         42          0          3         12          6          0   (incl. Padding)
 
@@ -4687,15 +4657,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     49844       4500      15252        320      82168    1028595   Grand Totals
-     49844       4500      15252         92      82168    1028595   ELF Image Totals (compressed)
-     49844       4500      15252         92          0          0   ROM Totals
+     49628       4322      15220        320      82168    1028514   Grand Totals
+     49628       4322      15220         88      82168    1028514   ELF Image Totals (compressed)
+     49628       4322      15220         88          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                65096 (  63.57kB)
+    Total RO  Size (Code + RO Data)                64848 (  63.33kB)
     Total RW  Size (RW Data + ZI Data)             82488 (  80.55kB)
-    Total ROM Size (Code + RO Data + RW Data)      65188 (  63.66kB)
+    Total ROM Size (Code + RO Data + RW Data)      64936 (  63.41kB)
 
 ==============================================================================
 

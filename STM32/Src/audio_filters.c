@@ -6,7 +6,7 @@
 #include <math.h>
 #include "arm_math.h"
 #include "wm8731.h"
-#include "trx_manager.h"
+#include "settings.h"
 
 arm_fir_instance_f32    FIR_RX_Hilbert_I;
 arm_fir_instance_f32    FIR_RX_Hilbert_Q;
@@ -33,8 +33,8 @@ const float32_t q_tx_coeffs[IQ_TX_HILBERT_TAPS] = { -0.000055876484573473,-0.000
 //IIR RX/TX SSB IIR Elliptic lowpass Fs=48000 Fpass=XXXX Apass=1 Astop=80 // coefficients in reverse order than that spit out by MATLAB
 const float32_t IIR_LPF_0k3_PKcoeffs[IIR_LPF_CW_STAGES] = {-0.9645578265,0.9995203018,-0.9997460246,0.9997788072,-0.9997806549,0.9998542666,-0.9995376468};
 const float32_t IIR_LPF_0k3_PVcoeffs[IIR_LPF_CW_STAGES + 1] = {1.691588659e-05,3.353849388e-05,9.358343505e-07,6.49710671e-07,7.28035543e-09,3.149453365e-09,1.187948004e-11,4.165954474e-12};
-const float32_t IIR_LPF_0k5_PKcoeffs[IIR_LPF_STAGES] = {-0.9416306019,0.998668015,-0.9992944598,0.9993858337,-0.9993813038,0.9995949268,-0.998724699};
-const float32_t IIR_LPF_0k5_PVcoeffs[IIR_LPF_STAGES + 1] = {2.809501711e-05,5.595725816e-05,4.308294137e-06,3.027143521e-06,9.26890209e-08,4.03102689e-08,4.195671865e-10,1.46412521e-10};
+const float32_t IIR_LPF_0k5_PKcoeffs[IIR_LPF_CW_STAGES] = {-0.9416306019,0.998668015,-0.9992944598,0.9993858337,-0.9993813038,0.9995949268,-0.998724699};
+const float32_t IIR_LPF_0k5_PVcoeffs[IIR_LPF_CW_STAGES + 1] = {2.809501711e-05,5.595725816e-05,4.308294137e-06,3.027143521e-06,9.26890209e-08,4.03102689e-08,4.195671865e-10,1.46412521e-10};
 const float32_t IIR_LPF_1k4_PKcoeffs[IIR_LPF_STAGES] = {-0.8462825418,0.9897898436,-0.9945713878,0.995277524,-0.9954237938,0.9960355163,-0.9938547015,0.9986351728,-0.9877794385,0.9999324083,-0.9840809107};
 const float32_t IIR_LPF_1k4_PVcoeffs[IIR_LPF_STAGES + 1] = {6.740443496e-05,0.0001428189862,5.744743612e-05,4.458257172e-05,7.519381143e-06,3.528056823e-06,2.807890667e-07,1.023707057e-07,2.650131004e-09,7.472060748e-10,4.456292974e-12,6.327882012e-13};
 const float32_t IIR_LPF_1k6_PKcoeffs[IIR_LPF_STAGES] = {-0.8263436556,0.9866844416,-0.9929075837,0.993832767,-0.9940218925,0.9948449731,-0.9920324683,0.9983254671,-0.983985126,0.9999088645,-0.9790742993};
@@ -103,36 +103,36 @@ void InitFilters(void)
 	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
 	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
 
-	if(TRX_Filter_Width==300) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k3_PKcoeffs, (float32_t *)&IIR_LPF_0k3_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k5_PKcoeffs, (float32_t *)&IIR_LPF_0k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==1400) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k4_PKcoeffs, (float32_t *)&IIR_LPF_1k4_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==1600) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k6_PKcoeffs, (float32_t *)&IIR_LPF_1k6_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==1800) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k8_PKcoeffs, (float32_t *)&IIR_LPF_1k8_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==2100) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k1_PKcoeffs, (float32_t *)&IIR_LPF_2k1_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==2300) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k3_PKcoeffs, (float32_t *)&IIR_LPF_2k3_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==2500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k5_PKcoeffs, (float32_t *)&IIR_LPF_2k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==2700) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k7_PKcoeffs, (float32_t *)&IIR_LPF_2k7_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==2900) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k9_PKcoeffs, (float32_t *)&IIR_LPF_2k9_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==3000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k0_PKcoeffs, (float32_t *)&IIR_LPF_3k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==3200) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k2_PKcoeffs, (float32_t *)&IIR_LPF_3k2_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==3400) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k4_PKcoeffs, (float32_t *)&IIR_LPF_3k4_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==3600) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k6_PKcoeffs, (float32_t *)&IIR_LPF_3k6_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==3800) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k8_PKcoeffs, (float32_t *)&IIR_LPF_3k8_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==4000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k0_PKcoeffs, (float32_t *)&IIR_LPF_4k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==4200) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k2_PKcoeffs, (float32_t *)&IIR_LPF_4k2_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==4400) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k4_PKcoeffs, (float32_t *)&IIR_LPF_4k4_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==4600) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k6_PKcoeffs, (float32_t *)&IIR_LPF_4k6_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==4800) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k8_PKcoeffs, (float32_t *)&IIR_LPF_4k8_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==5000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k0_PKcoeffs, (float32_t *)&IIR_LPF_5k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==5500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k5_PKcoeffs, (float32_t *)&IIR_LPF_5k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==6000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k0_PKcoeffs, (float32_t *)&IIR_LPF_6k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==6500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k5_PKcoeffs, (float32_t *)&IIR_LPF_6k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==7000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k0_PKcoeffs, (float32_t *)&IIR_LPF_7k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==7500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k5_PKcoeffs, (float32_t *)&IIR_LPF_7k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==8000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k0_PKcoeffs, (float32_t *)&IIR_LPF_8k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==8500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k5_PKcoeffs, (float32_t *)&IIR_LPF_8k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==9000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k0_PKcoeffs, (float32_t *)&IIR_LPF_9k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==9500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k5_PKcoeffs, (float32_t *)&IIR_LPF_9k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==10000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_10k0_PKcoeffs, (float32_t *)&IIR_LPF_10k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
-	if(TRX_Filter_Width==15000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==300) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k3_PKcoeffs, (float32_t *)&IIR_LPF_0k3_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k5_PKcoeffs, (float32_t *)&IIR_LPF_0k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==1400) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k4_PKcoeffs, (float32_t *)&IIR_LPF_1k4_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==1600) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k6_PKcoeffs, (float32_t *)&IIR_LPF_1k6_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==1800) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k8_PKcoeffs, (float32_t *)&IIR_LPF_1k8_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==2100) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k1_PKcoeffs, (float32_t *)&IIR_LPF_2k1_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==2300) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k3_PKcoeffs, (float32_t *)&IIR_LPF_2k3_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==2500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k5_PKcoeffs, (float32_t *)&IIR_LPF_2k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==2700) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k7_PKcoeffs, (float32_t *)&IIR_LPF_2k7_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==2900) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k9_PKcoeffs, (float32_t *)&IIR_LPF_2k9_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==3000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k0_PKcoeffs, (float32_t *)&IIR_LPF_3k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==3200) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k2_PKcoeffs, (float32_t *)&IIR_LPF_3k2_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==3400) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k4_PKcoeffs, (float32_t *)&IIR_LPF_3k4_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==3600) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k6_PKcoeffs, (float32_t *)&IIR_LPF_3k6_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==3800) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k8_PKcoeffs, (float32_t *)&IIR_LPF_3k8_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==4000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k0_PKcoeffs, (float32_t *)&IIR_LPF_4k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==4200) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k2_PKcoeffs, (float32_t *)&IIR_LPF_4k2_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==4400) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k4_PKcoeffs, (float32_t *)&IIR_LPF_4k4_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==4600) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k6_PKcoeffs, (float32_t *)&IIR_LPF_4k6_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==4800) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k8_PKcoeffs, (float32_t *)&IIR_LPF_4k8_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==5000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k0_PKcoeffs, (float32_t *)&IIR_LPF_5k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==5500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k5_PKcoeffs, (float32_t *)&IIR_LPF_5k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==6000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k0_PKcoeffs, (float32_t *)&IIR_LPF_6k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==6500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k5_PKcoeffs, (float32_t *)&IIR_LPF_6k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==7000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k0_PKcoeffs, (float32_t *)&IIR_LPF_7k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==7500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k5_PKcoeffs, (float32_t *)&IIR_LPF_7k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==8000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k0_PKcoeffs, (float32_t *)&IIR_LPF_8k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==8500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k5_PKcoeffs, (float32_t *)&IIR_LPF_8k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==9000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k0_PKcoeffs, (float32_t *)&IIR_LPF_9k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==9500) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k5_PKcoeffs, (float32_t *)&IIR_LPF_9k5_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==10000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_10k0_PKcoeffs, (float32_t *)&IIR_LPF_10k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
+	if(TRX.Filter_Width==15000) arm_iir_lattice_init_f32(&IIR_LPF, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_State[0], APROCESSOR_BLOCK_SIZE);
 }
