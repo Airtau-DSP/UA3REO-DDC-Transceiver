@@ -412,17 +412,16 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 		float32_t mult = (agc_wdsp.out_target - agc_wdsp.slope_constant * vo) / agc_wdsp.volts;
 		agcbuffer1[i] = agc_wdsp.out_sample[0] * mult;
 	}
-	/*
-if(ts.dmod_mode == DEMOD_AM || ts.dmod_mode == DEMOD_SAM)
-{
-	static float32_t    wold = 0.0;
-	// eliminate DC in the audio after the AGC
-	for(uint16_t i = 0; i < blockSize; i++)
+	
+	if(TRX_getMode()==TRX_MODE_AM)
 	{
-		float32_t w = agcbuffer1[i] + wold * 0.9999; // yes, I want a superb bass response ;-)
-		agcbuffer1[i] = w - wold;
-		wold = w;
+		static float32_t    wold = 0.0;
+		// eliminate DC in the audio after the AGC
+		for(uint16_t i = 0; i < blockSize; i++)
+		{
+			float32_t w = agcbuffer1[i] + wold * 0.9999f; // yes, I want a superb bass response ;-)
+			agcbuffer1[i] = w - wold;
+			wold = w;
+		}
 	}
-}
-	*/
 }

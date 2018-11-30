@@ -57,7 +57,7 @@ const BAND_MAP BANDS[]=
 	{
 		.name="40m",
 		.startFreq=7000000,
-		.endFreq=7200000,
+		.endFreq=7300000,
 		.regions=(const REGION_MAP[])
 		{
 			{
@@ -85,8 +85,13 @@ const BAND_MAP BANDS[]=
 				.endFreq=7200000,
 				.mode=TRX_MODE_LSB
 			},		
+			{
+				.startFreq=7200000,
+				.endFreq=7300000,
+				.mode=TRX_MODE_AM
+			},
 		},
-		.regionsCount=5,
+		.regionsCount=6,
 	},
 	//30METERS
 	{

@@ -51,12 +51,8 @@ void processTxAudio(void)
 		FPGA_Audio_Buffer_Q_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i*2+1])/32767.0f;
 	}
 	
-	//logToUART1_float32(FPGA_Audio_Buffer_I_tmp[0]);
-	//logToUART1_int16(Processor_AudioBuffer_A[0]);
-	//logToUART1_str("\r\n");
-	
-	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
-	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.MicGain_level*0.1, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
+	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.MicGain_level*0.01, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
+	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.MicGain_level*0.01, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE); //MIC GAIN
 	
 	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U)
 	{
@@ -90,8 +86,8 @@ void processTxAudio(void)
 	if(TRX_getMode()==TRX_MODE_LOOPBACK)
 	{
 		//OUT Volume
-		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume/(float32_t)100, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
-		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, (float32_t)TRX.Volume/(float32_t)100, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume/(float32_t)5, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, (float32_t)TRX.Volume/(float32_t)5, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 		
 		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 		{
@@ -155,10 +151,13 @@ void processRxAudio(void)
 	//SSB
 	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U || TRX_getMode() == TRX_MODE_AM)
 	{
-		for (block = 0; block < numBlocks; block++)
+		if(TRX_getMode()!=TRX_MODE_AM)
 		{
-			arm_fir_f32(&FIR_RX_Hilbert_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //hilbert fir
-			arm_fir_f32(&FIR_RX_Hilbert_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //hilbert fir
+			for (block = 0; block < numBlocks; block++)
+			{
+				arm_fir_f32(&FIR_RX_Hilbert_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //hilbert fir
+				arm_fir_f32(&FIR_RX_Hilbert_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //hilbert fir
+			}
 		}
 		switch (TRX_getMode())
 		{
@@ -171,8 +170,11 @@ void processRxAudio(void)
 				arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
 				break;
 			case TRX_MODE_AM:
+				arm_mult_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0],(float32_t *)&FPGA_Audio_Buffer_I_tmp[0],(float32_t *)&FPGA_Audio_Buffer_I_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE);
+				arm_mult_f32((float32_t *)&FPGA_Audio_Buffer_Q_tmp[0],(float32_t *)&FPGA_Audio_Buffer_Q_tmp[0],(float32_t *)&FPGA_Audio_Buffer_Q_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE);
+				arm_add_f32 ((float32_t *)&FPGA_Audio_Buffer_I_tmp[0],(float32_t *)&FPGA_Audio_Buffer_Q_tmp[0],(float32_t *)&FPGA_Audio_Buffer_I_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE);
 				for(int i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-            arm_sqrt_f32(FPGA_Audio_Buffer_I_tmp[i] * FPGA_Audio_Buffer_I_tmp[i] + FPGA_Audio_Buffer_Q_tmp[i] * FPGA_Audio_Buffer_Q_tmp[i], &FPGA_Audio_Buffer_I_tmp[i]);
+            arm_sqrt_f32(FPGA_Audio_Buffer_I_tmp[i], &FPGA_Audio_Buffer_I_tmp[i]);
 				break;
 		}
 		
@@ -185,8 +187,8 @@ void processRxAudio(void)
 	}
 	
 	//OUT Volume
-	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume/(float32_t)100, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
-	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, (float32_t)TRX.Volume/(float32_t)100, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume/(float32_t)5, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, (float32_t)TRX.Volume/(float32_t)5, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	
 	//Prepare data to DMA
 	if (Processor_AudioBuffer_ReadyBuffer == 0)
