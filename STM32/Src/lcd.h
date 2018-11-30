@@ -54,6 +54,8 @@ extern bool LCD_busy;
 void LCD_Handler_TUNE(void);
 void LCD_Handler_MODE(void);
 void LCD_Handler_BAND(void);
+void LCD_Handler_WIDTH(void);
+void LCD_Handler_WIDTH_BACK(void);
 void LCD_Handler_MENU_PREAMP_UHF(void);
 void LCD_Handler_MENU_PREAMP_HF(void);
 void LCD_Handler_AGC(void);
@@ -89,6 +91,28 @@ void LCD_Handler_MENU_VOLUME(void);
 void LCD_Handler_MENU_MIC_G(void);
 void LCD_Handler_MENU_AGC_S(void);
 void LCD_Handler_LCD_Calibrate(void);
+void LCD_Handler_WIDTH_03(void);
+void LCD_Handler_WIDTH_05(void);
+void LCD_Handler_WIDTH_14(void);
+void LCD_Handler_WIDTH_16(void);
+void LCD_Handler_WIDTH_18(void);
+void LCD_Handler_WIDTH_21(void);
+void LCD_Handler_WIDTH_23(void);
+void LCD_Handler_WIDTH_25(void);
+void LCD_Handler_WIDTH_27(void);
+void LCD_Handler_WIDTH_29(void);
+void LCD_Handler_WIDTH_30(void);
+void LCD_Handler_WIDTH_32(void);
+void LCD_Handler_WIDTH_34(void);
+void LCD_Handler_WIDTH_50(void);
+void LCD_Handler_WIDTH_60(void);
+void LCD_Handler_WIDTH_70(void);
+void LCD_Handler_WIDTH_80(void);
+void LCD_Handler_WIDTH_85(void);
+void LCD_Handler_WIDTH_90(void);
+void LCD_Handler_WIDTH_95(void);
+void LCD_Handler_WIDTH_100(void);
+void LCD_Handler_WIDTH_150(void);
 //
 
 #endif

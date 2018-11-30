@@ -33,6 +33,9 @@ extern struct TRX_SETTINGS {
 	bool LineMicIn; //false - mic ; true - line
 	bool Mute;
 	bool Fast;
+	uint16_t CW_Filter;
+	uint16_t SSB_Filter;
+	uint16_t FM_Filter;
 } TRX;
 
 extern bool NeedSaveSettings;

@@ -16,6 +16,7 @@ bool TRX_inited = false;
 int32_t TRX_s_meter = 1;
 bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
+uint16_t TRX_Filter_Width=2700;
 
 char *MODE_DESCR[10] = {
 	"LSB",
@@ -61,6 +62,22 @@ void TRX_setFrequency(uint32_t _freq)
 	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(TRX.Freq))
 	{
 		TRX_setMode(getModeFromFreq(TRX.Freq));
+				switch(TRX_getMode())
+		{
+			case TRX_MODE_LSB:
+			case TRX_MODE_USB:
+			case TRX_MODE_DIGI_L:
+			case TRX_MODE_DIGI_U:
+			case TRX_MODE_AM:
+				TRX_Filter_Width=TRX.SSB_Filter;
+				break;
+			case TRX_MODE_CW:
+				TRX_Filter_Width=TRX.CW_Filter;
+				break;
+			case TRX_MODE_FM:
+				TRX_Filter_Width=TRX.FM_Filter;
+				break;
+		}
 		LCD_displayTopButtons(false);
 	}
 	FPGA_NeedSendParams = true;

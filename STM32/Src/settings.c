@@ -44,6 +44,9 @@ void LoadSettings(void)
 		TRX.LineMicIn = false; //false - mic ; true - line
 		TRX.Mute = false;
 		TRX.Fast = true;
+		TRX.CW_Filter=500;
+		TRX.SSB_Filter=2700;
+		TRX.FM_Filter=15000;
 	}
 	HELPER_updateSettings();
 }
