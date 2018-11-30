@@ -120,11 +120,7 @@ void FFT_printFFT(void)
 			ILI9341_DrawPixel(x + 1, FFT_BOTTOM_OFFSET + y, wtf_buffer[y][x]);
 		}
 	}
-
-	if (maxValueErrors > 10) maxValue += 1000;
-	if (maxValueErrors > 30) maxValue += 3000;
-	if (maxValueErrors > 50) maxValue += 5000;
-	//logToUART1_float32(maxValue);
+	
 	FFT_need_fft = true;
 	LCD_busy=false;
 }

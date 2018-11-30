@@ -834,1542 +834,6 @@ refer to the applicable agreement for further details.
 	(flipy)
 )
 (symbol
-	(rect 1168 8 1376 120)
-	(text "rx_ciccomp" (rect 5 0 61 12)(font "Arial" ))
-	(text "RX_CICCOMP_I" (rect 8 96 89 108)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "clk" (rect 0 0 14 12)(font "Arial" ))
-		(text "clk" (rect 21 27 35 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
-		(text "clk_enable" (rect 21 43 72 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "reset" (rect 0 0 24 12)(font "Arial" ))
-		(text "reset" (rect 21 59 45 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
-	)
-	(port
-		(pt 0 80)
-		(input)
-		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
-		(text "filter_in[15..0]" (rect 21 75 89 87)(font "Arial" ))
-		(line (pt 0 80)(pt 16 80)(line_width 3))
-	)
-	(port
-		(pt 208 32)
-		(output)
-		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
-		(text "filter_out[15..0]" (rect 124 27 199 39)(font "Arial" ))
-		(line (pt 208 32)(pt 192 32)(line_width 3))
-	)
-	(port
-		(pt 208 48)
-		(output)
-		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
-		(text "ce_out" (rect 160 43 193 55)(font "Arial" ))
-		(line (pt 208 48)(pt 192 48))
-	)
-	(parameter
-		"const_one"
-		"1"
-		""
-		(type "PARAMETER_UNSIGNED_BIN")	)
-	(parameter
-		"coeffphase1_1"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_2"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_3"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_4"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_5"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_6"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_7"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_8"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_9"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_10"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_11"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_12"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_13"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_14"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_15"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_16"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_18"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_19"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_20"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_21"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_22"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_23"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_24"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_25"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_26"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_27"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_28"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_29"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_30"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_31"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_32"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_33"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_1"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_2"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_3"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_4"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_5"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_6"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_7"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_8"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_9"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_10"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_11"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_12"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_13"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_14"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_15"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_16"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_18"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_19"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_20"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_21"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_22"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_23"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_24"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_25"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_26"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_27"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_28"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_29"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_30"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_31"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_32"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_33"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(drawing
-		(rectangle (rect 16 16 192 96))
-	)
-	(annotation_block (parameter)(rect 1176 120 1360 136))
-)
-(symbol
-	(rect 1168 360 1376 472)
-	(text "rx_ciccomp" (rect 5 0 61 12)(font "Arial" ))
-	(text "RX_CICCOMP_Q" (rect 8 96 94 108)(font "Arial" ))
-	(port
-		(pt 0 32)
-		(input)
-		(text "clk" (rect 0 0 14 12)(font "Arial" ))
-		(text "clk" (rect 21 27 35 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32))
-	)
-	(port
-		(pt 0 48)
-		(input)
-		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
-		(text "clk_enable" (rect 21 43 72 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(port
-		(pt 0 64)
-		(input)
-		(text "reset" (rect 0 0 24 12)(font "Arial" ))
-		(text "reset" (rect 21 59 45 71)(font "Arial" ))
-		(line (pt 0 64)(pt 16 64))
-	)
-	(port
-		(pt 0 80)
-		(input)
-		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
-		(text "filter_in[15..0]" (rect 21 75 89 87)(font "Arial" ))
-		(line (pt 0 80)(pt 16 80)(line_width 3))
-	)
-	(port
-		(pt 208 32)
-		(output)
-		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
-		(text "filter_out[15..0]" (rect 124 27 199 39)(font "Arial" ))
-		(line (pt 208 32)(pt 192 32)(line_width 3))
-	)
-	(port
-		(pt 208 48)
-		(output)
-		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
-		(text "ce_out" (rect 160 43 193 55)(font "Arial" ))
-		(line (pt 208 48)(pt 192 48))
-	)
-	(parameter
-		"const_one"
-		"1"
-		""
-		(type "PARAMETER_UNSIGNED_BIN")	)
-	(parameter
-		"coeffphase1_1"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_2"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_3"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_4"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_5"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_6"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_7"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_8"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_9"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_10"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_11"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_12"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_13"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_14"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_15"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_16"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_18"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_19"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_20"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_21"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_22"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_23"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_24"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_25"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_26"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_27"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_28"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_29"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_30"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_31"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_32"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_33"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_1"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_2"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_3"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_4"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_5"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_6"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_7"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_8"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_9"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_10"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_11"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_12"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_13"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_14"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_15"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_16"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_18"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_19"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_20"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_21"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_22"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_23"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_24"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_25"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_26"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_27"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_28"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_29"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_30"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_31"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_32"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_33"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(drawing
-		(rectangle (rect 16 16 192 96))
-	)
-	(annotation_block (parameter)(rect 1184 336 1376 352))
-)
-(symbol
-	(rect 1176 -432 1384 -320)
-	(text "tx_ciccomp" (rect 147 0 203 12)(font "Arial" ))
-	(text "TX_CICCOMP_I" (rect 121 96 200 108)(font "Arial" ))
-	(port
-		(pt 208 32)
-		(input)
-		(text "clk" (rect 0 0 14 12)(font "Arial" ))
-		(text "clk" (rect 173 27 187 39)(font "Arial" ))
-		(line (pt 208 32)(pt 192 32))
-	)
-	(port
-		(pt 208 48)
-		(input)
-		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
-		(text "clk_enable" (rect 136 43 187 55)(font "Arial" ))
-		(line (pt 208 48)(pt 192 48))
-	)
-	(port
-		(pt 208 64)
-		(input)
-		(text "reset" (rect 0 0 24 12)(font "Arial" ))
-		(text "reset" (rect 163 59 187 71)(font "Arial" ))
-		(line (pt 208 64)(pt 192 64))
-	)
-	(port
-		(pt 208 80)
-		(input)
-		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
-		(text "filter_in[15..0]" (rect 119 75 187 87)(font "Arial" ))
-		(line (pt 208 80)(pt 192 80)(line_width 3))
-	)
-	(port
-		(pt 0 32)
-		(output)
-		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
-		(text "filter_out[15..0]" (rect 21 27 96 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 0 48)
-		(output)
-		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
-		(text "ce_out" (rect 21 43 54 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(parameter
-		"coeffphase1_1"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_2"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_3"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_4"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_5"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_6"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_7"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_8"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_9"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_10"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_11"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_12"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_13"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_14"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_15"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_16"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_18"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_19"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_20"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_21"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_22"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_23"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_24"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_25"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_26"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_27"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_28"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_29"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_30"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_31"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_32"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_33"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_1"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_2"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_3"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_4"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_5"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_6"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_7"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_8"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_9"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_10"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_11"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_12"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_13"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_14"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_15"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_16"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_18"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_19"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_20"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_21"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_22"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_23"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_24"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_25"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_26"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_27"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_28"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_29"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_30"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_31"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_32"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_33"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(drawing
-		(rectangle (rect 16 16 192 96))
-	)
-	(flipy)
-	(annotation_block (parameter)(rect 1176 -480 1368 -440))
-)
-(symbol
-	(rect 1168 -184 1376 -72)
-	(text "tx_ciccomp" (rect 147 0 203 12)(font "Arial" ))
-	(text "TX_CICCOMP_Q" (rect 117 96 200 108)(font "Arial" ))
-	(port
-		(pt 208 32)
-		(input)
-		(text "clk" (rect 0 0 14 12)(font "Arial" ))
-		(text "clk" (rect 173 27 187 39)(font "Arial" ))
-		(line (pt 208 32)(pt 192 32))
-	)
-	(port
-		(pt 208 48)
-		(input)
-		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
-		(text "clk_enable" (rect 136 43 187 55)(font "Arial" ))
-		(line (pt 208 48)(pt 192 48))
-	)
-	(port
-		(pt 208 64)
-		(input)
-		(text "reset" (rect 0 0 24 12)(font "Arial" ))
-		(text "reset" (rect 163 59 187 71)(font "Arial" ))
-		(line (pt 208 64)(pt 192 64))
-	)
-	(port
-		(pt 208 80)
-		(input)
-		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
-		(text "filter_in[15..0]" (rect 119 75 187 87)(font "Arial" ))
-		(line (pt 208 80)(pt 192 80)(line_width 3))
-	)
-	(port
-		(pt 0 32)
-		(output)
-		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
-		(text "filter_out[15..0]" (rect 21 27 96 39)(font "Arial" ))
-		(line (pt 0 32)(pt 16 32)(line_width 3))
-	)
-	(port
-		(pt 0 48)
-		(output)
-		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
-		(text "ce_out" (rect 21 43 54 55)(font "Arial" ))
-		(line (pt 0 48)(pt 16 48))
-	)
-	(parameter
-		"coeffphase1_1"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_2"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_3"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_4"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_5"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_6"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_7"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_8"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_9"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_10"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_11"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_12"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_13"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_14"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_15"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_16"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_18"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_19"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_20"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_21"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_22"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_23"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_24"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_25"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_26"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_27"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_28"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_29"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_30"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_31"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_32"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase1_33"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_1"
-		"1111111011011000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_2"
-		"1111111001111000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_3"
-		"1111111001101101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_4"
-		"1111111011110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_5"
-		"0000000000101011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_6"
-		"0000001000011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_7"
-		"0000010010011101"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_8"
-		"0000011100110110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_9"
-		"0000100101000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_10"
-		"0000100111011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_11"
-		"0000100000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_12"
-		"0000001011000000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_13"
-		"1111100010101000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_14"
-		"1110100000010010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_15"
-		"1100111001000010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_16"
-		"1010110011101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_17"
-		"0100110100110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_18"
-		"0100001010110001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_19"
-		"0010001101111010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_20"
-		"0000111010101111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_21"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_22"
-		"1111101000010100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_23"
-		"1111011010101010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_24"
-		"1111011000110011"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_25"
-		"1111011110100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_26"
-		"1111101000010001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_27"
-		"1111110010101110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_28"
-		"1111111011110000"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_29"
-		"0000000010001010"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_30"
-		"0000000101100110"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_31"
-		"0000000110011100"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_32"
-		"0000000101011111"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(parameter
-		"coeffphase2_33"
-		"0000001000101001"
-		""
-		(type "PARAMETER_SIGNED_BIN")	)
-	(drawing
-		(rectangle (rect 16 16 192 96))
-	)
-	(flipy)
-	(annotation_block (parameter)(rect 1168 -232 1368 -192))
-)
-(symbol
 	(rect 1456 632 1696 840)
 	(text "stm32_interface" (rect 5 0 85 12)(font "Arial" ))
 	(text "STM32_INTERFACE" (rect 8 192 109 204)(font "Arial" ))
@@ -3066,8 +1530,8 @@ refer to the applicable agreement for further details.
 	)
 )
 (symbol
-	(rect 824 560 1064 744)
-	(text "MAIN_PLL" (rect 89 0 162 16)(font "Arial" (font_size 10)))
+	(rect 824 560 1088 744)
+	(text "MAIN_PLL" (rect 101 0 174 16)(font "Arial" (font_size 10)))
 	(text "MAIN_PLL" (rect 8 168 59 180)(font "Arial" ))
 	(port
 		(pt 0 64)
@@ -3077,33 +1541,33 @@ refer to the applicable agreement for further details.
 		(line (pt 0 64)(pt 40 64))
 	)
 	(port
-		(pt 240 64)
+		(pt 264 64)
 		(output)
 		(text "c0" (rect 0 0 14 14)(font "Arial" (font_size 8)))
-		(text "c0" (rect 224 50 238 64)(font "Arial" (font_size 8)))
+		(text "c0" (rect 248 50 262 64)(font "Arial" (font_size 8)))
 	)
 	(port
-		(pt 240 80)
+		(pt 264 80)
 		(output)
 		(text "c1" (rect 0 0 14 14)(font "Arial" (font_size 8)))
-		(text "c1" (rect 224 66 238 80)(font "Arial" (font_size 8)))
+		(text "c1" (rect 248 66 262 80)(font "Arial" (font_size 8)))
 	)
 	(port
-		(pt 240 96)
+		(pt 264 96)
 		(output)
 		(text "c2" (rect 0 0 14 14)(font "Arial" (font_size 8)))
-		(text "c2" (rect 224 82 238 96)(font "Arial" (font_size 8)))
+		(text "c2" (rect 248 82 262 96)(font "Arial" (font_size 8)))
 	)
 	(drawing
-		(text "Cyclone IV E" (rect 164 168 230 180)(font "Arial" ))
+		(text "Cyclone IV E" (rect 188 168 254 180)(font "Arial" ))
 		(text "inclk0 frequency: 50.000 MHz" (rect 50 59 197 71)(font "Arial" ))
-		(text "Operation Mode: Normal" (rect 50 72 169 84)(font "Arial" ))
+		(text "Operation Mode: No Compensation" (rect 50 72 222 84)(font "Arial" ))
 		(text "Clk " (rect 51 93 71 105)(font "Arial" ))
 		(text "Ratio" (rect 77 93 102 105)(font "Arial" ))
 		(text "Ph (dg)" (rect 109 93 144 105)(font "Arial" ))
 		(text "DC (%)" (rect 143 93 179 105)(font "Arial" ))
 		(text "c0" (rect 54 107 65 119)(font "Arial" ))
-		(text "32/521" (rect 74 107 107 119)(font "Arial" ))
+		(text "24/521" (rect 74 107 107 119)(font "Arial" ))
 		(text "0.00" (rect 115 107 136 119)(font "Arial" ))
 		(text "50.00" (rect 147 107 174 119)(font "Arial" ))
 		(text "c1" (rect 54 121 65 133)(font "Arial" ))
@@ -3114,9 +1578,9 @@ refer to the applicable agreement for further details.
 		(text "1/1042" (rect 74 135 107 147)(font "Arial" ))
 		(text "0.00" (rect 115 135 136 147)(font "Arial" ))
 		(text "50.00" (rect 147 135 174 147)(font "Arial" ))
-		(line (pt 0 0)(pt 241 0))
-		(line (pt 241 0)(pt 241 185))
-		(line (pt 0 185)(pt 241 185))
+		(line (pt 0 0)(pt 265 0))
+		(line (pt 265 0)(pt 265 185))
+		(line (pt 0 185)(pt 265 185))
 		(line (pt 0 0)(pt 0 185))
 		(line (pt 48 91)(pt 175 91))
 		(line (pt 48 104)(pt 175 104))
@@ -3128,14 +1592,1190 @@ refer to the applicable agreement for further details.
 		(line (pt 106 91)(pt 106 146)(line_width 3))
 		(line (pt 140 91)(pt 140 146)(line_width 3))
 		(line (pt 174 91)(pt 174 146))
-		(line (pt 40 48)(pt 207 48))
-		(line (pt 207 48)(pt 207 167))
-		(line (pt 40 167)(pt 207 167))
+		(line (pt 40 48)(pt 231 48))
+		(line (pt 231 48)(pt 231 167))
+		(line (pt 40 167)(pt 231 167))
 		(line (pt 40 48)(pt 40 167))
-		(line (pt 239 64)(pt 207 64))
-		(line (pt 239 80)(pt 207 80))
-		(line (pt 239 96)(pt 207 96))
+		(line (pt 263 64)(pt 231 64))
+		(line (pt 263 80)(pt 231 80))
+		(line (pt 263 96)(pt 231 96))
 	)
+)
+(symbol
+	(rect 1168 360 1376 472)
+	(text "rx_ciccomp" (rect 5 0 61 12)(font "Arial" ))
+	(text "RX_CICCOMP_Q" (rect 8 96 90 113)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 21 27 35 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
+		(text "clk_enable" (rect 21 43 72 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "reset" (rect 0 0 24 12)(font "Arial" ))
+		(text "reset" (rect 21 59 45 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
+		(text "filter_in[15..0]" (rect 21 75 89 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 208 32)
+		(output)
+		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
+		(text "filter_out[15..0]" (rect 124 27 199 39)(font "Arial" ))
+		(line (pt 208 32)(pt 192 32)(line_width 3))
+	)
+	(port
+		(pt 208 48)
+		(output)
+		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
+		(text "ce_out" (rect 160 43 193 55)(font "Arial" ))
+		(line (pt 208 48)(pt 192 48))
+	)
+	(parameter
+		"const_one"
+		"1"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"coeffphase1_1"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_2"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_3"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_4"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_5"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_6"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_7"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_8"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_9"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_10"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_11"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_12"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_13"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_14"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_15"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_16"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_17"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_18"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_19"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_20"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_21"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_22"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_23"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_24"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_1"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_2"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_3"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_4"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_5"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_6"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_7"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_8"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_9"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_10"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_11"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_12"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_13"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_14"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_15"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_16"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_17"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_18"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_19"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_20"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_21"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_22"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_23"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_24"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 192 96))
+	)
+	(annotation_block (parameter)(rect 1256 264 1552 344))
+)
+(symbol
+	(rect 1168 8 1376 120)
+	(text "rx_ciccomp" (rect 5 0 61 12)(font "Arial" ))
+	(text "RX_CICCOMP_I" (rect 8 96 84 113)(font "Intel Clear" ))
+	(port
+		(pt 0 32)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 21 27 35 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32))
+	)
+	(port
+		(pt 0 48)
+		(input)
+		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
+		(text "clk_enable" (rect 21 43 72 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(port
+		(pt 0 64)
+		(input)
+		(text "reset" (rect 0 0 24 12)(font "Arial" ))
+		(text "reset" (rect 21 59 45 71)(font "Arial" ))
+		(line (pt 0 64)(pt 16 64))
+	)
+	(port
+		(pt 0 80)
+		(input)
+		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
+		(text "filter_in[15..0]" (rect 21 75 89 87)(font "Arial" ))
+		(line (pt 0 80)(pt 16 80)(line_width 3))
+	)
+	(port
+		(pt 208 32)
+		(output)
+		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
+		(text "filter_out[15..0]" (rect 124 27 199 39)(font "Arial" ))
+		(line (pt 208 32)(pt 192 32)(line_width 3))
+	)
+	(port
+		(pt 208 48)
+		(output)
+		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
+		(text "ce_out" (rect 160 43 193 55)(font "Arial" ))
+		(line (pt 208 48)(pt 192 48))
+	)
+	(parameter
+		"const_one"
+		"1"
+		""
+		(type "PARAMETER_UNSIGNED_BIN")	)
+	(parameter
+		"coeffphase1_1"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_2"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_3"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_4"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_5"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_6"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_7"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_8"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_9"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_10"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_11"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_12"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_13"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_14"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_15"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_16"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_17"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_18"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_19"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_20"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_21"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_22"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_23"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_24"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_1"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_2"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_3"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_4"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_5"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_6"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_7"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_8"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_9"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_10"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_11"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_12"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_13"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_14"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_15"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_16"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_17"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_18"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_19"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_20"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_21"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_22"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_23"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_24"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 192 96))
+	)
+	(annotation_block (parameter)(rect 1256 128 1552 208))
+)
+(symbol
+	(rect 1176 -432 1384 -320)
+	(text "tx_ciccomp" (rect 147 0 203 12)(font "Arial" ))
+	(text "TX_CICCOMP_I" (rect 121 96 200 108)(font "Arial" ))
+	(port
+		(pt 208 32)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 173 27 187 39)(font "Arial" ))
+		(line (pt 208 32)(pt 192 32))
+	)
+	(port
+		(pt 208 48)
+		(input)
+		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
+		(text "clk_enable" (rect 136 43 187 55)(font "Arial" ))
+		(line (pt 208 48)(pt 192 48))
+	)
+	(port
+		(pt 208 64)
+		(input)
+		(text "reset" (rect 0 0 24 12)(font "Arial" ))
+		(text "reset" (rect 163 59 187 71)(font "Arial" ))
+		(line (pt 208 64)(pt 192 64))
+	)
+	(port
+		(pt 208 80)
+		(input)
+		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
+		(text "filter_in[15..0]" (rect 119 75 187 87)(font "Arial" ))
+		(line (pt 208 80)(pt 192 80)(line_width 3))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
+		(text "filter_out[15..0]" (rect 9 27 84 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(output)
+		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
+		(text "ce_out" (rect 15 43 48 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(parameter
+		"coeffphase1_1"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_2"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_3"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_4"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_5"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_6"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_7"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_8"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_9"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_10"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_11"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_12"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_13"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_14"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_15"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_16"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_17"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_18"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_19"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_20"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_21"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_22"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_23"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_24"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_1"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_2"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_3"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_4"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_5"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_6"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_7"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_8"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_9"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_10"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_11"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_12"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_13"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_14"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_15"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_16"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_17"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_18"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_19"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_20"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_21"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_22"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_23"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_24"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 192 96))
+	)
+	(flipy)
+	(annotation_block (parameter)(rect 1440 -512 1720 -408))
+)
+(symbol
+	(rect 1168 -184 1376 -72)
+	(text "tx_ciccomp" (rect 147 0 203 12)(font "Arial" ))
+	(text "TX_CICCOMP_Q" (rect 121 96 202 113)(font "Intel Clear" ))
+	(port
+		(pt 208 32)
+		(input)
+		(text "clk" (rect 0 0 14 12)(font "Arial" ))
+		(text "clk" (rect 173 27 187 39)(font "Arial" ))
+		(line (pt 208 32)(pt 192 32))
+	)
+	(port
+		(pt 208 48)
+		(input)
+		(text "clk_enable" (rect 0 0 51 12)(font "Arial" ))
+		(text "clk_enable" (rect 136 43 187 55)(font "Arial" ))
+		(line (pt 208 48)(pt 192 48))
+	)
+	(port
+		(pt 208 64)
+		(input)
+		(text "reset" (rect 0 0 24 12)(font "Arial" ))
+		(text "reset" (rect 163 59 187 71)(font "Arial" ))
+		(line (pt 208 64)(pt 192 64))
+	)
+	(port
+		(pt 208 80)
+		(input)
+		(text "filter_in[15..0]" (rect 0 0 68 12)(font "Arial" ))
+		(text "filter_in[15..0]" (rect 119 75 187 87)(font "Arial" ))
+		(line (pt 208 80)(pt 192 80)(line_width 3))
+	)
+	(port
+		(pt 0 32)
+		(output)
+		(text "filter_out[15..0]" (rect 0 0 75 12)(font "Arial" ))
+		(text "filter_out[15..0]" (rect 9 27 84 39)(font "Arial" ))
+		(line (pt 0 32)(pt 16 32)(line_width 3))
+	)
+	(port
+		(pt 0 48)
+		(output)
+		(text "ce_out" (rect 0 0 33 12)(font "Arial" ))
+		(text "ce_out" (rect 15 43 48 55)(font "Arial" ))
+		(line (pt 0 48)(pt 16 48))
+	)
+	(parameter
+		"coeffphase1_1"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_2"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_3"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_4"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_5"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_6"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_7"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_8"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_9"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_10"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_11"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_12"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_13"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_14"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_15"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_16"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_17"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_18"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_19"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_20"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_21"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_22"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_23"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase1_24"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_1"
+		"0000000111100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_2"
+		"1111111111000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_3"
+		"0000000000011011"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_4"
+		"0000000000100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_5"
+		"1111111101111100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_6"
+		"0000000100100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_7"
+		"1111110111101111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_8"
+		"0000001110000100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_9"
+		"1111101000011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_10"
+		"0000101001011100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_11"
+		"1110101011000000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_12"
+		"0100010001110100"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_13"
+		"0001000110011001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_14"
+		"1111001100110010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_15"
+		"0000100101100000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_16"
+		"1111100011011000"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_17"
+		"0000010110010010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_18"
+		"1111101110100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_19"
+		"0000001101100110"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_20"
+		"1111110101011111"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_21"
+		"0000001000000010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_22"
+		"1111111001100010"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_23"
+		"0000000111001101"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(parameter
+		"coeffphase2_24"
+		"0000000010110001"
+		""
+		(type "PARAMETER_SIGNED_BIN")	)
+	(drawing
+		(rectangle (rect 16 16 192 96))
+	)
+	(flipy)
+	(annotation_block (parameter)(rect 1488 -248 1768 -144))
 )
 (connector
 	(pt 816 96)
@@ -3882,10 +3522,6 @@ refer to the applicable agreement for further details.
 	(pt 816 624)
 )
 (connector
-	(pt 1064 624)
-	(pt 1160 624)
-)
-(connector
 	(pt 1160 40)
 	(pt 1160 392)
 )
@@ -4018,18 +3654,6 @@ refer to the applicable agreement for further details.
 	(pt 1200 928)
 )
 (connector
-	(pt 1064 640)
-	(pt 1104 640)
-)
-(connector
-	(pt 1104 920)
-	(pt 1104 640)
-)
-(connector
-	(pt 1104 920)
-	(pt 1120 920)
-)
-(connector
 	(pt 1696 776)
 	(pt 1712 776)
 )
@@ -4046,16 +3670,32 @@ refer to the applicable agreement for further details.
 	(pt 1160 960)
 )
 (connector
-	(pt 1080 656)
-	(pt 1064 656)
+	(pt 1088 624)
+	(pt 1160 624)
 )
 (connector
-	(pt 1080 1000)
+	(pt 1112 920)
+	(pt 1112 640)
+)
+(connector
+	(pt 1120 920)
+	(pt 1112 920)
+)
+(connector
+	(pt 1088 640)
+	(pt 1112 640)
+)
+(connector
 	(pt 1216 1000)
+	(pt 1096 1000)
 )
 (connector
-	(pt 1080 656)
-	(pt 1080 1000)
+	(pt 1096 656)
+	(pt 1096 1000)
+)
+(connector
+	(pt 1088 656)
+	(pt 1096 656)
 )
 (junction (pt 376 120))
 (junction (pt 776 136))
