@@ -74,13 +74,13 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	else
 	{
 		printButton(5, 5, 73, 30, MODE_DESCR[TRX_getMode()], COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MODE);
-		printButton(83, 5, 73, 30, "WIDTH", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //Filter width
+		printButton(83, 5, 73, 30, "WIDTH", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
 		printButton(161, 5, 73, 30, "TUNE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_tune==true), LCD_Handler_TUNE);
 		printButton(239, 5, 76, 30, "BAND", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_BAND);
-		printButton(5, 40, 53, 30, "VFOA", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //VFO-A VFO-B
+		printButton(5, 40, 53, 30, "VFOA", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
 		printButton(63, 40, 53, 30, "AGC", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Agc==true), LCD_Handler_AGC);
-		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //FAST
-		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0); //MUTE
+		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
+		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Mute==true), LCD_Handler_MUTE);
 		printButton(239, 40, 76, 30, "MENU", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MENU);
 	}
 }
@@ -273,6 +273,13 @@ void LCD_Handler_MENU_PREAMP_HF(void)
 void LCD_Handler_AGC(void)
 {
 	TRX.Agc = !TRX.Agc;
+	LCD_displayTopButtons(false);
+	NeedSaveSettings=true;
+}
+
+void LCD_Handler_MUTE(void)
+{
+	TRX.Mute = !TRX.Mute;
 	LCD_displayTopButtons(false);
 	NeedSaveSettings=true;
 }

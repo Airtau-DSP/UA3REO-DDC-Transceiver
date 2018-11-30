@@ -82,6 +82,12 @@ void processTxAudio(void)
 		}
 	}
 	
+	if(TRX.Mute)
+	{
+		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, 0, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, 0, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+	}
+	
 	//Loopback mode
 	if(TRX_getMode()==TRX_MODE_LOOPBACK)
 	{
@@ -189,6 +195,11 @@ void processRxAudio(void)
 	//OUT Volume
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume/(float32_t)5, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, (float32_t)TRX.Volume/(float32_t)5, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+	if(TRX.Mute)
+	{
+		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, 0, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, 0, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
+	}
 	
 	//Prepare data to DMA
 	if (Processor_AudioBuffer_ReadyBuffer == 0)
