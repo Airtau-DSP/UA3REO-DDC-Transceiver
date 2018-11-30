@@ -6,8 +6,8 @@
 #include "trx_manager.h"
 #include "settings.h"
 
-uint32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
-uint32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
+int32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
+int32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 
 uint8_t WM8731_SampleMode = 48;
 uint32_t WM8731_DMA_samples = 0;
@@ -165,7 +165,7 @@ void WM8731_Init(void)
 	logToUART1_str("WM8731 ");
 	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00011110),B8(00000000)); //R15 Reset Chip
-	WM8731_SendI2CCommand(B8(00001110), B8(00001110)); //R7 Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 32bits
+	WM8731_SendI2CCommand(B8(00001110), B8(00000010)); //R7 Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 16bits
 	WM8731_SendI2CCommand(B8(00010000), B8(00000000)); //R8 Sampling Control normal mode, 256fs, SR=0 (MCLK@12.288Mhz, fs=48kHz)) 0 0000
 	WM8731_SendI2CCommand(B8(00010010), B8(00000001)); //R9 reactivate digital audio interface
 	WM8731_RX_mode();

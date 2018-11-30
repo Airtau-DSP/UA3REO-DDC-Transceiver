@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define FPGA_AUDIO_BUFFER_SIZE 128
+#define FPGA_AUDIO_BUFFER_SIZE 256
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
 #define APROCESSOR_BLOCK_SIZE 32
 #define CLICK_REMOVE_THRESHOLD 0.0152 //peak difference from avg amplitude
@@ -22,8 +22,8 @@ extern void initAudioProcessor(void);
 extern uint32_t AUDIOPROC_samples;
 extern uint32_t AUDIOPROC_TXA_samples;
 extern uint32_t AUDIOPROC_TXB_samples;
-extern uint32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
-extern uint32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
+extern int32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
+extern int32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
 extern uint8_t Processor_AudioBuffer_ReadyBuffer;
 extern bool Processor_NeedBuffer;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;

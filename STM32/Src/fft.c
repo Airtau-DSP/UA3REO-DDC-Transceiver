@@ -86,7 +86,6 @@ void FFT_printFFT(void)
 	if (LCD_mainMenuOpened) return;
 	LCD_busy=true;
 	
-	ILI9341_Fill_RectWH(0, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT - 1, FFT_PRINT_SIZE, FFT_MAX_HEIGHT, COLOR_BLACK);
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET) + FFT_MAX_HEIGHT, COLOR_GREEN);
 
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //смещаем водопад вниз
@@ -109,6 +108,7 @@ void FFT_printFFT(void)
 			tmp = getFFTColor(height);
 		
 		wtf_buffer[0][new_x] = tmp;
+		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, - FFT_MAX_HEIGHT - 1, COLOR_BLACK);
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
 
