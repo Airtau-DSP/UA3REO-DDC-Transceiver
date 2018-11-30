@@ -79,7 +79,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(239, 5, 76, 30, "BAND", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_BAND);
 		printButton(5, 40, 53, 30, "VFOA", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
 		printButton(63, 40, 53, 30, "AGC", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Agc == true), LCD_Handler_AGC);
-		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
+		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Fast == true), LCD_Handler_FAST);
 		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Mute == true), LCD_Handler_MUTE);
 		printButton(239, 40, 76, 30, "MENU", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MENU);
 	}
@@ -280,6 +280,13 @@ void LCD_Handler_AGC(void)
 void LCD_Handler_MUTE(void)
 {
 	TRX.Mute = !TRX.Mute;
+	LCD_displayTopButtons(false);
+	NeedSaveSettings = true;
+}
+
+void LCD_Handler_FAST(void)
+{
+	TRX.Fast = !TRX.Fast;
 	LCD_displayTopButtons(false);
 	NeedSaveSettings = true;
 }

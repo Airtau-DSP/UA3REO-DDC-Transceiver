@@ -43,6 +43,7 @@ void LoadSettings(void)
 		TRX.BPF = true;
 		TRX.LineMicIn = false; //false - mic ; true - line
 		TRX.Mute = false;
+		TRX.Fast = true;
 	}
 	HELPER_updateSettings();
 }

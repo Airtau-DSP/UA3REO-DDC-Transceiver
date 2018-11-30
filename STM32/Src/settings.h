@@ -32,6 +32,7 @@ extern struct TRX_SETTINGS {
 	bool BPF;
 	bool LineMicIn; //false - mic ; true - line
 	bool Mute;
+	bool Fast;
 } TRX;
 
 extern bool NeedSaveSettings;

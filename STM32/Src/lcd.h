@@ -58,6 +58,7 @@ void LCD_Handler_MENU_PREAMP_UHF(void);
 void LCD_Handler_MENU_PREAMP_HF(void);
 void LCD_Handler_AGC(void);
 void LCD_Handler_MUTE(void);
+void LCD_Handler_FAST(void);
 void LCD_Handler_MENU_BPF(void);
 void LCD_Handler_MENU_ATT(void);
 void LCD_Handler_MENU_MAP(void);
