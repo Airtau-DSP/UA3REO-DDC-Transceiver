@@ -29,6 +29,11 @@ uint8_t HELPER_getBPFfromFreq(uint32_t freq)
 
 void HELPER_updateSettings(void)
 {
+	if(!TRX_ptt && !TRX_tune)
+	{
+		HELPER_setAMP_POWER(false);
+		HELPER_setAMP(false);
+	}
 	if (TRX.BPF)
 		HELPER_setBPF(HELPER_getBPFfromFreq(TRX.Freq));
 	else
@@ -43,8 +48,11 @@ void HELPER_updateSettings(void)
 		HELPER_setATT(TRX.Att);
 		HELPER_setPREAMP(TRX.Preamp_HF);
 	}
-	//HELPER_setAMP_POWER(TRX_ptt || TRX_tune);
-	//HELPER_setAMP(TRX_ptt || TRX_tune);
+	if(TRX_ptt || TRX_tune)
+	{
+		HELPER_setAMP_POWER(true);
+		HELPER_setAMP(true);
+	}
 }
 
 void HELPER_setATT(bool val)
