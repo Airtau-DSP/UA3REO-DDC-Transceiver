@@ -372,8 +372,9 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_samples++;
 
 	//STAGE 2 out Q
-	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] * 32767;
-	if (TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
+	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] * 32767.0f;
+	if (TRX_tune) FPGA_fpgadata_out_tmp16 = TUNE_AMPLITUDE;
+	//if(FPGA_fpgadata_out_tmp16>1) logToUART1_int16(FPGA_fpgadata_out_tmp16);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -402,8 +403,9 @@ void FPGA_fpgadata_sendiq(void)
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 
 	//STAGE 6 out I
-	FPGA_fpgadata_out_tmp16 = (int16_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] * 32767;
-	if (TRX_tune) FPGA_fpgadata_out_tmp16 = 32767;
+	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] * 32767.0f;
+	if (TRX_tune) FPGA_fpgadata_out_tmp16 = TUNE_AMPLITUDE;
+	//if(FPGA_fpgadata_out_tmp16>1) logToUART1_int16(FPGA_fpgadata_out_tmp16);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;

@@ -79,22 +79,6 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 
 		switch(TRX_getMode())
 		{
-			case TRX_MODE_LSB:
-			case TRX_MODE_USB:
-			case TRX_MODE_DIGI_L:
-			case TRX_MODE_DIGI_U:
-			case TRX_MODE_AM:
-				printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 1800), LCD_Handler_WIDTH_18);
-				printButton(68, 5, 58, 60, "2.1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2100), LCD_Handler_WIDTH_21);
-				printButton(131, 5, 58, 60, "2.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2300), LCD_Handler_WIDTH_23);
-				printButton(194, 5, 58, 60, "2.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2500), LCD_Handler_WIDTH_25);
-				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
-				printButton(5, 70, 58, 60, "2.7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2700), LCD_Handler_WIDTH_27);
-				printButton(68, 70, 58, 60, "2.9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2900), LCD_Handler_WIDTH_29);
-				printButton(131, 70, 58, 60, "3.0", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3000), LCD_Handler_WIDTH_30);
-				printButton(194, 70, 58, 60, "3.2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3200), LCD_Handler_WIDTH_32);
-				printButton(257, 70, 58, 60, "3.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3400), LCD_Handler_WIDTH_34);
-				break;
 			case TRX_MODE_CW:
 				printButton(5, 5, 58, 60, "0.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 300), LCD_Handler_WIDTH_03);
 				printButton(68, 5, 58, 60, "0.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 500), LCD_Handler_WIDTH_05);
@@ -113,6 +97,18 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 				printButton(131, 70, 58, 60, "9.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 9500), LCD_Handler_WIDTH_95);
 				printButton(194, 70, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 10000), LCD_Handler_WIDTH_100);
 				printButton(257, 70, 58, 60, "15", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 15000), LCD_Handler_WIDTH_150);
+				break;
+			default:
+				printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 1800), LCD_Handler_WIDTH_18);
+				printButton(68, 5, 58, 60, "2.1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2100), LCD_Handler_WIDTH_21);
+				printButton(131, 5, 58, 60, "2.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2300), LCD_Handler_WIDTH_23);
+				printButton(194, 5, 58, 60, "2.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2500), LCD_Handler_WIDTH_25);
+				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
+				printButton(5, 70, 58, 60, "2.7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2700), LCD_Handler_WIDTH_27);
+				printButton(68, 70, 58, 60, "2.9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2900), LCD_Handler_WIDTH_29);
+				printButton(131, 70, 58, 60, "3.0", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3000), LCD_Handler_WIDTH_30);
+				printButton(194, 70, 58, 60, "3.2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3200), LCD_Handler_WIDTH_32);
+				printButton(257, 70, 58, 60, "3.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3400), LCD_Handler_WIDTH_34);
 				break;
 		}
 	}

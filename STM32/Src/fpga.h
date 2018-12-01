@@ -7,6 +7,7 @@
 #include "audio_processor.h"
 
 #define ADCDAC_CLOCK 50000000
+#define TUNE_AMPLITUDE 512
 
 void FPGA_Init(void);
 void FPGA_fpgadata_iqclock(void);

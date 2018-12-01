@@ -33,10 +33,18 @@ void HELPER_updateSettings(void)
 		HELPER_setBPF(HELPER_getBPFfromFreq(TRX.Freq));
 	else
 		HELPER_setBPF(0);
-	HELPER_setATT(TRX.Att);
-	HELPER_setPREAMP(TRX.Preamp_HF);
+	if(TRX_ptt || TRX_tune)
+	{
+		HELPER_setATT(false);
+		HELPER_setPREAMP(false);
+	}
+	else
+	{
+		HELPER_setATT(TRX.Att);
+		HELPER_setPREAMP(TRX.Preamp_HF);
+	}
 	//HELPER_setAMP_POWER(TRX_ptt || TRX_tune);
-	HELPER_setAMP(TRX_ptt || TRX_tune);
+	//HELPER_setAMP(TRX_ptt || TRX_tune);
 }
 
 void HELPER_setATT(bool val)
