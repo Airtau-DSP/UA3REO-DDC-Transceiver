@@ -3156,10 +3156,6 @@ refer to the applicable agreement for further details.
 	(pt 1080 -360)
 )
 (connector
-	(pt 1080 -72)
-	(pt 1088 -72)
-)
-(connector
 	(pt 808 -400)
 	(pt 808 -152)
 )
@@ -3178,18 +3174,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 448 -208)
 	(pt 464 -208)
-)
-(connector
-	(pt 784 -120)
-	(pt 784 -280)
-)
-(connector
-	(pt 784 -280)
-	(pt 1088 -280)
-)
-(connector
-	(pt 1088 -280)
-	(pt 1088 -320)
 )
 (connector
 	(pt 744 64)
@@ -3211,10 +3195,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 248 -120)
 	(pt 248 -192)
-)
-(connector
-	(pt 464 -120)
-	(pt 784 -120)
 )
 (connector
 	(pt 248 -192)
@@ -3267,10 +3247,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 1376 -152)
 	(pt 1424 -152)
-)
-(connector
-	(pt 464 -208)
-	(pt 464 -120)
 )
 (connector
 	(pt 376 8)
@@ -3428,22 +3404,6 @@ refer to the applicable agreement for further details.
 	(bus)
 )
 (connector
-	(pt 1088 -280)
-	(pt 1088 -72)
-)
-(connector
-	(pt 1088 -72)
-	(pt 1088 -64)
-)
-(connector
-	(pt 1712 -64)
-	(pt 1712 592)
-)
-(connector
-	(pt 1712 592)
-	(pt 1712 728)
-)
-(connector
 	(pt 1168 392)
 	(pt 1160 392)
 )
@@ -3530,34 +3490,10 @@ refer to the applicable agreement for further details.
 	(pt 1160 624)
 )
 (connector
-	(pt 1112 -432)
-	(pt 1112 -184)
-)
-(connector
-	(pt 1088 -64)
-	(pt 1408 -64)
-)
-(connector
-	(pt 1408 -64)
-	(pt 1712 -64)
-)
-(connector
-	(pt 1408 -384)
-	(pt 1408 -136)
-)
-(connector
-	(pt 1408 -136)
-	(pt 1408 -64)
-)
-(connector
 	(text "TX_Q[15..0]" (rect 1448 -112 1504 -95)(font "Intel Clear" ))
 	(pt 1440 -104)
 	(pt 1376 -104)
 	(bus)
-)
-(connector
-	(pt 1112 -184)
-	(pt 1112 96)
 )
 (connector
 	(pt 1168 56)
@@ -3697,6 +3633,66 @@ refer to the applicable agreement for further details.
 	(pt 1088 656)
 	(pt 1096 656)
 )
+(connector
+	(pt 1080 -72)
+	(pt 1088 -72)
+)
+(connector
+	(pt 1712 -32)
+	(pt 1712 592)
+)
+(connector
+	(pt 1712 592)
+	(pt 1712 728)
+)
+(connector
+	(pt 464 -208)
+	(pt 464 -120)
+)
+(connector
+	(pt 464 -120)
+	(pt 464 -32)
+)
+(connector
+	(pt 464 -32)
+	(pt 1712 -32)
+)
+(connector
+	(pt 1112 -184)
+	(pt 1112 96)
+)
+(connector
+	(pt 1088 -320)
+	(pt 1088 -280)
+)
+(connector
+	(pt 1088 -280)
+	(pt 1088 -72)
+)
+(connector
+	(pt 1112 -432)
+	(pt 1112 -280)
+)
+(connector
+	(pt 1112 -280)
+	(pt 1112 -184)
+)
+(connector
+	(pt 1408 -384)
+	(pt 1408 -280)
+)
+(connector
+	(pt 1088 -280)
+	(pt 1112 -280)
+)
+(connector
+	(pt 1112 -280)
+	(pt 1408 -280)
+)
+(connector
+	(pt 1408 -280)
+	(pt 1408 -136)
+)
 (junction (pt 376 120))
 (junction (pt 776 136))
 (junction (pt 424 288))
@@ -3709,11 +3705,9 @@ refer to the applicable agreement for further details.
 (junction (pt 752 144))
 (junction (pt 768 240))
 (junction (pt 712 -208))
-(junction (pt 1088 -72))
 (junction (pt 808 -152))
 (junction (pt 816 280))
 (junction (pt 1128 -112))
-(junction (pt 1088 -280))
 (junction (pt 1112 -184))
 (junction (pt 464 -120))
 (junction (pt 480 -152))
@@ -3731,7 +3725,8 @@ refer to the applicable agreement for further details.
 (junction (pt 1440 680))
 (junction (pt 816 472))
 (junction (pt 1160 392))
-(junction (pt 1408 -64))
-(junction (pt 1408 -136))
 (junction (pt 1144 296))
 (junction (pt 800 296))
+(junction (pt 1088 -280))
+(junction (pt 1112 -280))
+(junction (pt 1408 -280))

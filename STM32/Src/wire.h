@@ -21,7 +21,7 @@
 
 #define I2C_WRITE 0
 #define I2C_READ  1
-#define I2C_DELAY for(int i=0;i<1000;i++) { __asm("nop"); };
+#define I2C_DELAY for(int i=0;i<100;i++) { __asm("nop"); };
 
 uint8_t i2c_writeOneByte(uint8_t);
 uint8_t i2c_readOneByte(uint8_t, uint8_t*);
