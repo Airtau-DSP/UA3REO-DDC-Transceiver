@@ -212,7 +212,8 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_agc_wdsp_action && TRX.Agc && (TRX.Mode == TRX_MODE_LSB || TRX.Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
-	if (WM8731_Buffer_underrun) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (WM8731_Buffer_underrun && !TRX_ptt && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (FPGA_Buffer_underrun && (TRX_ptt || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
 }
 
@@ -229,7 +230,8 @@ void LCD_displayMainMenu() {
 	sprintf(ctmp, "%d", TRX.Agc_speed);
 	printMenuButton(242, 5, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
 
-	printMenuButton(5, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
+	sprintf(ctmp, "%d", TRX.RF_Power);
+	printMenuButton(5, 60, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
 	printMenuButton(84, 60, 74, 50, "PREAMP", "UHF", TRX.Preamp_UHF, true, LCD_Handler_MENU_PREAMP_UHF);
 	printMenuButton(163, 60, 74, 50, "PREAMP", "HF", TRX.Preamp_HF, true, LCD_Handler_MENU_PREAMP_HF);
 	printMenuButton(242, 60, 74, 50, "ATT", "20dB", TRX.Att, true, LCD_Handler_MENU_ATT);
@@ -237,6 +239,7 @@ void LCD_displayMainMenu() {
 	printMenuButton(5, 115, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 	printMenuButton(84, 115, 74, 50, "BPF", "Band filters", TRX.BPF, true, LCD_Handler_MENU_BPF);
 	printMenuButton(163, 115, 74, 50, "Input", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
+	printMenuButton(242, 115, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
 }
 
 void LCD_redraw(void) {
@@ -726,6 +729,12 @@ void LCD_Handler_MENU_VOLUME(void)
 void LCD_Handler_MENU_MIC_G(void)
 {
 	LCD_menu_main_index = MENU_MAIN_MICGAIN;
+	LCD_needRedrawMainMenu = true;
+}
+
+void LCD_Handler_MENU_RF_POWER(void)
+{
+	LCD_menu_main_index = MENU_MAIN_RF_POWER;
 	LCD_needRedrawMainMenu = true;
 }
 

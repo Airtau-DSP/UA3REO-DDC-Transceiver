@@ -75,6 +75,12 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			if (TRX.MicGain_level > 99) TRX.MicGain_level = 99;
 			LCD_needRedrawMainMenu = true;
 			break;
+		case MENU_MAIN_RF_POWER:
+			TRX.RF_Power = TRX.RF_Power + direction;
+			if (TRX.RF_Power < 1) TRX.RF_Power = 1;
+			if (TRX.RF_Power > 100) TRX.RF_Power = 100;
+			LCD_needRedrawMainMenu = true;
+			break;
 		case MENU_MAIN_AGCSPEED:
 			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
 			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;

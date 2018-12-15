@@ -17,6 +17,7 @@ void FPGA_writePacket(uint8_t packet);
 
 extern bool FPGA_busy;
 extern uint32_t FPGA_samples;
+extern bool FPGA_Buffer_underrun;
 
 extern float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE];

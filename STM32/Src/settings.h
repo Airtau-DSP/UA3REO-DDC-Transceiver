@@ -37,6 +37,7 @@ extern struct TRX_SETTINGS {
 	uint16_t SSB_Filter;
 	uint16_t FM_Filter;
 	uint16_t Filter_Width; //selected current width
+	uint8_t RF_Power;
 } TRX;
 
 extern bool NeedSaveSettings;

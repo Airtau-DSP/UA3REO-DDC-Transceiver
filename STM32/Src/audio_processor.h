@@ -12,6 +12,8 @@
 #define APROCESSOR_BLOCK_SIZE 32
 #define CLICK_REMOVE_THRESHOLD 0.0152 //peak difference from avg amplitude
 #define CLICK_REMOVE_STEPSIZE 0.0000001 //peak difference from avg amplitude
+#define RF_AGC_UP_STEPSIZE 0.000001 //audio level control
+#define RF_AGC_DOWN_STEPSIZE 0.0000001 //audio level control
 
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
@@ -30,5 +32,7 @@ extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
 extern uint16_t fpga_index_copy;
 extern float32_t Processor_AVG_amplitude;
+extern float32_t Processor_TX_MAX_amplitude;
+extern float32_t ALC_need_gain;
 
 #endif
