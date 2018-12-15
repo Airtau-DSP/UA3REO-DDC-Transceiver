@@ -34,20 +34,21 @@ void setup() {
   pinMode(ATT, OUTPUT);
   pinMode(PREAMP, OUTPUT);
   
-  digitalWrite(AMP_POWER,1);
-  digitalWrite(AMP,1);
-  digitalWrite(DPF_160,1);
-  digitalWrite(DPF_80,1);
-  digitalWrite(DPF_40,1);
-  digitalWrite(DPF_30,1);
-  digitalWrite(DPF_20,1);
-  digitalWrite(DPF_17,1);
-  digitalWrite(DPF_15,1);
-  digitalWrite(DPF_12,1);
-  digitalWrite(DPF_10,1);
-  digitalWrite(DPF_NONE,0);
-  digitalWrite(ATT,1);
-  digitalWrite(PREAMP,1);
+  digitalWrite(AMP_POWER,1); //inverted
+  digitalWrite(AMP,1); //inverted
+  
+  digitalWrite(DPF_160,0);
+  digitalWrite(DPF_80,0);
+  digitalWrite(DPF_40,0);
+  digitalWrite(DPF_30,0);
+  digitalWrite(DPF_20,0);
+  digitalWrite(DPF_17,0);
+  digitalWrite(DPF_15,0);
+  digitalWrite(DPF_12,0);
+  digitalWrite(DPF_10,0);
+  digitalWrite(DPF_NONE,1);
+  digitalWrite(ATT,0);
+  digitalWrite(PREAMP,0);
 }
 
 void loop() {
@@ -59,35 +60,36 @@ void loop() {
     Serial.println(serial_readline);
     if(serial_readline.startsWith("DPF"))
     {
-      digitalWrite(DPF_160,1);
-      digitalWrite(DPF_80,1);
-      digitalWrite(DPF_40,1);
-      digitalWrite(DPF_30,1);
-      digitalWrite(DPF_20,1);
-      digitalWrite(DPF_17,1);
-      digitalWrite(DPF_15,1);
-      digitalWrite(DPF_12,1);
-      digitalWrite(DPF_10,1);
-      digitalWrite(DPF_NONE,1);
+      digitalWrite(DPF_160,0);
+      digitalWrite(DPF_80,0);
+      digitalWrite(DPF_40,0);
+      digitalWrite(DPF_30,0);
+      digitalWrite(DPF_20,0);
+      digitalWrite(DPF_17,0);
+      digitalWrite(DPF_15,0);
+      digitalWrite(DPF_12,0);
+      digitalWrite(DPF_10,0);
+      digitalWrite(DPF_NONE,0);
     }
-    if(serial_readline.startsWith("DPF_160")) digitalWrite(DPF_160,0);
-    if(serial_readline.startsWith("DPF_80")) digitalWrite(DPF_80,0);
-    if(serial_readline.startsWith("DPF_40")) digitalWrite(DPF_40,0);
-    if(serial_readline.startsWith("DPF_30")) digitalWrite(DPF_30,0);
-    if(serial_readline.startsWith("DPF_20")) digitalWrite(DPF_20,0);
-    if(serial_readline.startsWith("DPF_17")) digitalWrite(DPF_17,0);
-    if(serial_readline.startsWith("DPF_15")) digitalWrite(DPF_15,0);
-    if(serial_readline.startsWith("DPF_12")) digitalWrite(DPF_12,0);
-    if(serial_readline.startsWith("DPF_10")) digitalWrite(DPF_10,0);
-    if(serial_readline.startsWith("DPF_NONE")) digitalWrite(DPF_NONE,0);
-    if(serial_readline.startsWith("ATT_ON")) digitalWrite(ATT,0);
-    if(serial_readline.startsWith("ATT_OFF")) digitalWrite(ATT,1);
-    if(serial_readline.startsWith("PREAMP_ON")) digitalWrite(PREAMP,0);
-    if(serial_readline.startsWith("PREAMP_OFF")) digitalWrite(PREAMP,1);
-    if(serial_readline.startsWith("AMP_POWER_ON")) digitalWrite(AMP_POWER,0);
-    if(serial_readline.startsWith("AMP_POWER_OFF")) digitalWrite(AMP_POWER,1);
-    if(serial_readline.startsWith("AMP_ON")) digitalWrite(AMP,0);
-    if(serial_readline.startsWith("AMP_OFF")) digitalWrite(AMP,1);
+    if(serial_readline.startsWith("DPF_160")) digitalWrite(DPF_160,1);
+    if(serial_readline.startsWith("DPF_80")) digitalWrite(DPF_80,1);
+    if(serial_readline.startsWith("DPF_40")) digitalWrite(DPF_40,1);
+    if(serial_readline.startsWith("DPF_30")) digitalWrite(DPF_30,1);
+    if(serial_readline.startsWith("DPF_20")) digitalWrite(DPF_20,1);
+    if(serial_readline.startsWith("DPF_17")) digitalWrite(DPF_17,1);
+    if(serial_readline.startsWith("DPF_15")) digitalWrite(DPF_15,1);
+    if(serial_readline.startsWith("DPF_12")) digitalWrite(DPF_12,1);
+    if(serial_readline.startsWith("DPF_10")) digitalWrite(DPF_10,1);
+    if(serial_readline.startsWith("DPF_NONE")) digitalWrite(DPF_NONE,1);
+    if(serial_readline.startsWith("ATT_ON")) digitalWrite(ATT,1);
+    if(serial_readline.startsWith("ATT_OFF")) digitalWrite(ATT,0);
+    if(serial_readline.startsWith("PREAMP_ON")) digitalWrite(PREAMP,1);
+    if(serial_readline.startsWith("PREAMP_OFF")) digitalWrite(PREAMP,0);
+    
+    if(serial_readline.startsWith("AMP_POWER_ON")) digitalWrite(AMP_POWER,0); //inverted
+    if(serial_readline.startsWith("AMP_POWER_OFF")) digitalWrite(AMP_POWER,1); //inverted
+    if(serial_readline.startsWith("AMP_ON")) digitalWrite(AMP,0); //inverted
+    if(serial_readline.startsWith("AMP_OFF")) digitalWrite(AMP,1); //inverted
     Serial.flush();
   }
 }
