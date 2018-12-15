@@ -89,8 +89,8 @@
       <flags>2</flags>
       <showCmd>3</showCmd>
       <MinPosition>
-        <xPos>-32000</xPos>
-        <yPos>-32000</yPos>
+        <xPos>-1</xPos>
+        <yPos>-1</yPos>
       </MinPosition>
       <MaxPosition>
         <xPos>-1</xPos>
@@ -1746,7 +1746,7 @@
         <RecentRowIndex>1</RecentRowIndex>
         <RectRecentDocked>
           <Len>16</Len>
-          <Data>000000001C000000E701000038000000</Data>
+          <Data>030000001C000000EA01000038000000</Data>
         </RectRecentDocked>
         <RectRecentFloat>
           <Len>16</Len>
