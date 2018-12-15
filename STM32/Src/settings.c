@@ -22,11 +22,11 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 127) //code to trace new clean flash
+	if (TRX.clean_flash != 128) //code to trace new clean flash
 	{
-		TRX.clean_flash = 127;
+		TRX.clean_flash = 128;
 		TRX.Freq = 7100000;
-		TRX.Mode = TRX_MODE_IQ;
+		TRX.Mode = TRX_MODE_LSB;
 		TRX.Preamp_UHF = true;
 		TRX.Preamp_HF = false;
 		TRX.Agc = true;
