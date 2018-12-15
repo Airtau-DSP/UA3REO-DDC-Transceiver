@@ -230,7 +230,7 @@ void LCD_displayMainMenu() {
 	sprintf(ctmp, "%d", TRX.Agc_speed);
 	printMenuButton(242, 5, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
 
-	sprintf(ctmp, "%d", TRX.RF_Power);
+	sprintf(ctmp, "%d %%", TRX.RF_Power);
 	printMenuButton(5, 60, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
 	printMenuButton(84, 60, 74, 50, "PREAMP", "UHF", TRX.Preamp_UHF, true, LCD_Handler_MENU_PREAMP_UHF);
 	printMenuButton(163, 60, 74, 50, "PREAMP", "HF", TRX.Preamp_HF, true, LCD_Handler_MENU_PREAMP_HF);

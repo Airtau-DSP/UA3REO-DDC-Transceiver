@@ -134,7 +134,7 @@ void processTxAudio(void)
 		if(ALC_need_gain_new<ALC_need_gain)
 			ALC_need_gain=ALC_need_gain_new;
 		else
-			ALC_need_gain+=1;
+			ALC_need_gain+=RF_AGC_UP_STEPSIZE;
 		
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, ALC_need_gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, ALC_need_gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
