@@ -40,8 +40,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 88)
 		(input)
-		(text "datab[11..0]" (rect 0 0 66 14)(font "Arial" (font_size 8)))
-		(text "datab[11..0]" (rect 4 74 58 87)(font "Arial" (font_size 8)))
+		(text "datab[15..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "datab[15..0]" (rect 4 74 59 87)(font "Arial" (font_size 8)))
 		(line (pt 0 88)(pt 72 88)(line_width 3))
 	)
 	(port

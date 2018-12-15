@@ -1,6 +1,0 @@
-	component DEBUG_I_TX is
-		port (
-			probe : in std_logic_vector(15 downto 0) := (others => 'X')  -- probe
-		);
-	end component DEBUG_I_TX;
-

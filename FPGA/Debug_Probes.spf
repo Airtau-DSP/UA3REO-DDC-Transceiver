@@ -32,7 +32,7 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="000000000000000000000000" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="12"/>
+    <log data="0CF000000000000000000000" max_size="8" size="8" time="863151C500000000863151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000" width="12"/>
   </instance>
   <instance enable_logging="true" entity_name="DAC" is_auto_node="true" name="DAC">
     <node_ip_info instance_id="1" mfg_id="110" node_id="9" version="0"/>
@@ -54,7 +54,7 @@
       <probe name="probe[13]"/>
     </probes>
     <view>
-      <view_node expanded="false" group_name="probe[13..0]" index="0" lsb_to_msb="false" node_type="probe" view_type="group_header"/>
+      <view_node expanded="false" group_name="probe[13..0]" index="0" lsb_to_msb="false" node_type="probe" radix="unsigned" view_type="group_header"/>
       <view_node expanded="true" index="13" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="12" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="11" node_type="probe" view_type="group_member"/>
@@ -70,7 +70,7 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="1AD1647E7561A65F45CF9B1B1F39" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="14"/>
+    <log data="0000000000000000000000000000" max_size="8" size="8" time="663151C500000000663151C500000000663151C500000000663151C500000000663151C500000000663151C500000000763151C500000000763151C500000000" width="14"/>
   </instance>
   <instance enable_logging="true" entity_name="I_RX" is_auto_node="true" name="I_RX">
     <node_ip_info instance_id="2" mfg_id="110" node_id="9" version="0"/>
@@ -112,7 +112,7 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="DFFFDFFFDFFFDFFFDFFFDFFFDFFFDFFF" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="16"/>
+    <log data="FFFFDFFF30001000EFFF000010002000" max_size="8" size="8" time="863151C500000000863151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000" width="16"/>
   </instance>
   <instance enable_logging="true" entity_name="I_TX" is_auto_node="true" name="I_TX">
     <node_ip_info instance_id="3" mfg_id="110" node_id="9" version="0"/>
@@ -154,7 +154,7 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="00020002000200020002000200020002" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="16"/>
+    <log data="00C700C700C700C700C700C700C700C7" max_size="8" size="8" time="863151C500000000863151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000" width="16"/>
   </instance>
   <instance enable_logging="true" entity_name="Q_RX" is_auto_node="true" name="Q_RX">
     <node_ip_info instance_id="4" mfg_id="110" node_id="9" version="0"/>
@@ -196,7 +196,7 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="20002000200020002000200020002000" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="16"/>
+    <log data="1000FFFFFFFF2000FFFF2000EFFF3000" max_size="8" size="8" time="863151C500000000863151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000" width="16"/>
   </instance>
   <instance enable_logging="true" entity_name="Q_TX" is_auto_node="true" name="Q_TX">
     <node_ip_info instance_id="5" mfg_id="110" node_id="9" version="0"/>
@@ -238,7 +238,7 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="00020002000200020002000200020002" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="16"/>
+    <log data="00C700C700C700C700C700C700C700C7" max_size="8" size="8" time="863151C500000000863151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000" width="16"/>
   </instance>
   <instance enable_logging="true" entity_name="STGE" is_auto_node="true" name="STGE">
     <node_ip_info instance_id="6" mfg_id="110" node_id="9" version="0"/>
@@ -280,6 +280,6 @@
       <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="7E307E3033107E307E307E307E307E30" max_size="8" size="8" time="488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000488BB0C500000000" width="16"/>
+    <log data="7E307E307E307E307E3059107E307E30" max_size="8" size="8" time="863151C500000000863151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000963151C500000000" width="16"/>
   </instance>
 </session>

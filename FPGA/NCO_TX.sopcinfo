@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnsembleReport name="tx_cic" kind="tx_cic" version="1.0" fabric="QSYS">
+<EnsembleReport name="NCO_TX" kind="NCO_TX" version="1.0" fabric="QSYS">
  <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.12.15.19:39:09 -->
+ <!-- 2018.12.15.19:39:00 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1544888349</value>
+  <value>1544888340</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -48,7 +48,7 @@
   <valid>true</valid>
   <sysinfo_type>DEVICE_SPEEDGRADE</sysinfo_type>
  </parameter>
- <parameter name="AUTO_CLOCK_CLOCK_RATE">
+ <parameter name="AUTO_CLK_CLOCK_RATE">
   <type>java.lang.Long</type>
   <value>-1</value>
   <derived>false</derived>
@@ -56,9 +56,9 @@
   <visible>false</visible>
   <valid>true</valid>
   <sysinfo_type>CLOCK_RATE</sysinfo_type>
-  <sysinfo_arg>clock</sysinfo_arg>
+  <sysinfo_arg>clk</sysinfo_arg>
  </parameter>
- <parameter name="AUTO_CLOCK_CLOCK_DOMAIN">
+ <parameter name="AUTO_CLK_CLOCK_DOMAIN">
   <type>java.lang.Integer</type>
   <value>-1</value>
   <derived>false</derived>
@@ -66,9 +66,9 @@
   <visible>false</visible>
   <valid>true</valid>
   <sysinfo_type>CLOCK_DOMAIN</sysinfo_type>
-  <sysinfo_arg>clock</sysinfo_arg>
+  <sysinfo_arg>clk</sysinfo_arg>
  </parameter>
- <parameter name="AUTO_CLOCK_RESET_DOMAIN">
+ <parameter name="AUTO_CLK_RESET_DOMAIN">
   <type>java.lang.Integer</type>
   <value>-1</value>
   <derived>false</derived>
@@ -76,7 +76,7 @@
   <visible>false</visible>
   <valid>true</valid>
   <sysinfo_type>RESET_DOMAIN</sysinfo_type>
-  <sysinfo_arg>clock</sysinfo_arg>
+  <sysinfo_arg>clk</sysinfo_arg>
  </parameter>
  <parameter name="deviceFamily">
   <type>java.lang.String</type>
@@ -95,7 +95,7 @@
   <visible>true</visible>
   <valid>true</valid>
  </parameter>
- <module name="cic_ii_0" kind="altera_cic_ii" version="17.1" path="cic_ii_0">
+ <module name="nco_ii_0" kind="altera_nco_ii" version="17.1" path="nco_ii_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
   <parameter name="design_env">
@@ -107,104 +107,72 @@ the requested settings for a module instance. -->
    <valid>true</valid>
    <sysinfo_type>DESIGN_ENVIRONMENT</sysinfo_type>
   </parameter>
+  <parameter name="arch">
+   <type>java.lang.String</type>
+   <value>trig</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="want_sin_and_cos">
+   <type>java.lang.String</type>
+   <value>dual_output</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="numch">
+   <type>int</type>
+   <value>1</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="numba">
+   <type>int</type>
+   <value>1</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="use_dedicated_multipliers">
+   <type>boolean</type>
+   <value>true</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
   <parameter name="selected_device_family">
    <type>java.lang.String</type>
    <value>CYCLONEIVE</value>
    <derived>false</derived>
    <enabled>true</enabled>
-   <visible>false</visible>
+   <visible>true</visible>
    <valid>true</valid>
    <sysinfo_type>DEVICE_FAMILY</sysinfo_type>
   </parameter>
-  <parameter name="FILTER_TYPE">
-   <type>java.lang.String</type>
-   <value>interpolator</value>
+  <parameter name="apr">
+   <type>int</type>
+   <value>22</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="STAGES">
+  <parameter name="apri">
    <type>int</type>
-   <value>6</value>
+   <value>22</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="D_DELAY">
-   <type>int</type>
-   <value>1</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="VRC_EN">
-   <type>int</type>
-   <value>0</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="RCF_FIX">
-   <type>int</type>
-   <value>521</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="RCF_LB">
-   <type>int</type>
-   <value>8</value>
-   <derived>false</derived>
-   <enabled>false</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="RCF_UB">
-   <type>int</type>
-   <value>21</value>
-   <derived>false</derived>
-   <enabled>false</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="RCF_MIN">
-   <type>int</type>
-   <value>521</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="RCF_MAX">
-   <type>int</type>
-   <value>521</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="INTERFACES">
-   <type>int</type>
-   <value>1</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="CH_PER_INT">
-   <type>int</type>
-   <value>1</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="IN_WIDTH">
+  <parameter name="mpr">
    <type>int</type>
    <value>16</value>
    <derived>false</derived>
@@ -212,7 +180,31 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="CLK_EN_PORT">
+  <parameter name="cordic_arch">
+   <type>java.lang.String</type>
+   <value>parallel</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>false</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="trig_cycles_per_output">
+   <type>int</type>
+   <value>1</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="cycles_per_output">
+   <type>int</type>
+   <value>1</value>
+   <derived>true</derived>
+   <enabled>true</enabled>
+   <visible>false</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="want_dither">
    <type>boolean</type>
    <value>false</value>
    <derived>false</derived>
@@ -220,316 +212,108 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="ROUND_TYPE">
-   <type>java.lang.String</type>
-   <value>CONV_ROUND</value>
+  <parameter name="dpri">
+   <type>int</type>
+   <value>4</value>
+   <derived>false</derived>
+   <enabled>false</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="fsamp">
+   <type>double</type>
+   <value>50.0</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="REQ_OUT_WIDTH">
+  <parameter name="freq_out">
+   <type>double</type>
+   <value>7.1</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="phi_inc">
+   <type>long</type>
+   <value>595591</value>
+   <derived>true</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="real_freq_out">
+   <type>double</type>
+   <value>7.1</value>
+   <derived>true</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="want_freq_mod">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="aprf">
+   <type>int</type>
+   <value>32</value>
+   <derived>false</derived>
+   <enabled>false</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="fmod_pipe">
+   <type>int</type>
+   <value>1</value>
+   <derived>false</derived>
+   <enabled>false</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="want_phase_mod">
+   <type>boolean</type>
+   <value>false</value>
+   <derived>false</derived>
+   <enabled>true</enabled>
+   <visible>true</visible>
+   <valid>true</valid>
+  </parameter>
+  <parameter name="aprp">
    <type>int</type>
    <value>16</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="OUT_WIDTH">
+  <parameter name="pmod_pipe">
    <type>int</type>
-   <value>16</value>
-   <derived>true</derived>
+   <value>1</value>
+   <derived>false</derived>
    <enabled>false</enabled>
-   <visible>false</visible>
+   <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <parameter name="INT_USE_MEM">
+  <parameter name="hyper_opt">
    <type>boolean</type>
    <value>false</value>
-   <derived>true</derived>
-   <enabled>false</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="INT_MEM">
-   <type>java.lang.String</type>
-   <value>auto</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="REQ_INT_MEM">
-   <type>java.lang.String</type>
-   <value>logic_element</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="DIF_USE_MEM">
-   <type>boolean</type>
-   <value>false</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="DIF_MEM">
-   <type>java.lang.String</type>
-   <value>auto</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="REQ_DIF_MEM">
-   <type>java.lang.String</type>
-   <value>logic_element</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="REQ_PIPELINE">
-   <type>int</type>
-   <value>0</value>
-   <derived>false</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="PIPELINING">
-   <type>int</type>
-   <value>0</value>
-   <derived>true</derived>
-   <enabled>false</enabled>
-   <visible>true</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_0_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_0_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_1_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_1_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_2_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_2_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_3_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_3_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_4_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_4_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_5_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_5_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_6_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_6_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_7_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_7_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_8_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_8_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_9_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_9_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_10_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_10_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="C_STAGE_11_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="I_STAGE_11_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="MAX_I_STAGE_WIDTH">
-   <type>int</type>
-   <value>62</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="MAX_C_STAGE_WIDTH">
-   <type>int</type>
-   <value>62</value>
    <derived>true</derived>
    <enabled>true</enabled>
    <visible>false</visible>
    <valid>true</valid>
   </parameter>
   <parameter name="hyper_opt_select">
-   <type>int</type>
-   <value>0</value>
+   <type>boolean</type>
+   <value>false</value>
    <derived>false</derived>
    <enabled>true</enabled>
-   <visible>false</visible>
-   <valid>true</valid>
-  </parameter>
-  <parameter name="hyper_opt">
-   <type>int</type>
-   <value>0</value>
-   <derived>true</derived>
-   <enabled>true</enabled>
-   <visible>false</visible>
+   <visible>true</visible>
    <valid>true</valid>
   </parameter>
   <parameter name="deviceFamily">
@@ -548,7 +332,7 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <interface name="clock" kind="clock_sink" version="17.1">
+  <interface name="clk" kind="clock_sink" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -593,13 +377,13 @@ parameters are a RESULT of the module parameters. -->
     <role>clk</role>
    </port>
   </interface>
-  <interface name="reset" kind="reset_sink" version="17.1">
+  <interface name="rst" kind="reset_sink" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock</value>
+    <value>clk</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -638,13 +422,13 @@ parameters are a RESULT of the module parameters. -->
     <role>reset_n</role>
    </port>
   </interface>
-  <interface name="av_st_in" kind="conduit_end" version="17.1">
+  <interface name="in" kind="conduit_end" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock</value>
+    <value>clk</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -652,7 +436,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedReset">
     <type>java.lang.String</type>
-    <value>reset</value>
+    <value>rst</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -677,31 +461,19 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>in_error</name>
-    <direction>Input</direction>
-    <width>2</width>
-    <role>error</role>
-   </port>
-   <port>
-    <name>in_valid</name>
+    <name>clken</name>
     <direction>Input</direction>
     <width>1</width>
-    <role>valid</role>
+    <role>clken</role>
    </port>
    <port>
-    <name>in_ready</name>
-    <direction>Output</direction>
-    <width>1</width>
-    <role>ready</role>
-   </port>
-   <port>
-    <name>in_data</name>
+    <name>phi_inc_i</name>
     <direction>Input</direction>
-    <width>16</width>
-    <role>in_data</role>
+    <width>22</width>
+    <role>phi_inc_i</role>
    </port>
   </interface>
-  <interface name="av_st_out" kind="conduit_end" version="17.1">
+  <interface name="out" kind="conduit_end" version="17.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -711,7 +483,7 @@ parameters are a RESULT of the module parameters. -->
    </assignment>
    <parameter name="associatedClock">
     <type>java.lang.String</type>
-    <value>clock</value>
+    <value>clk</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -719,7 +491,7 @@ parameters are a RESULT of the module parameters. -->
    </parameter>
    <parameter name="associatedReset">
     <type>java.lang.String</type>
-    <value>reset</value>
+    <value>rst</value>
     <derived>false</derived>
     <enabled>true</enabled>
     <visible>true</visible>
@@ -744,37 +516,31 @@ parameters are a RESULT of the module parameters. -->
    <type>conduit</type>
    <isStart>false</isStart>
    <port>
-    <name>out_data</name>
+    <name>fsin_o</name>
     <direction>Output</direction>
     <width>16</width>
-    <role>out_data</role>
+    <role>fsin_o</role>
    </port>
    <port>
-    <name>out_error</name>
+    <name>fcos_o</name>
     <direction>Output</direction>
-    <width>2</width>
-    <role>error</role>
+    <width>16</width>
+    <role>fcos_o</role>
    </port>
    <port>
     <name>out_valid</name>
     <direction>Output</direction>
     <width>1</width>
-    <role>valid</role>
-   </port>
-   <port>
-    <name>out_ready</name>
-    <direction>Input</direction>
-    <width>1</width>
-    <role>ready</role>
+    <role>out_valid</role>
    </port>
   </interface>
  </module>
  <plugin>
   <instanceCount>1</instanceCount>
-  <name>altera_cic_ii</name>
+  <name>altera_nco_ii</name>
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
-  <displayName>CIC</displayName>
+  <displayName>NCO</displayName>
   <version>17.1</version>
  </plugin>
  <plugin>
