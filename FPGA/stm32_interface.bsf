@@ -66,6 +66,13 @@ refer to the applicable agreement for further details.
 		(line (pt 0 112)(pt 16 112)(line_width 1))
 	)
 	(port
+		(pt 0 128)
+		(input)
+		(text "DAC_OTR" (rect 0 0 49 12)(font "Arial" ))
+		(text "DAC_OTR" (rect 21 123 70 135)(font "Arial" ))
+		(line (pt 0 128)(pt 16 128)(line_width 1))
+	)
+	(port
 		(pt 240 32)
 		(output)
 		(text "DATA_OUT[3..0]" (rect 0 0 75 12)(font "Arial" ))

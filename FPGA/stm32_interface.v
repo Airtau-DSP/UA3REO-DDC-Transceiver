@@ -5,6 +5,7 @@ Q,
 DATA_IN,
 DATA_SYNC,
 ADC_OTR,
+DAC_OTR,
 
 DATA_OUT,
 freq_out,
@@ -23,6 +24,7 @@ input signed [15:0] Q;
 input [3:0] DATA_IN;
 input DATA_SYNC;
 input ADC_OTR;
+input DAC_OTR;
 
 output reg [3:0] DATA_OUT;
 output reg unsigned [21:0] freq_out=620407;
@@ -123,7 +125,7 @@ begin
 	begin
 		DATA_OUT[3:3]=0;
 		DATA_OUT[2:2]=0;
-		DATA_OUT[1:1]=0;
+		DATA_OUT[1:1]=DAC_OTR;
 		DATA_OUT[0:0]=ADC_OTR;
 		k=999;
 	end

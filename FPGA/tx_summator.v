@@ -41,30 +41,34 @@ module tx_summator (
 	clock,
 	dataa,
 	datab,
+	overflow,
 	result);
 
 	input	  clken;
 	input	  clock;
-	input	[13:0]  dataa;
-	input	[13:0]  datab;
-	output	[13:0]  result;
+	input	[31:0]  dataa;
+	input	[31:0]  datab;
+	output	  overflow;
+	output	[31:0]  result;
 
-	wire [13:0] sub_wire0;
-	wire [13:0] result = sub_wire0[13:0];
+	wire  sub_wire0;
+	wire [31:0] sub_wire1;
+	wire  overflow = sub_wire0;
+	wire [31:0] result = sub_wire1[31:0];
 
 	lpm_add_sub	LPM_ADD_SUB_component (
 				.clken (clken),
 				.clock (clock),
 				.dataa (dataa),
 				.datab (datab),
-				.result (sub_wire0)
+				.overflow (sub_wire0),
+				.result (sub_wire1)
 				// synopsys translate_off
 				,
 				.aclr (),
 				.add_sub (),
 				.cin (),
-				.cout (),
-				.overflow ()
+				.cout ()
 				// synopsys translate_on
 				);
 	defparam
@@ -73,7 +77,7 @@ module tx_summator (
 		LPM_ADD_SUB_component.lpm_pipeline = 1,
 		LPM_ADD_SUB_component.lpm_representation = "SIGNED",
 		LPM_ADD_SUB_component.lpm_type = "LPM_ADD_SUB",
-		LPM_ADD_SUB_component.lpm_width = 14;
+		LPM_ADD_SUB_component.lpm_width = 32;
 
 
 endmodule
@@ -89,7 +93,7 @@ endmodule
 // Retrieval info: PRIVATE: INTENDED_DEVICE_FAMILY STRING "Cyclone IV E"
 // Retrieval info: PRIVATE: LPM_PIPELINE NUMERIC "1"
 // Retrieval info: PRIVATE: Latency NUMERIC "1"
-// Retrieval info: PRIVATE: Overflow NUMERIC "0"
+// Retrieval info: PRIVATE: Overflow NUMERIC "1"
 // Retrieval info: PRIVATE: RadixA NUMERIC "10"
 // Retrieval info: PRIVATE: RadixB NUMERIC "10"
 // Retrieval info: PRIVATE: Representation NUMERIC "0"
@@ -99,7 +103,7 @@ endmodule
 // Retrieval info: PRIVATE: WhichConstant NUMERIC "0"
 // Retrieval info: PRIVATE: aclr NUMERIC "0"
 // Retrieval info: PRIVATE: clken NUMERIC "1"
-// Retrieval info: PRIVATE: nBit NUMERIC "14"
+// Retrieval info: PRIVATE: nBit NUMERIC "32"
 // Retrieval info: PRIVATE: new_diagram STRING "1"
 // Retrieval info: LIBRARY: lpm lpm.lpm_components.all
 // Retrieval info: CONSTANT: LPM_DIRECTION STRING "ADD"
@@ -107,17 +111,19 @@ endmodule
 // Retrieval info: CONSTANT: LPM_PIPELINE NUMERIC "1"
 // Retrieval info: CONSTANT: LPM_REPRESENTATION STRING "SIGNED"
 // Retrieval info: CONSTANT: LPM_TYPE STRING "LPM_ADD_SUB"
-// Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "14"
+// Retrieval info: CONSTANT: LPM_WIDTH NUMERIC "32"
 // Retrieval info: USED_PORT: clken 0 0 0 0 INPUT NODEFVAL "clken"
 // Retrieval info: USED_PORT: clock 0 0 0 0 INPUT NODEFVAL "clock"
-// Retrieval info: USED_PORT: dataa 0 0 14 0 INPUT NODEFVAL "dataa[13..0]"
-// Retrieval info: USED_PORT: datab 0 0 14 0 INPUT NODEFVAL "datab[13..0]"
-// Retrieval info: USED_PORT: result 0 0 14 0 OUTPUT NODEFVAL "result[13..0]"
+// Retrieval info: USED_PORT: dataa 0 0 32 0 INPUT NODEFVAL "dataa[31..0]"
+// Retrieval info: USED_PORT: datab 0 0 32 0 INPUT NODEFVAL "datab[31..0]"
+// Retrieval info: USED_PORT: overflow 0 0 0 0 OUTPUT NODEFVAL "overflow"
+// Retrieval info: USED_PORT: result 0 0 32 0 OUTPUT NODEFVAL "result[31..0]"
 // Retrieval info: CONNECT: @clken 0 0 0 0 clken 0 0 0 0
 // Retrieval info: CONNECT: @clock 0 0 0 0 clock 0 0 0 0
-// Retrieval info: CONNECT: @dataa 0 0 14 0 dataa 0 0 14 0
-// Retrieval info: CONNECT: @datab 0 0 14 0 datab 0 0 14 0
-// Retrieval info: CONNECT: result 0 0 14 0 @result 0 0 14 0
+// Retrieval info: CONNECT: @dataa 0 0 32 0 dataa 0 0 32 0
+// Retrieval info: CONNECT: @datab 0 0 32 0 datab 0 0 32 0
+// Retrieval info: CONNECT: overflow 0 0 0 0 @overflow 0 0 0 0
+// Retrieval info: CONNECT: result 0 0 32 0 @result 0 0 32 0
 // Retrieval info: GEN_FILE: TYPE_NORMAL tx_summator.v TRUE
 // Retrieval info: GEN_FILE: TYPE_NORMAL tx_summator.inc FALSE
 // Retrieval info: GEN_FILE: TYPE_NORMAL tx_summator.cmp FALSE
