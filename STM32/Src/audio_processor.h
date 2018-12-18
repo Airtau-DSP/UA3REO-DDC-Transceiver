@@ -33,5 +33,7 @@ extern uint16_t fpga_index_copy;
 extern float32_t Processor_AVG_amplitude;
 extern float32_t Processor_TX_MAX_amplitude;
 extern float32_t ALC_need_gain;
+extern float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
+extern float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
 
 #endif

@@ -8,7 +8,7 @@
 #include "wm8731.h"
 
 uint16_t FPGA_fpgadata_in_tmp16 = 0;
-uint16_t FPGA_fpgadata_out_tmp16 = 0;
+int16_t FPGA_fpgadata_out_tmp16 = 0;
 int16_t FPGA_fpgadata_in_inttmp16 = 0;
 uint8_t FPGA_fpgadata_in_tmp8 = 0;
 uint8_t FPGA_fpgadata_out_tmp8 = 0;
@@ -265,6 +265,7 @@ void FPGA_fpgadata_getparam(void)
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	TRX_ADC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 0);
+	TRX_DAC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 1);
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 }
@@ -374,8 +375,6 @@ void FPGA_fpgadata_sendiq(void)
 	
 	//STAGE 2 out Q
 	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] * 32767.0f;
-	if (TRX_tune) FPGA_fpgadata_out_tmp16 = TUNE_AMPLITUDE;
-	//if(FPGA_fpgadata_out_tmp16>1) logToUART1_int16(FPGA_fpgadata_out_tmp16);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -405,8 +404,6 @@ void FPGA_fpgadata_sendiq(void)
 
 	//STAGE 6 out I
 	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] * 32767.0f;
-	if (TRX_tune) FPGA_fpgadata_out_tmp16 = TUNE_AMPLITUDE;
-	//if(FPGA_fpgadata_out_tmp16>1) logToUART1_int16(FPGA_fpgadata_out_tmp16);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;

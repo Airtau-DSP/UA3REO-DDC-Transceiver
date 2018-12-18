@@ -50,18 +50,26 @@ void processTxAudio(void)
 
 	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 	{
-		FPGA_Audio_Buffer_I_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2]) / 32767.0f;
-		FPGA_Audio_Buffer_Q_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2 + 1]) / 32767.0f;
+		if (TRX_tune)
+		{
+			FPGA_Audio_Buffer_Q_tmp[i] = TRX.RF_Power/100.0f;
+			FPGA_Audio_Buffer_I_tmp[i] = TRX.RF_Power/200.0f;
+		}
+		else
+		{
+			FPGA_Audio_Buffer_I_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2]) / 32767.0f;
+			FPGA_Audio_Buffer_Q_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2 + 1]) / 32767.0f;
+		}
 	}
-
-	if (TRX_getMode() != TRX_MODE_IQ)
+	
+	if (TRX_getMode() != TRX_MODE_IQ && !TRX_tune)
 	{
 		for (block = 0; block < numBlocks; block++)
 			arm_iir_lattice_f32(&IIR_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE); //IIR LPF
 		memcpy(&FPGA_Audio_Buffer_Q_tmp[0], &FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE * 4); //double channel
 	}
 	
-	if (TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U)
+	if ((TRX_getMode() == TRX_MODE_LSB || TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_DIGI_L || TRX_getMode() == TRX_MODE_DIGI_U) && !TRX_tune)
 	{
 		switch (TRX_getMode())
 		{
@@ -86,14 +94,14 @@ void processTxAudio(void)
 		}
 	}
 
-	if (TRX.Mute)
+	if (TRX.Mute && !TRX_tune)
 	{
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, 0, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, 0, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	}
 
 	//Loopback mode
-	if (TRX_getMode() == TRX_MODE_LOOPBACK)
+	if (TRX_getMode() == TRX_MODE_LOOPBACK && !TRX_tune)
 	{
 		//OUT Volume
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume / 50.0f, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
@@ -128,10 +136,10 @@ void processTxAudio(void)
 		}
 		selected_rfpower_amplitude=TRX.RF_Power/100.0f;
 		float32_t ALC_need_gain_new=selected_rfpower_amplitude/Processor_TX_MAX_amplitude;
-		if(ALC_need_gain_new<ALC_need_gain)
-			ALC_need_gain=ALC_need_gain_new;
+		if(ALC_need_gain_new>ALC_need_gain)
+				ALC_need_gain+=RF_AGC_UP_STEPSIZE;
 		else
-			ALC_need_gain+=RF_AGC_UP_STEPSIZE;
+				ALC_need_gain=ALC_need_gain_new;
 		
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, ALC_need_gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, ALC_need_gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
