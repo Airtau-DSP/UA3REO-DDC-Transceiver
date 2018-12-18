@@ -211,7 +211,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_agc_wdsp_action && TRX.Agc && (TRX.Mode == TRX_MODE_LSB || TRX.Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
-	if (TRX_ADC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
+	if (TRX_ADC_OTR || TRX_DAC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_ptt && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && (TRX_ptt || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 

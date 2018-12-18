@@ -28,6 +28,7 @@ extern bool TRX_inited;
 extern int32_t TRX_s_meter;
 extern bool TRX_agc_wdsp_action;
 extern bool TRX_ADC_OTR;
+extern bool TRX_DAC_OTR;
 extern char *MODE_DESCR[10];
 
 #endif

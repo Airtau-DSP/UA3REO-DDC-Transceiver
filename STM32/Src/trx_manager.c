@@ -17,6 +17,7 @@ bool TRX_inited = false;
 int32_t TRX_s_meter = 1;
 bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
+bool TRX_DAC_OTR = 0;
 
 char *MODE_DESCR[10] = {
 	"LSB",
