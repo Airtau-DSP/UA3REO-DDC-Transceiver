@@ -52,8 +52,8 @@ void processTxAudio(void)
 	{
 		if (TRX_tune)
 		{
-			FPGA_Audio_Buffer_Q_tmp[i] = TRX.RF_Power/100.0f;
-			FPGA_Audio_Buffer_I_tmp[i] = TRX.RF_Power/200.0f;
+			FPGA_Audio_Buffer_Q_tmp[i] = TRX.RF_Power/200.0f;
+			FPGA_Audio_Buffer_I_tmp[i] = TRX.RF_Power/100.0f;
 		}
 		else
 		{

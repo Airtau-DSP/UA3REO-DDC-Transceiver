@@ -3442,10 +3442,6 @@ refer to the applicable agreement for further details.
 	(pt 712 -88)
 )
 (connector
-	(pt 712 -88)
-	(pt 712 -32)
-)
-(connector
 	(pt 464 -32)
 	(pt 712 -32)
 )
@@ -3543,11 +3539,6 @@ refer to the applicable agreement for further details.
 	(pt 480 -40)
 )
 (connector
-	(pt 792 -448)
-	(pt 792 -256)
-	(bus)
-)
-(connector
 	(pt 192 -256)
 	(pt 240 -256)
 	(bus)
@@ -3590,6 +3581,23 @@ refer to the applicable agreement for further details.
 	(pt -240 -264)
 	(bus)
 )
+(connector
+	(pt 792 -448)
+	(pt 792 -256)
+	(bus)
+)
+(connector
+	(pt 704 -232)
+	(pt 712 -232)
+)
+(connector
+	(pt 712 -232)
+	(pt 712 -88)
+)
+(connector
+	(pt 712 -88)
+	(pt 712 -32)
+)
 (junction (pt 376 120))
 (junction (pt 776 136))
 (junction (pt 424 288))
@@ -3625,3 +3633,4 @@ refer to the applicable agreement for further details.
 (junction (pt 712 -32))
 (junction (pt 424 -120))
 (junction (pt 440 -136))
+(junction (pt 712 -88))

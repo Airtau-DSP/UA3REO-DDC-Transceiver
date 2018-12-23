@@ -14,7 +14,7 @@ reg signed [13:0] tmp2=0;
 always @ (posedge clk_in)
 begin
 	tmp1=DATA_IN*2;
-	tmp2={DATA_IN[31],tmp1[30:18]};
+	tmp2={DATA_IN[31],tmp1[31:19]};
 	DATA_OUT=tmp2+8191;
 end
 
