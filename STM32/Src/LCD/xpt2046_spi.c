@@ -116,16 +116,7 @@ void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 	bx = _bx;
 	ay = _ay;
 	by = _by;
-
-	if (ax > 30) ax = 30;
-	if (ax < -30) ax = -30;
-	if (bx > 30) bx = 30;
-	if (bx < -30) bx = -30;
-	if (ay > 30) ay = 30;
-	if (ay < -30) ay = -30;
-	if (by > 400) by = 400;
-	if (by < 200) by = 200;
-
+	
 	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
 	logToUART1_str(dest);
 }
@@ -246,20 +237,35 @@ void Touch_Calibrate(void)
 	ayc[0] = (float)(yPos[3] - yPos[0]) / (yCenter[3] - yCenter[0]);
 	byc[0] = yCenter[0] - yPos[0] / ayc[0];
 
-	/*axc[1] = (float)(xPos[2] - xPos[1])/(xCenter[2] - xCenter[1]);
-	bxc[1] = xCenter[1] - xPos[1]/axc[1];
-	ayc[1] = (float)(yPos[2] - yPos[1])/(yCenter[2] - yCenter[1]);
-	byc[1] = yCenter[1] - yPos[1]/ayc[1];*/
-
 	// Сохранить коэффициенты
+	float tmp_ax = ax;
+	int16_t tmp_bx = bx;
+	float tmp_ay = ay;
+	int16_t tmp_by = by;
 	Touch_Set_Coef(axc[0], bxc[0], ayc[0], byc[0]);
-	TRX.Touchpad_ax = axc[0];
-	TRX.Touchpad_bx = bxc[0];
-	TRX.Touchpad_ay = ayc[0];
-	TRX.Touchpad_by = byc[0];
-	SaveSettings();
-
+	// Сохранить в память
 	ILI9341_Fill(COLOR_WHITE);
-	ILI9341_printText("Callibration_End", 50, 100, 0xFFE0, 0x0000, 2);
+	ILI9341_printText("Save settings?", 50, 100, 0xFFE0, 0x0000, 2);
+	ILI9341_Fill_RectWH(60,135,60,40,COLOR_DGREEN);
+	ILI9341_printText("YES", 70, 150, COLOR_BLACK, COLOR_DGREEN, 2);
+	ILI9341_Fill_RectWH(180,135,60,40,COLOR_RED);
+	ILI9341_printText("NO", 200, 150, COLOR_BLACK, COLOR_RED, 2);
+	while (!isTouch());
+	Get_Touch_XY(&x, &y, 1, 0);
+	ILI9341_Fill(COLOR_WHITE);
+	if (x >= 60 && x <= 120 && y>=135 && y<=175)
+	{
+		TRX.Touchpad_ax = axc[0];
+		TRX.Touchpad_bx = bxc[0];
+		TRX.Touchpad_ay = ayc[0];
+		TRX.Touchpad_by = byc[0];
+		SaveSettings();
+		ILI9341_printText("Saved", 50, 100, 0xFFE0, 0x0000, 2);
+	}
+	else
+	{
+		Touch_Set_Coef(tmp_ax, tmp_bx, tmp_ay, tmp_by);
+		ILI9341_printText("Cancelled", 50, 100, 0xFFE0, 0x0000, 2);
+	}
 	HAL_Delay(1000);	// 1 sec
 }
