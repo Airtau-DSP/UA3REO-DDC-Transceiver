@@ -29,6 +29,7 @@ uint8_t HELPER_getBPFfromFreq(uint32_t freq)
 
 void HELPER_updateSettings(void)
 {
+	if(!HELPER_ENABLED) return;
 	if(!TRX_ptt && !TRX_tune)
 	{
 		HELPER_setAMP_POWER(false);

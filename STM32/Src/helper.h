@@ -4,7 +4,7 @@
 #include "stm32f4xx_hal.h"
 #include <stdbool.h>
 
-#define HELPER_ENABLED 1
+#define HELPER_ENABLED 0
 
 extern UART_HandleTypeDef huart6;
 
