@@ -35,7 +35,61 @@ char *MODE_DESCR[10] = {
 void TRX_Init()
 {
 	TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
-	start_i2s();
+	TRX_Start_RX();
+}
+
+void TRX_Restart_Mode()
+{
+	if (TRX_ptt)
+	{
+		TRX_Start_TX();
+	}
+	else
+	{
+		if (TRX_getMode() == TRX_MODE_LOOPBACK)
+		{
+			TRX_Start_Loopback();
+		}
+		else
+		{
+			TRX_Start_RX();
+		}
+	}
+}
+
+void TRX_Start_RX()
+{
+	logToUART1_str("RX MODE\r\n");
+	TRX_ptt = false;
+	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
+	Processor_NeedBuffer=true;
+	FPGA_Audio_Buffer_Index=0;
+	WM8731_Buffer_underrun=false;
+	WM8731_DMA_state = true;
+	WM8731_RX_mode();
+	start_i2s_and_dma();
+}
+
+void TRX_Start_TX()
+{
+	logToUART1_str("TX MODE\r\n");
+	TRX_ptt = true;
+	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
+	Processor_NeedBuffer=true;
+	FPGA_Audio_Buffer_Index=0;
+	FPGA_Buffer_underrun=false;
+	FPGA_Audio_Buffer_State = true;
+	WM8731_TX_mode();
+	start_i2s_and_dma();
+}
+
+void TRX_Start_Loopback()
+{
+	logToUART1_str("LOOP MODE\r\n");
+	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
+	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
+	WM8731_TXRX_mode();
+	start_i2s_and_dma();
 }
 
 void TRX_ptt_change()
@@ -47,7 +101,7 @@ void TRX_ptt_change()
 		TRX_ptt = TRX_new_ptt;
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
-		start_i2s();
+		TRX_Restart_Mode();
 		HELPER_updateSettings();
 	}
 }
@@ -95,7 +149,7 @@ void TRX_setMode(uint8_t _mode)
 	if (TRX.Mode == TRX_MODE_LOOPBACK || _mode == TRX_MODE_LOOPBACK)
 	{
 		TRX.Mode = _mode;
-		start_i2s();
+		TRX_Start_Loopback();
 	}
 	else
 	{

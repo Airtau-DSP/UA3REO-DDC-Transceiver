@@ -274,7 +274,7 @@ void LCD_Handler_TUNE(void)
 	LCD_displayStatusInfoGUI();
 	LCD_displayTopButtons(false);
 	NeedSaveSettings = true;
-	start_i2s();
+	TRX_Restart_Mode();
 }
 
 void LCD_Handler_MODE(void)
@@ -559,7 +559,7 @@ void LCD_Handler_MENU_MAP(void)
 void LCD_Handler_MENU_LINEMIC(void)
 {
 	TRX.LineMicIn = !TRX.LineMicIn;
-	start_i2s();
+	TRX_Restart_Mode();
 	LCD_needRedrawMainMenu = true;
 	NeedSaveSettings = true;
 }

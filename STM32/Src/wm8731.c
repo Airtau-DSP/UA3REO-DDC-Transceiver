@@ -13,26 +13,8 @@ uint32_t WM8731_DMA_samples = 0;
 bool WM8731_DMA_state = true; //true - compleate ; false - half
 bool WM8731_Buffer_underrun = false;
 
-void start_i2s(void)
+void start_i2s_and_dma(void)
 {
-	if (TRX_ptt)
-	{
-		logToUART1_str("TX MODE\r\n");
-		WM8731_TX_mode();
-	}
-	else
-	{
-		if (TRX_getMode() == TRX_MODE_LOOPBACK)
-		{
-			logToUART1_str("LOOP MODE\r\n");
-			WM8731_TXRX_mode();
-		}
-		else
-		{
-			logToUART1_str("RX MODE\r\n");
-			WM8731_RX_mode();
-		}
-	}
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
 	{
 		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer_RX[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], CODEC_AUDIO_BUFFER_SIZE);

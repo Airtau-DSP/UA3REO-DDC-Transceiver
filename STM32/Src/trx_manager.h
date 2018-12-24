@@ -21,6 +21,10 @@ int32_t TRX_getFrequency(void);
 void TRX_setMode(uint8_t _mode);
 uint8_t TRX_getMode(void);
 void TRX_ptt_change(void);
+void TRX_Start_RX(void);
+void TRX_Start_TX(void);
+void TRX_Start_Loopback(void);
+void TRX_Restart_Mode(void);
 
 extern bool TRX_ptt;
 extern bool TRX_tune;
