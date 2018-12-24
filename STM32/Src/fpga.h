@@ -7,7 +7,7 @@
 #include "audio_processor.h"
 
 #define ADCDAC_CLOCK 50000000
-#define MAX_TX_AMPLITUDE 32767.0f // 40% of 32767, less harmonics
+#define MAX_TX_AMPLITUDE 32767.0f
 #define TUNE_AMPLITUDE MAX_TX_AMPLITUDE
 
 void FPGA_Init(void);
@@ -22,6 +22,8 @@ extern bool FPGA_Buffer_underrun;
 
 extern float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE];
 extern uint16_t FPGA_Audio_Buffer_Index;
 extern bool FPGA_Audio_Buffer_State;
 

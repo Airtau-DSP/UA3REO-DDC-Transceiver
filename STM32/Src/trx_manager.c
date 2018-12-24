@@ -61,7 +61,7 @@ void TRX_Start_RX()
 {
 	logToUART1_str("RX MODE\r\n");
 	TRX_ptt = false;
-	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
+	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	Processor_NeedBuffer=true;
 	FPGA_Audio_Buffer_Index=0;
 	WM8731_Buffer_underrun=false;
@@ -74,12 +74,8 @@ void TRX_Start_TX()
 {
 	logToUART1_str("TX MODE\r\n");
 	TRX_ptt = true;
-	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
-	Processor_NeedBuffer=true;
-	FPGA_Audio_Buffer_Index=0;
-	FPGA_Buffer_underrun=false;
-	FPGA_Audio_Buffer_State = true;
-	processTxAudio();
+	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
+	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	WM8731_TX_mode();
 	start_i2s_and_dma();
 }
@@ -87,8 +83,8 @@ void TRX_Start_TX()
 void TRX_Start_Loopback()
 {
 	logToUART1_str("LOOP MODE\r\n");
-	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
-	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE);
+	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
+	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	WM8731_TXRX_mode();
 	start_i2s_and_dma();
 }

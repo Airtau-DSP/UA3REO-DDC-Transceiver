@@ -20,6 +20,8 @@ uint32_t FPGA_samples = 0;
 
 float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
+float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
+float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 uint16_t FPGA_Audio_Buffer_Index = 0;
 bool FPGA_Audio_Buffer_State = true; //true - compleate ; false - half
 
@@ -374,7 +376,7 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_samples++;
 	
 	//STAGE 2 out Q
-	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] * MAX_TX_AMPLITUDE;
+	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_SendBuffer_Q[FPGA_Audio_Buffer_Index] * MAX_TX_AMPLITUDE;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
@@ -403,7 +405,7 @@ void FPGA_fpgadata_sendiq(void)
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 
 	//STAGE 6 out I
-	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] * MAX_TX_AMPLITUDE;
+	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_SendBuffer_I[FPGA_Audio_Buffer_Index] * MAX_TX_AMPLITUDE;
 	FPGA_writePacket(FPGA_fpgadata_out_tmp16 >> 12);
 	//clock
 	GPIOC->BSRR = FPGA_CLK_Pin;
