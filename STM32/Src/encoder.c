@@ -69,12 +69,6 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			if (TRX.Volume > 200) TRX.Volume = 200;
 			LCD_needRedrawMainMenu = true;
 			break;
-		case MENU_MAIN_MICGAIN:
-			TRX.MicGain_level = TRX.MicGain_level + direction;
-			if (TRX.MicGain_level < 1) TRX.MicGain_level = 1;
-			if (TRX.MicGain_level > 99) TRX.MicGain_level = 99;
-			LCD_needRedrawMainMenu = true;
-			break;
 		case MENU_MAIN_RF_POWER:
 			TRX.RF_Power = TRX.RF_Power + direction;
 			if (TRX.RF_Power < 1) TRX.RF_Power = 1;

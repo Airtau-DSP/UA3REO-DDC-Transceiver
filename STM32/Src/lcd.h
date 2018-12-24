@@ -13,9 +13,8 @@
 
 #define MENU_MAIN_EXIT 1
 #define MENU_MAIN_VOLUME 2
-#define MENU_MAIN_MICGAIN 3
-#define MENU_MAIN_AGCSPEED 4
-#define MENU_MAIN_RF_POWER 5
+#define MENU_MAIN_AGCSPEED 3
+#define MENU_MAIN_RF_POWER 4
 
 #define TOUCHPAD_DELAY 100 //anti-bounce
 
@@ -89,7 +88,6 @@ void LCD_Handler_MODE_AM(void);
 void LCD_Handler_MODE_LOOP(void);
 void LCD_Handler_MENU_BACK(void);
 void LCD_Handler_MENU_VOLUME(void);
-void LCD_Handler_MENU_MIC_G(void);
 void LCD_Handler_MENU_RF_POWER(void);
 void LCD_Handler_MENU_AGC_S(void);
 void LCD_Handler_LCD_Calibrate(void);

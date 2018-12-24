@@ -32,7 +32,6 @@ void LoadSettings(void)
 		TRX.Agc = true;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
-		TRX.MicGain_level = 2;
 		TRX.BandMapEnabled = true;
 		TRX.Touchpad_ax = 11.096;
 		TRX.Touchpad_bx = -32;

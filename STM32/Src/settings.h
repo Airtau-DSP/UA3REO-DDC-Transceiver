@@ -21,7 +21,6 @@ extern struct TRX_SETTINGS {
 	bool Agc;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
-	uint8_t MicGain_level;
 	bool BandMapEnabled;
 	float Touchpad_ax;
 	int16_t Touchpad_bx;
