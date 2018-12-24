@@ -46,6 +46,7 @@ void PrintProfilerResult()
 				logToUART1_numinline(i);
 				logToUART1_str(": ");
 				logToUART1_num32(profiles[i].diff);
+				profiles[i].samples=0;
 				printed=true;
 			}
 	if(printed)

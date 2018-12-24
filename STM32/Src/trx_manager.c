@@ -79,6 +79,7 @@ void TRX_Start_TX()
 	FPGA_Audio_Buffer_Index=0;
 	FPGA_Buffer_underrun=false;
 	FPGA_Audio_Buffer_State = true;
+	processTxAudio();
 	WM8731_TX_mode();
 	start_i2s_and_dma();
 }

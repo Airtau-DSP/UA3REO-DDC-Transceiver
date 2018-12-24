@@ -12,6 +12,7 @@
 #include "audio_filters.h"
 #include "agc.h"
 #include "settings.h"
+#include "profiler.h"
 
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;
@@ -41,6 +42,7 @@ void initAudioProcessor(void)
 void processTxAudio(void)
 {
 	if (!Processor_NeedBuffer) return;
+	AUDIOPROC_samples++;
 
 	if (WM8731_DMA_state) //compleate
 		readHalfFromCircleBufferU32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], CODEC_AUDIO_BUFFER_SIZE / 2, CODEC_AUDIO_BUFFER_SIZE);
@@ -273,5 +275,4 @@ void processRxAudio(void)
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	}
 	Processor_NeedBuffer = false;
-	//logToUART1_str("-");
 }

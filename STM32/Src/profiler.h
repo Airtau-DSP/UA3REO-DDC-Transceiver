@@ -4,7 +4,7 @@
 #include "stm32f4xx_hal.h"
 #include <stdbool.h>
 
-#define PROFILES_COUNT 5
+#define PROFILES_COUNT 7
 
 typedef struct {
 	uint32_t startTime;
