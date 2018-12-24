@@ -2699,6 +2699,22 @@ refer to the applicable agreement for further details.
 	)
 	(flipy)
 )
+(symbol
+	(rect 376 304 392 336)
+	(text "VCC" (rect 0 7 10 27)(font "Arial" (font_size 6))(vertical))
+	(text "VCC_INST10" (rect 0 3 17 63)(font "Intel Clear" )(vertical)(invisible))
+	(port
+		(pt 16 16)
+		(output)
+		(text "1" (rect 19 7 24 19)(font "Courier New" (bold))(invisible))
+		(text "1" (rect 7 19 19 24)(font "Courier New" (bold))(vertical)(invisible))
+		(line (pt 16 16)(pt 8 16))
+	)
+	(drawing
+		(line (pt 8 8)(pt 8 24))
+	)
+	(flipy_rotate90)
+)
 (connector
 	(pt 816 96)
 	(pt 824 96)
@@ -2719,10 +2735,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 424 224)
 	(pt 480 224)
-)
-(connector
-	(pt 472 320)
-	(pt 480 320)
 )
 (connector
 	(pt 768 240)
@@ -2840,10 +2852,6 @@ refer to the applicable agreement for further details.
 	(pt 424 288)
 )
 (connector
-	(pt 480 264)
-	(pt 472 264)
-)
-(connector
 	(pt 376 288)
 	(pt 424 288)
 )
@@ -2903,10 +2911,6 @@ refer to the applicable agreement for further details.
 (connector
 	(pt 1456 744)
 	(pt 1408 744)
-)
-(connector
-	(pt 1112 96)
-	(pt 1112 240)
 )
 (connector
 	(pt 1136 384)
@@ -3128,16 +3132,8 @@ refer to the applicable agreement for further details.
 	(pt 1144 56)
 )
 (connector
-	(pt 1112 240)
-	(pt 1112 432)
-)
-(connector
 	(pt 1168 408)
 	(pt 1144 408)
-)
-(connector
-	(pt 1144 296)
-	(pt 800 296)
 )
 (connector
 	(pt 1144 56)
@@ -3181,10 +3177,6 @@ refer to the applicable agreement for further details.
 	(pt 1728 680)
 	(pt 1728 864)
 	(bus)
-)
-(connector
-	(pt 800 856)
-	(pt 1720 856)
 )
 (connector
 	(pt 1720 712)
@@ -3374,36 +3366,8 @@ refer to the applicable agreement for further details.
 	(pt 472 88)
 )
 (connector
-	(pt 472 88)
-	(pt 472 264)
-)
-(connector
-	(pt 472 264)
-	(pt 472 320)
-)
-(connector
 	(pt 536 504)
 	(pt 472 504)
-)
-(connector
-	(pt 472 544)
-	(pt 800 544)
-)
-(connector
-	(pt 472 320)
-	(pt 472 504)
-)
-(connector
-	(pt 472 504)
-	(pt 472 544)
-)
-(connector
-	(pt 800 512)
-	(pt 800 544)
-)
-(connector
-	(pt 800 544)
-	(pt 800 856)
 )
 (connector
 	(pt 480 -40)
@@ -3598,14 +3562,59 @@ refer to the applicable agreement for further details.
 	(pt 712 -88)
 	(pt 712 -32)
 )
+(connector
+	(pt 1720 856)
+	(pt 472 856)
+)
+(connector
+	(pt 1144 296)
+	(pt 1112 296)
+)
+(connector
+	(pt 1112 296)
+	(pt 800 296)
+)
+(connector
+	(pt 1112 96)
+	(pt 1112 240)
+)
+(connector
+	(pt 1112 240)
+	(pt 1112 296)
+)
+(connector
+	(pt 1112 296)
+	(pt 1112 432)
+)
+(connector
+	(pt 472 88)
+	(pt 472 504)
+)
+(connector
+	(pt 472 504)
+	(pt 472 856)
+)
+(connector
+	(pt 480 264)
+	(pt 464 264)
+)
+(connector
+	(pt 464 264)
+	(pt 464 320)
+)
+(connector
+	(pt 480 320)
+	(pt 464 320)
+)
+(connector
+	(pt 464 320)
+	(pt 392 320)
+)
 (junction (pt 376 120))
 (junction (pt 776 136))
 (junction (pt 424 288))
 (junction (pt 744 256))
-(junction (pt 1112 240))
-(junction (pt 472 320))
 (junction (pt 1112 96))
-(junction (pt 800 512))
 (junction (pt 440 32))
 (junction (pt 808 -152))
 (junction (pt 816 280))
@@ -3625,12 +3634,13 @@ refer to the applicable agreement for further details.
 (junction (pt 472 -456))
 (junction (pt 456 280))
 (junction (pt 480 -136))
-(junction (pt 472 264))
 (junction (pt 472 504))
-(junction (pt 800 544))
 (junction (pt 480 -40))
 (junction (pt 728 -168))
 (junction (pt 712 -32))
 (junction (pt 424 -120))
 (junction (pt 440 -136))
 (junction (pt 712 -88))
+(junction (pt 1112 296))
+(junction (pt 1112 240))
+(junction (pt 464 320))

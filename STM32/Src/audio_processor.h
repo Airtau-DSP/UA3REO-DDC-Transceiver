@@ -29,6 +29,8 @@ extern uint8_t Processor_AudioBuffer_ReadyBuffer;
 extern bool Processor_NeedBuffer;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream3;
 extern uint16_t fpga_index_copy;
 extern float32_t Processor_AVG_amplitude;
 extern float32_t Processor_TX_MAX_amplitude;
