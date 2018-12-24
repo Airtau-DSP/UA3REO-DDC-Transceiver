@@ -46,6 +46,7 @@
 #include "settings.h"
 #include "fpga.h"
 #include "helper.h"
+#include "profiler.h"
 
 uint32_t ms100_counter = 0;
 
@@ -342,6 +343,7 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms100_counter++;
 	FFT_printFFT();
+	
 	if (NeedSaveSettings)
 	{
 		FPGA_NeedSendParams = true;
@@ -350,6 +352,7 @@ void TIM6_DAC_IRQHandler(void)
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
+		PrintProfilerResult();
 		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
 		//logToUART1_str("\r\n");

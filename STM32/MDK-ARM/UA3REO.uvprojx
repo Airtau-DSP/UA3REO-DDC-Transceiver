@@ -557,6 +557,16 @@
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
             </File>
+            <File>
+              <FileName>profiler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\profiler.c</FilePath>
+            </File>
+            <File>
+              <FileName>profiler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\profiler.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

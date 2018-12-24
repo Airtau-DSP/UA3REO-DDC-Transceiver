@@ -53,6 +53,7 @@
 #include "wm8731.h"
 #include "audio_processor.h"
 #include "settings.h"
+#include "profiler.h"
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -142,6 +143,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 	HAL_Delay(100);
+	InitProfiler();
 	logToUART1_str("\r\n");
 	LoadSettings();
 	LCD_Init();
