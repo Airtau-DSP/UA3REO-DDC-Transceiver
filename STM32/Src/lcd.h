@@ -42,6 +42,7 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 extern uint32_t LCD_last_showed_freq;
 extern uint8_t LCD_menu_main_index;
 extern bool LCD_mainMenuOpened;
+extern bool LCD_timeMenuOpened;
 extern bool LCD_needRedrawMainMenu;
 extern char LCD_freq_string_hz[6];
 extern char LCD_freq_string_khz[6];
@@ -49,6 +50,8 @@ extern char LCD_freq_string_mhz[6];
 extern bool LCD_bandMenuOpened;
 extern int LCD_last_s_meter;
 extern bool LCD_busy;
+
+extern uint8_t TimeMenuSelection;
 
 //HANDLERS
 void LCD_Handler_TUNE(void);
@@ -65,6 +68,9 @@ void LCD_Handler_MENU_BPF(void);
 void LCD_Handler_MENU_ATT(void);
 void LCD_Handler_MENU_MAP(void);
 void LCD_Handler_MENU_LINEMIC(void);
+void LCD_Handler_SETTIME(void);
+void LCD_Handler_TIMEMENU_NEXT(void);
+void LCD_Handler_TIMEMENU_BACK(void);
 void LCD_Handler_MENU(void);
 void LCD_Handler_BAND_160(void);
 void LCD_Handler_BAND_80(void);

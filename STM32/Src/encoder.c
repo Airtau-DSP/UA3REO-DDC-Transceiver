@@ -4,6 +4,7 @@
 #include "trx_manager.h"
 #include "agc.h"
 #include "settings.h"
+#include "functions.h"
 
 int ENCODER_ALast = 0;
 int ENCODER_AVal = 0;
@@ -62,6 +63,42 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 	}
 	if (LCD_mainMenuOpened)
 	{
+		if(LCD_timeMenuOpened)
+		{
+			uint32_t Time = RTC->TR;
+			RTC_TimeTypeDef sTime;
+			sTime.TimeFormat=RTC_HOURFORMAT12_PM;
+			sTime.SubSeconds=0;
+			sTime.SecondFraction=0;
+			sTime.DayLightSaving=RTC_DAYLIGHTSAVING_NONE;
+			sTime.StoreOperation = RTC_STOREOPERATION_SET;
+			sTime.Hours = (uint8_t)(((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f));
+			sTime.Minutes = (uint8_t)(((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f));
+			sTime.Seconds = (uint8_t)(((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f));
+			if(TimeMenuSelection==0)
+			{
+				if(sTime.Hours==0 && direction<0) return;
+				sTime.Hours = sTime.Hours + direction;
+			}
+			if(TimeMenuSelection==1)
+			{
+				if(sTime.Minutes==0 && direction<0) return;
+				sTime.Minutes = sTime.Minutes + direction;
+			}
+			if(TimeMenuSelection==2)
+			{
+				if(sTime.Seconds==0 && direction<0) return;
+				sTime.Seconds = sTime.Seconds + direction;
+			}
+			if(sTime.Hours>=24) sTime.Hours=0;
+			if(sTime.Minutes>=60) sTime.Minutes=0;
+			if(sTime.Seconds>=60) sTime.Seconds=0;
+			HAL_RTC_DeInit(&hrtc);
+			HAL_RTC_Init(&hrtc);
+			HAL_RTC_SetTime(&hrtc,&sTime,RTC_FORMAT_BIN);
+			LCD_needRedrawMainMenu = true;
+			return;
+		}
 		switch (LCD_menu_main_index) {
 		case MENU_MAIN_VOLUME:
 			TRX.Volume = TRX.Volume + direction;

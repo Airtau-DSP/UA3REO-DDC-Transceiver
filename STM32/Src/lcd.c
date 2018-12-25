@@ -14,6 +14,7 @@ bool LCD_bandMenuOpened = false;
 bool LCD_widthMenuOpened = false;
 bool LCD_modeMenuOpened = false;
 bool LCD_mainMenuOpened = false;
+bool LCD_timeMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
 uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
 bool LCD_needRedrawMainMenu = false;
@@ -24,6 +25,12 @@ bool LCD_pressed = false;
 struct button_handler button_handlers[16];
 uint8_t button_handlers_count = 0;
 uint32_t lastTouchTick = 0;
+
+uint32_t Time;
+uint8_t Hours;
+uint8_t Minutes;
+uint8_t Seconds;
+uint8_t TimeMenuSelection=0;
 
 void LCD_Init(void)
 {
@@ -216,25 +223,35 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	if (WM8731_Buffer_underrun && !TRX_ptt && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && (TRX_ptt || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
+	char ctmp[50];
+	Time = RTC->TR;
+	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
+  Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);
+	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
+	sprintf(ctmp, "%d:%d:%d", Hours, Minutes, Seconds);
+	ILI9341_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
 }
 
 void LCD_displayMainMenu() {
 	if (!LCD_mainMenuOpened) return;
 	button_handlers_count = 0;
 	char ctmp[50];
-
+	if(LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
+	
 	printMenuButton(5, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
 	sprintf(ctmp, "%d", TRX.Volume);
 	printMenuButton(84, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
 	sprintf(ctmp, "%d", TRX.Agc_speed);
 	printMenuButton(163, 5, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
-sprintf(ctmp, "%d %%", TRX.RF_Power);
+	sprintf(ctmp, "%d %%", TRX.RF_Power);
 	printMenuButton(242, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
 	
 	printMenuButton(5, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp_UHF, true, LCD_Handler_MENU_PREAMP_UHF);
 	printMenuButton(84, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 	printMenuButton(163, 60, 74, 50, "Input", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
 	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
+	
+	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
 	
 	if(HELPER_ENABLED) printMenuButton(84, 115, 74, 50, "BPF", "Band filters", TRX.BPF, true, LCD_Handler_MENU_BPF);
 	if(HELPER_ENABLED) printMenuButton(163, 115, 74, 50, "PREAMP", "HF", TRX.Preamp_HF, true, LCD_Handler_MENU_PREAMP_HF);
@@ -734,6 +751,45 @@ void LCD_Handler_MENU_RF_POWER(void)
 void LCD_Handler_MENU_AGC_S(void)
 {
 	LCD_menu_main_index = MENU_MAIN_AGCSPEED;
+	LCD_needRedrawMainMenu = true;
+}
+
+void LCD_Handler_SETTIME(void)
+{
+	if(!LCD_timeMenuOpened) ILI9341_Fill(COLOR_BLACK);
+	LCD_timeMenuOpened=true;
+	char ctmp[50];
+	Time = RTC->TR;
+	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
+  Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);
+	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
+	sprintf(ctmp, "%d", Hours);
+	addSymbols(ctmp, ctmp, 2, "0", false);
+	ILI9341_printText(ctmp, 76, 100, COLOR_BLUE, TimeMenuSelection==0?COLOR_WHITE:COLOR_BLACK, 3);
+	ILI9341_printText(":", 124, 100, COLOR_BLUE, COLOR_BLACK, 3);
+	sprintf(ctmp, "%d", Minutes);
+	addSymbols(ctmp, ctmp, 2, "0", false);
+	ILI9341_printText(ctmp, 148, 100, COLOR_BLUE, TimeMenuSelection==1?COLOR_WHITE:COLOR_BLACK, 3);
+	ILI9341_printText(":", 194, 100, COLOR_BLUE, COLOR_BLACK, 3);
+	sprintf(ctmp, "%d", Seconds);
+	addSymbols(ctmp, ctmp, 2, "0", false);
+	ILI9341_printText(ctmp, 220, 100, COLOR_BLUE, TimeMenuSelection==2?COLOR_WHITE:COLOR_BLACK, 3);
+	printButton(50, 170, 76, 30, ">", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_TIMEMENU_NEXT);
+	printButton(200, 170, 76, 30, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_TIMEMENU_BACK);
+}
+
+void LCD_Handler_TIMEMENU_NEXT(void)
+{
+	ILI9341_Fill(COLOR_BLACK);
+	TimeMenuSelection++;
+	if(TimeMenuSelection==3) TimeMenuSelection=0;
+	LCD_needRedrawMainMenu = true;
+}
+
+void LCD_Handler_TIMEMENU_BACK(void)
+{
+	ILI9341_Fill(COLOR_BLACK);
+	LCD_timeMenuOpened=false;
 	LCD_needRedrawMainMenu = true;
 }
 
