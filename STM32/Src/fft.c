@@ -135,7 +135,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 	{
 		if(freq_diff>0)
 		{
-			for (uint16_t x = 0; x < FFT_PRINT_SIZE; x++)
+			for (int16_t x = 0; x <= FFT_PRINT_SIZE; x++)
 			{
 				new_x=x+freq_diff;
 				if(new_x<0 || new_x>FFT_PRINT_SIZE)
@@ -148,7 +148,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 		}
 		if(freq_diff<0)
 		{
-			for (uint16_t x = FFT_PRINT_SIZE; x > 0; x--)
+			for (int16_t x = FFT_PRINT_SIZE; x >= 0; x--)
 			{
 				new_x=x+freq_diff;
 				if(new_x<0 || new_x>FFT_PRINT_SIZE)
