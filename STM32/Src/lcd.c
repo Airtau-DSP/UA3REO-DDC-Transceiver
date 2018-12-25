@@ -228,8 +228,17 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
   Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);
 	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
-	sprintf(ctmp, "%d:%d:%d", Hours, Minutes, Seconds);
+	sprintf(ctmp, "%d", Hours);
+	addSymbols(ctmp, ctmp, 2, "0", false);
 	ILI9341_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
+	sprintf(ctmp, "%d", Minutes);
+	addSymbols(ctmp, ctmp, 2, "0", false);
+	ILI9341_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
+	sprintf(ctmp, "%d", Seconds);
+	addSymbols(ctmp, ctmp, 2, "0", false);
+	ILI9341_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
 }
 
 void LCD_displayMainMenu() {
