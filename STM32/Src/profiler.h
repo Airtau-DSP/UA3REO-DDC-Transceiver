@@ -18,5 +18,7 @@ extern void InitProfiler(void);
 extern void StartProfiler(uint8_t pid);
 extern void EndProfiler(uint8_t pid);
 extern void PrintProfilerResult(void);
+extern void StartProfilerTick(void);
+extern void EndProfilerTick(void);
 
 #endif

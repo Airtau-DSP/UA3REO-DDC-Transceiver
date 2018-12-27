@@ -353,7 +353,7 @@ void TIM6_DAC_IRQHandler(void)
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
-		//PrintProfilerResult();
+		PrintProfilerResult();
 		//logToUART1_num32(FPGA_samples);
 		//logToUART1_num32(AUDIOPROC_samples);
 		//logToUART1_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
