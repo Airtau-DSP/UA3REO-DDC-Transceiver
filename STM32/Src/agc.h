@@ -19,12 +19,13 @@
 typedef struct
 {
 	// AGC
-	//#define MAX_SAMPLE_RATE     (24000.0)
-	//#define MAX_N_TAU           (8)
-	//#define MAX_TAU_ATTACK      (0.01)
+	//#define MAX_SAMPLE_RATE     48000.0f
+	//#define MAX_N_TAU           8.0f
+	//#define MAX_TAU_ATTACK      0.01f
 	//#define RB_SIZE       (int) (MAX_SAMPLE_RATE * MAX_N_TAU * MAX_TAU_ATTACK + 1)
-#define AGC_WDSP_RB_SIZE 384 //384
-//int8_t AGC_mode = 2;
+	//#define AGC_WDSP_RB_SIZE (int)(MAX_SAMPLE_RATE * MAX_N_TAU * MAX_TAU_ATTACK + 1) //384
+	#define AGC_WDSP_RB_SIZE 400 //384
+	
 	int pmode;// = 1; // if 0, calculate magnitude by max(|I|, |Q|), if 1, calculate sqrtf(I*I+Q*Q)
 	float32_t out_sample[2];
 	float32_t abs_out_sample;
