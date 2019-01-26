@@ -438,19 +438,17 @@ void FPGA_fpgadata_sendiq(void)
 		if(Processor_NeedBuffer) FPGA_Buffer_underrun=true;
 		FPGA_Audio_Buffer_Index = 0;
 		FPGA_Audio_Buffer_State = true;
-		//Processor_NeedBuffer = true;
 	}
 	else if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE / 2)
 	{
 		if(Processor_NeedBuffer) FPGA_Buffer_underrun=true;
 		FPGA_Audio_Buffer_State = false;
-		//Processor_NeedBuffer = true;
 	}
 }
 
 inline uint8_t FPGA_readPacket(void)
 {
-	return (((FPGA_IN_D3_GPIO_Port->IDR & FPGA_IN_D3_Pin) == FPGA_IN_D3_Pin) << 3) | (((FPGA_IN_D2_GPIO_Port->IDR & FPGA_IN_D2_Pin) == FPGA_IN_D2_Pin) << 2) | (((FPGA_IN_D1_GPIO_Port->IDR & FPGA_IN_D1_Pin) == FPGA_IN_D1_Pin) << 1) | (((FPGA_IN_D0_GPIO_Port->IDR & FPGA_IN_D0_Pin) == FPGA_IN_D0_Pin));
+	return (((FPGA_IN_D0_GPIO_Port->IDR & FPGA_IN_D0_Pin) == FPGA_IN_D0_Pin) << 0) | (((FPGA_IN_D1_GPIO_Port->IDR & FPGA_IN_D1_Pin) == FPGA_IN_D1_Pin) << 1) | (((FPGA_IN_D2_GPIO_Port->IDR & FPGA_IN_D2_Pin) == FPGA_IN_D2_Pin) << 2) | (((FPGA_IN_D3_GPIO_Port->IDR & FPGA_IN_D3_Pin) == FPGA_IN_D3_Pin) << 3);
 }
 
 inline void FPGA_writePacket(uint8_t packet)

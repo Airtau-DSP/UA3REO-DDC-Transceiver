@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * COPYRIGHT(c) 2019 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -639,8 +639,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : FPGA_IN_D2_Pin FPGA_IN_D3_Pin FPGA_IN_D0_Pin FPGA_IN_D1_Pin */
-  GPIO_InitStruct.Pin = FPGA_IN_D2_Pin|FPGA_IN_D3_Pin|FPGA_IN_D0_Pin|FPGA_IN_D1_Pin;
+  /*Configure GPIO pins : FPGA_IN_D0_Pin FPGA_IN_D1_Pin FPGA_IN_D2_Pin FPGA_IN_D3_Pin */
+  GPIO_InitStruct.Pin = FPGA_IN_D0_Pin|FPGA_IN_D1_Pin|FPGA_IN_D2_Pin|FPGA_IN_D3_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
   GPIO_InitStruct.Pull = GPIO_PULLDOWN;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);

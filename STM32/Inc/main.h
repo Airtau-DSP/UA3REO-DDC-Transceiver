@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2018 STMicroelectronics
+  * COPYRIGHT(c) 2019 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -62,14 +62,14 @@
 #define FPGA_CLK_GPIO_Port GPIOC
 #define FPGA_SYNC_Pin GPIO_PIN_1
 #define FPGA_SYNC_GPIO_Port GPIOC
-#define FPGA_IN_D2_Pin GPIO_PIN_0
-#define FPGA_IN_D2_GPIO_Port GPIOA
-#define FPGA_IN_D3_Pin GPIO_PIN_1
-#define FPGA_IN_D3_GPIO_Port GPIOA
-#define FPGA_IN_D0_Pin GPIO_PIN_2
+#define FPGA_IN_D0_Pin GPIO_PIN_0
 #define FPGA_IN_D0_GPIO_Port GPIOA
-#define FPGA_IN_D1_Pin GPIO_PIN_3
+#define FPGA_IN_D1_Pin GPIO_PIN_1
 #define FPGA_IN_D1_GPIO_Port GPIOA
+#define FPGA_IN_D2_Pin GPIO_PIN_2
+#define FPGA_IN_D2_GPIO_Port GPIOA
+#define FPGA_IN_D3_Pin GPIO_PIN_3
+#define FPGA_IN_D3_GPIO_Port GPIOA
 #define FPGA_OUT_D0_Pin GPIO_PIN_4
 #define FPGA_OUT_D0_GPIO_Port GPIOA
 #define FPGA_OUT_D1_Pin GPIO_PIN_5

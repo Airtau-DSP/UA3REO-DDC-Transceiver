@@ -168,27 +168,27 @@ MSEL2                        : 97        :        :                   :         
 GND*                         : 98        :        :                   :         : 6         :                
 GND*                         : 99        :        :                   :         : 6         :                
 GND*                         : 100       :        :                   :         : 6         :                
-DAC_OUTPUT[13]               : 101       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[0]                : 101       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCINT                       : 102       : power  :                   : 1.2V    :           :                
-DAC_OUTPUT[12]               : 103       : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[11]               : 104       : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[10]               : 105       : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[9]                : 106       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[1]                : 103       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[2]                : 104       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[3]                : 105       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[4]                : 106       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCA2                        : 107       : power  :                   : 2.5V    :           :                
 GNDA2                        : 108       : gnd    :                   :         :           :                
 VCCD_PLL2                    : 109       : power  :                   : 1.2V    :           :                
-DAC_OUTPUT[8]                : 110       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[7]                : 111       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[6]                : 112       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[5]                : 113       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[4]                : 114       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[3]                : 115       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[5]                : 110       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[6]                : 111       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[7]                : 112       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[8]                : 113       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[9]                : 114       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[10]               : 115       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCINT                       : 116       : power  :                   : 1.2V    :           :                
 VCCIO7                       : 117       : power  :                   : 3.3V    : 7         :                
 GND                          : 118       : gnd    :                   :         :           :                
-DAC_OUTPUT[2]                : 119       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[1]                : 120       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[0]                : 121       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[11]               : 119       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[12]               : 120       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[13]               : 121       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCIO7                       : 122       : power  :                   : 3.3V    : 7         :                
 GND                          : 123       : gnd    :                   :         :           :                
 VCCINT                       : 124       : power  :                   : 1.2V    :           :                
