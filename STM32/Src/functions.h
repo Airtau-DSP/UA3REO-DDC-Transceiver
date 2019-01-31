@@ -36,21 +36,20 @@
 #define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
-extern UART_HandleTypeDef huart1;
 extern uint8_t FPGA_spi_data;
 
 uint32_t getFrequencyFromPhrase(uint32_t phrase);
 uint32_t getPhraseFromFrequency(uint32_t freq);
 uint32_t hexStringToInt(char* in);
 void addSymbols(char* dest, char* str, uint8_t length, char* symbol, bool toEnd);
-void logToUART1_str(char* str);
-void logToUART1_num(uint8_t data);
-void logToUART1_numinline(uint8_t data);
-void logToUART1_num16(uint16_t data);
-void logToUART1_num32(uint32_t data);
-void logToUART1_int16(int16_t data);
-void logToUART1_int32(int32_t data);
-void logToUART1_float32(float32_t data);
+void sendToDebug_str(char* str);
+void sendToDebug_num(uint8_t data);
+void sendToDebug_numinline(uint8_t data);
+void sendToDebug_num16(uint16_t data);
+void sendToDebug_num32(uint32_t data);
+void sendToDebug_int16(int16_t data);
+void sendToDebug_int32(int32_t data);
+void sendToDebug_float32(float32_t data);
 void delay_us(uint32_t us);
 float log10f_fast(float X);
 void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length);

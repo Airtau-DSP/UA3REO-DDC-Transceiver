@@ -62,14 +62,14 @@ void PrintProfilerResult()
 	for(uint8_t i=0;i<PROFILES_COUNT;i++)
 		if(profiles[i].samples>0)
 			{
-				logToUART1_str("Profile #");
-				logToUART1_numinline(i);
-				logToUART1_str(": ");
-				logToUART1_num32(profiles[i].diff);
+				sendToDebug_str("Profile #");
+				sendToDebug_numinline(i);
+				sendToDebug_str(": ");
+				sendToDebug_num32(profiles[i].diff);
 				profiles[i].diff=0;
 				profiles[i].samples=0;
 				printed=true;
 			}
 	if(printed)
-		logToUART1_str("\r\n");
+		sendToDebug_str("\r\n");
 }

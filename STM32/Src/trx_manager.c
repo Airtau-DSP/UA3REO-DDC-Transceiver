@@ -7,7 +7,6 @@
 #include "wm8731.h"
 #include "fpga.h"
 #include "bands.h"
-#include "helper.h"
 #include "audio_filters.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
@@ -59,7 +58,7 @@ void TRX_Restart_Mode()
 
 void TRX_Start_RX()
 {
-	logToUART1_str("RX MODE\r\n");
+	sendToDebug_str("RX MODE\r\n");
 	TRX_ptt = false;
 	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	Processor_NeedBuffer=true;
@@ -72,7 +71,7 @@ void TRX_Start_RX()
 
 void TRX_Start_TX()
 {
-	logToUART1_str("TX MODE\r\n");
+	sendToDebug_str("TX MODE\r\n");
 	TRX_ptt = true;
 	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
@@ -82,7 +81,7 @@ void TRX_Start_TX()
 
 void TRX_Start_Loopback()
 {
-	logToUART1_str("LOOP MODE\r\n");
+	sendToDebug_str("LOOP MODE\r\n");
 	memset(&CODEC_Audio_Buffer_RX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	memset(&CODEC_Audio_Buffer_TX[0],0x00,CODEC_AUDIO_BUFFER_SIZE*4);
 	WM8731_TXRX_mode();
@@ -99,7 +98,6 @@ void TRX_ptt_change()
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();
-		HELPER_updateSettings();
 	}
 }
 

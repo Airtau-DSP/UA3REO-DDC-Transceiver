@@ -68,7 +68,7 @@ void FPGA_stop_audio_clock(void) //остановка PLL для I2S и коде
 
 void FPGA_testbus(void) //проверка целостности шины данных STM32-FPGA
 {
-	logToUART1_str("FPGA Bus Test ");
+	sendToDebug_str("FPGA Bus Test ");
 
 	FPGA_busy = true;
 	//обмен данными
@@ -92,8 +92,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00000001))
 	{
-		logToUART1_str("ERROR 0 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 0 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -108,8 +108,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00000010))
 	{
-		logToUART1_str("ERROR 1 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 1 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -124,8 +124,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00000100))
 	{
-		logToUART1_str("ERROR 2 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 2 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -140,8 +140,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00001000))
 	{
-		logToUART1_str("ERROR 3 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 3 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -149,7 +149,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 
 	FPGA_busy = false;
 
-	logToUART1_str("OK\r\n");
+	sendToDebug_str("OK\r\n");
 }
 
 void FPGA_fpgadata_stuffclock(void)

@@ -45,7 +45,6 @@
 #include "agc.h"
 #include "settings.h"
 #include "fpga.h"
-#include "helper.h"
 #include "profiler.h"
 
 uint32_t ms100_counter = 0;
@@ -55,6 +54,7 @@ extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim4;
@@ -348,16 +348,15 @@ void TIM6_DAC_IRQHandler(void)
 	if (NeedSaveSettings)
 	{
 		FPGA_NeedSendParams = true;
-		HELPER_updateSettings();
 	}
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
 		PrintProfilerResult();
-		//logToUART1_num32(FPGA_samples);
-		//logToUART1_num32(AUDIOPROC_samples);
-		//logToUART1_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
-		//logToUART1_str("\r\n");
+		//sendToDebug_num32(FPGA_samples);
+		//sendToDebug_num32(AUDIOPROC_samples);
+		//sendToDebug_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
+		//sendToDebug_str("\r\n");
 		
 		ext_counter=0;
 		FPGA_samples = 0;
@@ -374,6 +373,20 @@ void TIM6_DAC_IRQHandler(void)
 	LCD_doEvents();
 	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
+}
+
+/**
+* @brief This function handles USB On The Go FS global interrupt.
+*/
+void OTG_FS_IRQHandler(void)
+{
+  /* USER CODE BEGIN OTG_FS_IRQn 0 */
+
+  /* USER CODE END OTG_FS_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
+  /* USER CODE BEGIN OTG_FS_IRQn 1 */
+
+  /* USER CODE END OTG_FS_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

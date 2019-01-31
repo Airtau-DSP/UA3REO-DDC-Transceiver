@@ -5,7 +5,6 @@
 #include "settings.h"
 #include "wm8731.h"
 #include "audio_filters.h"
-#include "helper.h"
 
 char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
@@ -261,10 +260,6 @@ void LCD_displayMainMenu() {
 	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
 	
 	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
-	
-	if(HELPER_ENABLED) printMenuButton(84, 115, 74, 50, "BPF", "Band filters", TRX.BPF, true, LCD_Handler_MENU_BPF);
-	if(HELPER_ENABLED) printMenuButton(163, 115, 74, 50, "PREAMP", "HF", TRX.Preamp_HF, true, LCD_Handler_MENU_PREAMP_HF);
-	if(HELPER_ENABLED) printMenuButton(242, 115, 74, 50, "ATT", "20dB", TRX.Att, true, LCD_Handler_MENU_ATT);
 }
 
 void LCD_redraw(void) {
@@ -827,7 +822,7 @@ void LCD_checkTouchPad(void)
 	Get_Touch_XY(&x, &y, 1, 0);
 	char dest[100];
 	sprintf(dest, "Touchpad x = %d  y = %d\r\n", x, y);
-	logToUART1_str(dest);
+	sendToDebug_str(dest);
 
 	for (uint8_t i = 0; i < button_handlers_count; i++)
 		if (button_handlers[i].x1 <= x && button_handlers[i].x2 >= x && button_handlers[i].y1 <= y && button_handlers[i].y2 >= y && button_handlers[i].handler != 0)

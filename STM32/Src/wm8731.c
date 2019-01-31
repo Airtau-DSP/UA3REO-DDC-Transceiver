@@ -143,7 +143,7 @@ void WM8731_TXRX_mode(void)
 
 void WM8731_Init(void)
 {
-	logToUART1_str("WM8731 ");
+	sendToDebug_str("WM8731 ");
 	FPGA_stop_audio_clock();
 	WM8731_SendI2CCommand(B8(00011110), B8(00000000)); //R15 Reset Chip
 	WM8731_SendI2CCommand(B8(00001110), B8(00000010)); //R7 Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 16bits
@@ -151,5 +151,5 @@ void WM8731_Init(void)
 	WM8731_SendI2CCommand(B8(00010010), B8(00000001)); //R9 reactivate digital audio interface
 	WM8731_RX_mode();
 
-	logToUART1_str(" Inited\r\n");
+	sendToDebug_str(" Inited\r\n");
 }

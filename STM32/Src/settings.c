@@ -6,7 +6,6 @@
 #include "trx_manager.h"
 #include "lcd.h"
 #include "fpga.h"
-#include "helper.h"
 
 //W25Q16
 uint8_t Write_Enable = W25Q16_COMMAND_Write_Enable;
@@ -49,7 +48,6 @@ void LoadSettings(void)
 		TRX.Filter_Width=2700;
 		TRX.RF_Power=25;
 	}
-	HELPER_updateSettings();
 }
 
 void SaveSettings(void)
