@@ -34,6 +34,7 @@
 "ua3reo\stm32f4xx_hal_spi.o"
 "ua3reo\stm32f4xx_hal_tim.o"
 "ua3reo\stm32f4xx_hal_tim_ex.o"
+"ua3reo\stm32f4xx_hal_uart.o"
 "ua3reo\stm32f4xx_hal_rcc.o"
 "ua3reo\stm32f4xx_hal_rcc_ex.o"
 "ua3reo\stm32f4xx_hal_flash.o"

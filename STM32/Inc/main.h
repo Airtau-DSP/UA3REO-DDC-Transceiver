@@ -111,6 +111,10 @@
 #define TOUCH_MOSI_GPIO_Port GPIOB
 #define AUDIO_I2S_CLOCK_Pin GPIO_PIN_9
 #define AUDIO_I2S_CLOCK_GPIO_Port GPIOC
+#define UART_DEBUG_TX_Pin GPIO_PIN_9
+#define UART_DEBUG_TX_GPIO_Port GPIOA
+#define UART_DEBUG_RX_Pin GPIO_PIN_10
+#define UART_DEBUG_RX_GPIO_Port GPIOA
 #define WM8731_WS_LRC_Pin GPIO_PIN_15
 #define WM8731_WS_LRC_GPIO_Port GPIOA
 #define WM8731_BCLK_Pin GPIO_PIN_10
@@ -135,7 +139,7 @@
   * @brief Uncomment the line below to expanse the "assert_param" macro in the 
   *        HAL drivers code
   */
-/* #define USE_FULL_ASSERT    1U */
+ #define USE_FULL_ASSERT    1U 
 
 /* USER CODE BEGIN Private defines */
 

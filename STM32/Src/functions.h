@@ -37,6 +37,7 @@
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
 extern uint8_t FPGA_spi_data;
+extern UART_HandleTypeDef huart1;
 
 uint32_t getFrequencyFromPhrase(uint32_t phrase);
 uint32_t getPhraseFromFrequency(uint32_t freq);

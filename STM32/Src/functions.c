@@ -56,6 +56,7 @@ void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t inde
 void sendToDebug_str(char* data)
 {
 	CDC_Transmit_FS((uint8_t*)data, strlen(data));
+	HAL_UART_Transmit(&huart1,(uint8_t*)data, strlen(data),1000);
 }
 
 void sendToDebug_num(uint8_t data)

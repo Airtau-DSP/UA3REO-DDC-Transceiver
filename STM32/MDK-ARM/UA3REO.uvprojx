@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                                                                                                                                                                                                                                                                                   ../Drivers/STM32F4xx_HAL_Driver/Inc;                                                                                                                                                                                                                                                                                   ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                                                                                                                                                                                                                                                                   ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;                                                                                                                                                                                                                                                                                   ../Drivers/CMSIS/Include; ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc; ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
+              <IncludePath>../Inc;                                                                                                                                                                                                                                                                                    ../Drivers/STM32F4xx_HAL_Driver/Inc;                                                                                                                                                                                                                                                                                    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                                                                                                                                                                                                                                                                    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;                                                                                                                                                                                                                                                                                    ../Drivers/CMSIS/Include;  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;  ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -646,6 +646,11 @@
               <FileName>stm32f4xx_hal_tim_ex.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_tim_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_rcc.c</FileName>
