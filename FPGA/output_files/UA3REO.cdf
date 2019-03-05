@@ -4,7 +4,7 @@ JedecChain;
 	DefaultMfr(6E);
 
 	P ActionCode(Cfg)
-		Device PartName(EP4CE22E22) Path("D:/Dropbox/Develop/Projects/UA3REO/FPGA/output_files/") File("UA3REO.sof") MfrSpec(OpMask(1));
+		Device PartName(EP4CE22) Path("D:/Dropbox/Develop/Projects/UA3REO/FPGA/output_files/") File("output_file.jic") MfrSpec(OpMask(1) SEC_Device(EPCS16) Child_OpMask(1 3));
 
 ChainEnd;
 

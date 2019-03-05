@@ -358,10 +358,10 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		ms100_counter = 0;
 		//PrintProfilerResult();
-		sendToDebug_num32(FPGA_samples);
-		sendToDebug_num32(AUDIOPROC_samples);
-		sendToDebug_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
-		sendToDebug_str("\r\n");
+		//sendToDebug_num32(FPGA_samples);
+		//sendToDebug_num32(AUDIOPROC_samples);
+		//sendToDebug_num32(WM8731_DMA_samples/2); //2 channel by (2x16bit)
+		//sendToDebug_str("\r\n");
 		
 		ext_counter=0;
 		FPGA_samples = 0;

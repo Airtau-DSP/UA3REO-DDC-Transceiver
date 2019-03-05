@@ -169,8 +169,8 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim5);
 	HAL_TIM_Base_Start(&htim6);
 	HAL_TIM_Base_Start_IT(&htim6);
-	//HAL_TIM_Base_Start(&htim4);
-	//HAL_TIM_Base_Start_IT(&htim4);
+	HAL_TIM_Base_Start(&htim4);
+	HAL_TIM_Base_Start_IT(&htim4);
 	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
 	sendToDebug_str("UA3REO Started\r\n");
 	TRX_inited = true;
