@@ -40,7 +40,8 @@ void FFT_doFFT(void)
 			FFTInput_A[i * 2 + 1] = multiplier * FFTInput_A[i * 2 + 1];
 		}
 		arm_cfft_f32(S, FFTInput_A, 0, 1);
-		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		//arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
 	}
 	else //A in progress
 	{
@@ -51,15 +52,17 @@ void FFT_doFFT(void)
 			FFTInput_B[i * 2 + 1] = multiplier * FFTInput_B[i * 2 + 1];
 		}
 		arm_cfft_f32(S, FFTInput_B, 0, 1);
-		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+		//arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 	}
 	//Min and Max on FFT print
-	if (maxValueErrors > 100 || maxValueErrors == 0)
+	if (maxValueErrors > 10 || maxValueErrors == 0)
 	{
 		arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
-		if (maxValue > Processor_AVG_amplitude*FFT_MAX) maxValue = Processor_AVG_amplitude * FFT_MAX;
+		//if (maxValue > Processor_AVG_amplitude*FFT_MAX) maxValue = Processor_AVG_amplitude * FFT_MAX;
 	}
 	maxValueErrors = 0;
+	if(maxValue<FFT_MIN) maxValue=FFT_MIN;
 	// Нормируем АЧХ к единице
 	for (uint16_t n = 0; n < FFT_SIZE; n++)
 	{
@@ -86,7 +89,7 @@ void FFT_printFFT(void)
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
 	LCD_busy = true;
-
+	
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET) + FFT_MAX_HEIGHT, COLOR_GREEN);
 
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //смещаем водопад вниз
@@ -99,7 +102,7 @@ void FFT_printFFT(void)
 		if (fft_x >= (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
 		if ((new_x + 1) == FFT_PRINT_SIZE / 2) continue;
 		height = FFTOutput[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
-		if (height > FFT_MAX_HEIGHT)
+		if (height > FFT_MAX_HEIGHT-1)
 		{
 			height = FFT_MAX_HEIGHT;
 			tmp = COLOR_RED;
