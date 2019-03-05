@@ -1,6 +1,7 @@
 #include "stm32f4xx_hal.h"
 #include "xpt2046_spi.h"
 #include "MA_ILI9341.h"
+#include "main.h"
 #include "../functions.h"
 #include "../settings.h"
 

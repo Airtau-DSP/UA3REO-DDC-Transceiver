@@ -1,3 +1,4 @@
+#include "main.h"
 #include "lcd.h"
 #include "functions.h"
 #include "arm_math.h"

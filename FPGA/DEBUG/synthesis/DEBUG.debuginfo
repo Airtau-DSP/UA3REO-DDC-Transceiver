@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<EnsembleReport name="DEBUG" kind="system" version="17.1" fabric="QSYS">
- <!-- Format version 17.1 593 (Future versions may contain additional information.) -->
- <!-- 2018.12.25.01:18:01 -->
+<EnsembleReport name="DEBUG" kind="system" version="18.1" fabric="QSYS">
+ <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
+ <!-- 2019.03.05.01:25:40 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1545686280</value>
+  <value>1551734739</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -150,7 +150,7 @@
  <module
    name="in_system_sources_probes_0"
    kind="altera_in_system_sources_probes"
-   version="17.1"
+   version="18.1"
    path="in_system_sources_probes_0">
   <!-- Describes a single module. Module parameters are
 the requested settings for a module instance. -->
@@ -209,7 +209,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="probe_width">
    <type>int</type>
-   <value>16</value>
+   <value>12</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -271,7 +271,7 @@ the requested settings for a module instance. -->
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
-  <interface name="probes" kind="conduit_end" version="17.1">
+  <interface name="probes" kind="conduit_end" version="18.1">
    <!-- The connection points exposed by a module instance for the
 particular module parameters. Connection points and their
 parameters are a RESULT of the module parameters. -->
@@ -312,7 +312,7 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>probe</name>
     <direction>Input</direction>
-    <width>16</width>
+    <width>12</width>
     <role>probe</role>
    </port>
   </interface>
@@ -323,7 +323,7 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IModule</subtype>
   <displayName><![CDATA[Altera In-System Sources & Probes]]></displayName>
-  <version>17.1</version>
+  <version>18.1</version>
  </plugin>
  <plugin>
   <instanceCount>1</instanceCount>
@@ -331,8 +331,8 @@ parameters are a RESULT of the module parameters. -->
   <type>com.altera.entityinterfaces.IElementClass</type>
   <subtype>com.altera.entityinterfaces.IMutableConnectionPoint</subtype>
   <displayName>Conduit</displayName>
-  <version>17.1</version>
+  <version>18.1</version>
  </plugin>
- <reportVersion>17.1 593</reportVersion>
- <uniqueIdentifier>00FF3199AA1600000167E214EBB6</uniqueIdentifier>
+ <reportVersion>18.1 625</reportVersion>
+ <uniqueIdentifier>00FF3199AA16000001694A9914BF</uniqueIdentifier>
 </EnsembleReport>

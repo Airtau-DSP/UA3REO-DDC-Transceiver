@@ -1,4 +1,4 @@
- -- Copyright (C) 2017  Intel Corporation. All rights reserved.
+ -- Copyright (C) 2018  Intel Corporation. All rights reserved.
  -- Your use of Intel Corporation's design tools, logic functions 
  -- and other software and tools, and its AMPP partner logic 
  -- functions, and any output files from any of the foregoing 
@@ -63,7 +63,7 @@
  -- Pin directions (input, output or bidir) are based on device operating in user mode.
  ---------------------------------------------------------------------------------
 
-Quartus Prime Version 17.1.1 Internal Build 593 12/11/2017 SJ Standard Edition
+Quartus Prime Version 18.1.0 Build 625 09/12/2018 SJ Standard Edition
 CHIP  "UA3REO"  ASSIGNED TO AN: EP4CE22E22C8
 
 Pin Name/Usage               : Location  : Dir.   : I/O Standard      : Voltage : I/O Bank  : User Assignment
@@ -74,11 +74,11 @@ VCCA3                        : 3         : power  :                   : 2.5V    
 GND                          : 4         : gnd    :                   :         :           :                
 VCCINT                       : 5         : power  :                   : 1.2V    :           :                
 GND*                         : 6         :        :                   :         : 1         :                
-ADC_INPUT[2]                 : 7         : input  : 3.3-V LVTTL       :         : 1         : Y              
+ADC_INPUT[9]                 : 7         : input  : 3.3-V LVTTL       :         : 1         : Y              
 GND*                         : 8         :        :                   :         : 1         :                
 nSTATUS                      : 9         :        :                   :         : 1         :                
-ADC_INPUT[0]                 : 10        : input  : 3.3-V LVTTL       :         : 1         : Y              
-ADC_INPUT[1]                 : 11        : input  : 3.3-V LVTTL       :         : 1         : Y              
+ADC_INPUT[10]                : 10        : input  : 3.3-V LVTTL       :         : 1         : Y              
+ADC_INPUT[11]                : 11        : input  : 3.3-V LVTTL       :         : 1         : Y              
 GND*                         : 12        :        :                   :         : 1         :                
 GND*                         : 13        :        :                   :         : 1         :                
 nCONFIG                      : 14        :        :                   :         : 1         :                
@@ -168,48 +168,48 @@ MSEL2                        : 97        :        :                   :         
 GND*                         : 98        :        :                   :         : 6         :                
 GND*                         : 99        :        :                   :         : 6         :                
 GND*                         : 100       :        :                   :         : 6         :                
-DAC_OUTPUT[0]                : 101       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[12]               : 101       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCINT                       : 102       : power  :                   : 1.2V    :           :                
-DAC_OUTPUT[1]                : 103       : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[2]                : 104       : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[3]                : 105       : output : 3.3-V LVTTL       :         : 6         : Y              
-DAC_OUTPUT[4]                : 106       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[13]               : 103       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[10]               : 104       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[11]               : 105       : output : 3.3-V LVTTL       :         : 6         : Y              
+DAC_OUTPUT[8]                : 106       : output : 3.3-V LVTTL       :         : 6         : Y              
 VCCA2                        : 107       : power  :                   : 2.5V    :           :                
 GNDA2                        : 108       : gnd    :                   :         :           :                
 VCCD_PLL2                    : 109       : power  :                   : 1.2V    :           :                
-DAC_OUTPUT[5]                : 110       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[9]                : 110       : output : 3.3-V LVTTL       :         : 7         : Y              
 DAC_OUTPUT[6]                : 111       : output : 3.3-V LVTTL       :         : 7         : Y              
 DAC_OUTPUT[7]                : 112       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[8]                : 113       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[9]                : 114       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[10]               : 115       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[4]                : 113       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[5]                : 114       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[2]                : 115       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCINT                       : 116       : power  :                   : 1.2V    :           :                
 VCCIO7                       : 117       : power  :                   : 3.3V    : 7         :                
 GND                          : 118       : gnd    :                   :         :           :                
-DAC_OUTPUT[11]               : 119       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[12]               : 120       : output : 3.3-V LVTTL       :         : 7         : Y              
-DAC_OUTPUT[13]               : 121       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[3]                : 119       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[0]                : 120       : output : 3.3-V LVTTL       :         : 7         : Y              
+DAC_OUTPUT[1]                : 121       : output : 3.3-V LVTTL       :         : 7         : Y              
 VCCIO7                       : 122       : power  :                   : 3.3V    : 7         :                
 GND                          : 123       : gnd    :                   :         :           :                
 VCCINT                       : 124       : power  :                   : 1.2V    :           :                
 ADC_OTR                      : 125       : input  : 3.3-V LVTTL       :         : 7         : Y              
 GND+                         : 126       :        :                   :         : 7         :                
 GND+                         : 127       :        :                   :         : 7         :                
-ADC_INPUT[11]                : 128       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_INPUT[10]                : 129       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[0]                 : 128       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[1]                 : 129       : input  : 3.3-V LVTTL       :         : 8         : Y              
 VCCIO8                       : 130       : power  :                   : 3.3V    : 8         :                
 GND                          : 131       : gnd    :                   :         :           :                
-ADC_INPUT[9]                 : 132       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_INPUT[8]                 : 133       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[2]                 : 132       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[3]                 : 133       : input  : 3.3-V LVTTL       :         : 8         : Y              
 VCCINT                       : 134       : power  :                   : 1.2V    :           :                
-ADC_INPUT[7]                 : 135       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_INPUT[6]                 : 136       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_INPUT[5]                 : 137       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[4]                 : 135       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[5]                 : 136       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[6]                 : 137       : input  : 3.3-V LVTTL       :         : 8         : Y              
 VCCINT                       : 138       : power  :                   : 1.2V    :           :                
 VCCIO8                       : 139       : power  :                   : 3.3V    : 8         :                
 GND                          : 140       : gnd    :                   :         :           :                
-ADC_INPUT[4]                 : 141       : input  : 3.3-V LVTTL       :         : 8         : Y              
-ADC_INPUT[3]                 : 142       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[7]                 : 141       : input  : 3.3-V LVTTL       :         : 8         : Y              
+ADC_INPUT[8]                 : 142       : input  : 3.3-V LVTTL       :         : 8         : Y              
 GND*                         : 143       :        :                   :         : 8         :                
 GND*                         : 144       :        :                   :         : 8         :                
 GND                          : EPAD      :        :                   :         :           :                

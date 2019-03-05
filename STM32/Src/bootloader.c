@@ -1,4 +1,5 @@
 #include "bootloader.h"
+#include "main.h"
 
 void checkBootloaderButton(void)
 {
