@@ -359,7 +359,6 @@ HAL_StatusTypeDef HAL_I2S_Init(I2S_HandleTypeDef *hi2s)
     }
 #else
     i2sclk = HAL_RCCEx_GetPeriphCLKFreq(RCC_PERIPHCLK_I2S);
-		i2sclk = EXTERNAL_CLOCK_VALUE;
 #endif
 
     /* Compute the Real divider depending on the MCLK output state, with a floating point */

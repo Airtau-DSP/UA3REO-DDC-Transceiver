@@ -255,7 +255,7 @@ void processRxAudio(void)
 		Processor_AudioBuffer_ReadyBuffer = 0;
 	}
 	//Send to Codec DMA
-	if (WM8731_DMA_state) //compleate
+	if (WM8731_DMA_state) //complete
 	{
 		if (Processor_AudioBuffer_ReadyBuffer == 0)
 			HAL_DMA_Start(&hdma_memtomem_dma2_stream0, (uint32_t)&Processor_AudioBuffer_A[0], (uint32_t)&CODEC_Audio_Buffer_RX[FPGA_AUDIO_BUFFER_SIZE], FPGA_AUDIO_BUFFER_SIZE);

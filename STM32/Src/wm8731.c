@@ -17,7 +17,7 @@ void start_i2s_and_dma(void)
 {
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
 	{
-		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer_RX[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], CODEC_AUDIO_BUFFER_SIZE);
+		HAL_I2SEx_TransmitReceive_DMA(&hi2s3, (uint16_t*)&CODEC_Audio_Buffer_RX[0], (uint16_t*)&CODEC_Audio_Buffer_TX[0], CODEC_AUDIO_BUFFER_SIZE/2);
 		I2SEx_Fix(&hi2s3);
 	}
 }
