@@ -9,7 +9,7 @@
 #define FFT_SIZE 512 //указываем размер FFT
 #define FFT_PRINT_SIZE 256 //указываем размер FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
-#define FFT_BOTTOM_OFFSET 190 //указываем максимальную высоту FFT
+#define FFT_BOTTOM_OFFSET 190 //start of FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
 #define FFT_MIN 0.000001f //MIN порог сигнала FFT
 #define FFT_MAX 120 //MAX порог сигнала FFT

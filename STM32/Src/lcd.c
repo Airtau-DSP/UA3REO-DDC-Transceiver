@@ -27,6 +27,7 @@ uint8_t button_handlers_count = 0;
 uint32_t lastTouchTick = 0;
 
 uint32_t Time;
+uint32_t LAST_Time;
 uint8_t Hours;
 uint8_t Minutes;
 uint8_t Seconds;
@@ -213,9 +214,12 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	int s_width = TRX_s_meter;
 	if (LCD_last_s_meter > s_width) s_width = LCD_last_s_meter - ((LCD_last_s_meter - s_width) / 6); //сглаживаем движение с-метра
 	if (LCD_last_s_meter < s_width) s_width = s_width - ((s_width - LCD_last_s_meter) / 2);
-	ILI9341_Fill_RectWH(41 + s_width, 131, width - s_width, 13, COLOR_BLACK);
-	LCD_last_s_meter = s_width;
-	ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
+	if(LCD_last_s_meter!=s_width)
+	{
+		ILI9341_Fill_RectWH(41 + s_width, 131, width - s_width, 13, COLOR_BLACK);
+		ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
+		LCD_last_s_meter = s_width;
+	}
 
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_agc_wdsp_action && TRX.Agc && (TRX.Mode == TRX_MODE_LSB || TRX.Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
@@ -228,17 +232,21 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
   Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);
 	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
-	sprintf(ctmp, "%d", Hours);
-	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
-	ILI9341_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
-	sprintf(ctmp, "%d", Minutes);
-	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
-	ILI9341_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
-	sprintf(ctmp, "%d", Seconds);
-	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
+	if(Time!=LAST_Time)
+	{
+		sprintf(ctmp, "%d", Hours);
+		addSymbols(ctmp, ctmp, 2, "0", false);
+		ILI9341_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		ILI9341_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		sprintf(ctmp, "%d", Minutes);
+		addSymbols(ctmp, ctmp, 2, "0", false);
+		ILI9341_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		ILI9341_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		sprintf(ctmp, "%d", Seconds);
+		addSymbols(ctmp, ctmp, 2, "0", false);
+		ILI9341_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LAST_Time=Time;
+	}
 }
 
 void LCD_displayMainMenu() {
@@ -278,7 +286,7 @@ void LCD_doEvents(void)
 {
 	if (LCD_busy) return;
 	LCD_busy = true;
-	LCD_displayFreqInfo(true);
+	LCD_displayFreqInfo(false);
 	LCD_displayStatusInfoBar();
 	if (LCD_needRedrawMainMenu) {
 		LCD_needRedrawMainMenu = false;
