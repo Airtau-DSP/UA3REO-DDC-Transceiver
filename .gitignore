@@ -3,6 +3,7 @@ FPGA/greybox_tmp/*
 FPGA/incremental_db/*
 Filters/Iowa*
 Filters/WinFilter.exe
+Scheme/Experiments/
 STM32/MDK-ARM/UA3REO/UA3REO.build_log.htm
 STM32/MDK-ARM/UA3REO/UA3REO.htm
 *.o
