@@ -124,7 +124,7 @@ void FFT_printFFT(void)
 			ILI9341_DrawPixel(x + 1, FFT_BOTTOM_OFFSET + y, wtf_buffer[y][x]);
 		}
 	}
-
+	
 	FFT_need_fft = true;
 	LCD_busy = false;
 }

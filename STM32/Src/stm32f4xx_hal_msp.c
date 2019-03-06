@@ -107,7 +107,7 @@ void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
 
 		  /* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit
 		  * in RCC_CFGR register! Hence we need to set it manually here! * WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
-			  Line 6132 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
+			  Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
 		  */
 		__HAL_RCC_I2S_CONFIG(RCC_I2SCLKSOURCE_EXT);
 
