@@ -14,3 +14,7 @@ STM32/MDK-ARM/UA3REO/UA3REO.htm
 *.crf
 *._2i
 *.summary
+*.axf
+*.map
+*.dep
+UA3REO.uvguix.*
