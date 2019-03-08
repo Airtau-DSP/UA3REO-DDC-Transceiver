@@ -234,43 +234,7 @@ void ILI9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color)
 		ILI9341_DrawPixel(x0 - y, y0 - x, color);
 	}
 }
-/*
-static void drawCircleHelper( int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color)
-{
-	int16_t f     = 1 - r;
-  int16_t ddF_x = 1;
-  int16_t ddF_y = -2 * r;
-  int16_t x     = 0;
-  int16_t y     = r;
 
-  while (x<y) {
-	if (f >= 0) {
-	  y--;
-	  ddF_y += 2;
-	  f     += ddF_y;
-	}
-	x++;
-	ddF_x += 2;
-	f     += ddF_x;
-	if (cornername & 0x4) {
-	  ILI9341_DrawPixel(x0 + x, y0 + y, color);
-	  ILI9341_DrawPixel(x0 + y, y0 + x, color);
-	}
-	if (cornername & 0x2) {
-	  ILI9341_DrawPixel(x0 + x, y0 - y, color);
-	  ILI9341_DrawPixel(x0 + y, y0 - x, color);
-	}
-	if (cornername & 0x8) {
-	  ILI9341_DrawPixel(x0 - y, y0 + x, color);
-	  ILI9341_DrawPixel(x0 - x, y0 + y, color);
-	}
-	if (cornername & 0x1) {
-	  ILI9341_DrawPixel(x0 - y, y0 - x, color);
-	  ILI9341_DrawPixel(x0 - x, y0 - y, color);
-	}
-  }
-}
-*/
 static void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color)
 {
 	int16_t f = 1 - r;
@@ -350,7 +314,6 @@ void ILI9341_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t c
 
 void ILI9341_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
 {
-	//ILI9341_drawLine(x, y, x+w-1, y, color);
 	int16_t x2 = x + w - 1;
 	if (x2 < x)
 		ILI9341_Fill_RectXY(x2, y, x, y, color);
@@ -360,7 +323,6 @@ void ILI9341_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
 
 void ILI9341_drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color)
 {
-	//ILI9341_drawLine(x, y, x, y+h-1, color);
 	int16_t y2 = y + h - 1;
 	if (y2 < y)
 		ILI9341_Fill_RectXY(x, y2, x, y, color);
@@ -453,6 +415,7 @@ void ILI9341_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_
 //11. Text printing functions
 void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size)
 {
+	uint8_t line;
 	if ((x >= ILI9341_NORMAL_WIDTH) || // Clip right
 		(y >= ILI9341_NORMAL_HEIGHT) || // Clip bottom
 		((x + 6 * size - 1) < 0) || // Clip left
@@ -461,33 +424,29 @@ void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uin
 	current_x_offset = x + 6 * size - 1;
 	if (!_cp437 && (c >= 176)) c++; // Handle 'classic' charset behavior
 
-	for (int8_t i = 0; i < 6; i++) {
-		uint8_t line;
-		if (i == 5)
-			line = 0x0;
-		else
-			line = pgm_read_byte(font1 + (c * 5) + i);
-		for (int8_t j = 0; j < 8; j++) {
-			if (line & 0x1) {
-				if (size == 1) { // default size
-					ILI9341_DrawPixel(x + i, y + j, color);
-				}
-				else {  // big size
-					ILI9341_Fill_RectXY(x + (i*size), y + (j*size), size + x + (i*size), size + 1 + y + (j*size), color);
-				}
-			}
-			else if (bg != color) {
-				if (size == 1) { // default size
-					ILI9341_DrawPixel(x + i, y + j, bg);
-				}
-				else {  // big size
-					ILI9341_Fill_RectXY(x + i * size, y + j * size, size + x + i * size, size + 1 + y + j * size, bg);
+	ILI9341_SetCursorAreaPosition(x,y,x+6*size-1,y+8*size-1); //char area
+	
+	for (int8_t j = 0; j < 8; j++) { //y line out
+		for(int8_t s_y=0;s_y<size;s_y++) //y size scale
+			for (int8_t i = 0; i < 6; i++) { //x line out
+			{
+				if (i == 5)
+					line = 0x0;
+				else
+					line = pgm_read_byte(font1 + (c * 5) + i); //read font
+				line >>= j;
+				for(int8_t s_x=0;s_x<size;s_x++) //x size scale
+				{
+					if (line & 0x1) 
+						ILI9341_SendData(color); //font pixel
+					else
+						ILI9341_SendData(bg); //background pixel
 				}
 			}
-			line >>= 1;
 		}
 	}
 }
+
 void ILI9341_printText(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, uint8_t size)
 {
 	int16_t offset;
