@@ -15,7 +15,7 @@
 "ua3reo\settings.o"
 "ua3reo\bands.o"
 "ua3reo\profiler.o"
-"ua3reo\main_1.o"
+"ua3reo\main.o"
 "ua3reo\usb_device.o"
 "ua3reo\usbd_conf.o"
 "ua3reo\usbd_desc.o"
