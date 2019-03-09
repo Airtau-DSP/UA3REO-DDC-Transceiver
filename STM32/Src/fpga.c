@@ -1,4 +1,5 @@
 #include "stm32f4xx_hal.h"
+#include "main.h"
 #include "fpga.h"
 #include "functions.h"
 #include "trx_manager.h"
@@ -68,7 +69,7 @@ void FPGA_stop_audio_clock(void) //остановка PLL для I2S и коде
 
 void FPGA_testbus(void) //проверка целостности шины данных STM32-FPGA
 {
-	logToUART1_str("FPGA Bus Test ");
+	sendToDebug_str("FPGA Bus Test ");
 
 	FPGA_busy = true;
 	//обмен данными
@@ -92,8 +93,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00000001))
 	{
-		logToUART1_str("ERROR 0 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 0 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -108,8 +109,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00000010))
 	{
-		logToUART1_str("ERROR 1 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 1 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -124,8 +125,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00000100))
 	{
-		logToUART1_str("ERROR 2 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 2 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -140,8 +141,8 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	if (FPGA_fpgadata_in_tmp8 != B8(00001000))
 	{
-		logToUART1_str("ERROR 3 PIN\r\n");
-		logToUART1_num(FPGA_fpgadata_in_tmp8);
+		sendToDebug_str("ERROR 3 PIN\r\n");
+		sendToDebug_num(FPGA_fpgadata_in_tmp8);
 		return;
 	}
 	//clock
@@ -149,7 +150,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 
 	FPGA_busy = false;
 
-	logToUART1_str("OK\r\n");
+	sendToDebug_str("OK\r\n");
 }
 
 void FPGA_fpgadata_stuffclock(void)
@@ -438,19 +439,17 @@ void FPGA_fpgadata_sendiq(void)
 		if(Processor_NeedBuffer) FPGA_Buffer_underrun=true;
 		FPGA_Audio_Buffer_Index = 0;
 		FPGA_Audio_Buffer_State = true;
-		//Processor_NeedBuffer = true;
 	}
 	else if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE / 2)
 	{
 		if(Processor_NeedBuffer) FPGA_Buffer_underrun=true;
 		FPGA_Audio_Buffer_State = false;
-		//Processor_NeedBuffer = true;
 	}
 }
 
 inline uint8_t FPGA_readPacket(void)
 {
-	return (((FPGA_IN_D3_GPIO_Port->IDR & FPGA_IN_D3_Pin) == FPGA_IN_D3_Pin) << 3) | (((FPGA_IN_D2_GPIO_Port->IDR & FPGA_IN_D2_Pin) == FPGA_IN_D2_Pin) << 2) | (((FPGA_IN_D1_GPIO_Port->IDR & FPGA_IN_D1_Pin) == FPGA_IN_D1_Pin) << 1) | (((FPGA_IN_D0_GPIO_Port->IDR & FPGA_IN_D0_Pin) == FPGA_IN_D0_Pin));
+	return (((FPGA_IN_D0_GPIO_Port->IDR & FPGA_IN_D0_Pin) == FPGA_IN_D0_Pin) << 0) | (((FPGA_IN_D1_GPIO_Port->IDR & FPGA_IN_D1_Pin) == FPGA_IN_D1_Pin) << 1) | (((FPGA_IN_D2_GPIO_Port->IDR & FPGA_IN_D2_Pin) == FPGA_IN_D2_Pin) << 2) | (((FPGA_IN_D3_GPIO_Port->IDR & FPGA_IN_D3_Pin) == FPGA_IN_D3_Pin) << 3);
 }
 
 inline void FPGA_writePacket(uint8_t packet)

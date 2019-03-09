@@ -1,4 +1,4 @@
--- (C) 2001-2017 Intel Corporation. All rights reserved.
+-- (C) 2001-2018 Intel Corporation. All rights reserved.
 -- Your use of Intel Corporation's design tools, logic functions and other 
 -- software and tools, and its AMPP partner logic functions, and any output 
 -- files from any of the foregoing (including device programming or simulation 
@@ -20,8 +20,8 @@
 -- $Source: /cvs/uksw/dsp_cores/lib/fu/delay/rtl/auk_dspip_delay.vhd,v $
 --
 -- $Revision: #1 $
--- $Date: 2017/07/30 $
--- Check in by     : $Author: swbranch $
+-- $Date: 2018/07/18 $
+-- Check in by     : $Author: psgswbuild $
 -- Author   :  Volker Mauer
 --
 -- Project      :  common FU library

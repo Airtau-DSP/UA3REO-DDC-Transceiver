@@ -1,4 +1,5 @@
 #include "stm32f4xx_hal.h"
+#include "main.h"
 #include "encoder.h"
 #include "lcd.h"
 #include "trx_manager.h"

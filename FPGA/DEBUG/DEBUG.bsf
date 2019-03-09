@@ -4,7 +4,7 @@ editor if you plan to continue editing the block that represents it in
 the Block Editor! File corruption is VERY likely to occur.
 */
 /*
-Copyright (C) 2017  Intel Corporation. All rights reserved.
+Copyright (C) 2018  Intel Corporation. All rights reserved.
 Your use of Intel Corporation's design tools, logic functions 
 and other software and tools, and its AMPP partner logic 
 functions, and any output files from any of the foregoing 
@@ -26,8 +26,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 72)
 		(input)
-		(text "probe[15..0]" (rect 0 0 46 12)(font "Arial" (font_size 8)))
-		(text "probe[15..0]" (rect 4 61 76 72)(font "Arial" (font_size 8)))
+		(text "probe[11..0]" (rect 0 0 44 12)(font "Arial" (font_size 8)))
+		(text "probe[11..0]" (rect 4 61 76 72)(font "Arial" (font_size 8)))
 		(line (pt 0 72)(pt 64 72)(line_width 3))
 	)
 	(drawing

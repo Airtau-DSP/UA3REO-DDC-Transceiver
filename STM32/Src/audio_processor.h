@@ -7,9 +7,9 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define FPGA_AUDIO_BUFFER_SIZE 512
+#define FPGA_AUDIO_BUFFER_SIZE 32
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
-#define APROCESSOR_BLOCK_SIZE 32
+#define APROCESSOR_BLOCK_SIZE 16
 #define CLICK_REMOVE_THRESHOLD 0.0152 //peak difference from avg amplitude
 #define CLICK_REMOVE_STEPSIZE 0.0000001 //peak difference from avg amplitude
 #define RF_AGC_UP_STEPSIZE 1 //audio level control

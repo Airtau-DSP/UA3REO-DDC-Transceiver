@@ -2,7 +2,7 @@ Info: Starting: Create block symbol file (.bsf)
 Info: qsys-generate D:\Dropbox\Develop\Projects\UA3REO\FPGA\cic.qsys --block-symbol-file --output-directory=D:\Dropbox\Develop\Projects\UA3REO\FPGA\cic --family="Cyclone IV E" --part=EP4CE22E22C8
 Progress: Loading FPGA/cic.qsys
 Progress: Reading input file
-Progress: Adding cic_ii_0 [altera_cic_ii 17.1]
+Progress: Adding cic_ii_0 [altera_cic_ii 18.1]
 Progress: Parameterizing module cic_ii_0
 Progress: Building connections
 Progress: Parameterizing connections
@@ -15,7 +15,7 @@ Info: Starting: Create HDL design files for synthesis
 Info: qsys-generate D:\Dropbox\Develop\Projects\UA3REO\FPGA\cic.qsys --synthesis=VERILOG --output-directory=D:\Dropbox\Develop\Projects\UA3REO\FPGA\cic\synthesis --family="Cyclone IV E" --part=EP4CE22E22C8
 Progress: Loading FPGA/cic.qsys
 Progress: Reading input file
-Progress: Adding cic_ii_0 [altera_cic_ii 17.1]
+Progress: Adding cic_ii_0 [altera_cic_ii 18.1]
 Progress: Parameterizing module cic_ii_0
 Progress: Building connections
 Progress: Parameterizing connections

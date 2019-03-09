@@ -1,13 +1,13 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="cf8efd181a16e8cbfbb7"/>
+    <hash md5_digest_80b="ff8d15f9c67c85215898"/>
   </project>
   <file_info>
     <file device="EP4CE22E22C8" path="UA3REO.sof" usercode="0xFFFFFFFF"/>
   </file_info>
   <hub_info hub_ir_width="4" ir_width="4" node_addr_width="1" node_count="1"/>
   <node_info>
-    <node hpath="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|altsource_probe:issp_impl" instance_id="0" mfg_id="110" node_id="9" sld_node_info="0x486E00" version="0">
+    <node hpath="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|altsource_probe:issp_impl" instance_id="0" mfg_id="110" node_id="9" sld_node_info="0x486E00" version="0">
       <parameters>
         <parameter name="lpm_type" type="string" value="altsource_probe"/>
         <parameter name="lpm_hint" type="string" value="UNUSED"/>
@@ -16,98 +16,94 @@
         <parameter name="SLD_NODE_INFO" type="dec" value="4746752"/>
         <parameter name="sld_ir_width" type="dec" value="4"/>
         <parameter name="instance_id" type="string" value="DBG"/>
-        <parameter name="probe_width" type="dec" value="16"/>
+        <parameter name="probe_width" type="dec" value="12"/>
         <parameter name="source_width" type="dec" value="0"/>
         <parameter name="source_initial_value" type="string" value="0"/>
         <parameter name="enable_metastability" type="string" value="NO"/>
       </parameters>
       <inputs>
-        <port name="probe[0]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[0]"/>
-        <port name="probe[1]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[1]"/>
-        <port name="probe[2]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[2]"/>
-        <port name="probe[3]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[3]"/>
-        <port name="probe[4]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[4]"/>
-        <port name="probe[5]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[5]"/>
-        <port name="probe[6]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[6]"/>
-        <port name="probe[7]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[7]"/>
-        <port name="probe[8]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[8]"/>
-        <port name="probe[9]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[9]"/>
-        <port name="probe[10]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[10]"/>
-        <port name="probe[11]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[11]"/>
-        <port name="probe[12]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[12]"/>
-        <port name="probe[13]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[13]"/>
-        <port name="probe[14]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[14]"/>
-        <port name="probe[15]" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|probe[15]"/>
-        <port name="source_clk" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|source_clk"/>
-        <port name="source_ena" source="DEBUG:inst|altsource_probe_top:in_system_sources_probes_0|source_ena"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_raw_tck" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_raw_tck"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_tdi" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_tdi"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_usr1" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_usr1"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_cdr" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_cdr"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_sdr" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_sdr"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_e1dr" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_e1dr"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_udr" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_udr"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_cir" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_cir"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_uir" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_uir"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_tlr" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_jtag_state_tlr"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_clr" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_clr"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ena" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ena"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_0_" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_0_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_1_" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_1_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_2_" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_2_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_3_" source="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_in_3_"/>
+        <port name="probe[0]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[0]"/>
+        <port name="probe[1]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[1]"/>
+        <port name="probe[2]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[2]"/>
+        <port name="probe[3]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[3]"/>
+        <port name="probe[4]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[4]"/>
+        <port name="probe[5]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[5]"/>
+        <port name="probe[6]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[6]"/>
+        <port name="probe[7]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[7]"/>
+        <port name="probe[8]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[8]"/>
+        <port name="probe[9]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[9]"/>
+        <port name="probe[10]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[10]"/>
+        <port name="probe[11]" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|probe[11]"/>
+        <port name="source_clk" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|source_clk"/>
+        <port name="source_ena" source="DEBUG:DEBUG_ADC|altsource_probe_top:in_system_sources_probes_0|source_ena"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_raw_tck" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_raw_tck"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_tdi" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_tdi"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_usr1" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_usr1"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_cdr" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_cdr"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_sdr" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_sdr"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_e1dr" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_e1dr"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_udr" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_udr"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_cir" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_cir"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_uir" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_uir"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_tlr" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_jtag_state_tlr"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_clr" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_clr"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ena" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ena"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_0_" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_0_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_1_" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_1_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_2_" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_2_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_3_" source="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_in_3_"/>
       </inputs>
       <outputs>
         <port name="source[0]"/>
         <port name="source[-1]"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_out_0_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_out_1_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_out_2_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_ir_out_3_"/>
-        <port name="jtag.bp.inst_in_system_sources_probes_0_issp_impl_tdo"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_out_0_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_out_1_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_out_2_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_ir_out_3_"/>
+        <port name="jtag.bp.DEBUG_ADC_in_system_sources_probes_0_issp_impl_tdo"/>
       </outputs>
     </node>
   </node_info>
   <sld_infos>
-    <sld_info hpath="DEBUG:inst" name="inst">
+    <sld_info hpath="DEBUG:DEBUG_ADC" name="DEBUG_ADC">
       <assignment_values>
-        <assignment_value text="QSYS_NAME DEBUG HAS_SOPCINFO 1 GENERATION_ID 1545687236"/>
+        <assignment_value text="QSYS_NAME DEBUG HAS_SOPCINFO 1 GENERATION_ID 1551734794"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="NCO_TX:TX_NCO" name="TX_NCO">
       <assignment_values>
-        <assignment_value text="QSYS_NAME NCO_TX HAS_SOPCINFO 1 GENERATION_ID 1545687244"/>
+        <assignment_value text="QSYS_NAME NCO_TX HAS_SOPCINFO 1 GENERATION_ID 1551734802"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="cic:RX_CIC_I" name="RX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1545687273"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1551734829"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="cic:RX_CIC_Q" name="RX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1545687273"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1551734829"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="nco:NCO" name="NCO">
       <assignment_values>
-        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1545687263"/>
+        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1551734820"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1545687254"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1551734811"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1545687254"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1551734811"/>
       </assignment_values>
       <parameters/>
     </sld_info>

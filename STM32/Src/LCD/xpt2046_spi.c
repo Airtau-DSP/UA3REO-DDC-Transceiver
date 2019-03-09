@@ -1,6 +1,7 @@
 #include "stm32f4xx_hal.h"
 #include "xpt2046_spi.h"
 #include "MA_ILI9341.h"
+#include "main.h"
 #include "../functions.h"
 #include "../settings.h"
 
@@ -24,11 +25,6 @@ uint8_t Spi_Master_Transmit(uint8_t out_data)
 {
 	uint8_t in_data = 0;
 	HAL_SPI_TransmitReceive(&hspi2, &out_data, &in_data, 1, 0x1000);
-	//LogToUART1("SPI DEBUG: ");
-	//char dest [100];
-	//sprintf(dest, "%02X", in_data);
-	//LogToUART1(dest);
-	//LogToUART1("\r\n");
 	return in_data;
 
 }
@@ -57,10 +53,6 @@ uint16_t Get_Touch(uint8_t adress)
 	//считываем младший байт 
 	data |= Spi_Master_Transmit(0X00);
 	data >>= 3;
-	//char dest [100];
-	//sprintf(dest, "%02X", data);
-	//LogToUART1(dest);
-	//LogToUART1("\r\n");
 	//CS_TOUCH_HIGH;//деактивируем XPT2046
 
 	return data;
@@ -118,7 +110,7 @@ void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 	by = _by;
 	
 	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
-	logToUART1_str(dest);
+	sendToDebug_str(dest);
 }
 
 //функция калибровки

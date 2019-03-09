@@ -42,7 +42,7 @@ set_global_assignment -name DEVICE EP4CE22E22C8
 set_global_assignment -name TOP_LEVEL_ENTITY UA3REO
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.1.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "17:58:56  MARCH 31, 2018"
-set_global_assignment -name LAST_QUARTUS_VERSION "17.1.1 Standard Edition"
+set_global_assignment -name LAST_QUARTUS_VERSION "18.1.0 Standard Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
 set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
@@ -77,22 +77,22 @@ set_global_assignment -name RESERVE_FLASH_NCE_AFTER_CONFIGURATION "USE AS REGULA
 set_global_assignment -name RESERVE_DCLK_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
 set_global_assignment -name PROJECT_IP_REGENERATION_POLICY ALWAYS_REGENERATE_IP
-set_global_assignment -name TIMEQUEST_MULTICORNER_ANALYSIS ON
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name SMART_RECOMPILE ON
 set_global_assignment -name FLOW_ENABLE_IO_ASSIGNMENT_ANALYSIS ON
 set_global_assignment -name FLOW_ENABLE_RTL_VIEWER OFF
-set_location_assignment PIN_128 -to ADC_INPUT[11]
-set_location_assignment PIN_129 -to ADC_INPUT[10]
-set_location_assignment PIN_132 -to ADC_INPUT[9]
-set_location_assignment PIN_133 -to ADC_INPUT[8]
-set_location_assignment PIN_135 -to ADC_INPUT[7]
-set_location_assignment PIN_136 -to ADC_INPUT[6]
-set_location_assignment PIN_137 -to ADC_INPUT[5]
-set_location_assignment PIN_141 -to ADC_INPUT[4]
-set_location_assignment PIN_142 -to ADC_INPUT[3]
-set_location_assignment PIN_7 -to ADC_INPUT[2]
-set_location_assignment PIN_11 -to ADC_INPUT[1]
-set_location_assignment PIN_10 -to ADC_INPUT[0]
+set_location_assignment PIN_11 -to ADC_INPUT[11]
+set_location_assignment PIN_10 -to ADC_INPUT[10]
+set_location_assignment PIN_7 -to ADC_INPUT[9]
+set_location_assignment PIN_142 -to ADC_INPUT[8]
+set_location_assignment PIN_141 -to ADC_INPUT[7]
+set_location_assignment PIN_137 -to ADC_INPUT[6]
+set_location_assignment PIN_136 -to ADC_INPUT[5]
+set_location_assignment PIN_135 -to ADC_INPUT[4]
+set_location_assignment PIN_133 -to ADC_INPUT[3]
+set_location_assignment PIN_132 -to ADC_INPUT[2]
+set_location_assignment PIN_129 -to ADC_INPUT[1]
+set_location_assignment PIN_128 -to ADC_INPUT[0]
 set_location_assignment PIN_23 -to clk_sys
 set_global_assignment -name CONFIGURATION_VCCIO_LEVEL 2.5V
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS OUTPUT DRIVING GROUND"
@@ -150,27 +150,27 @@ set_location_assignment PIN_43 -to STM32_DATA_OUT[1]
 set_location_assignment PIN_44 -to STM32_DATA_OUT[2]
 set_location_assignment PIN_46 -to STM32_DATA_OUT[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_OTR
-set_location_assignment PIN_121 -to DAC_OUTPUT[0]
-set_location_assignment PIN_120 -to DAC_OUTPUT[1]
-set_location_assignment PIN_119 -to DAC_OUTPUT[2]
-set_location_assignment PIN_115 -to DAC_OUTPUT[3]
-set_location_assignment PIN_114 -to DAC_OUTPUT[4]
-set_location_assignment PIN_113 -to DAC_OUTPUT[5]
-set_location_assignment PIN_112 -to DAC_OUTPUT[6]
-set_location_assignment PIN_111 -to DAC_OUTPUT[7]
-set_location_assignment PIN_110 -to DAC_OUTPUT[8]
-set_location_assignment PIN_106 -to DAC_OUTPUT[9]
-set_location_assignment PIN_105 -to DAC_OUTPUT[10]
-set_location_assignment PIN_104 -to DAC_OUTPUT[11]
-set_location_assignment PIN_103 -to DAC_OUTPUT[12]
-set_location_assignment PIN_101 -to DAC_OUTPUT[13]
+set_location_assignment PIN_120 -to DAC_OUTPUT[0]
+set_location_assignment PIN_121 -to DAC_OUTPUT[1]
+set_location_assignment PIN_115 -to DAC_OUTPUT[2]
+set_location_assignment PIN_119 -to DAC_OUTPUT[3]
+set_location_assignment PIN_113 -to DAC_OUTPUT[4]
+set_location_assignment PIN_114 -to DAC_OUTPUT[5]
+set_location_assignment PIN_111 -to DAC_OUTPUT[6]
+set_location_assignment PIN_112 -to DAC_OUTPUT[7]
+set_location_assignment PIN_106 -to DAC_OUTPUT[8]
+set_location_assignment PIN_110 -to DAC_OUTPUT[9]
+set_location_assignment PIN_104 -to DAC_OUTPUT[10]
+set_location_assignment PIN_105 -to DAC_OUTPUT[11]
+set_location_assignment PIN_101 -to DAC_OUTPUT[12]
+set_location_assignment PIN_103 -to DAC_OUTPUT[13]
 
 
 
 set_location_assignment PIN_58 -to TXRX_RELAY
 
 
-set_global_assignment -name TIMEQUEST_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS OFF
+set_global_assignment -name TIMING_ANALYZER_REPORT_SCRIPT_INCLUDE_DEFAULT_ANALYSIS OFF
 set_global_assignment -name OPTIMIZATION_MODE BALANCED
 set_global_assignment -name AUTO_RAM_TO_LCELL_CONVERSION ON
 
@@ -187,8 +187,6 @@ set_global_assignment -name VERILOG_FILE rx_ciccomp.v
 set_global_assignment -name QSYS_FILE tx_cic.qsys
 set_global_assignment -name SOURCE_FILE Debug_Probes.spf
 set_global_assignment -name QIP_FILE ADC_corrector.qip
-set_global_assignment -name VERILOG_FILE mux16.v
-set_global_assignment -name VERILOG_FILE ADC_corrector.v
 set_global_assignment -name QSYS_FILE nco.qsys
 set_global_assignment -name QSYS_FILE cic.qsys
 set_global_assignment -name SDC_FILE SDC.sdc

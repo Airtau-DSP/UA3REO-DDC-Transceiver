@@ -6,6 +6,7 @@
 #include <math.h>
 #include "arm_math.h"
 #include "fpga.h"
+#include "usbd_cdc_if.h"
 
 void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length)
 {
@@ -52,55 +53,56 @@ void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t inde
 	}
 }
 
-void logToUART1_str(char* data)
+void sendToDebug_str(char* data)
 {
-	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), HAL_MAX_DELAY);
+	//CDC_Transmit_FS((uint8_t*)data, strlen(data));
+	HAL_UART_Transmit(&huart1,(uint8_t*)data, strlen(data),1000);
 }
 
-void logToUART1_num(uint8_t data)
+void sendToDebug_num(uint8_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%d\r\n", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
 
-void logToUART1_numinline(uint8_t data)
+void sendToDebug_numinline(uint8_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%d", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
 
-void logToUART1_num16(uint16_t data)
+void sendToDebug_num16(uint16_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%d\r\n", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
-void logToUART1_int16(int16_t data)
+void sendToDebug_int16(int16_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%d\r\n", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
-void logToUART1_int32(int32_t data)
+void sendToDebug_int32(int32_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%d\r\n", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
-void logToUART1_num32(uint32_t data)
+void sendToDebug_num32(uint32_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%d\r\n", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
 
-void logToUART1_float32(float32_t data)
+void sendToDebug_float32(float32_t data)
 {
 	char tmp[50] = "";
 	sprintf(tmp, "%f\r\n", data);
-	logToUART1_str(tmp);
+	sendToDebug_str(tmp);
 }
 
 void delay_us(uint32_t us)
