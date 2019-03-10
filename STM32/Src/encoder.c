@@ -113,7 +113,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			case MENU_MAIN_RF_GAIN:
 				TRX.RF_Gain = TRX.RF_Gain + direction;
 				if (TRX.RF_Gain < 1) TRX.RF_Gain = 1;
-				if (TRX.RF_Gain > 100) TRX.RF_Gain = 100;
+				if (TRX.RF_Gain > 250) TRX.RF_Gain = 250;
 				LCD_UpdateQuery.MainMenu=true;
 				break;
 			case MENU_MAIN_FM_SQL:
