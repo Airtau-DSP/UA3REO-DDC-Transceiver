@@ -22,7 +22,6 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	
 	if (TRX.clean_flash != 129) //code to trace new clean flash
 	{
 		TRX.clean_flash = 129;
@@ -53,6 +52,7 @@ void LoadSettings(void)
 		TRX.RF_Power=25;
 		TRX.FFT_Enabled=true;
 		TRX.FM_SQL_threshold=1;
+		TRX.RF_Gain=50;
 	}
 }
 

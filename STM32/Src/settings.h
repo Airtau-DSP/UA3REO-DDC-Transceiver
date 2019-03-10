@@ -42,6 +42,7 @@ extern struct TRX_SETTINGS {
 	uint8_t RF_Power;
 	bool FFT_Enabled;
 	uint8_t	FM_SQL_threshold;
+	uint8_t	RF_Gain;
 } TRX;
 
 extern bool NeedSaveSettings;

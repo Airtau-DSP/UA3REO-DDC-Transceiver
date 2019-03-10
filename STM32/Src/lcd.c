@@ -116,11 +116,11 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 				printButton(131, 5, 58, 60, "7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 7000), LCD_Handler_WIDTH_70);
 				printButton(194, 5, 58, 60, "8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 8000), LCD_Handler_WIDTH_80);
 				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
-				printButton(5, 70, 58, 60, "8.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 8500), LCD_Handler_WIDTH_85);
-				printButton(68, 70, 58, 60, "9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9000), LCD_Handler_WIDTH_90);
-				printButton(131, 70, 58, 60, "9.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9500), LCD_Handler_WIDTH_95);
-				printButton(194, 70, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 10000), LCD_Handler_WIDTH_100);
-				printButton(257, 70, 58, 60, "15", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 15000), LCD_Handler_WIDTH_150);
+				printButton(5, 70, 58, 60, "9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9000), LCD_Handler_WIDTH_90);
+				printButton(68, 70, 58, 60, "9.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9500), LCD_Handler_WIDTH_95);
+				printButton(131, 70, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 10000), LCD_Handler_WIDTH_100);
+				printButton(194, 70, 58, 60, "15", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 15000), LCD_Handler_WIDTH_150);
+				printButton(257, 70, 58, 60, "NONE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 0), LCD_Handler_WIDTH_0);
 				break;
 			default:
 				printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1800), LCD_Handler_WIDTH_18);
@@ -254,7 +254,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	}
 	LCD_busy = true;
 	int width = 273;
-	TRX_s_meter = (float32_t)73 * log10f_fast(agc_wdsp.volts * 32767) + ((float32_t)0.35*(float32_t)73);
+	TRX_s_meter = (float32_t)73 * log10f_fast(agc_wdsp.volts) + ((float32_t)0.35*(float32_t)73);
 	if (TRX_s_meter > width) TRX_s_meter = width;
 	if (TRX_s_meter < 0) TRX_s_meter = 0;
 
@@ -313,20 +313,22 @@ void LCD_displayMainMenu() {
 	printMenuButton(5, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
 	sprintf(ctmp, "%d", TRX.Volume);
 	printMenuButton(84, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
-	sprintf(ctmp, "%d", TRX.Agc_speed);
-	printMenuButton(163, 5, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
+	sprintf(ctmp, "%d %%", TRX.RF_Gain);
+	printMenuButton(163, 5, 74, 50, "RF GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_GAIN), false, LCD_Handler_MENU_RF_GAIN);
 	sprintf(ctmp, "%d %%", TRX.RF_Power);
 	printMenuButton(242, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
 	
-	printMenuButton(5, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp, true, LCD_Handler_MENU_PREAMP);
-	printMenuButton(84, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
-	printMenuButton(163, 60, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
-	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
+	sprintf(ctmp, "%d", TRX.Agc_speed);
+	printMenuButton(5, 60, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
+	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
+	printMenuButton(84, 60, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
+	printMenuButton(163, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp, true, LCD_Handler_MENU_PREAMP);
+	printMenuButton(242, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 	
 	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
 	printMenuButton(84, 115, 74, 50, "FFT", "enabled", TRX.FFT_Enabled, true, LCD_Handler_MENU_FFT_ENABLED);
-	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
-	printMenuButton(163, 115, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
+	printMenuButton(163, 115, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
+	printMenuButton(242, 115, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
 	LCD_UpdateQuery.MainMenu=false;
 	LCD_busy = false;
 }
@@ -542,6 +544,15 @@ void LCD_Handler_WIDTH_80(void)
 {
 	CurrentVFO()->Filter_Width = 8000;
 	TRX.FM_Filter=8000;
+	NeedSaveSettings = true;
+	LCD_widthMenuOpened = false;
+	InitFilters();
+	LCD_redraw();
+}
+void LCD_Handler_WIDTH_0(void)
+{
+	CurrentVFO()->Filter_Width = 0;
+	TRX.FM_Filter=0;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
 	InitFilters();
@@ -819,6 +830,12 @@ void LCD_Handler_MENU_BACK(void)
 void LCD_Handler_MENU_VOLUME(void)
 {
 	LCD_menu_main_index = MENU_MAIN_VOLUME;
+	LCD_UpdateQuery.MainMenu=true;
+}
+
+void LCD_Handler_MENU_RF_GAIN(void)
+{
+	LCD_menu_main_index = MENU_MAIN_RF_GAIN;
 	LCD_UpdateQuery.MainMenu=true;
 }
 

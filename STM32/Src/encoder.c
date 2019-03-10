@@ -107,7 +107,13 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			case MENU_MAIN_VOLUME:
 				TRX.Volume = TRX.Volume + direction;
 				if (TRX.Volume < 1) TRX.Volume = 1;
-				if (TRX.Volume > 200) TRX.Volume = 200;
+				if (TRX.Volume > 100) TRX.Volume = 100;
+				LCD_UpdateQuery.MainMenu=true;
+				break;
+			case MENU_MAIN_RF_GAIN:
+				TRX.RF_Gain = TRX.RF_Gain + direction;
+				if (TRX.RF_Gain < 1) TRX.RF_Gain = 1;
+				if (TRX.RF_Gain > 100) TRX.RF_Gain = 100;
 				LCD_UpdateQuery.MainMenu=true;
 				break;
 			case MENU_MAIN_FM_SQL:
