@@ -50,6 +50,7 @@ void LoadSettings(void)
 		TRX.SSB_Filter=2700;
 		TRX.FM_Filter=15000;
 		TRX.RF_Power=25;
+		TRX.FFT_Enabled=true;
 	}
 }
 

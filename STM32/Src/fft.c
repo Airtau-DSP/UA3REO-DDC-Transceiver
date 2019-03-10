@@ -6,6 +6,7 @@
 #include "functions.h"
 #include "audio_processor.h"
 #include "wm8731.h"
+#include "settings.h"
 
 uint32_t FFT_buff_index = 0;
 float32_t FFTInput_A[FFT_SIZE * 2] = { 0 };
@@ -30,6 +31,7 @@ bool FFT_need_fft = true; //необходимо полдготовить данные для отображения на эк
 
 void FFT_doFFT(void)
 {
+	if (!TRX.FFT_Enabled) return;
 	if (!FFT_need_fft) return;
 	if (FFTInputBufferInProgress) //B in progress
 	{
@@ -85,6 +87,7 @@ void FFT_doFFT(void)
 void FFT_printFFT(void)
 {
 	if (LCD_busy) return;
+	if (!TRX.FFT_Enabled) return;
 	if (TRX_ptt || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK) return;
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;

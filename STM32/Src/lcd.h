@@ -74,6 +74,7 @@ void LCD_Handler_AGC(void);
 void LCD_Handler_MUTE(void);
 void LCD_Handler_FAST(void);
 void LCD_Handler_MENU_MAP(void);
+void LCD_Handler_MENU_FFT_ENABLED(void);
 void LCD_Handler_MENU_LINEMIC(void);
 void LCD_Handler_SETTIME(void);
 void LCD_Handler_TIMEMENU_NEXT(void);

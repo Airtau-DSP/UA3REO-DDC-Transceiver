@@ -40,6 +40,7 @@ extern struct TRX_SETTINGS {
 	uint16_t SSB_Filter;
 	uint16_t FM_Filter;
 	uint8_t RF_Power;
+	bool FFT_Enabled;
 } TRX;
 
 extern bool NeedSaveSettings;
