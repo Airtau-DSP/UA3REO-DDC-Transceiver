@@ -129,7 +129,21 @@ uint32_t getFrequencyFromPhrase(uint32_t phrase) //высчитываем фаз
 uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем частоту из фразы ля FPGA
 {
 	uint32_t res = 0;
-	res = round(((double)freq / ADCDAC_CLOCK) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
+	uint32_t _freq=freq;
+	if (_freq > ADCDAC_CLOCK/2) //Go Nyquist
+	{
+		bool inverted = false;
+		while(_freq > ADCDAC_CLOCK/2)
+		{
+			_freq-=ADCDAC_CLOCK/2;
+			inverted=!inverted;
+		}
+		if(inverted)
+		{
+			_freq=ADCDAC_CLOCK/2-_freq;
+		}
+	}
+	res = round(((double)_freq / ADCDAC_CLOCK) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 	return res;
 }
 

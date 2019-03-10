@@ -103,10 +103,10 @@ void TRX_ptt_change()
 	}
 }
 
-void TRX_setFrequency(uint32_t _freq)
+void TRX_setFrequency(int32_t _freq)
 {
-	if (_freq < 100) _freq = 100;
-	if (_freq >= ADCDAC_CLOCK / 2) _freq = ADCDAC_CLOCK / 2;
+	if (_freq < 1) return;
+	if (_freq >= MAX_FREQ_HZ) _freq = MAX_FREQ_HZ;
 	
 	FFT_moveWaterfall(_freq-CurrentVFO()->Freq);
 	

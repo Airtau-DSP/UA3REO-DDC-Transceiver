@@ -166,12 +166,20 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	LCD_busy = true;
 	LCD_last_showed_freq = TRX_getFrequency();
 
-	if (TRX_getFrequency() >= 10000000)
-		ILI9341_SetCursorPosition(24, 120);
+	if (TRX_getFrequency() >= 100000000)
+	{
+		ILI9341_Fill_RectWH(0, 87, 5, 35, COLOR_BLACK);
+		ILI9341_SetCursorPosition(5, 120);
+	}
+	else if (TRX_getFrequency() >= 10000000)
+	{
+		ILI9341_Fill_RectWH(0, 87, 31, 35, COLOR_BLACK);
+		ILI9341_SetCursorPosition(31, 120);
+	}
 	else
 	{
-		ILI9341_Fill_RectWH(0, 87, 50, 35, COLOR_BLACK);
-		ILI9341_SetCursorPosition(50, 120);
+		ILI9341_Fill_RectWH(0, 87, 57, 35, COLOR_BLACK);
+		ILI9341_SetCursorPosition(57, 120);
 	}
 
 	//добавляем пробелов для вывода частоты
@@ -316,6 +324,7 @@ void LCD_displayMainMenu() {
 	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
 	
 	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
+	printMenuButton(84, 115, 74, 50, "FFT", "enabled", TRX.FFT_Enabled, true, LCD_Handler_MENU_FFT_ENABLED);
 	LCD_UpdateQuery.MainMenu=false;
 	LCD_busy = false;
 }
@@ -625,6 +634,13 @@ void LCD_Handler_MENU_MAP(void)
 	NeedSaveSettings = true;
 }
 
+void LCD_Handler_MENU_FFT_ENABLED(void)
+{
+	TRX.FFT_Enabled = !TRX.FFT_Enabled;
+	LCD_UpdateQuery.MainMenu=true;
+	NeedSaveSettings = true;
+}
+
 void LCD_Handler_MENU_LINEMIC(void)
 {
 	TRX.LineMicIn = !TRX.LineMicIn;
@@ -891,9 +907,9 @@ void LCD_checkTouchPad(void)
 
 	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened && !LCD_modeMenuOpened && !LCD_widthMenuOpened)
 	{
-		if (x >= 30 && x <= 60 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_MHZ;
-		if (x >= 90 && x <= 180 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
-		if (x >= 210 && x <= 300 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_HZ;
+		if (x >= 5 && x <= 80 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_MHZ;
+		if (x >= 95 && x <= 170 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
+		if (x >= 195 && x <= 270 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_HZ;
 		LCD_last_showed_freq = 0;
 		LCD_displayFreqInfo();
 	}
