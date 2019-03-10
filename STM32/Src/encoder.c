@@ -52,7 +52,10 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 				TRX_setFrequency(TRX_getFrequency() + 10 * direction);
 			break;
 		case MENU_FREQ_KHZ:
-			TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
+			if(TRX.Fast)
+				TRX_setFrequency(TRX_getFrequency() + 10000 * direction);
+			else
+				TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
 			break;
 		case MENU_FREQ_MHZ:
 			TRX_setFrequency(TRX_getFrequency() + 1000000 * direction);
