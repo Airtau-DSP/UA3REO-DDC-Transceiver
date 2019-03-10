@@ -19,7 +19,7 @@ bool LCD_mainMenuOpened = false;
 bool LCD_timeMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
 uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
-bool LCD_needRedrawMainMenu = false;
+
 int LCD_last_s_meter = 1;
 bool LCD_busy = false;
 bool LCD_pressed = false;
@@ -35,6 +35,8 @@ uint8_t Minutes;
 uint8_t Seconds;
 uint8_t TimeMenuSelection=0;
 
+DEF_LCD_UpdateQuery LCD_UpdateQuery = {false,false,false,false,false,false};
+
 void LCD_Init(void)
 {
 	HAL_GPIO_WritePin(LED_BL_GPIO_Port, LED_BL_Pin, GPIO_PIN_RESET); //turn on LED BL
@@ -47,7 +49,11 @@ void LCD_Init(void)
 
 void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок
 	if (LCD_mainMenuOpened) return;
-	if (LCD_busy) return;
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.TopButtons=true;
+		return;
+	}
 	if (redraw) ILI9341_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	button_handlers_count = 0;
 
@@ -137,6 +143,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Mute == true), LCD_Handler_MUTE);
 		printButton(239, 40, 76, 30, "MENU", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MENU);
 	}
+	LCD_UpdateQuery.TopButtons=false;
 }
 
 void LCD_displayFreqInfo() { //вывод частоты на экран
@@ -145,7 +152,11 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	if (LCD_modeMenuOpened) return;
 	if (LCD_widthMenuOpened) return;
 	if (LCD_last_showed_freq == TRX_getFrequency()) return;
-	if (LCD_busy) return;
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.FreqInfo=true;
+		return;
+	}
 	LCD_busy = true;
 	LCD_last_showed_freq = TRX_getFrequency();
 
@@ -185,11 +196,18 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	NeedSaveSettings = true;
+	LCD_UpdateQuery.FreqInfo=false;
 	LCD_busy = false;
 }
 
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	if (LCD_mainMenuOpened) return;
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.StatusInfoGUI=true;
+		return;
+	}
+	LCD_busy = true;
 	if (TRX_ptt)
 		ILI9341_printTextFont("TX", 10, 144, COLOR_RED, COLOR_BLACK, FreeSans9pt7b);
 	else
@@ -207,11 +225,18 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	ILI9341_printText("+20", 50 + step * 5, 150, COLOR_RED, COLOR_BLACK, 1);
 	ILI9341_printText("+40", 50 + step * 6, 150, COLOR_RED, COLOR_BLACK, 1);
 	ILI9341_printText("+60", 50 + step * 7, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCD_UpdateQuery.StatusInfoGUI=false;
+	LCD_busy = false;
 }
 
 void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
 	if (LCD_mainMenuOpened) return;
-
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.StatusInfoBar=true;
+		return;
+	}
+	LCD_busy = true;
 	int width = 273;
 	TRX_s_meter = (float32_t)73 * log10f_fast(agc_wdsp.volts * 32767) + ((float32_t)0.35*(float32_t)73);
 	if (TRX_s_meter > width) TRX_s_meter = width;
@@ -253,10 +278,18 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 		ILI9341_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
 		LAST_Time=Time;
 	}
+	LCD_UpdateQuery.StatusInfoBar=false;
+	LCD_busy = false;
 }
 
 void LCD_displayMainMenu() {
 	if (!LCD_mainMenuOpened) return;
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.MainMenu=true;
+		return;
+	}
+	LCD_busy = true;
 	button_handlers_count = 0;
 	char ctmp[50];
 	if(LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
@@ -275,30 +308,37 @@ void LCD_displayMainMenu() {
 	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
 	
 	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
+	LCD_UpdateQuery.MainMenu=false;
+	LCD_busy = false;
 }
 
 void LCD_redraw(void) {
-	ILI9341_Fill_RectWH(0, 0, 319, 239, COLOR_BLACK);
+	LCD_UpdateQuery.Background=true;
+	LCD_UpdateQuery.FreqInfo=true;
+	LCD_UpdateQuery.MainMenu=true;
+	LCD_UpdateQuery.StatusInfoBar=true;
+	LCD_UpdateQuery.StatusInfoGUI=true;
+	LCD_UpdateQuery.TopButtons=true;
 	button_handlers_count = 0;
-	LCD_displayTopButtons(false);
 	LCD_last_showed_freq = 0;
-	LCD_displayFreqInfo();
-	LCD_displayStatusInfoGUI();
-	LCD_displayStatusInfoBar();
-	LCD_displayMainMenu();
+	LCD_doEvents();
 }
 
 void LCD_doEvents(void)
 {
 	if (LCD_busy) return;
-	LCD_busy = true;
-	LCD_displayFreqInfo();
-	LCD_displayStatusInfoBar();
-	if (LCD_needRedrawMainMenu) {
-		LCD_needRedrawMainMenu = false;
-		LCD_displayMainMenu();
+	if(LCD_UpdateQuery.Background)
+	{
+		LCD_busy=true;
+		ILI9341_Fill_RectWH(0, 0, 319, 239, COLOR_BLACK);
+		LCD_UpdateQuery.Background=false; 
+		LCD_busy=false;
 	}
-	LCD_busy = false;
+	if(LCD_UpdateQuery.TopButtons) LCD_displayTopButtons(false);
+	if(LCD_UpdateQuery.FreqInfo) LCD_displayFreqInfo();
+	if(LCD_UpdateQuery.StatusInfoGUI) LCD_displayStatusInfoGUI();
+	LCD_displayStatusInfoBar();
+	if(LCD_UpdateQuery.MainMenu) LCD_displayMainMenu();
 }
 
 void LCD_Handler_TUNE(void)
@@ -537,28 +577,28 @@ void LCD_Handler_WIDTH_150(void)
 void LCD_Handler_MENU_ATT(void)
 {
 	TRX.Att = !TRX.Att;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
 void LCD_Handler_MENU_BPF(void)
 {
 	TRX.BPF = !TRX.BPF;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
 void LCD_Handler_MENU_PREAMP_UHF(void)
 {
 	TRX.Preamp_UHF = !TRX.Preamp_UHF;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
 void LCD_Handler_MENU_PREAMP_HF(void)
 {
 	TRX.Preamp_HF = !TRX.Preamp_HF;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
@@ -586,7 +626,7 @@ void LCD_Handler_FAST(void)
 void LCD_Handler_MENU_MAP(void)
 {
 	TRX.BandMapEnabled = !TRX.BandMapEnabled;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
@@ -594,7 +634,7 @@ void LCD_Handler_MENU_LINEMIC(void)
 {
 	TRX.LineMicIn = !TRX.LineMicIn;
 	TRX_Restart_Mode();
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
@@ -758,19 +798,19 @@ void LCD_Handler_MENU_BACK(void)
 void LCD_Handler_MENU_VOLUME(void)
 {
 	LCD_menu_main_index = MENU_MAIN_VOLUME;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 }
 
 void LCD_Handler_MENU_RF_POWER(void)
 {
 	LCD_menu_main_index = MENU_MAIN_RF_POWER;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 }
 
 void LCD_Handler_MENU_AGC_S(void)
 {
 	LCD_menu_main_index = MENU_MAIN_AGCSPEED;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 }
 
 void LCD_Handler_SETTIME(void)
@@ -802,14 +842,14 @@ void LCD_Handler_TIMEMENU_NEXT(void)
 	ILI9341_Fill(COLOR_BLACK);
 	TimeMenuSelection++;
 	if(TimeMenuSelection==3) TimeMenuSelection=0;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 }
 
 void LCD_Handler_TIMEMENU_BACK(void)
 {
 	ILI9341_Fill(COLOR_BLACK);
 	LCD_timeMenuOpened=false;
-	LCD_needRedrawMainMenu = true;
+	LCD_UpdateQuery.MainMenu=true;
 }
 
 void LCD_Handler_LCD_Calibrate(void)

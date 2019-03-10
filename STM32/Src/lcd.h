@@ -17,6 +17,15 @@
 
 #define TOUCHPAD_DELAY 100 //anti-bounce
 
+typedef struct {
+	bool Background;
+	bool MainMenu;
+	bool TopButtons;
+	bool FreqInfo;
+	bool StatusInfoGUI;
+	bool StatusInfoBar;
+} DEF_LCD_UpdateQuery;
+
 struct button_handler {
 	uint16_t x1;
 	uint16_t x2;
@@ -40,9 +49,9 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 
 extern uint32_t LCD_last_showed_freq;
 extern uint8_t LCD_menu_main_index;
+extern DEF_LCD_UpdateQuery LCD_UpdateQuery;
 extern bool LCD_mainMenuOpened;
 extern bool LCD_timeMenuOpened;
-extern bool LCD_needRedrawMainMenu;
 extern char LCD_freq_string_hz[6];
 extern char LCD_freq_string_khz[6];
 extern char LCD_freq_string_mhz[6];

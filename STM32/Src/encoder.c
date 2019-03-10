@@ -97,7 +97,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			HAL_RTC_DeInit(&hrtc);
 			HAL_RTC_Init(&hrtc);
 			HAL_RTC_SetTime(&hrtc,&sTime,RTC_FORMAT_BIN);
-			LCD_needRedrawMainMenu = true;
+			LCD_UpdateQuery.MainMenu=true;
 			return;
 		}
 		switch (LCD_menu_main_index) {
@@ -105,19 +105,19 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			TRX.Volume = TRX.Volume + direction;
 			if (TRX.Volume < 1) TRX.Volume = 1;
 			if (TRX.Volume > 200) TRX.Volume = 200;
-			LCD_needRedrawMainMenu = true;
+			LCD_UpdateQuery.MainMenu=true;
 			break;
 		case MENU_MAIN_RF_POWER:
 			TRX.RF_Power = TRX.RF_Power + direction;
 			if (TRX.RF_Power < 1) TRX.RF_Power = 1;
 			if (TRX.RF_Power > 100) TRX.RF_Power = 100;
-			LCD_needRedrawMainMenu = true;
+			LCD_UpdateQuery.MainMenu=true;
 			break;
 		case MENU_MAIN_AGCSPEED:
 			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
 			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
 			SetupAgcWdsp();
-			LCD_needRedrawMainMenu = true;
+			LCD_UpdateQuery.MainMenu=true;
 			break;
 		default:
 			break;
