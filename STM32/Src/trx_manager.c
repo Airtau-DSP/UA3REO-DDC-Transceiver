@@ -11,13 +11,14 @@
 #include "audio_filters.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
-bool TRX_ptt = 0;
-bool TRX_tune = 0;
+bool TRX_ptt = false;
+bool TRX_squelched = false;
+bool TRX_tune = false;
 bool TRX_inited = false;
 int32_t TRX_s_meter = 1;
-bool TRX_agc_wdsp_action = 0;
-bool TRX_ADC_OTR = 0;
-bool TRX_DAC_OTR = 0;
+bool TRX_agc_wdsp_action = false;
+bool TRX_ADC_OTR = false;
+bool TRX_DAC_OTR = false;
 
 char *MODE_DESCR[] = {
 	"LSB",

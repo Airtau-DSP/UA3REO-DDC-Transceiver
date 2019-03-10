@@ -14,6 +14,12 @@
 #define CLICK_REMOVE_STEPSIZE 0.0000001 //peak difference from avg amplitude
 #define RF_AGC_UP_STEPSIZE 1 //audio level control
 
+#define FM_RX_LPF_ALPHA		0.05f			// For FM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
+#define FM_RX_HPF_ALPHA		0.96f			// For FM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
+#define	FM_SQUELCH_HYSTERESIS	3			// Hysteresis for FM squelch
+#define FM_SQUELCH_PROC_DECIMATION	50		// Number of times we go through the FM demod algorithm before we do a squelch calculation
+#define FM_RX_SQL_SMOOTHING	0.005f			// Smoothing factor for IIR squelch noise averaging
+
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 
@@ -37,5 +43,6 @@ extern float32_t Processor_TX_MAX_amplitude;
 extern float32_t ALC_need_gain;
 extern float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
 extern float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
+static void DemodFM(void);
 
 #endif

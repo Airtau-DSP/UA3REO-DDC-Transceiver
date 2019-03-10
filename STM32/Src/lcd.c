@@ -325,6 +325,8 @@ void LCD_displayMainMenu() {
 	
 	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
 	printMenuButton(84, 115, 74, 50, "FFT", "enabled", TRX.FFT_Enabled, true, LCD_Handler_MENU_FFT_ENABLED);
+	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
+	printMenuButton(163, 115, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
 	LCD_UpdateQuery.MainMenu=false;
 	LCD_busy = false;
 }
@@ -817,6 +819,12 @@ void LCD_Handler_MENU_BACK(void)
 void LCD_Handler_MENU_VOLUME(void)
 {
 	LCD_menu_main_index = MENU_MAIN_VOLUME;
+	LCD_UpdateQuery.MainMenu=true;
+}
+
+void LCD_Handler_MENU_FM_SQL(void)
+{
+	LCD_menu_main_index = MENU_MAIN_FM_SQL;
 	LCD_UpdateQuery.MainMenu=true;
 }
 

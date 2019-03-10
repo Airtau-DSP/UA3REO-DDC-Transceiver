@@ -104,26 +104,31 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			return;
 		}
 		switch (LCD_menu_main_index) {
-		case MENU_MAIN_VOLUME:
-			TRX.Volume = TRX.Volume + direction;
-			if (TRX.Volume < 1) TRX.Volume = 1;
-			if (TRX.Volume > 200) TRX.Volume = 200;
-			LCD_UpdateQuery.MainMenu=true;
-			break;
-		case MENU_MAIN_RF_POWER:
-			TRX.RF_Power = TRX.RF_Power + direction;
-			if (TRX.RF_Power < 1) TRX.RF_Power = 1;
-			if (TRX.RF_Power > 100) TRX.RF_Power = 100;
-			LCD_UpdateQuery.MainMenu=true;
-			break;
-		case MENU_MAIN_AGCSPEED:
-			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
-			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
-			SetupAgcWdsp();
-			LCD_UpdateQuery.MainMenu=true;
-			break;
-		default:
-			break;
+			case MENU_MAIN_VOLUME:
+				TRX.Volume = TRX.Volume + direction;
+				if (TRX.Volume < 1) TRX.Volume = 1;
+				if (TRX.Volume > 200) TRX.Volume = 200;
+				LCD_UpdateQuery.MainMenu=true;
+				break;
+			case MENU_MAIN_FM_SQL:
+				if (direction > 0 || TRX.FM_SQL_threshold > 0) TRX.FM_SQL_threshold = TRX.FM_SQL_threshold + direction;
+				if (TRX.FM_SQL_threshold > 10) TRX.FM_SQL_threshold = 10;
+				LCD_UpdateQuery.MainMenu=true;
+				break;
+			case MENU_MAIN_RF_POWER:
+				TRX.RF_Power = TRX.RF_Power + direction;
+				if (TRX.RF_Power < 1) TRX.RF_Power = 1;
+				if (TRX.RF_Power > 100) TRX.RF_Power = 100;
+				LCD_UpdateQuery.MainMenu=true;
+				break;
+			case MENU_MAIN_AGCSPEED:
+				if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
+				if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
+				SetupAgcWdsp();
+				LCD_UpdateQuery.MainMenu=true;
+				break;
+			default:
+				break;
 		}
 		NeedSaveSettings = true;
 	}

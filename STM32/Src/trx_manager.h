@@ -31,6 +31,7 @@ void TRX_Start_Loopback(void);
 void TRX_Restart_Mode(void);
 
 extern bool TRX_ptt;
+extern bool TRX_squelched;
 extern bool TRX_tune;
 extern bool TRX_inited;
 extern int32_t TRX_s_meter;
