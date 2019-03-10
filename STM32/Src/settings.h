@@ -12,13 +12,19 @@
 #define W25Q16_COMMAND_Page_Program 0x02
 #define W25Q16_COMMAND_Read_Data 0x03
 
-extern struct TRX_SETTINGS {
-	uint8_t clean_flash;
+typedef struct {
 	uint32_t Freq;
 	uint8_t Mode;
-	bool Preamp_UHF;
-	bool Preamp_HF;
 	bool Agc;
+	uint16_t Filter_Width;
+} VFO;
+
+extern struct TRX_SETTINGS {
+	uint8_t clean_flash;
+	bool current_vfo; // false - A; true - B
+	VFO VFO_A;
+	VFO VFO_B;
+	bool Preamp;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
 	bool BandMapEnabled;
@@ -27,15 +33,12 @@ extern struct TRX_SETTINGS {
 	float Touchpad_ay;
 	int16_t Touchpad_by;
 	uint8_t Volume;
-	bool Att;
-	bool BPF;
 	bool LineMicIn; //false - mic ; true - line
 	bool Mute;
 	bool Fast;
 	uint16_t CW_Filter;
 	uint16_t SSB_Filter;
 	uint16_t FM_Filter;
-	uint16_t Filter_Width; //selected current width
 	uint8_t RF_Power;
 } TRX;
 
@@ -47,5 +50,6 @@ void Flash_Sector_Erase(void);
 void Flash_Erase_Chip(void);
 void Flash_Write_Data(void);
 void Flash_Read_Data(void);
+extern VFO *CurrentVFO(void);
 
 #endif

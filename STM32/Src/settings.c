@@ -22,14 +22,19 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 128) //code to trace new clean flash
+	if (TRX.clean_flash != 129) //code to trace new clean flash
 	{
-		TRX.clean_flash = 128;
-		TRX.Freq = 7100000;
-		TRX.Mode = TRX_MODE_LSB;
-		TRX.Preamp_UHF = true;
-		TRX.Preamp_HF = false;
-		TRX.Agc = true;
+		TRX.clean_flash = 129;
+		TRX.VFO_A.Freq = 7100000;
+		TRX.VFO_A.Mode = TRX_MODE_LSB;
+		TRX.VFO_A.Agc = true;
+		TRX.VFO_A.Filter_Width=2700;
+		TRX.VFO_B.Freq = 14150000;
+		TRX.VFO_B.Mode = TRX_MODE_USB;
+		TRX.VFO_B.Agc = true;
+		TRX.VFO_B.Filter_Width=2700;
+		TRX.current_vfo=false; // A
+		TRX.Preamp = true;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;
@@ -38,17 +43,22 @@ void LoadSettings(void)
 		TRX.Touchpad_ay = -15.588235;
 		TRX.Touchpad_by = 250;
 		TRX.Volume = 20;
-		TRX.Att = false;
-		TRX.BPF = true;
 		TRX.LineMicIn = false; //false - mic ; true - line
 		TRX.Mute = false;
-		TRX.Fast = true;
+		TRX.Fast = false;
 		TRX.CW_Filter=500;
 		TRX.SSB_Filter=2700;
 		TRX.FM_Filter=15000;
-		TRX.Filter_Width=2700;
 		TRX.RF_Power=25;
 	}
+}
+
+VFO *CurrentVFO(void)
+{
+	if(!TRX.current_vfo)
+		return &TRX.VFO_A;
+	else
+		return &TRX.VFO_B;
 }
 
 void SaveSettings(void)

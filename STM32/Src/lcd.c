@@ -98,35 +98,35 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		switch(TRX_getMode())
 		{
 			case TRX_MODE_CW:
-				printButton(5, 5, 58, 60, "0.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 300), LCD_Handler_WIDTH_03);
-				printButton(68, 5, 58, 60, "0.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 500), LCD_Handler_WIDTH_05);
-				printButton(131, 5, 58, 60, "1.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 1400), LCD_Handler_WIDTH_14);
-				printButton(194, 5, 58, 60, "1.6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 1600), LCD_Handler_WIDTH_16);
+				printButton(5, 5, 58, 60, "0.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 300), LCD_Handler_WIDTH_03);
+				printButton(68, 5, 58, 60, "0.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 500), LCD_Handler_WIDTH_05);
+				printButton(131, 5, 58, 60, "1.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1400), LCD_Handler_WIDTH_14);
+				printButton(194, 5, 58, 60, "1.6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1600), LCD_Handler_WIDTH_16);
 				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
 				break;
 			case TRX_MODE_FM:
-				printButton(5, 5, 58, 60, "5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 5000), LCD_Handler_WIDTH_50);
-				printButton(68, 5, 58, 60, "6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 6000), LCD_Handler_WIDTH_60);
-				printButton(131, 5, 58, 60, "7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 7000), LCD_Handler_WIDTH_70);
-				printButton(194, 5, 58, 60, "8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 8000), LCD_Handler_WIDTH_80);
+				printButton(5, 5, 58, 60, "5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 5000), LCD_Handler_WIDTH_50);
+				printButton(68, 5, 58, 60, "6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 6000), LCD_Handler_WIDTH_60);
+				printButton(131, 5, 58, 60, "7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 7000), LCD_Handler_WIDTH_70);
+				printButton(194, 5, 58, 60, "8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 8000), LCD_Handler_WIDTH_80);
 				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
-				printButton(5, 70, 58, 60, "8.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 8500), LCD_Handler_WIDTH_85);
-				printButton(68, 70, 58, 60, "9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 9000), LCD_Handler_WIDTH_90);
-				printButton(131, 70, 58, 60, "9.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 9500), LCD_Handler_WIDTH_95);
-				printButton(194, 70, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 10000), LCD_Handler_WIDTH_100);
-				printButton(257, 70, 58, 60, "15", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 15000), LCD_Handler_WIDTH_150);
+				printButton(5, 70, 58, 60, "8.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 8500), LCD_Handler_WIDTH_85);
+				printButton(68, 70, 58, 60, "9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9000), LCD_Handler_WIDTH_90);
+				printButton(131, 70, 58, 60, "9.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9500), LCD_Handler_WIDTH_95);
+				printButton(194, 70, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 10000), LCD_Handler_WIDTH_100);
+				printButton(257, 70, 58, 60, "15", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 15000), LCD_Handler_WIDTH_150);
 				break;
 			default:
-				printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 1800), LCD_Handler_WIDTH_18);
-				printButton(68, 5, 58, 60, "2.1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2100), LCD_Handler_WIDTH_21);
-				printButton(131, 5, 58, 60, "2.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2300), LCD_Handler_WIDTH_23);
-				printButton(194, 5, 58, 60, "2.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2500), LCD_Handler_WIDTH_25);
+				printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1800), LCD_Handler_WIDTH_18);
+				printButton(68, 5, 58, 60, "2.1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2100), LCD_Handler_WIDTH_21);
+				printButton(131, 5, 58, 60, "2.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2300), LCD_Handler_WIDTH_23);
+				printButton(194, 5, 58, 60, "2.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2500), LCD_Handler_WIDTH_25);
 				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
-				printButton(5, 70, 58, 60, "2.7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2700), LCD_Handler_WIDTH_27);
-				printButton(68, 70, 58, 60, "2.9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 2900), LCD_Handler_WIDTH_29);
-				printButton(131, 70, 58, 60, "3.0", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3000), LCD_Handler_WIDTH_30);
-				printButton(194, 70, 58, 60, "3.2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3200), LCD_Handler_WIDTH_32);
-				printButton(257, 70, 58, 60, "3.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Filter_Width == 3400), LCD_Handler_WIDTH_34);
+				printButton(5, 70, 58, 60, "2.7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2700), LCD_Handler_WIDTH_27);
+				printButton(68, 70, 58, 60, "2.9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2900), LCD_Handler_WIDTH_29);
+				printButton(131, 70, 58, 60, "3.0", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 3000), LCD_Handler_WIDTH_30);
+				printButton(194, 70, 58, 60, "3.2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 3200), LCD_Handler_WIDTH_32);
+				printButton(257, 70, 58, 60, "3.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 3400), LCD_Handler_WIDTH_34);
 				break;
 		}
 	}
@@ -137,8 +137,8 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(83, 5, 73, 30, "WIDTH", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH);
 		printButton(161, 5, 73, 30, "TUNE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_tune == true), LCD_Handler_TUNE);
 		printButton(239, 5, 76, 30, "BAND", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_BAND);
-		printButton(5, 40, 53, 30, "VFOA", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, 0);
-		printButton(63, 40, 53, 30, "AGC", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Agc == true), LCD_Handler_AGC);
+		printButton(5, 40, 53, 30, (!TRX.current_vfo)?"VFOA":"VFOB", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.current_vfo == true), LCD_Handler_VFO);
+		printButton(63, 40, 53, 30, "AGC", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Agc == true), LCD_Handler_AGC);
 		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Fast == true), LCD_Handler_FAST);
 		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Mute == true), LCD_Handler_MUTE);
 		printButton(239, 40, 76, 30, "MENU", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MENU);
@@ -253,7 +253,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	}
 
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
-	if (TRX_agc_wdsp_action && TRX.Agc && (TRX.Mode == TRX_MODE_LSB || TRX.Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
+	if (TRX_agc_wdsp_action && CurrentVFO()->Agc && (CurrentVFO()->Mode == TRX_MODE_LSB || CurrentVFO()->Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR || TRX_DAC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_ptt && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && (TRX_ptt || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
@@ -302,7 +302,7 @@ void LCD_displayMainMenu() {
 	sprintf(ctmp, "%d %%", TRX.RF_Power);
 	printMenuButton(242, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
 	
-	printMenuButton(5, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp_UHF, true, LCD_Handler_MENU_PREAMP_UHF);
+	printMenuButton(5, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp, true, LCD_Handler_MENU_PREAMP);
 	printMenuButton(84, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 	printMenuButton(163, 60, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
 	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
@@ -377,7 +377,7 @@ void LCD_Handler_WIDTH_BACK(void)
 
 void LCD_Handler_WIDTH_03(void)
 {
-	TRX.Filter_Width = 300;
+	CurrentVFO()->Filter_Width = 300;
 	TRX.CW_Filter=300;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -386,7 +386,7 @@ void LCD_Handler_WIDTH_03(void)
 }
 void LCD_Handler_WIDTH_05(void)
 {
-	TRX.Filter_Width = 500;
+	CurrentVFO()->Filter_Width = 500;
 	TRX.CW_Filter=500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -395,7 +395,7 @@ void LCD_Handler_WIDTH_05(void)
 }
 void LCD_Handler_WIDTH_14(void)
 {
-	TRX.Filter_Width = 1400;
+	CurrentVFO()->Filter_Width = 1400;
 	TRX.SSB_Filter=1400;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -404,7 +404,7 @@ void LCD_Handler_WIDTH_14(void)
 }
 void LCD_Handler_WIDTH_16(void)
 {
-	TRX.Filter_Width = 1600;
+	CurrentVFO()->Filter_Width = 1600;
 	TRX.SSB_Filter=1600;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -413,7 +413,7 @@ void LCD_Handler_WIDTH_16(void)
 }
 void LCD_Handler_WIDTH_18(void)
 {
-	TRX.Filter_Width = 1800;
+	CurrentVFO()->Filter_Width = 1800;
 	TRX.SSB_Filter=1800;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -422,7 +422,7 @@ void LCD_Handler_WIDTH_18(void)
 }
 void LCD_Handler_WIDTH_21(void)
 {
-	TRX.Filter_Width = 2100;
+	CurrentVFO()->Filter_Width = 2100;
 	TRX.SSB_Filter=2100;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -431,7 +431,7 @@ void LCD_Handler_WIDTH_21(void)
 }
 void LCD_Handler_WIDTH_23(void)
 {
-	TRX.Filter_Width = 2300;
+	CurrentVFO()->Filter_Width = 2300;
 	TRX.SSB_Filter=2300;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -440,7 +440,7 @@ void LCD_Handler_WIDTH_23(void)
 }
 void LCD_Handler_WIDTH_25(void)
 {
-	TRX.Filter_Width = 2500;
+	CurrentVFO()->Filter_Width = 2500;
 	TRX.SSB_Filter=2500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -449,7 +449,7 @@ void LCD_Handler_WIDTH_25(void)
 }
 void LCD_Handler_WIDTH_27(void)
 {
-	TRX.Filter_Width = 2700;
+	CurrentVFO()->Filter_Width = 2700;
 	TRX.SSB_Filter=2700;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -458,7 +458,7 @@ void LCD_Handler_WIDTH_27(void)
 }
 void LCD_Handler_WIDTH_29(void)
 {
-	TRX.Filter_Width = 2900;
+	CurrentVFO()->Filter_Width = 2900;
 	TRX.SSB_Filter=2900;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -467,7 +467,7 @@ void LCD_Handler_WIDTH_29(void)
 }
 void LCD_Handler_WIDTH_30(void)
 {
-	TRX.Filter_Width = 3000;
+	CurrentVFO()->Filter_Width = 3000;
 	TRX.SSB_Filter=3000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -476,7 +476,7 @@ void LCD_Handler_WIDTH_30(void)
 }
 void LCD_Handler_WIDTH_32(void)
 {
-	TRX.Filter_Width = 3200;
+	CurrentVFO()->Filter_Width = 3200;
 	TRX.SSB_Filter=3200;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -485,7 +485,7 @@ void LCD_Handler_WIDTH_32(void)
 }
 void LCD_Handler_WIDTH_34(void)
 {
-	TRX.Filter_Width = 3400;
+	CurrentVFO()->Filter_Width = 3400;
 	TRX.SSB_Filter=3400;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -494,7 +494,7 @@ void LCD_Handler_WIDTH_34(void)
 }
 void LCD_Handler_WIDTH_50(void)
 {
-	TRX.Filter_Width = 5000;
+	CurrentVFO()->Filter_Width = 5000;
 	TRX.FM_Filter=5000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -503,7 +503,7 @@ void LCD_Handler_WIDTH_50(void)
 }
 void LCD_Handler_WIDTH_60(void)
 {
-	TRX.Filter_Width = 6000;
+	CurrentVFO()->Filter_Width = 6000;
 	TRX.FM_Filter=6000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -512,7 +512,7 @@ void LCD_Handler_WIDTH_60(void)
 }
 void LCD_Handler_WIDTH_70(void)
 {
-	TRX.Filter_Width = 7000;
+	CurrentVFO()->Filter_Width = 7000;
 	TRX.FM_Filter=7000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -521,7 +521,7 @@ void LCD_Handler_WIDTH_70(void)
 }
 void LCD_Handler_WIDTH_80(void)
 {
-	TRX.Filter_Width = 8000;
+	CurrentVFO()->Filter_Width = 8000;
 	TRX.FM_Filter=8000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -530,7 +530,7 @@ void LCD_Handler_WIDTH_80(void)
 }
 void LCD_Handler_WIDTH_85(void)
 {
-	TRX.Filter_Width = 8500;
+	CurrentVFO()->Filter_Width = 8500;
 	TRX.FM_Filter=8500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -539,7 +539,7 @@ void LCD_Handler_WIDTH_85(void)
 }
 void LCD_Handler_WIDTH_90(void)
 {
-	TRX.Filter_Width = 9000;
+	CurrentVFO()->Filter_Width = 9000;
 	TRX.FM_Filter=9000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -548,7 +548,7 @@ void LCD_Handler_WIDTH_90(void)
 }
 void LCD_Handler_WIDTH_95(void)
 {
-	TRX.Filter_Width = 9500;
+	CurrentVFO()->Filter_Width = 9500;
 	TRX.FM_Filter=9500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -557,7 +557,7 @@ void LCD_Handler_WIDTH_95(void)
 }
 void LCD_Handler_WIDTH_100(void)
 {
-	TRX.Filter_Width = 10000;
+	CurrentVFO()->Filter_Width = 10000;
 	TRX.FM_Filter=10000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -566,7 +566,7 @@ void LCD_Handler_WIDTH_100(void)
 }
 void LCD_Handler_WIDTH_150(void)
 {
-	TRX.Filter_Width = 15000;
+	CurrentVFO()->Filter_Width = 15000;
 	TRX.FM_Filter=15000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
@@ -574,39 +574,26 @@ void LCD_Handler_WIDTH_150(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MENU_ATT(void)
+void LCD_Handler_MENU_PREAMP(void)
 {
-	TRX.Att = !TRX.Att;
-	LCD_UpdateQuery.MainMenu=true;
-	NeedSaveSettings = true;
-}
-
-void LCD_Handler_MENU_BPF(void)
-{
-	TRX.BPF = !TRX.BPF;
-	LCD_UpdateQuery.MainMenu=true;
-	NeedSaveSettings = true;
-}
-
-void LCD_Handler_MENU_PREAMP_UHF(void)
-{
-	TRX.Preamp_UHF = !TRX.Preamp_UHF;
-	LCD_UpdateQuery.MainMenu=true;
-	NeedSaveSettings = true;
-}
-
-void LCD_Handler_MENU_PREAMP_HF(void)
-{
-	TRX.Preamp_HF = !TRX.Preamp_HF;
+	TRX.Preamp = !TRX.Preamp;
 	LCD_UpdateQuery.MainMenu=true;
 	NeedSaveSettings = true;
 }
 
 void LCD_Handler_AGC(void)
 {
-	TRX.Agc = !TRX.Agc;
+	CurrentVFO()->Agc = !CurrentVFO()->Agc;
 	LCD_displayTopButtons(false);
 	NeedSaveSettings = true;
+}
+
+void LCD_Handler_VFO(void)
+{
+	TRX.current_vfo=!TRX.current_vfo;
+	NeedSaveSettings = true;
+	InitFilters();
+	LCD_redraw();
 }
 
 void LCD_Handler_MUTE(void)
@@ -716,7 +703,7 @@ void LCD_Handler_BAND_10(void)
 void LCD_Handler_MODE_LSB(void)
 {
 	TRX_setMode(TRX_MODE_LSB);
-	TRX.Filter_Width=TRX.SSB_Filter;
+	CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
@@ -724,7 +711,7 @@ void LCD_Handler_MODE_LSB(void)
 void LCD_Handler_MODE_USB(void)
 {
 	TRX_setMode(TRX_MODE_USB);
-	TRX.Filter_Width=TRX.SSB_Filter;
+	CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
@@ -739,7 +726,7 @@ void LCD_Handler_MODE_IQ(void)
 void LCD_Handler_MODE_CW(void)
 {
 	TRX_setMode(TRX_MODE_CW);
-	TRX.Filter_Width=TRX.CW_Filter;
+	CurrentVFO()->Filter_Width=TRX.CW_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
@@ -753,7 +740,7 @@ void LCD_Handler_MODE_BACK(void)
 void LCD_Handler_MODE_DIGL(void)
 {
 	TRX_setMode(TRX_MODE_DIGI_L);
-	TRX.Filter_Width=TRX.SSB_Filter;
+	CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
@@ -761,7 +748,7 @@ void LCD_Handler_MODE_DIGL(void)
 void LCD_Handler_MODE_DIGU(void)
 {
 	TRX_setMode(TRX_MODE_DIGI_U);
-	TRX.Filter_Width=TRX.SSB_Filter;
+	CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
@@ -769,7 +756,7 @@ void LCD_Handler_MODE_DIGU(void)
 void LCD_Handler_MODE_FM(void)
 {
 	TRX_setMode(TRX_MODE_FM);
-	TRX.Filter_Width=TRX.FM_Filter;
+	CurrentVFO()->Filter_Width=TRX.FM_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
@@ -777,7 +764,7 @@ void LCD_Handler_MODE_FM(void)
 void LCD_Handler_MODE_AM(void)
 {
 	TRX_setMode(TRX_MODE_AM);
-	TRX.Filter_Width=TRX.SSB_Filter;
+	CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }

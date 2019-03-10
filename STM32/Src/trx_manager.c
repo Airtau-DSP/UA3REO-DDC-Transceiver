@@ -34,7 +34,7 @@ char *MODE_DESCR[10] = {
 
 void TRX_Init()
 {
-	TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
+	TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
 	TRX_Start_RX();
 }
 
@@ -107,12 +107,12 @@ void TRX_setFrequency(uint32_t _freq)
 	if (_freq < 100) _freq = 100;
 	if (_freq >= ADCDAC_CLOCK / 2) _freq = ADCDAC_CLOCK / 2;
 	
-	FFT_moveWaterfall(_freq-TRX.Freq);
+	FFT_moveWaterfall(_freq-CurrentVFO()->Freq);
 	
-	TRX.Freq = _freq;
-	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(TRX.Freq))
+	CurrentVFO()->Freq = _freq;
+	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(CurrentVFO()->Freq))
 	{
-		TRX_setMode(getModeFromFreq(TRX.Freq));
+		TRX_setMode(getModeFromFreq(CurrentVFO()->Freq));
 		switch(TRX_getMode())
 		{
 			case TRX_MODE_LSB:
@@ -120,13 +120,13 @@ void TRX_setFrequency(uint32_t _freq)
 			case TRX_MODE_DIGI_L:
 			case TRX_MODE_DIGI_U:
 			case TRX_MODE_AM:
-				TRX.Filter_Width=TRX.SSB_Filter;
+				CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 				break;
 			case TRX_MODE_CW:
-				TRX.Filter_Width=TRX.CW_Filter;
+				CurrentVFO()->Filter_Width=TRX.CW_Filter;
 				break;
 			case TRX_MODE_FM:
-				TRX.Filter_Width=TRX.FM_Filter;
+				CurrentVFO()->Filter_Width=TRX.FM_Filter;
 				break;
 		}
 		InitFilters();
@@ -137,26 +137,26 @@ void TRX_setFrequency(uint32_t _freq)
 
 int32_t TRX_getFrequency(void)
 {
-	return TRX.Freq;
+	return CurrentVFO()->Freq;
 }
 
 void TRX_setMode(uint8_t _mode)
 {
-	if (TRX.Mode == TRX_MODE_LOOPBACK || _mode == TRX_MODE_LOOPBACK)
+	if (CurrentVFO()->Mode == TRX_MODE_LOOPBACK || _mode == TRX_MODE_LOOPBACK)
 	{
-		TRX.Mode = _mode;
+		CurrentVFO()->Mode = _mode;
 		TRX_Start_Loopback();
 	}
 	else
 	{
-		TRX.Mode = _mode;
+		CurrentVFO()->Mode = _mode;
 	}
 	NeedSaveSettings = true;
 }
 
 uint8_t TRX_getMode(void)
 {
-	return TRX.Mode;
+	return CurrentVFO()->Mode;
 }
 
 

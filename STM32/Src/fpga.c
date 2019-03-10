@@ -206,12 +206,12 @@ void FPGA_fpgadata_iqclock(void)
 
 void FPGA_fpgadata_sendparam(void)
 {
-	uint32_t TRX_freq_phrase = getPhraseFromFrequency(TRX.Freq);
+	uint32_t TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq);
 	//STAGE 2
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;
 	bitWrite(FPGA_fpgadata_out_tmp8, 3, TRX_ptt || TRX_tune);
-	if (!TRX_ptt && !TRX_tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp_UHF);
+	if (!TRX_ptt && !TRX_tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 	//clock
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
