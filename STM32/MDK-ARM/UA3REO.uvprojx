@@ -752,6 +752,11 @@
               <FileType>5</FileType>
               <FilePath>..\Src\LCD\xpt2046_spi.h</FilePath>
             </File>
+            <File>
+              <FileName>fonts.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\LCD\fonts.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

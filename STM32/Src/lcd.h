@@ -4,7 +4,6 @@
 #include "stm32f4xx_hal.h"
 #include "trx_manager.h"
 #include "LCD/MA_ILI9341.h"
-#include "LCD/xpt2046_spi.h"
 
 #define MENU_FREQ_HZ 1
 #define MENU_FREQ_KHZ 2
@@ -27,7 +26,7 @@ struct button_handler {
 };
 
 extern void LCD_Init(void);
-void LCD_displayFreqInfo(bool force);
+void LCD_displayFreqInfo(void);
 void LCD_displayTopButtons(bool redraw);
 void LCD_checkTouchPad(void);
 void LCD_displayMainMenu(void);

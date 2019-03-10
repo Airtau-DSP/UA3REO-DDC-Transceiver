@@ -60,7 +60,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 		default:
 			break;
 		}
-		LCD_displayFreqInfo(false);
+		LCD_displayFreqInfo();
 	}
 	if (LCD_mainMenuOpened)
 	{

@@ -6,6 +6,8 @@
 #include "settings.h"
 #include "wm8731.h"
 #include "audio_filters.h"
+#include "LCD/fonts.h"
+#include "LCD/xpt2046_spi.h"
 
 char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
@@ -45,6 +47,7 @@ void LCD_Init(void)
 
 void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок
 	if (LCD_mainMenuOpened) return;
+	if (LCD_busy) return;
 	if (redraw) ILI9341_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	button_handlers_count = 0;
 
@@ -136,47 +139,50 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	}
 }
 
-void LCD_displayFreqInfo(bool force) { //вывод частоты на экран
+void LCD_displayFreqInfo() { //вывод частоты на экран
 	if (LCD_mainMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
 	if (LCD_widthMenuOpened) return;
 	if (LCD_last_showed_freq == TRX_getFrequency()) return;
-	if (LCD_busy && !force) return;
+	if (LCD_busy) return;
 	LCD_busy = true;
 	LCD_last_showed_freq = TRX_getFrequency();
-	//закрашиваем лишнее на экране если разрядов не хватает
-	if (TRX_getFrequency() < 10000000)
-	{
-		ILI9341_Fill_RectWH(0, 80, 30, 41, COLOR_BLACK);
-		ILI9341_Fill_RectWH(301, 80, 19, 41, COLOR_BLACK);
-	}
 
-	if (TRX_getFrequency() > 10000000)
-		ILI9341_SetCursorPosition(10, 80);
+	if (TRX_getFrequency() >= 10000000)
+		ILI9341_SetCursorPosition(24, 120);
 	else
-		ILI9341_SetCursorPosition(30, 80);
+	{
+		ILI9341_Fill_RectWH(0, 87, 50, 35, COLOR_BLACK);
+		ILI9341_SetCursorPosition(50, 120);
+	}
 
 	//добавляем пробелов для вывода частоты
 	sprintf(LCD_freq_string_hz, "%d", ((uint32_t)TRX_getFrequency() % 1000));
 	sprintf(LCD_freq_string_khz, "%d", ((uint32_t)(TRX_getFrequency() / 1000) % 1000));
 	sprintf(LCD_freq_string_mhz, "%d", ((uint32_t)(TRX_getFrequency() / 1000000) % 1000000));
 
-	if (TRX.LCD_menu_freq_index == MENU_FREQ_MHZ) ILI9341_printText(LCD_freq_string_mhz, ILI9341_GetCurrentXOffset(), 80, COLOR_BLACK, COLOR_WHITE, 5);
-	else ILI9341_printText(LCD_freq_string_mhz, ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
+	if (TRX.LCD_menu_freq_index == MENU_FREQ_MHZ)
+		ILI9341_printTextFont(LCD_freq_string_mhz, ILI9341_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+	else 
+		ILI9341_printTextFont(LCD_freq_string_mhz, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
-	ILI9341_printText(".", ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
+	ILI9341_printTextFont(".", ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	char buff[50] = "";
 	addSymbols(buff, LCD_freq_string_khz, 3, "0", false);
-	if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ) ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_BLACK, COLOR_WHITE, 5);
-	else ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
+	if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ)
+		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+	else 
+		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
-	ILI9341_printText(".", ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
+	ILI9341_printTextFont(".", ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
-	if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ) ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_BLACK, COLOR_WHITE, 5);
-	else ILI9341_printText(buff, ILI9341_GetCurrentXOffset(), 80, COLOR_WHITE, COLOR_BLACK, 5);
+	if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ)
+		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+	else 
+		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	NeedSaveSettings = true;
 	LCD_busy = false;
@@ -185,9 +191,9 @@ void LCD_displayFreqInfo(bool force) { //вывод частоты на экра
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	if (LCD_mainMenuOpened) return;
 	if (TRX_ptt)
-		ILI9341_printText("TX", 10, 130, COLOR_RED, COLOR_BLACK, 2);
+		ILI9341_printTextFont("TX", 10, 144, COLOR_RED, COLOR_BLACK, FreeSans9pt7b);
 	else
-		ILI9341_printText("RX", 10, 130, COLOR_GREEN, COLOR_BLACK, 2);
+		ILI9341_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
 
 	int width = 275;
 	ILI9341_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
@@ -265,7 +271,7 @@ void LCD_displayMainMenu() {
 	
 	printMenuButton(5, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp_UHF, true, LCD_Handler_MENU_PREAMP_UHF);
 	printMenuButton(84, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
-	printMenuButton(163, 60, 74, 50, "Input", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
+	printMenuButton(163, 60, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
 	printMenuButton(242, 60, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
 	
 	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
@@ -276,7 +282,7 @@ void LCD_redraw(void) {
 	button_handlers_count = 0;
 	LCD_displayTopButtons(false);
 	LCD_last_showed_freq = 0;
-	LCD_displayFreqInfo(false);
+	LCD_displayFreqInfo();
 	LCD_displayStatusInfoGUI();
 	LCD_displayStatusInfoBar();
 	LCD_displayMainMenu();
@@ -286,7 +292,7 @@ void LCD_doEvents(void)
 {
 	if (LCD_busy) return;
 	LCD_busy = true;
-	LCD_displayFreqInfo(false);
+	LCD_displayFreqInfo();
 	LCD_displayStatusInfoBar();
 	if (LCD_needRedrawMainMenu) {
 		LCD_needRedrawMainMenu = false;
@@ -846,15 +852,16 @@ void LCD_checkTouchPad(void)
 		if (x >= 90 && x <= 180 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		if (x >= 210 && x <= 300 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_HZ;
 		LCD_last_showed_freq = 0;
-		LCD_displayFreqInfo(false);
+		LCD_displayFreqInfo();
 	}
 }
 
 void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void(*onclick) ())
 {
-	uint8_t font_size = 2;
 	ILI9341_Fill_RectWH(x, y, width, height, active ? active_color : back_color);
-	ILI9341_printText(text, x + (width - strlen(text) * 6 * font_size) / 2 + 2, y + (height - 8 * font_size) / 2 + 2, text_color, active ? active_color : back_color, font_size);
+	uint16_t x1,y1,w,h;
+	ILI9341_getTextBounds(text, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
+	ILI9341_printTextFont(text, x + (width - w) / 2, y + (height / 2)+h/2, text_color, active ? active_color : back_color, FreeSans9pt7b);
 	button_handlers[button_handlers_count].x1 = x;
 	button_handlers[button_handlers_count].x2 = x + width;
 	button_handlers[button_handlers_count].y1 = y;
@@ -868,7 +875,11 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 	uint16_t color = active ? COLOR_YELLOW : COLOR_DGREEN;
 	if (!switchable) color = active ? COLOR_YELLOW : COLOR_CYAN;
 	ILI9341_Fill_RectWH(x, y, width, height, color);
-	ILI9341_printText(text1, x + (width - strlen(text1) * 6 * 2) / 2 + 1, y + (height - 8 * 2 - 8 * 1) / 2, COLOR_BLUE, color, 2);
+	
+	uint16_t x1,y1,w,h;
+	ILI9341_getTextBounds(text1, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
+	ILI9341_printTextFont(text1, x + (width - w) / 2, y + (h) / 2 + h+2, COLOR_BLUE, color, FreeSans9pt7b);
+	
 	ILI9341_printText(text2, x + (width - strlen(text2) * 6 * 1) / 2 + 1, y + (height - 8 * 2 - 8 * 1) / 2 + 8 * 2 + 4, COLOR_BLACK, color, 1);
 	button_handlers[button_handlers_count].x1 = x;
 	button_handlers[button_handlers_count].x2 = x + width;

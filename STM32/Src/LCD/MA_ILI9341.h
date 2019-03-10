@@ -97,6 +97,25 @@ Description:				This library makes use of the FSMC interface of the STM32 board 
 #define COLOR_GREENYELLOW     0xAFE5     
 #define COLOR_BROWN 			    0XBC40 
 
+/// Font data stored PER GLYPH
+typedef struct {
+	uint16_t bitmapOffset;     ///< Pointer into GFXfont->bitmap
+	uint8_t  width;            ///< Bitmap dimensions in pixels
+  uint8_t  height;           ///< Bitmap dimensions in pixels
+	uint8_t  xAdvance;         ///< Distance to advance cursor (x axis)
+	int8_t   xOffset;          ///< X dist from cursor pos to UL corner
+  int8_t   yOffset;          ///< Y dist from cursor pos to UL corner
+} GFXglyph;
+
+/// Data stored for FONT AS A WHOLE
+typedef struct { 
+	uint8_t  *bitmap;      ///< Glyph bitmaps, concatenated
+	GFXglyph *glyph;       ///< Glyph array
+	uint8_t   first;       ///< ASCII extents (first char)
+  uint8_t   last;        ///< ASCII extents (last char)
+	uint8_t   yAdvance;    ///< Newline distance (y axis)
+} GFXfont;
+
 static //Text simple font array (You can your own font)
 const unsigned char font1[] = {
 	0x00, 0x00, 0x00, 0x00, 0x00,
@@ -360,6 +379,22 @@ const unsigned char font1[] = {
 //Functions defines Macros
 #define swap(a, b) { int16_t t = a; a = b; b = t; }
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+	#ifndef pgm_read_byte
+ #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#endif
+#ifndef pgm_read_word
+ #define pgm_read_word(addr) (*(const unsigned short *)(addr))
+#endif
+#ifndef pgm_read_dword
+ #define pgm_read_dword(addr) (*(const unsigned long *)(addr))
+#endif
+
+#if !defined(__INT_MAX__) || (__INT_MAX__ > 0xFFFF)
+ #define pgm_read_pointer(addr) ((void *)pgm_read_dword(addr))
+#else
+ #define pgm_read_pointer(addr) ((void *)pgm_read_word(addr))
+#endif
 #define min(a,b) (((a)<(b))?(a):(b))
 
 //***** Functions prototypes *****//
@@ -399,6 +434,8 @@ void ILI9341_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_
 //11. Text printing functions
 void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size);
 void ILI9341_printText(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, uint8_t size);
+void ILI9341_printTextFont(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, GFXfont gfxFont);
+void ILI9341_getTextBounds(char text[], int16_t x, int16_t y, uint16_t *x1, uint16_t *y1, uint16_t *w, uint16_t *h, GFXfont gfxFont);
 //12. Image print (RGB 565, 2 bytes per pixel)
 void ILI9341_printImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data, uint32_t size);
 //13. Set screen rotation
