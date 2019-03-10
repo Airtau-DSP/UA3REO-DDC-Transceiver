@@ -77,18 +77,23 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	//вывод модов
 	else if (LCD_modeMenuOpened)
 	{
-		ILI9341_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
+		ILI9341_Fill(COLOR_BLACK);
 
 		printButton(5, 5, 58, 60, MODE_DESCR[TRX_MODE_LSB], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_LSB), LCD_Handler_MODE_LSB);
 		printButton(68, 5, 58, 60, MODE_DESCR[TRX_MODE_USB], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_USB), LCD_Handler_MODE_USB);
 		printButton(131, 5, 58, 60, MODE_DESCR[TRX_MODE_IQ], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_IQ), LCD_Handler_MODE_IQ);
-		printButton(194, 5, 58, 60, MODE_DESCR[TRX_MODE_CW], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW), LCD_Handler_MODE_CW);
+		printButton(194, 5, 58, 60, MODE_DESCR[TRX_MODE_AM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_AM), LCD_Handler_MODE_AM);
 		printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MODE_BACK);
 		printButton(5, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_L], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_DIGI_L), LCD_Handler_MODE_DIGL);
 		printButton(68, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_U], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_DIGI_U), LCD_Handler_MODE_DIGU);
-		printButton(131, 70, 58, 60, MODE_DESCR[TRX_MODE_FM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_FM), LCD_Handler_MODE_FM);
-		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_AM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_AM), LCD_Handler_MODE_AM);
-		printButton(257, 70, 58, 60, MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
+		printButton(131, 70, 58, 60, MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
+		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_FM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_FM), LCD_Handler_MODE_FM);
+		printButton(257, 70, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
+		printButton(5, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_L], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW_L), LCD_Handler_MODE_CW_L);
+		printButton(68, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_U], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW_U), LCD_Handler_MODE_CW_U);
+		printButton(131, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
+		printButton(194, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
+		printButton(257, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
 	}
 	//вывод аудио фильтров
 	else if (LCD_widthMenuOpened)
@@ -97,7 +102,8 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 
 		switch(TRX_getMode())
 		{
-			case TRX_MODE_CW:
+			case TRX_MODE_CW_L:
+			case TRX_MODE_CW_U:
 				printButton(5, 5, 58, 60, "0.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 300), LCD_Handler_WIDTH_03);
 				printButton(68, 5, 58, 60, "0.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 500), LCD_Handler_WIDTH_05);
 				printButton(131, 5, 58, 60, "1.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1400), LCD_Handler_WIDTH_14);
@@ -202,6 +208,7 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	if (LCD_mainMenuOpened) return;
+	if (LCD_modeMenuOpened) return;
 	if (LCD_busy)
 	{
 		LCD_UpdateQuery.StatusInfoGUI=true;
@@ -231,6 +238,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 
 void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
 	if (LCD_mainMenuOpened) return;
+	if (LCD_modeMenuOpened) return;
 	if (LCD_busy)
 	{
 		LCD_UpdateQuery.StatusInfoBar=true;
@@ -723,9 +731,17 @@ void LCD_Handler_MODE_IQ(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_CW(void)
+void LCD_Handler_MODE_CW_L(void)
 {
-	TRX_setMode(TRX_MODE_CW);
+	TRX_setMode(TRX_MODE_CW_L);
+	CurrentVFO()->Filter_Width=TRX.CW_Filter;
+	LCD_modeMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_MODE_CW_U(void)
+{
+	TRX_setMode(TRX_MODE_CW_U);
 	CurrentVFO()->Filter_Width=TRX.CW_Filter;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();

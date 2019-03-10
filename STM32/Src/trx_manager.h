@@ -7,13 +7,16 @@
 #define TRX_MODE_LSB 0
 #define TRX_MODE_USB 1
 #define TRX_MODE_IQ 2
-#define TRX_MODE_CW 3
-#define TRX_MODE_DIGI_L 4
-#define TRX_MODE_DIGI_U 5
-#define TRX_MODE_NO_TX 6
-#define TRX_MODE_FM 7
-#define TRX_MODE_AM 8
-#define TRX_MODE_LOOPBACK 9
+#define TRX_MODE_CW_L 3
+#define TRX_MODE_CW_U 4
+#define TRX_MODE_DIGI_L 5
+#define TRX_MODE_DIGI_U 6
+#define TRX_MODE_NO_TX 7
+#define TRX_MODE_FM 8
+#define TRX_MODE_AM 9
+#define TRX_MODE_LOOPBACK 10
+
+#define CW_GENERATOR_SHIFT_HZ 500
 
 void TRX_Init(void);
 void TRX_setFrequency(uint32_t _freq);
@@ -33,6 +36,6 @@ extern int32_t TRX_s_meter;
 extern bool TRX_agc_wdsp_action;
 extern bool TRX_ADC_OTR;
 extern bool TRX_DAC_OTR;
-extern char *MODE_DESCR[10];
+extern char *MODE_DESCR[];
 
 #endif

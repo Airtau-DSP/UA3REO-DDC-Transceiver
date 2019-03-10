@@ -207,6 +207,20 @@ void FPGA_fpgadata_iqclock(void)
 void FPGA_fpgadata_sendparam(void)
 {
 	uint32_t TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq);
+	if(!TRX_ptt && !TRX_tune)
+	{
+		switch(TRX_getMode())
+		{
+			case TRX_MODE_CW_L:
+				TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq+CW_GENERATOR_SHIFT_HZ);
+				break;
+			case TRX_MODE_CW_U:
+				TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq-CW_GENERATOR_SHIFT_HZ);
+				break;
+			default:
+				break;
+		}
+	}
 	//STAGE 2
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;

@@ -13,7 +13,7 @@ const BAND_MAP BANDS[] =
 			{
 				.startFreq = 1810000,
 				.endFreq = 1838000,
-				.mode = TRX_MODE_CW
+				.mode = TRX_MODE_CW_L
 			},
 			{
 				.startFreq = 1838000,
@@ -38,7 +38,7 @@ const BAND_MAP BANDS[] =
 			{
 				.startFreq = 3500000,
 				.endFreq = 3580000,
-				.mode = TRX_MODE_CW
+				.mode = TRX_MODE_CW_L
 			},
 			{
 				.startFreq = 3580000,
@@ -63,7 +63,7 @@ const BAND_MAP BANDS[] =
 							{
 								.startFreq = 7000000,
 								.endFreq = 7040000,
-								.mode = TRX_MODE_CW
+								.mode = TRX_MODE_CW_L
 							},
 							{
 								.startFreq = 7040000,
@@ -103,7 +103,7 @@ const BAND_MAP BANDS[] =
 							{
 								.startFreq = 10100000,
 								.endFreq = 10140000,
-								.mode = TRX_MODE_CW
+								.mode = TRX_MODE_CW_U
 							},
 							{
 								.startFreq = 10140000,
@@ -123,7 +123,7 @@ const BAND_MAP BANDS[] =
 											{
 												.startFreq = 14000000,
 												.endFreq = 14070000,
-												.mode = TRX_MODE_CW
+												.mode = TRX_MODE_CW_U
 											},
 											{
 												.startFreq = 14070000,
@@ -158,7 +158,7 @@ const BAND_MAP BANDS[] =
 											{
 												.startFreq = 18068000,
 												.endFreq = 18095000,
-												.mode = TRX_MODE_CW
+												.mode = TRX_MODE_CW_U
 											},
 											{
 												.startFreq = 18095000,
@@ -188,7 +188,7 @@ const BAND_MAP BANDS[] =
 															{
 																.startFreq = 21000000,
 																.endFreq = 21070000,
-																.mode = TRX_MODE_CW
+																.mode = TRX_MODE_CW_U
 															},
 															{
 																.startFreq = 21070000,
@@ -218,7 +218,7 @@ const BAND_MAP BANDS[] =
 															{
 																.startFreq = 24890000,
 																.endFreq = 24915000,
-																.mode = TRX_MODE_CW
+																.mode = TRX_MODE_CW_U
 															},
 															{
 																.startFreq = 24915000,
@@ -253,7 +253,7 @@ const BAND_MAP BANDS[] =
 																			{
 																				.startFreq = 28000000,
 																				.endFreq = 28070000,
-																				.mode = TRX_MODE_CW
+																				.mode = TRX_MODE_CW_U
 																			},
 																			{
 																				.startFreq = 28070000,
@@ -263,7 +263,7 @@ const BAND_MAP BANDS[] =
 																			{
 																				.startFreq = 28190000,
 																				.endFreq = 28199000,
-																				.mode = TRX_MODE_CW
+																				.mode = TRX_MODE_CW_U
 																			},
 																			{
 																				.startFreq = 28199000,

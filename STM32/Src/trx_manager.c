@@ -19,11 +19,12 @@ bool TRX_agc_wdsp_action = 0;
 bool TRX_ADC_OTR = 0;
 bool TRX_DAC_OTR = 0;
 
-char *MODE_DESCR[10] = {
+char *MODE_DESCR[] = {
 	"LSB",
 	"USB",
 	"IQ",
-	"CW",
+	"CW_L",
+	"CW_U",
 	"DIGL",
 	"DIGU",
 	"NOTX",
@@ -122,7 +123,8 @@ void TRX_setFrequency(uint32_t _freq)
 			case TRX_MODE_AM:
 				CurrentVFO()->Filter_Width=TRX.SSB_Filter;
 				break;
-			case TRX_MODE_CW:
+			case TRX_MODE_CW_L:
+			case TRX_MODE_CW_U:
 				CurrentVFO()->Filter_Width=TRX.CW_Filter;
 				break;
 			case TRX_MODE_FM:

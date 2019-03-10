@@ -88,6 +88,7 @@ void FFT_printFFT(void)
 	if (TRX_ptt || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK) return;
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
+	if (LCD_modeMenuOpened) return;
 	LCD_busy = true;
 	
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET), COLOR_GREEN);
