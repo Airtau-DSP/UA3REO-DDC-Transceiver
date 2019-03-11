@@ -212,10 +212,10 @@ void FPGA_fpgadata_sendparam(void)
 		switch (TRX_getMode())
 		{
 		case TRX_MODE_CW_L:
-			TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq + CW_GENERATOR_SHIFT_HZ);
+			TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq + TRX.CW_GENERATOR_SHIFT_HZ);
 			break;
 		case TRX_MODE_CW_U:
-			TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq - CW_GENERATOR_SHIFT_HZ);
+			TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq - TRX.CW_GENERATOR_SHIFT_HZ);
 			break;
 		default:
 			break;

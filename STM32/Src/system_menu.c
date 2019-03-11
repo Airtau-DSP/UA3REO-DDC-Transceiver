@@ -3,7 +3,7 @@
 #include "LCD/xpt2046_spi.h"
 
 uint8_t systemMenuIndex=1;
-const uint8_t systemMenuIndexCount=3;
+const uint8_t systemMenuIndexCount=5;
 
 void drawSystemMenu(void)
 {
@@ -31,6 +31,21 @@ void drawSystemMenu(void)
 	i++;
 	y+=10;
 	//
+	ILI9341_printText("CW Generator shift, HZ", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
+	sprintf(ctmp, "%d", TRX.CW_GENERATOR_SHIFT_HZ);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 1);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	i++;
+	y+=10;
+	//
+	ILI9341_printText("Encoder slow rate", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
+	sprintf(ctmp, "%d", TRX.ENCODER_SLOW_RATE);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 1);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	i++;
+	y+=10;
+	//
+	//
 	ILI9341_printText("LCD Calibrate", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
 	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 1);
 	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
@@ -55,11 +70,23 @@ void eventRotateSystemMenu(int direction)
 	if(systemMenuIndex==1) TRX.FFT_Enabled=!TRX.FFT_Enabled;
 	if(systemMenuIndex==2)
 	{
+		TRX.CW_GENERATOR_SHIFT_HZ+=direction*100;
+		if(TRX.CW_GENERATOR_SHIFT_HZ<100) TRX.CW_GENERATOR_SHIFT_HZ=100;
+		if(TRX.CW_GENERATOR_SHIFT_HZ>10000) TRX.CW_GENERATOR_SHIFT_HZ=10000;
+	}
+	if(systemMenuIndex==3)
+	{
+		TRX.ENCODER_SLOW_RATE+=direction;
+		if(TRX.ENCODER_SLOW_RATE<1) TRX.ENCODER_SLOW_RATE=1;
+		if(TRX.ENCODER_SLOW_RATE>100) TRX.ENCODER_SLOW_RATE=100;
+	}
+	if(systemMenuIndex==4)
+	{
 		HAL_Delay(500);
 		Touch_Calibrate();
 		LCD_redraw();
 	}
-	if(systemMenuIndex==3) LCD_Handler_SETTIME();
+	if(systemMenuIndex==5) LCD_Handler_SETTIME();
 	LCD_UpdateQuery.SystemMenu=true;
 }
 
@@ -72,6 +99,7 @@ void eventClickSystemMenu(uint16_t x, uint16_t y)
 		LCD_UpdateQuery.Background=true;
 		LCD_UpdateQuery.MainMenu=true;
 		LCD_redraw();
+		NeedSaveSettings=true;
 	}
 	else if(y<120)
 	{

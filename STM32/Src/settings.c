@@ -22,6 +22,7 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
+	
 	if (TRX.clean_flash != 129) //code to trace new clean flash
 	{
 		TRX.clean_flash = 129;
@@ -38,10 +39,6 @@ void LoadSettings(void)
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;
-		TRX.Touchpad_ax = 11.096;
-		TRX.Touchpad_bx = -32;
-		TRX.Touchpad_ay = -15.588235;
-		TRX.Touchpad_by = 250;
 		TRX.Volume = 20;
 		TRX.LineMicIn = false; //false - mic ; true - line
 		TRX.Mute = false;
@@ -50,9 +47,16 @@ void LoadSettings(void)
 		TRX.SSB_Filter = 2700;
 		TRX.FM_Filter = 15000;
 		TRX.RF_Power = 25;
-		TRX.FFT_Enabled = true;
 		TRX.FM_SQL_threshold = 1;
 		TRX.RF_Gain = 50;
+		//system settings
+		TRX.FFT_Enabled = true;
+		TRX.CW_GENERATOR_SHIFT_HZ=500;
+		TRX.Touchpad_ax = 11.096;
+		TRX.Touchpad_bx = -32;
+		TRX.Touchpad_ay = -15.588235;
+		TRX.Touchpad_by = 250;
+		TRX.ENCODER_SLOW_RATE=20;
 	}
 }
 

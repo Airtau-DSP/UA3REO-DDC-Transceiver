@@ -24,7 +24,7 @@ void ENCODER_checkRotate(void) {
 		// а чтобы определить направление вращения, нам понадобится вывод В.
 		if (HAL_GPIO_ReadPin(GPIOE, ENC_DT_Pin) != ENCODER_AVal) {  // Если вывод A изменился первым - вращение по часовой стрелке
 			ENCODER_slowler--;
-			if (ENCODER_slowler < -ENCODER_RATE)
+			if (ENCODER_slowler < -TRX.ENCODER_SLOW_RATE)
 			{
 				ENCODER_Rotated(-1);
 				ENCODER_slowler = 0;
@@ -32,7 +32,7 @@ void ENCODER_checkRotate(void) {
 		}
 		else {// иначе B изменил свое состояние первым - вращение против часовой стрелки
 			ENCODER_slowler++;
-			if (ENCODER_slowler > ENCODER_RATE)
+			if (ENCODER_slowler > TRX.ENCODER_SLOW_RATE)
 			{
 				ENCODER_Rotated(1);
 				ENCODER_slowler = 0;

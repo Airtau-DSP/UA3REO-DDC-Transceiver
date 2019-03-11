@@ -5,7 +5,6 @@
 #include <stdbool.h>
 
 #define MAX_FREQ_HZ 750000000 // From ADC Datasheet
-#define CW_GENERATOR_SHIFT_HZ 500
 
 #define TRX_MODE_LSB 0
 #define TRX_MODE_USB 1

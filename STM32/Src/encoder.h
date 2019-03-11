@@ -3,8 +3,6 @@
 
 #include "stm32f4xx_hal.h"
 
-#define ENCODER_RATE 20 //Encoder slowing rate
-
 void ENCODER_Init(void);
 void ENCODER_checkRotate(void);
 void ENCODER_Rotated(int direction);
