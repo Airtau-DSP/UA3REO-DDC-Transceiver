@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include "trx_manager.h"
 
-#define BANDS_COUNT 9
+#define BANDS_COUNT 13
 
 typedef struct {
 	const uint32_t startFreq;

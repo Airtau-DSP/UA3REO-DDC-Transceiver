@@ -127,16 +127,6 @@ const BAND_MAP BANDS[] =
 											},
 											{
 												.startFreq = 14070000,
-												.endFreq = 14099000,
-												.mode = TRX_MODE_DIGI_U
-											},
-											{
-												.startFreq = 14099000,
-												.endFreq = 14101000,
-												.mode = TRX_MODE_NO_TX
-											},
-											{
-												.startFreq = 14101000,
 												.endFreq = 14112000,
 												.mode = TRX_MODE_DIGI_U
 											},
@@ -146,7 +136,7 @@ const BAND_MAP BANDS[] =
 												.mode = TRX_MODE_USB
 											},
 										},
-										.regionsCount = 5,
+										.regionsCount = 3,
 									},
 									//17METERS
 									{
@@ -167,16 +157,11 @@ const BAND_MAP BANDS[] =
 											},
 											{
 												.startFreq = 18109000,
-												.endFreq = 18111000,
-												.mode = TRX_MODE_NO_TX
-											},
-											{
-												.startFreq = 18111000,
 												.endFreq = 18168000,
 												.mode = TRX_MODE_USB
 											},
 										},
-										.regionsCount = 4,
+										.regionsCount = 3,
 									},
 													//15METERS
 													{
@@ -197,11 +182,6 @@ const BAND_MAP BANDS[] =
 															},
 															{
 																.startFreq = 21149000,
-																.endFreq = 21151000,
-																.mode = TRX_MODE_NO_TX
-															},
-															{
-																.startFreq = 21151000,
 																.endFreq = 21450000,
 																.mode = TRX_MODE_USB
 															},
@@ -222,16 +202,6 @@ const BAND_MAP BANDS[] =
 															},
 															{
 																.startFreq = 24915000,
-																.endFreq = 24929000,
-																.mode = TRX_MODE_DIGI_U
-															},
-															{
-																.startFreq = 24929000,
-																.endFreq = 24931000,
-																.mode = TRX_MODE_NO_TX
-															},
-															{
-																.startFreq = 24931000,
 																.endFreq = 24940000,
 																.mode = TRX_MODE_DIGI_U
 															},
@@ -241,7 +211,7 @@ const BAND_MAP BANDS[] =
 																.mode = TRX_MODE_USB
 															},
 														},
-														.regionsCount = 5,
+														.regionsCount = 4,
 													},
 																	//10METERS
 																	{
@@ -267,11 +237,6 @@ const BAND_MAP BANDS[] =
 																			},
 																			{
 																				.startFreq = 28199000,
-																				.endFreq = 28201000,
-																				.mode = TRX_MODE_NO_TX
-																			},
-																			{
-																				.startFreq = 28201000,
 																				.endFreq = 28300000,
 																				.mode = TRX_MODE_USB
 																			},
@@ -292,13 +257,8 @@ const BAND_MAP BANDS[] =
 																			},
 																			{
 																				.startFreq = 29300000,
-																				.endFreq = 29510000,
-																				.mode = TRX_MODE_USB
-																			},
-																			{
-																				.startFreq = 29510000,
 																				.endFreq = 29520000,
-																				.mode = TRX_MODE_NO_TX
+																				.mode = TRX_MODE_USB
 																			},
 																			{
 																				.startFreq = 29520000,
@@ -306,7 +266,112 @@ const BAND_MAP BANDS[] =
 																				.mode = TRX_MODE_NFM
 																			},
 																		},
-																		.regionsCount = 11,
+																		.regionsCount = 9,
+																	},
+																	//FM RADIO 1
+																	{
+																		.name = "FM1",
+																		.startFreq = 65900000,
+																		.endFreq = 74000000,
+																		.regions = (const REGION_MAP[])
+																		{
+																			{
+																				.startFreq = 65900000,
+																				.endFreq = 74000000,
+																				.mode = TRX_MODE_WFM
+																			},
+																		},
+																		.regionsCount = 1,
+																	},
+																	//FM RADIO 2
+																	{
+																		.name = "FM2",
+																		.startFreq = 87500000,
+																		.endFreq = 108000000,
+																		.regions = (const REGION_MAP[])
+																		{
+																			{
+																				.startFreq = 87500000,
+																				.endFreq = 108000000,
+																				.mode = TRX_MODE_WFM
+																			},
+																		},
+																		.regionsCount = 1,
+																	},
+																	//2 meter
+																	{
+																		.name = "VHF",
+																		.startFreq = 144000000,
+																		.endFreq = 146000000,
+																		.regions = (const REGION_MAP[])
+																		{
+																			{
+																				.startFreq = 144000000,
+																				.endFreq = 144025000,
+																				.mode = TRX_MODE_NFM
+																			},
+																			{
+																				.startFreq = 144025000,
+																				.endFreq = 144110000,
+																				.mode = TRX_MODE_CW_U
+																			},
+																			{
+																				.startFreq = 144110000,
+																				.endFreq = 144491000,
+																				.mode = TRX_MODE_USB
+																			},
+																			{
+																				.startFreq = 144491000,
+																				.endFreq = 146000000,
+																				.mode = TRX_MODE_NFM
+																			},
+																		},
+																		.regionsCount = 4,
+																	},
+																	//70cm
+																	{
+																		.name = "UHF",
+																		.startFreq = 430000000,
+																		.endFreq = 440000000,
+																		.regions = (const REGION_MAP[])
+																		{
+																			{
+																				.startFreq = 430000000,
+																				.endFreq = 432000000,
+																				.mode = TRX_MODE_NFM
+																			},
+																			{
+																				.startFreq = 432000000,
+																				.endFreq = 432100000,
+																				.mode = TRX_MODE_CW_U
+																			},
+																			{
+																				.startFreq = 432100000,
+																				.endFreq = 432400000,
+																				.mode = TRX_MODE_USB
+																			},
+																			{
+																				.startFreq = 432400000,
+																				.endFreq = 432500000,
+																				.mode = TRX_MODE_CW_U
+																			},
+																			{
+																				.startFreq = 432500000,
+																				.endFreq = 434000000,
+																				.mode = TRX_MODE_NFM
+																			},
+																			{
+																				.startFreq = 434000000,
+																				.endFreq = 434100000,
+																				.mode = TRX_MODE_CW_U
+																			},
+																			{
+																				.startFreq = 434100000,
+																				.endFreq = 440000000,
+																				.mode = TRX_MODE_NFM
+																			},
+																		},
+																		.regionsCount = 7,
 																	},
 																	//
 };

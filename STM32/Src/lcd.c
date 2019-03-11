@@ -72,7 +72,11 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(68, 70, 58, 60, "18", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 18), LCD_Handler_BAND_17);
 		printButton(131, 70, 58, 60, "21", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 21), LCD_Handler_BAND_15);
 		printButton(194, 70, 58, 60, "24", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 24), LCD_Handler_BAND_12);
-		printButton(257, 70, 58, 60, "28", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 28), LCD_Handler_BAND_10);
+		printButton(257, 70, 58, 60, "28", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 28 && freq_mhz <=29), LCD_Handler_BAND_10);
+		printButton(5, 135, 58, 60, "FM1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >=65 && freq_mhz <74), LCD_Handler_BAND_FM1);
+		printButton(68, 135, 58, 60, "FM2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >=87 && freq_mhz <108), LCD_Handler_BAND_FM2);
+		printButton(131, 135, 58, 60, "VHF", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >=144 && freq_mhz <146), LCD_Handler_BAND_VHF);
+		printButton(194, 135, 58, 60, "UHF", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >=430 && freq_mhz <440), LCD_Handler_BAND_UHF);
 	}
 	//вывод модов
 	else if (LCD_modeMenuOpened)
@@ -218,6 +222,7 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	if (LCD_mainMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
+	if (LCD_bandMenuOpened) return;
 	if (LCD_busy)
 	{
 		LCD_UpdateQuery.StatusInfoGUI=true;
@@ -248,6 +253,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
 	if (LCD_mainMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
+	if (LCD_bandMenuOpened) return;
 	if (LCD_busy)
 	{
 		LCD_UpdateQuery.StatusInfoBar=true;
@@ -383,6 +389,7 @@ void LCD_Handler_BAND(void)
 {
 	LCD_bandMenuOpened = true;
 	LCD_displayTopButtons(true);
+	LCD_redraw();
 }
 
 void LCD_Handler_WIDTH(void)
@@ -734,6 +741,34 @@ void LCD_Handler_BAND_12(void)
 void LCD_Handler_BAND_10(void)
 {
 	TRX_setFrequency(28100000);
+	LCD_bandMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_BAND_FM1(void)
+{
+	TRX_setFrequency(70000000);
+	LCD_bandMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_BAND_FM2(void)
+{
+	TRX_setFrequency(90200000);
+	LCD_bandMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_BAND_VHF(void)
+{
+	TRX_setFrequency(145300000);
+	LCD_bandMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_BAND_UHF(void)
+{
+	TRX_setFrequency(435000000);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
