@@ -5,6 +5,7 @@
 #include "trx_manager.h"
 #include "agc.h"
 #include "settings.h"
+#include "system_menu.h"
 #include "functions.h"
 
 int ENCODER_ALast = 0;
@@ -42,6 +43,11 @@ void ENCODER_checkRotate(void) {
 
 void ENCODER_Rotated(int direction) //энкодер повернули, здесь обработчик, direction -1 - влево, 1 - вправо
 {
+	if (LCD_systemMenuOpened && !LCD_timeMenuOpened)
+	{
+		eventRotateSystemMenu(direction);
+		return;
+	}
 	if (!LCD_mainMenuOpened)
 	{
 		switch (TRX.LCD_menu_freq_index) {
@@ -100,7 +106,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			HAL_RTC_DeInit(&hrtc);
 			HAL_RTC_Init(&hrtc);
 			HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
-			LCD_UpdateQuery.MainMenu = true;
+			LCD_UpdateQuery.SystemMenu = true;
 			return;
 		}
 		switch (LCD_menu_main_index) {

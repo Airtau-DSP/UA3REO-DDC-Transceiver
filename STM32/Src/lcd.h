@@ -26,6 +26,7 @@ typedef struct {
 	bool FreqInfo;
 	bool StatusInfoGUI;
 	bool StatusInfoBar;
+	bool SystemMenu;
 } DEF_LCD_UpdateQuery;
 
 struct button_handler {
@@ -55,6 +56,7 @@ extern DEF_LCD_UpdateQuery LCD_UpdateQuery;
 extern bool LCD_mainMenuOpened;
 extern bool LCD_modeMenuOpened;
 extern bool LCD_timeMenuOpened;
+extern bool LCD_systemMenuOpened;
 extern char LCD_freq_string_hz[6];
 extern char LCD_freq_string_khz[6];
 extern char LCD_freq_string_mhz[6];
@@ -76,7 +78,7 @@ void LCD_Handler_AGC(void);
 void LCD_Handler_MUTE(void);
 void LCD_Handler_FAST(void);
 void LCD_Handler_MENU_MAP(void);
-void LCD_Handler_MENU_FFT_ENABLED(void);
+void LCD_Handler_MENU_SYSTEM_MENU(void);
 void LCD_Handler_MENU_LINEMIC(void);
 void LCD_Handler_SETTIME(void);
 void LCD_Handler_TIMEMENU_NEXT(void);
@@ -114,7 +116,6 @@ void LCD_Handler_MENU_RF_GAIN(void);
 void LCD_Handler_MENU_FM_SQL(void);
 void LCD_Handler_MENU_RF_POWER(void);
 void LCD_Handler_MENU_AGC_S(void);
-void LCD_Handler_LCD_Calibrate(void);
 void LCD_Handler_WIDTH_0(void);
 void LCD_Handler_WIDTH_03(void);
 void LCD_Handler_WIDTH_05(void);

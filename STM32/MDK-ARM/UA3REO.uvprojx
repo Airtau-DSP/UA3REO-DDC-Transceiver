@@ -393,6 +393,46 @@
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
+              <FileName>agc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\agc.c</FilePath>
+            </File>
+            <File>
+              <FileName>agc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\agc.h</FilePath>
+            </File>
+            <File>
+              <FileName>audio_processor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\audio_processor.c</FilePath>
+            </File>
+            <File>
+              <FileName>audio_processor.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\audio_processor.h</FilePath>
+            </File>
+            <File>
+              <FileName>audio_filters.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\audio_filters.c</FilePath>
+            </File>
+            <File>
+              <FileName>audio_filters.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\audio_filters.h</FilePath>
+            </File>
+            <File>
+              <FileName>bands.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\bands.c</FilePath>
+            </File>
+            <File>
+              <FileName>bands.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\bands.h</FilePath>
+            </File>
+            <File>
               <FileName>bootloader.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\bootloader.c</FilePath>
@@ -453,6 +493,41 @@
               <FilePath>..\Src\lcd.h</FilePath>
             </File>
             <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/main.c</FilePath>
+            </File>
+            <File>
+              <FileName>profiler.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\profiler.c</FilePath>
+            </File>
+            <File>
+              <FileName>profiler.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\profiler.h</FilePath>
+            </File>
+            <File>
+              <FileName>settings.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\settings.c</FilePath>
+            </File>
+            <File>
+              <FileName>settings.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\settings.h</FilePath>
+            </File>
+            <File>
+              <FileName>system_menu.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\system_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>system_menu.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\system_menu.h</FilePath>
+            </File>
+            <File>
               <FileName>trx_manager.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\trx_manager.c</FilePath>
@@ -481,71 +556,6 @@
               <FileName>wire.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Src\wire.h</FilePath>
-            </File>
-            <File>
-              <FileName>audio_processor.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\audio_processor.c</FilePath>
-            </File>
-            <File>
-              <FileName>audio_processor.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\audio_processor.h</FilePath>
-            </File>
-            <File>
-              <FileName>audio_filters.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\audio_filters.c</FilePath>
-            </File>
-            <File>
-              <FileName>audio_filters.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\audio_filters.h</FilePath>
-            </File>
-            <File>
-              <FileName>agc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\agc.c</FilePath>
-            </File>
-            <File>
-              <FileName>agc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\agc.h</FilePath>
-            </File>
-            <File>
-              <FileName>settings.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\settings.c</FilePath>
-            </File>
-            <File>
-              <FileName>settings.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\settings.h</FilePath>
-            </File>
-            <File>
-              <FileName>bands.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\bands.c</FilePath>
-            </File>
-            <File>
-              <FileName>bands.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\bands.h</FilePath>
-            </File>
-            <File>
-              <FileName>profiler.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\profiler.c</FilePath>
-            </File>
-            <File>
-              <FileName>profiler.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\profiler.h</FilePath>
-            </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/main.c</FilePath>
             </File>
             <File>
               <FileName>usb_device.c</FileName>

@@ -4,6 +4,7 @@
 #include "arm_math.h"
 #include "agc.h"
 #include "settings.h"
+#include "system_menu.h"
 #include "wm8731.h"
 #include "audio_filters.h"
 #include "LCD/fonts.h"
@@ -17,6 +18,7 @@ bool LCD_widthMenuOpened = false;
 bool LCD_modeMenuOpened = false;
 bool LCD_mainMenuOpened = false;
 bool LCD_timeMenuOpened = false;
+bool LCD_systemMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
 uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
 
@@ -35,7 +37,7 @@ uint8_t Minutes;
 uint8_t Seconds;
 uint8_t TimeMenuSelection = 0;
 
-DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false };
+DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
 
 void LCD_Init(void)
 {
@@ -49,6 +51,7 @@ void LCD_Init(void)
 
 void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок
 	if (LCD_mainMenuOpened) return;
+	if (LCD_systemMenuOpened) return;
 	if (LCD_busy)
 	{
 		LCD_UpdateQuery.TopButtons = true;
@@ -159,6 +162,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 
 void LCD_displayFreqInfo() { //вывод частоты на экран
 	if (LCD_mainMenuOpened) return;
+	if (LCD_systemMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
 	if (LCD_widthMenuOpened) return;
@@ -221,6 +225,7 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 
 void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	if (LCD_mainMenuOpened) return;
+	if (LCD_systemMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
 	if (LCD_busy)
@@ -252,6 +257,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 
 void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
 	if (LCD_mainMenuOpened) return;
+	if (LCD_systemMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
 	if (LCD_busy)
@@ -332,10 +338,9 @@ void LCD_displayMainMenu() {
 	printMenuButton(163, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp, true, LCD_Handler_MENU_PREAMP);
 	printMenuButton(242, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 
-	printMenuButton(5, 115, 74, 50, "TIME", "set", false, true, LCD_Handler_SETTIME);
-	printMenuButton(84, 115, 74, 50, "FFT", "enabled", TRX.FFT_Enabled, true, LCD_Handler_MENU_FFT_ENABLED);
-	printMenuButton(163, 115, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
-	printMenuButton(242, 115, 74, 50, "LCD", "CALIBRATE", false, true, LCD_Handler_LCD_Calibrate);
+	printMenuButton(5, 115, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
+	
+	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
 	LCD_UpdateQuery.MainMenu = false;
 	LCD_busy = false;
 }
@@ -347,6 +352,7 @@ void LCD_redraw(void) {
 	LCD_UpdateQuery.StatusInfoBar = true;
 	LCD_UpdateQuery.StatusInfoGUI = true;
 	LCD_UpdateQuery.TopButtons = true;
+	LCD_UpdateQuery.SystemMenu = true;
 	button_handlers_count = 0;
 	LCD_last_showed_freq = 0;
 	LCD_doEvents();
@@ -367,6 +373,7 @@ void LCD_doEvents(void)
 	if (LCD_UpdateQuery.StatusInfoGUI) LCD_displayStatusInfoGUI();
 	LCD_displayStatusInfoBar();
 	if (LCD_UpdateQuery.MainMenu) LCD_displayMainMenu();
+	if (LCD_UpdateQuery.SystemMenu) drawSystemMenu();
 }
 
 void LCD_Handler_TUNE(void)
@@ -655,11 +662,11 @@ void LCD_Handler_MENU_MAP(void)
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_MENU_FFT_ENABLED(void)
+void LCD_Handler_MENU_SYSTEM_MENU(void)
 {
-	TRX.FFT_Enabled = !TRX.FFT_Enabled;
-	LCD_UpdateQuery.MainMenu = true;
-	NeedSaveSettings = true;
+	LCD_systemMenuOpened=true;
+	LCD_UpdateQuery.SystemMenu=true;
+	LCD_doEvents();
 }
 
 void LCD_Handler_MENU_LINEMIC(void)
@@ -905,6 +912,7 @@ void LCD_Handler_SETTIME(void)
 {
 	if (!LCD_timeMenuOpened) ILI9341_Fill(COLOR_BLACK);
 	LCD_timeMenuOpened = true;
+	button_handlers_count = 0;
 	char ctmp[50];
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
@@ -930,21 +938,14 @@ void LCD_Handler_TIMEMENU_NEXT(void)
 	ILI9341_Fill(COLOR_BLACK);
 	TimeMenuSelection++;
 	if (TimeMenuSelection == 3) TimeMenuSelection = 0;
-	LCD_UpdateQuery.MainMenu = true;
+	LCD_UpdateQuery.SystemMenu = true;
 }
 
 void LCD_Handler_TIMEMENU_BACK(void)
 {
 	ILI9341_Fill(COLOR_BLACK);
 	LCD_timeMenuOpened = false;
-	LCD_UpdateQuery.MainMenu = true;
-}
-
-void LCD_Handler_LCD_Calibrate(void)
-{
-	HAL_Delay(500);
-	Touch_Calibrate();
-	LCD_redraw();
+	LCD_UpdateQuery.SystemMenu = true;
 }
 
 void LCD_checkTouchPad(void)
@@ -967,6 +968,12 @@ void LCD_checkTouchPad(void)
 	sprintf(dest, "Touchpad x = %d  y = %d\r\n", x, y);
 	sendToDebug_str(dest);
 
+	if(LCD_systemMenuOpened && !LCD_timeMenuOpened)
+	{
+		eventClickSystemMenu(x, y);
+		return;
+	}
+	
 	for (uint8_t i = 0; i < button_handlers_count; i++)
 		if (button_handlers[i].x1 <= x && button_handlers[i].x2 >= x && button_handlers[i].y1 <= y && button_handlers[i].y2 >= y && button_handlers[i].handler != 0)
 		{
@@ -974,7 +981,7 @@ void LCD_checkTouchPad(void)
 			return;
 		}
 
-	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened && !LCD_modeMenuOpened && !LCD_widthMenuOpened)
+	if (!LCD_bandMenuOpened && !LCD_mainMenuOpened && !LCD_modeMenuOpened && !LCD_widthMenuOpened && !LCD_systemMenuOpened)
 	{
 		if (x >= 5 && x <= 80 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_MHZ;
 		if (x >= 95 && x <= 170 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
