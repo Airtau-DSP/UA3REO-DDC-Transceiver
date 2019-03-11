@@ -1659,6 +1659,6 @@ static const GFXfont FreeSans9pt7b = {
   (uint8_t  *)FreeSans9pt7bBitmaps,
   (GFXglyph *)FreeSans9pt7bGlyphs,
   0x20, 0x7E, 22 };
-	
+
 #endif
 

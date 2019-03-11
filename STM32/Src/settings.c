@@ -28,12 +28,12 @@ void LoadSettings(void)
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Agc = true;
-		TRX.VFO_A.Filter_Width=2700;
+		TRX.VFO_A.Filter_Width = 2700;
 		TRX.VFO_B.Freq = 14150000;
 		TRX.VFO_B.Mode = TRX_MODE_USB;
 		TRX.VFO_B.Agc = true;
-		TRX.VFO_B.Filter_Width=2700;
-		TRX.current_vfo=false; // A
+		TRX.VFO_B.Filter_Width = 2700;
+		TRX.current_vfo = false; // A
 		TRX.Preamp = true;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
@@ -46,19 +46,19 @@ void LoadSettings(void)
 		TRX.LineMicIn = false; //false - mic ; true - line
 		TRX.Mute = false;
 		TRX.Fast = false;
-		TRX.CW_Filter=500;
-		TRX.SSB_Filter=2700;
-		TRX.FM_Filter=15000;
-		TRX.RF_Power=25;
-		TRX.FFT_Enabled=true;
-		TRX.FM_SQL_threshold=1;
-		TRX.RF_Gain=50;
+		TRX.CW_Filter = 500;
+		TRX.SSB_Filter = 2700;
+		TRX.FM_Filter = 15000;
+		TRX.RF_Power = 25;
+		TRX.FFT_Enabled = true;
+		TRX.FM_SQL_threshold = 1;
+		TRX.RF_Gain = 50;
 	}
 }
 
 VFO *CurrentVFO(void)
 {
-	if(!TRX.current_vfo)
+	if (!TRX.current_vfo)
 		return &TRX.VFO_A;
 	else
 		return &TRX.VFO_B;

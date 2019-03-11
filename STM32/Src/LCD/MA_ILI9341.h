@@ -101,18 +101,18 @@ Description:				This library makes use of the FSMC interface of the STM32 board 
 typedef struct {
 	uint16_t bitmapOffset;     ///< Pointer into GFXfont->bitmap
 	uint8_t  width;            ///< Bitmap dimensions in pixels
-  uint8_t  height;           ///< Bitmap dimensions in pixels
+	uint8_t  height;           ///< Bitmap dimensions in pixels
 	uint8_t  xAdvance;         ///< Distance to advance cursor (x axis)
 	int8_t   xOffset;          ///< X dist from cursor pos to UL corner
-  int8_t   yOffset;          ///< Y dist from cursor pos to UL corner
+	int8_t   yOffset;          ///< Y dist from cursor pos to UL corner
 } GFXglyph;
 
 /// Data stored for FONT AS A WHOLE
-typedef struct { 
+typedef struct {
 	uint8_t  *bitmap;      ///< Glyph bitmaps, concatenated
 	GFXglyph *glyph;       ///< Glyph array
 	uint8_t   first;       ///< ASCII extents (first char)
-  uint8_t   last;        ///< ASCII extents (last char)
+	uint8_t   last;        ///< ASCII extents (last char)
 	uint8_t   yAdvance;    ///< Newline distance (y axis)
 } GFXfont;
 
@@ -380,20 +380,20 @@ const unsigned char font1[] = {
 #define swap(a, b) { int16_t t = a; a = b; b = t; }
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
-	#ifndef pgm_read_byte
- #define pgm_read_byte(addr) (*(const unsigned char *)(addr))
+#ifndef pgm_read_byte
+#define pgm_read_byte(addr) (*(const unsigned char *)(addr))
 #endif
 #ifndef pgm_read_word
- #define pgm_read_word(addr) (*(const unsigned short *)(addr))
+#define pgm_read_word(addr) (*(const unsigned short *)(addr))
 #endif
 #ifndef pgm_read_dword
- #define pgm_read_dword(addr) (*(const unsigned long *)(addr))
+#define pgm_read_dword(addr) (*(const unsigned long *)(addr))
 #endif
 
 #if !defined(__INT_MAX__) || (__INT_MAX__ > 0xFFFF)
- #define pgm_read_pointer(addr) ((void *)pgm_read_dword(addr))
+#define pgm_read_pointer(addr) ((void *)pgm_read_dword(addr))
 #else
- #define pgm_read_pointer(addr) ((void *)pgm_read_word(addr))
+#define pgm_read_pointer(addr) ((void *)pgm_read_word(addr))
 #endif
 #define min(a,b) (((a)<(b))?(a):(b))
 

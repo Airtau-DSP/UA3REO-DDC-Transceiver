@@ -46,13 +46,13 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 	{
 		switch (TRX.LCD_menu_freq_index) {
 		case MENU_FREQ_HZ:
-			if(TRX.Fast)
+			if (TRX.Fast)
 				TRX_setFrequency(TRX_getFrequency() + 100 * direction);
 			else
 				TRX_setFrequency(TRX_getFrequency() + 10 * direction);
 			break;
 		case MENU_FREQ_KHZ:
-			if(TRX.Fast)
+			if (TRX.Fast)
 				TRX_setFrequency(TRX_getFrequency() + 10000 * direction);
 			else
 				TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
@@ -67,74 +67,74 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 	}
 	if (LCD_mainMenuOpened)
 	{
-		if(LCD_timeMenuOpened)
+		if (LCD_timeMenuOpened)
 		{
 			uint32_t Time = RTC->TR;
 			RTC_TimeTypeDef sTime;
-			sTime.TimeFormat=RTC_HOURFORMAT12_PM;
-			sTime.SubSeconds=0;
-			sTime.SecondFraction=0;
-			sTime.DayLightSaving=RTC_DAYLIGHTSAVING_NONE;
+			sTime.TimeFormat = RTC_HOURFORMAT12_PM;
+			sTime.SubSeconds = 0;
+			sTime.SecondFraction = 0;
+			sTime.DayLightSaving = RTC_DAYLIGHTSAVING_NONE;
 			sTime.StoreOperation = RTC_STOREOPERATION_SET;
 			sTime.Hours = (uint8_t)(((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f));
 			sTime.Minutes = (uint8_t)(((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f));
 			sTime.Seconds = (uint8_t)(((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f));
-			if(TimeMenuSelection==0)
+			if (TimeMenuSelection == 0)
 			{
-				if(sTime.Hours==0 && direction<0) return;
+				if (sTime.Hours == 0 && direction < 0) return;
 				sTime.Hours = sTime.Hours + direction;
 			}
-			if(TimeMenuSelection==1)
+			if (TimeMenuSelection == 1)
 			{
-				if(sTime.Minutes==0 && direction<0) return;
+				if (sTime.Minutes == 0 && direction < 0) return;
 				sTime.Minutes = sTime.Minutes + direction;
 			}
-			if(TimeMenuSelection==2)
+			if (TimeMenuSelection == 2)
 			{
-				if(sTime.Seconds==0 && direction<0) return;
+				if (sTime.Seconds == 0 && direction < 0) return;
 				sTime.Seconds = sTime.Seconds + direction;
 			}
-			if(sTime.Hours>=24) sTime.Hours=0;
-			if(sTime.Minutes>=60) sTime.Minutes=0;
-			if(sTime.Seconds>=60) sTime.Seconds=0;
+			if (sTime.Hours >= 24) sTime.Hours = 0;
+			if (sTime.Minutes >= 60) sTime.Minutes = 0;
+			if (sTime.Seconds >= 60) sTime.Seconds = 0;
 			HAL_RTC_DeInit(&hrtc);
 			HAL_RTC_Init(&hrtc);
-			HAL_RTC_SetTime(&hrtc,&sTime,RTC_FORMAT_BIN);
-			LCD_UpdateQuery.MainMenu=true;
+			HAL_RTC_SetTime(&hrtc, &sTime, RTC_FORMAT_BIN);
+			LCD_UpdateQuery.MainMenu = true;
 			return;
 		}
 		switch (LCD_menu_main_index) {
-			case MENU_MAIN_VOLUME:
-				TRX.Volume = TRX.Volume + direction;
-				if (TRX.Volume < 1) TRX.Volume = 1;
-				if (TRX.Volume > 100) TRX.Volume = 100;
-				LCD_UpdateQuery.MainMenu=true;
-				break;
-			case MENU_MAIN_RF_GAIN:
-				TRX.RF_Gain = TRX.RF_Gain + direction;
-				if (TRX.RF_Gain < 1) TRX.RF_Gain = 1;
-				if (TRX.RF_Gain > 250) TRX.RF_Gain = 250;
-				LCD_UpdateQuery.MainMenu=true;
-				break;
-			case MENU_MAIN_FM_SQL:
-				if (direction > 0 || TRX.FM_SQL_threshold > 0) TRX.FM_SQL_threshold = TRX.FM_SQL_threshold + direction;
-				if (TRX.FM_SQL_threshold > 10) TRX.FM_SQL_threshold = 10;
-				LCD_UpdateQuery.MainMenu=true;
-				break;
-			case MENU_MAIN_RF_POWER:
-				TRX.RF_Power = TRX.RF_Power + direction;
-				if (TRX.RF_Power < 1) TRX.RF_Power = 1;
-				if (TRX.RF_Power > 100) TRX.RF_Power = 100;
-				LCD_UpdateQuery.MainMenu=true;
-				break;
-			case MENU_MAIN_AGCSPEED:
-				if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
-				if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
-				SetupAgcWdsp();
-				LCD_UpdateQuery.MainMenu=true;
-				break;
-			default:
-				break;
+		case MENU_MAIN_VOLUME:
+			TRX.Volume = TRX.Volume + direction;
+			if (TRX.Volume < 1) TRX.Volume = 1;
+			if (TRX.Volume > 100) TRX.Volume = 100;
+			LCD_UpdateQuery.MainMenu = true;
+			break;
+		case MENU_MAIN_RF_GAIN:
+			TRX.RF_Gain = TRX.RF_Gain + direction;
+			if (TRX.RF_Gain < 1) TRX.RF_Gain = 1;
+			if (TRX.RF_Gain > 250) TRX.RF_Gain = 250;
+			LCD_UpdateQuery.MainMenu = true;
+			break;
+		case MENU_MAIN_FM_SQL:
+			if (direction > 0 || TRX.FM_SQL_threshold > 0) TRX.FM_SQL_threshold = TRX.FM_SQL_threshold + direction;
+			if (TRX.FM_SQL_threshold > 10) TRX.FM_SQL_threshold = 10;
+			LCD_UpdateQuery.MainMenu = true;
+			break;
+		case MENU_MAIN_RF_POWER:
+			TRX.RF_Power = TRX.RF_Power + direction;
+			if (TRX.RF_Power < 1) TRX.RF_Power = 1;
+			if (TRX.RF_Power > 100) TRX.RF_Power = 100;
+			LCD_UpdateQuery.MainMenu = true;
+			break;
+		case MENU_MAIN_AGCSPEED:
+			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
+			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
+			SetupAgcWdsp();
+			LCD_UpdateQuery.MainMenu = true;
+			break;
+		default:
+			break;
 		}
 		NeedSaveSettings = true;
 	}

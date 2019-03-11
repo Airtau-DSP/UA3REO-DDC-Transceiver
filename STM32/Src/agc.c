@@ -175,14 +175,14 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 		{
 			agc_wdsp.ring_max = 0.0f;
 			int k = agc_wdsp.out_index;
-			
+
 			//for (uint16_t j = 0; j < agc_wdsp.attack_buffsize; j++)
 			{
 				if (++k == agc_wdsp.ring_buffsize) k = 0;
 				if (agc_wdsp.abs_ring[k] > agc_wdsp.ring_max) agc_wdsp.ring_max = agc_wdsp.abs_ring[k];
 			}
 		}
-		
+
 		if (agc_wdsp.abs_ring[agc_wdsp.in_index] > agc_wdsp.ring_max)
 		{
 			agc_wdsp.ring_max = agc_wdsp.abs_ring[agc_wdsp.in_index];
@@ -192,7 +192,7 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 		{
 			--agc_wdsp.hang_counter;
 		}
-		
+
 		switch (agc_wdsp.state)
 		{
 		case 0: // starting point after ATTACK
@@ -310,7 +310,7 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 			break;
 		}
 		}
-		
+
 		if (agc_wdsp.volts < agc_wdsp.min_volts)
 		{
 			agc_wdsp.volts = agc_wdsp.min_volts; // no AGC action is taking place

@@ -56,7 +56,7 @@ void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t inde
 void sendToDebug_str(char* data)
 {
 	//CDC_Transmit_FS((uint8_t*)data, strlen(data));
-	HAL_UART_Transmit(&huart1,(uint8_t*)data, strlen(data),1000);
+	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), 1000);
 }
 
 void sendToDebug_num(uint8_t data)
@@ -129,18 +129,18 @@ uint32_t getFrequencyFromPhrase(uint32_t phrase) //высчитываем фаз
 uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем частоту из фразы ля FPGA
 {
 	uint32_t res = 0;
-	uint32_t _freq=freq;
-	if (_freq > ADCDAC_CLOCK/2) //Go Nyquist
+	uint32_t _freq = freq;
+	if (_freq > ADCDAC_CLOCK / 2) //Go Nyquist
 	{
 		bool inverted = false;
-		while(_freq > ADCDAC_CLOCK/2)
+		while (_freq > ADCDAC_CLOCK / 2)
 		{
-			_freq-=ADCDAC_CLOCK/2;
-			inverted=!inverted;
+			_freq -= ADCDAC_CLOCK / 2;
+			inverted = !inverted;
 		}
-		if(inverted)
+		if (inverted)
 		{
-			_freq=ADCDAC_CLOCK/2-_freq;
+			_freq = ADCDAC_CLOCK / 2 - _freq;
 		}
 	}
 	res = round(((double)_freq / ADCDAC_CLOCK) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;

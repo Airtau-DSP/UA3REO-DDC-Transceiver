@@ -144,18 +144,18 @@ int main(void)
   MX_USB_DEVICE_Init();
   MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
-	
-	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit
-		  * in RCC_CFGR register! Hence we need to set it manually here! * WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
-			  Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
-		  */
-			
-	//FORCE RESET USB (REMOVE PULLUP RESISTOR FROM D+ USB LINE R21/1.5K)
+
+	  /* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit
+			* in RCC_CFGR register! Hence we need to set it manually here! * WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
+				Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
+			*/
+
+			//FORCE RESET USB (REMOVE PULLUP RESISTOR FROM D+ USB LINE R21/1.5K)
 	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_InitStruct.Pin = GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	HAL_GPIO_WritePin(GPIOA,12,GPIO_PIN_RESET);
+	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
+	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+	HAL_GPIO_WritePin(GPIOA, 12, GPIO_PIN_RESET);
 	HAL_Delay(100);
 	MX_USB_DEVICE_Init();
 	HAL_Delay(100);
@@ -851,7 +851,7 @@ static void MX_FSMC_Init(void)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-	  /* User can add his own implementation to report the HAL error return state */
+		/* User can add his own implementation to report the HAL error return state */
 	while (1)
 	{
 	}
@@ -869,8 +869,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
-	  /* User can add his own implementation to report the file name and line number,
-		 tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+		/* User can add his own implementation to report the file name and line number,
+		   tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

@@ -108,7 +108,7 @@ void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 	bx = _bx;
 	ay = _ay;
 	by = _by;
-	
+
 	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
 	sendToDebug_str(dest);
 }
@@ -238,14 +238,14 @@ void Touch_Calibrate(void)
 	// Сохранить в память
 	ILI9341_Fill(COLOR_WHITE);
 	ILI9341_printText("Save settings?", 50, 100, 0xFFE0, 0x0000, 2);
-	ILI9341_Fill_RectWH(60,135,60,40,COLOR_DGREEN);
+	ILI9341_Fill_RectWH(60, 135, 60, 40, COLOR_DGREEN);
 	ILI9341_printText("YES", 70, 150, COLOR_BLACK, COLOR_DGREEN, 2);
-	ILI9341_Fill_RectWH(180,135,60,40,COLOR_RED);
+	ILI9341_Fill_RectWH(180, 135, 60, 40, COLOR_RED);
 	ILI9341_printText("NO", 200, 150, COLOR_BLACK, COLOR_RED, 2);
 	while (!isTouch());
 	Get_Touch_XY(&x, &y, 1, 0);
 	ILI9341_Fill(COLOR_WHITE);
-	if (x >= 60 && x <= 120 && y>=135 && y<=175)
+	if (x >= 60 && x <= 120 && y >= 135 && y <= 175)
 	{
 		TRX.Touchpad_ax = axc[0];
 		TRX.Touchpad_bx = bxc[0];

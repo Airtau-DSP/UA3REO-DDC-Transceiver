@@ -64,7 +64,7 @@ void FFT_doFFT(void)
 		//if (maxValue > Processor_AVG_amplitude*FFT_MAX) maxValue = Processor_AVG_amplitude * FFT_MAX;
 	}
 	maxValueErrors = 0;
-	if(maxValue<FFT_MIN) maxValue=FFT_MIN;
+	if (maxValue < FFT_MIN) maxValue = FFT_MIN;
 	// Нормируем АЧХ к единице
 	for (uint16_t n = 0; n < FFT_SIZE; n++)
 	{
@@ -93,12 +93,12 @@ void FFT_printFFT(void)
 	if (LCD_mainMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
 	LCD_busy = true;
-	
+
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET), COLOR_GREEN);
 
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //смещаем водопад вниз
 		memcpy(&wtf_buffer[tmp], &wtf_buffer[tmp - 1], sizeof(wtf_buffer[tmp - 1]));
-	
+
 	uint8_t new_x = 0;
 	for (uint32_t fft_x = 0; fft_x < FFT_PRINT_SIZE; fft_x++)
 	{
@@ -106,7 +106,7 @@ void FFT_printFFT(void)
 		if (fft_x >= (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
 		if ((new_x + 1) == FFT_PRINT_SIZE / 2) continue;
 		height = FFTOutput[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
-		if (height > FFT_MAX_HEIGHT-1)
+		if (height > FFT_MAX_HEIGHT - 1)
 		{
 			height = FFT_MAX_HEIGHT;
 			tmp = COLOR_RED;
@@ -121,8 +121,8 @@ void FFT_printFFT(void)
 	}
 
 	//FFT_need_fft = true; LCD_busy = false; return;
-	
-	ILI9341_SetCursorAreaPosition(1,FFT_BOTTOM_OFFSET,FFT_PRINT_SIZE,FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
+
+	ILI9341_SetCursorAreaPosition(1, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
 	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
 	{
 		for (uint16_t x = 0; x < FFT_PRINT_SIZE; x++)
@@ -133,42 +133,42 @@ void FFT_printFFT(void)
 				ILI9341_SendData(wtf_buffer[y][x]);
 		}
 	}
-	
+
 	FFT_need_fft = true;
 	LCD_busy = false;
 }
 
 void FFT_moveWaterfall(int16_t freq_diff)
 {
-	int16_t new_x=0;
-	freq_diff=freq_diff/FFT_HZ_IN_PIXEL;
-	
+	int16_t new_x = 0;
+	freq_diff = freq_diff / FFT_HZ_IN_PIXEL;
+
 	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
 	{
-		if(freq_diff>0)
+		if (freq_diff > 0)
 		{
 			for (int16_t x = 0; x <= FFT_PRINT_SIZE; x++)
 			{
-				new_x=x+freq_diff;
-				if(new_x<0 || new_x>FFT_PRINT_SIZE)
+				new_x = x + freq_diff;
+				if (new_x<0 || new_x>FFT_PRINT_SIZE)
 				{
-					wtf_buffer[y][x]=0;
+					wtf_buffer[y][x] = 0;
 					continue;
 				};
-				wtf_buffer[y][x]=wtf_buffer[y][new_x];
+				wtf_buffer[y][x] = wtf_buffer[y][new_x];
 			}
 		}
-		if(freq_diff<0)
+		if (freq_diff < 0)
 		{
 			for (int16_t x = FFT_PRINT_SIZE; x >= 0; x--)
 			{
-				new_x=x+freq_diff;
-				if(new_x<0 || new_x>FFT_PRINT_SIZE)
+				new_x = x + freq_diff;
+				if (new_x<0 || new_x>FFT_PRINT_SIZE)
 				{
-					wtf_buffer[y][x]=0;
+					wtf_buffer[y][x] = 0;
 					continue;
 				};
-				wtf_buffer[y][x]=wtf_buffer[y][new_x];
+				wtf_buffer[y][x] = wtf_buffer[y][new_x];
 			}
 		}
 	}

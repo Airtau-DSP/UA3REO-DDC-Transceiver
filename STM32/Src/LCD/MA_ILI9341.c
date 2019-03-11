@@ -71,8 +71,8 @@ void ILI9341_SetCursorPosition(uint16_t x, uint16_t y) {
 	ILI9341_SendData(y >> 8);
 	ILI9341_SendData(y & 0xFF);
 	ILI9341_SendCommand(ILI9341_GRAM);
-	text_cursor_x=x;
-	text_cursor_y=y;
+	text_cursor_x = x;
+	text_cursor_y = y;
 }
 uint16_t ILI9341_GetCurrentXOffset(void)
 {
@@ -422,28 +422,28 @@ void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uin
 		((x + 6 * size - 1) < 0) || // Clip left
 		((y + 8 * size - 1) < 0)) // Clip top
 		return;
-	
+
 	if (!_cp437 && (c >= 176)) c++; // Handle 'classic' charset behavior
-	ILI9341_SetCursorAreaPosition(x,y,x+6*size-1,y+8*size-1); //char area
-	
+	ILI9341_SetCursorAreaPosition(x, y, x + 6 * size - 1, y + 8 * size - 1); //char area
+
 	for (int8_t j = 0; j < 8; j++) { //y line out
-		for(int8_t s_y=0;s_y<size;s_y++) //y size scale
+		for (int8_t s_y = 0; s_y < size; s_y++) //y size scale
 			for (int8_t i = 0; i < 6; i++) { //x line out
-			{
-				if (i == 5)
-					line = 0x0;
-				else
-					line = pgm_read_byte(font1 + (c * 5) + i); //read font
-				line >>= j;
-				for(int8_t s_x=0;s_x<size;s_x++) //x size scale
 				{
-					if (line & 0x1) 
-						ILI9341_SendData(color); //font pixel
+					if (i == 5)
+						line = 0x0;
 					else
-						ILI9341_SendData(bg); //background pixel
+						line = pgm_read_byte(font1 + (c * 5) + i); //read font
+					line >>= j;
+					for (int8_t s_x = 0; s_x < size; s_x++) //x size scale
+					{
+						if (line & 0x1)
+							ILI9341_SendData(color); //font pixel
+						else
+							ILI9341_SendData(bg); //background pixel
+					}
 				}
 			}
-		}
 	}
 }
 
@@ -460,27 +460,27 @@ void ILI9341_printText(char text[], int16_t x, int16_t y, uint16_t color, uint16
 void ILI9341_drawCharFont(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, GFXfont gfxFont)
 {
 	c -= (uint8_t)pgm_read_byte(&gfxFont.first);
-	GFXglyph *glyph  = &(((GFXglyph *)pgm_read_pointer(&gfxFont.glyph))[c]);
+	GFXglyph *glyph = &(((GFXglyph *)pgm_read_pointer(&gfxFont.glyph))[c]);
 	uint8_t  *bitmap = (uint8_t *)pgm_read_pointer(&gfxFont.bitmap);
 
 	uint16_t bo = pgm_read_word(&glyph->bitmapOffset);
-	uint8_t  w  = pgm_read_byte(&glyph->width), h  = pgm_read_byte(&glyph->height), xa  = pgm_read_byte(&glyph->xAdvance);
+	uint8_t  w = pgm_read_byte(&glyph->width), h = pgm_read_byte(&glyph->height), xa = pgm_read_byte(&glyph->xAdvance);
 	int8_t   xo = pgm_read_byte(&glyph->xOffset), yo = pgm_read_byte(&glyph->yOffset);
 	uint8_t  xx, yy, bits = 0, bit = 0;
 
-	ILI9341_SetCursorAreaPosition(x,y+yo,x+xa-1,y+yo+h-1); //char area
-	
-	for(yy=0; yy<h; yy++) {
-		for(xx=0; xx<(xa); xx++) {
-			if(xx<(xo) || xx>=(xo+w))
+	ILI9341_SetCursorAreaPosition(x, y + yo, x + xa - 1, y + yo + h - 1); //char area
+
+	for (yy = 0; yy < h; yy++) {
+		for (xx = 0; xx < (xa); xx++) {
+			if (xx < (xo) || xx >= (xo + w))
 			{
 				ILI9341_SendData(bg); //background pixel
 				continue;
 			}
-			if(!(bit++ & 7)) {
+			if (!(bit++ & 7)) {
 				bits = pgm_read_byte(&bitmap[bo++]);
 			}
-			if(bits & 0x80) {
+			if (bits & 0x80) {
 				ILI9341_SendData(color); //font pixel
 			}
 			else
@@ -494,26 +494,27 @@ void ILI9341_drawCharFont(int16_t x, int16_t y, unsigned char c, uint16_t color,
 
 void ILI9341_printTextFont(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, GFXfont gfxFont)
 {
-	uint8_t c =0;
-	text_cursor_x=x;
-	text_cursor_y=y;
+	uint8_t c = 0;
+	text_cursor_x = x;
+	text_cursor_y = y;
 	for (uint16_t i = 0; i < 40 && text[i] != NULL; i++)
 	{
 		c = text[i];
-		if(c == '\n') {
-			text_cursor_x  = 0;
+		if (c == '\n') {
+			text_cursor_x = 0;
 			text_cursor_y += (uint8_t)pgm_read_byte(&gfxFont.yAdvance);
-		} else if(c != '\r') {
+		}
+		else if (c != '\r') {
 			uint8_t first = pgm_read_byte(&gfxFont.first);
 			uint8_t last = pgm_read_byte(&gfxFont.last);
-			if((c >= first) && (c <= last)) {
+			if ((c >= first) && (c <= last)) {
 				GFXglyph *glyph = &(((GFXglyph *)pgm_read_pointer(&gfxFont.glyph))[c - first]);
 				uint8_t w = pgm_read_byte(&glyph->width);
 				uint8_t h = pgm_read_byte(&glyph->height);
-				if((w > 0) && (h > 0)) { // Is there an associated bitmap?
+				if ((w > 0) && (h > 0)) { // Is there an associated bitmap?
 					int16_t xo = (int8_t)pgm_read_byte(&glyph->xOffset); // sic
-					if(wrap && ((text_cursor_x + (xo + w)) > ILI9341_NORMAL_WIDTH)) {
-						text_cursor_x  = 0;
+					if (wrap && ((text_cursor_x + (xo + w)) > ILI9341_NORMAL_WIDTH)) {
+						text_cursor_x = 0;
 						text_cursor_y += (uint8_t)pgm_read_byte(&gfxFont.yAdvance);
 					}
 					ILI9341_drawCharFont(text_cursor_x, text_cursor_y, c, color, bg, gfxFont);
@@ -526,86 +527,87 @@ void ILI9341_printTextFont(char text[], int16_t x, int16_t y, uint16_t color, ui
 
 /**************************************************************************/
 /*!
-    @brief    Helper to determine size of a character with current font/size.
-       Broke this out as it's used by both the PROGMEM- and RAM-resident getTextBounds() functions.
-    @param    c     The ascii character in question
-    @param    x     Pointer to x location of character
-    @param    y     Pointer to y location of character
-    @param    minx  Minimum clipping value for X
-    @param    miny  Minimum clipping value for Y
-    @param    maxx  Maximum clipping value for X
-    @param    maxy  Maximum clipping value for Y
+	@brief    Helper to determine size of a character with current font/size.
+	   Broke this out as it's used by both the PROGMEM- and RAM-resident getTextBounds() functions.
+	@param    c     The ascii character in question
+	@param    x     Pointer to x location of character
+	@param    y     Pointer to y location of character
+	@param    minx  Minimum clipping value for X
+	@param    miny  Minimum clipping value for Y
+	@param    maxx  Maximum clipping value for X
+	@param    maxy  Maximum clipping value for Y
 */
 /**************************************************************************/
-void ILI9341_charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, GFXfont gfxFont) 
+void ILI9341_charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, GFXfont gfxFont)
 {
-        if(c == '\n') { // Newline?
-            *x  = 0;    // Reset x to zero, advance y by one line
-            *y += (uint8_t)pgm_read_byte(&gfxFont.yAdvance);
-        } else if(c != '\r') { // Not a carriage return; is normal char
-            uint8_t first = pgm_read_byte(&gfxFont.first),
-                    last  = pgm_read_byte(&gfxFont.last);
-            if((c >= first) && (c <= last)) { // Char present in this font?
-                GFXglyph *glyph = &(((GFXglyph *)pgm_read_pointer(
-                  &gfxFont.glyph))[c - first]);
-                uint8_t gw = pgm_read_byte(&glyph->width),
-                        gh = pgm_read_byte(&glyph->height),
-                        xa = pgm_read_byte(&glyph->xAdvance);
-                int8_t  xo = pgm_read_byte(&glyph->xOffset),
-                        yo = pgm_read_byte(&glyph->yOffset);
-                if(wrap && ((*x+(((int16_t)xo+gw))) > ILI9341_NORMAL_WIDTH)) {
-                    *x  = 0; // Reset x to zero, advance y by one line
-                    *y += (uint8_t)pgm_read_byte(&gfxFont.yAdvance);
-                }
-                int16_t x1 = *x + xo,
-                        y1 = *y + yo,
-                        x2 = x1 + gw - 1,
-                        y2 = y1 + gh - 1;
-                if(x1 < *minx) *minx = x1;
-                if(y1 < *miny) *miny = y1;
-                if(x2 > *maxx) *maxx = x2;
-                if(y2 > *maxy) *maxy = y2;
-                *x += xa;
-            }
-        }
+	if (c == '\n') { // Newline?
+		*x = 0;    // Reset x to zero, advance y by one line
+		*y += (uint8_t)pgm_read_byte(&gfxFont.yAdvance);
+	}
+	else if (c != '\r') { // Not a carriage return; is normal char
+		uint8_t first = pgm_read_byte(&gfxFont.first),
+			last = pgm_read_byte(&gfxFont.last);
+		if ((c >= first) && (c <= last)) { // Char present in this font?
+			GFXglyph *glyph = &(((GFXglyph *)pgm_read_pointer(
+				&gfxFont.glyph))[c - first]);
+			uint8_t gw = pgm_read_byte(&glyph->width),
+				gh = pgm_read_byte(&glyph->height),
+				xa = pgm_read_byte(&glyph->xAdvance);
+			int8_t  xo = pgm_read_byte(&glyph->xOffset),
+				yo = pgm_read_byte(&glyph->yOffset);
+			if (wrap && ((*x + (((int16_t)xo + gw))) > ILI9341_NORMAL_WIDTH)) {
+				*x = 0; // Reset x to zero, advance y by one line
+				*y += (uint8_t)pgm_read_byte(&gfxFont.yAdvance);
+			}
+			int16_t x1 = *x + xo,
+				y1 = *y + yo,
+				x2 = x1 + gw - 1,
+				y2 = y1 + gh - 1;
+			if (x1 < *minx) *minx = x1;
+			if (y1 < *miny) *miny = y1;
+			if (x2 > *maxx) *maxx = x2;
+			if (y2 > *maxy) *maxy = y2;
+			*x += xa;
+		}
+	}
 }
 
 /**************************************************************************/
 /*!
-    @brief    Helper to determine size of a string with current font/size. Pass string and a cursor position, returns UL corner and W,H.
-    @param    str     The ascii string to measure
-    @param    x       The current cursor X
-    @param    y       The current cursor Y
-    @param    x1      The boundary X coordinate, set by function
-    @param    y1      The boundary Y coordinate, set by function
-    @param    w      The boundary width, set by function
-    @param    h      The boundary height, set by function
+	@brief    Helper to determine size of a string with current font/size. Pass string and a cursor position, returns UL corner and W,H.
+	@param    str     The ascii string to measure
+	@param    x       The current cursor X
+	@param    y       The current cursor Y
+	@param    x1      The boundary X coordinate, set by function
+	@param    y1      The boundary Y coordinate, set by function
+	@param    w      The boundary width, set by function
+	@param    h      The boundary height, set by function
 */
 /**************************************************************************/
 void ILI9341_getTextBounds(char text[], int16_t x, int16_t y, uint16_t *x1, uint16_t *y1, uint16_t *w, uint16_t *h, GFXfont gfxFont)
 {
-    uint8_t c; // Current character
+	uint8_t c; // Current character
 
-    *x1 = x;
-    *y1 = y;
-    *w  = *h = 0;
+	*x1 = x;
+	*y1 = y;
+	*w = *h = 0;
 
-    int16_t minx = ILI9341_NORMAL_WIDTH, miny = ILI9341_NORMAL_HEIGHT, maxx = -1, maxy = -1;
+	int16_t minx = ILI9341_NORMAL_WIDTH, miny = ILI9341_NORMAL_HEIGHT, maxx = -1, maxy = -1;
 
-		for (uint16_t i = 0; i < 40 && text[i] != NULL; i++)
-		{
-			c = text[i];
-      ILI9341_charBounds(c, &x, &y, &minx, &miny, &maxx, &maxy, gfxFont);
-		}
+	for (uint16_t i = 0; i < 40 && text[i] != NULL; i++)
+	{
+		c = text[i];
+		ILI9341_charBounds(c, &x, &y, &minx, &miny, &maxx, &maxy, gfxFont);
+	}
 
-    if(maxx >= minx) {
-        *x1 = minx;
-        *w  = maxx - minx + 1;
-    }
-    if(maxy >= miny) {
-        *y1 = miny;
-        *h  = maxy - miny + 1;
-    }
+	if (maxx >= minx) {
+		*x1 = minx;
+		*w = maxx - minx + 1;
+	}
+	if (maxy >= miny) {
+		*y1 = miny;
+		*h = maxy - miny + 1;
+	}
 }
 
 //12. Image print (RGB 565, 2 bytes per pixel)

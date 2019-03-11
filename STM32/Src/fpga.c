@@ -207,18 +207,18 @@ void FPGA_fpgadata_iqclock(void)
 void FPGA_fpgadata_sendparam(void)
 {
 	uint32_t TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq);
-	if(!TRX_ptt && !TRX_tune)
+	if (!TRX_ptt && !TRX_tune)
 	{
-		switch(TRX_getMode())
+		switch (TRX_getMode())
 		{
-			case TRX_MODE_CW_L:
-				TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq+CW_GENERATOR_SHIFT_HZ);
-				break;
-			case TRX_MODE_CW_U:
-				TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq-CW_GENERATOR_SHIFT_HZ);
-				break;
-			default:
-				break;
+		case TRX_MODE_CW_L:
+			TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq + CW_GENERATOR_SHIFT_HZ);
+			break;
+		case TRX_MODE_CW_U:
+			TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq - CW_GENERATOR_SHIFT_HZ);
+			break;
+		default:
+			break;
 		}
 	}
 	//STAGE 2
@@ -450,13 +450,13 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_Audio_Buffer_Index++;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE)
 	{
-		if(Processor_NeedBuffer) FPGA_Buffer_underrun=true;
+		if (Processor_NeedBuffer) FPGA_Buffer_underrun = true;
 		FPGA_Audio_Buffer_Index = 0;
 		FPGA_Audio_Buffer_State = true;
 	}
 	else if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE / 2)
 	{
-		if(Processor_NeedBuffer) FPGA_Buffer_underrun=true;
+		if (Processor_NeedBuffer) FPGA_Buffer_underrun = true;
 		FPGA_Audio_Buffer_State = false;
 	}
 }
