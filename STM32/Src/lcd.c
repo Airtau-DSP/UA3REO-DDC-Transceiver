@@ -87,8 +87,8 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(5, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_L], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_DIGI_L), LCD_Handler_MODE_DIGL);
 		printButton(68, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_U], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_DIGI_U), LCD_Handler_MODE_DIGU);
 		printButton(131, 70, 58, 60, MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
-		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_FM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_FM), LCD_Handler_MODE_FM);
-		printButton(257, 70, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
+		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_NFM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_NFM), LCD_Handler_MODE_NFM);
+		printButton(257, 70, 58, 60, MODE_DESCR[TRX_MODE_WFM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_WFM), LCD_Handler_MODE_WFM);
 		printButton(5, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_L], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW_L), LCD_Handler_MODE_CW_L);
 		printButton(68, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_U], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW_U), LCD_Handler_MODE_CW_U);
 		printButton(131, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
@@ -110,7 +110,8 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 				printButton(194, 5, 58, 60, "1.6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1600), LCD_Handler_WIDTH_16);
 				printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
 				break;
-			case TRX_MODE_FM:
+			case TRX_MODE_NFM:
+			case TRX_MODE_WFM:
 				printButton(5, 5, 58, 60, "5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 5000), LCD_Handler_WIDTH_50);
 				printButton(68, 5, 58, 60, "6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 6000), LCD_Handler_WIDTH_60);
 				printButton(131, 5, 58, 60, "7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 7000), LCD_Handler_WIDTH_70);
@@ -798,10 +799,18 @@ void LCD_Handler_MODE_DIGU(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_FM(void)
+void LCD_Handler_MODE_NFM(void)
 {
-	TRX_setMode(TRX_MODE_FM);
+	TRX_setMode(TRX_MODE_NFM);
 	CurrentVFO()->Filter_Width=TRX.FM_Filter;
+	LCD_modeMenuOpened = false;
+	LCD_redraw();
+}
+
+void LCD_Handler_MODE_WFM(void)
+{
+	TRX_setMode(TRX_MODE_WFM);
+	CurrentVFO()->Filter_Width=0;
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }

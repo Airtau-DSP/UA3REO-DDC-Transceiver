@@ -15,9 +15,10 @@
 #define TRX_MODE_DIGI_L 5
 #define TRX_MODE_DIGI_U 6
 #define TRX_MODE_NO_TX 7
-#define TRX_MODE_FM 8
-#define TRX_MODE_AM 9
-#define TRX_MODE_LOOPBACK 10
+#define TRX_MODE_NFM 8
+#define TRX_MODE_WFM 9
+#define TRX_MODE_AM 10
+#define TRX_MODE_LOOPBACK 11
 
 void TRX_Init(void);
 void TRX_setFrequency(int32_t _freq);

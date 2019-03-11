@@ -29,7 +29,8 @@ char *MODE_DESCR[] = {
 	"DIGL",
 	"DIGU",
 	"NOTX",
-	"FM",
+	"NFM",
+	"WFM",
 	"AM",
 	"LOOP"
 };
@@ -128,8 +129,11 @@ void TRX_setFrequency(int32_t _freq)
 			case TRX_MODE_CW_U:
 				CurrentVFO()->Filter_Width=TRX.CW_Filter;
 				break;
-			case TRX_MODE_FM:
+			case TRX_MODE_NFM:
 				CurrentVFO()->Filter_Width=TRX.FM_Filter;
+				break;
+			case TRX_MODE_WFM:
+				CurrentVFO()->Filter_Width=0;
 				break;
 		}
 		InitFilters();

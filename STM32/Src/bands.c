@@ -303,7 +303,7 @@ const BAND_MAP BANDS[] =
 																			{
 																				.startFreq = 29520000,
 																				.endFreq = 29700000,
-																				.mode = TRX_MODE_FM
+																				.mode = TRX_MODE_NFM
 																			},
 																		},
 																		.regionsCount = 11,
@@ -316,7 +316,7 @@ uint8_t getModeFromFreq(uint32_t freq)
 	uint8_t ret = 0;
 	if (freq < 10000000) ret = TRX_MODE_LSB;
 	if (freq > 10000000) ret = TRX_MODE_USB;
-	if (freq > 30000000) ret = TRX_MODE_FM;
+	if (freq > 30000000) ret = TRX_MODE_NFM;
 	for (int b = 0; b < BANDS_COUNT; b++)
 	{
 		if (BANDS[b].startFreq <= freq && freq <= BANDS[b].endFreq)

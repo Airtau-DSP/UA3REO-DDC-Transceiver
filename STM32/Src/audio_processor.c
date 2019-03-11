@@ -199,7 +199,7 @@ void processRxAudio(void)
 
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)
 	{
-		if (TRX_getMode() != TRX_MODE_AM && TRX_getMode() != TRX_MODE_FM)
+		if (TRX_getMode() != TRX_MODE_AM && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 		{
 			for (block = 0; block < numBlocks; block++)
 			{
@@ -226,7 +226,8 @@ void processRxAudio(void)
 				for (int i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 					arm_sqrt_f32(FPGA_Audio_Buffer_I_tmp[i], &FPGA_Audio_Buffer_I_tmp[i]);
 				break;
-			case TRX_MODE_FM:
+			case TRX_MODE_NFM:
+			case TRX_MODE_WFM:
 				DemodFM();
 				break;
 		}
@@ -236,7 +237,7 @@ void processRxAudio(void)
 			for (block = 0; block < numBlocks; block++)
 				arm_iir_lattice_f32(&IIR_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //IIR LPF
 		//AGC
-		if (CurrentVFO()->Agc && TRX_getMode()!=TRX_MODE_FM)
+		if (CurrentVFO()->Agc && TRX_getMode()!=TRX_MODE_NFM && TRX_getMode()!=TRX_MODE_WFM)
 			RxAgcWdsp(numBlocks*APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]); //AGC
 		//
 		memcpy(&FPGA_Audio_Buffer_Q_tmp[0], &FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE * 4); //double channel
@@ -294,8 +295,8 @@ void processRxAudio(void)
 
 static void DemodFM(void)
 {
-	float32_t angle, x, y, b;
-	//static float a, lpf_prev, hpf_prev_a, hpf_prev_b;// used in FM detection and low/high pass processing
+	float32_t angle, x, y, a, b;
+	static float lpf_prev, hpf_prev_a, hpf_prev_b;// used in FM detection and low/high pass processing
 	float32_t squelch_buf[FPGA_AUDIO_BUFFER_HALF_SIZE];
 	
 	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
@@ -308,19 +309,25 @@ static void DemodFM(void)
 		// we now have our audio in "angle"
 		squelch_buf[i] = angle;	// save audio in "d" buffer for squelch noise filtering/detection - done later
 		
-		//a = lpf_prev + (FM_RX_LPF_ALPHA * (angle - lpf_prev));	//
-		//lpf_prev = a;			// save "[n-1]" sample for next iteration
+		a = lpf_prev + (FM_RX_LPF_ALPHA * (angle - lpf_prev));	//
+		lpf_prev = a;			// save "[n-1]" sample for next iteration
 
 		q_prev = FPGA_Audio_Buffer_Q_tmp[i];// save "previous" value of each channel to allow detection of the change of angle in next go-around
 		i_prev = FPGA_Audio_Buffer_I_tmp[i];
 			
 		if ((!TRX_squelched) || (!TRX.FM_SQL_threshold)) // high-pass audio only if we are un-squelched (to save processor time)
 		{
-			//b = FM_RX_HPF_ALPHA * (hpf_prev_b + a - hpf_prev_a);// do differentiation
-			//hpf_prev_a = a;		// save "[n-1]" samples for next iteration
-			//hpf_prev_b = b;
-			//FPGA_Audio_Buffer_I_tmp[i] = b*10000.0f;// save demodulated and filtered audio in main audio processing buffer
-			FPGA_Audio_Buffer_I_tmp[i] = (float32_t)(angle / PI * (1<<14)); //second way
+			if(TRX_getMode() == TRX_MODE_WFM)
+			{
+				FPGA_Audio_Buffer_I_tmp[i] = (float32_t)(angle / PI * (1<<14)); //second way
+			}
+			else
+			{
+				b = FM_RX_HPF_ALPHA * (hpf_prev_b + a - hpf_prev_a);// do differentiation
+				hpf_prev_a = a;		// save "[n-1]" samples for next iteration
+				hpf_prev_b = b;
+				FPGA_Audio_Buffer_I_tmp[i] = b*30000.0f;// save demodulated and filtered audio in main audio processing buffer
+			}
 		}
 		else if (TRX_squelched)// were we squelched or tone NOT detected?
 			FPGA_Audio_Buffer_I_tmp[i] = 0;// do not filter receive audio - fill buffer with zeroes to mute it
