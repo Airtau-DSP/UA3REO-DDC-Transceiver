@@ -147,9 +147,14 @@ int main(void)
 	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit in RCC_CFGR register! Hence we need to set it manually here!
 	  WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
 		Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
+		
+		stm32f4xx_hal_pcd.c:
+		Line 1294 hpcd->Init.speed = PCD_SPEED_HIGH;
+		Line 1298 hpcd->Init.speed = PCD_SPEED_FULL;
 	*/
 
 	//FORCE RESET USB (REMOVE PULLUP RESISTOR FROM D+ USB LINE R21/1.5K)
+	/*
 	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_InitStruct.Pin = GPIO_PIN_12;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
@@ -158,6 +163,7 @@ int main(void)
 	HAL_Delay(100);
 	MX_USB_DEVICE_Init();
 	HAL_Delay(100);
+	*/
 	//
 	HAL_RTC_Init(&hrtc);
 	InitProfiler();
@@ -771,8 +777,8 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Alternate = GPIO_AF5_SPI1;
   HAL_GPIO_Init(AUDIO_I2S_CLOCK_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : PA8 PA13 PA14 */
-  GPIO_InitStruct.Pin = GPIO_PIN_8|GPIO_PIN_13|GPIO_PIN_14;
+  /*Configure GPIO pin : PA8 */
+  GPIO_InitStruct.Pin = GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
@@ -854,6 +860,7 @@ void Error_Handler(void)
 		/* User can add his own implementation to report the HAL error return state */
 	while (1)
 	{
+		
 	}
   /* USER CODE END Error_Handler_Debug */
 }

@@ -1291,11 +1291,11 @@ void HAL_PCD_IRQHandler(PCD_HandleTypeDef *hpcd)
 
       if (USB_GetDevSpeed(hpcd->Instance) == USB_OTG_SPEED_HIGH)
       {
-        hpcd->Init.speed = USB_OTG_SPEED_HIGH;
+        hpcd->Init.speed = PCD_SPEED_HIGH;
       }
       else
       {
-        hpcd->Init.speed = USB_OTG_SPEED_FULL;
+        hpcd->Init.speed = PCD_SPEED_FULL;
       }
 
       /* Set USB Turnaround time */
