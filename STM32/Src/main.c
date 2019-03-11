@@ -37,7 +37,6 @@
 #include "audio_processor.h"
 #include "settings.h"
 #include "profiler.h"
-#include "usbd_cdc_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -141,16 +140,16 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM4_Init();
   MX_RTC_Init();
-  MX_USB_DEVICE_Init();
   MX_USART1_UART_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 
-	  /* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit
-			* in RCC_CFGR register! Hence we need to set it manually here! * WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
-				Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
-			*/
+	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit in RCC_CFGR register! Hence we need to set it manually here!
+	  WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
+		Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
+	*/
 
-			//FORCE RESET USB (REMOVE PULLUP RESISTOR FROM D+ USB LINE R21/1.5K)
+	//FORCE RESET USB (REMOVE PULLUP RESISTOR FROM D+ USB LINE R21/1.5K)
 	GPIO_InitTypeDef GPIO_InitStruct;
 	GPIO_InitStruct.Pin = GPIO_PIN_12;
 	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
@@ -159,6 +158,7 @@ int main(void)
 	HAL_Delay(100);
 	MX_USB_DEVICE_Init();
 	HAL_Delay(100);
+	//
 	HAL_RTC_Init(&hrtc);
 	InitProfiler();
 	sendToDebug_str("\r\n");
