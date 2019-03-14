@@ -493,6 +493,11 @@
               <FilePath>..\Src\lcd.h</FilePath>
             </File>
             <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/main.c</FilePath>
+            </File>
+            <File>
               <FileName>profiler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\profiler.c</FilePath>
@@ -551,11 +556,6 @@
               <FileName>wire.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Src\wire.h</FilePath>
-            </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/main.c</FilePath>
             </File>
             <File>
               <FileName>usb_device.c</FileName>

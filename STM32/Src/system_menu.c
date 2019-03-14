@@ -19,47 +19,53 @@ void drawSystemMenu(void)
 	char ctmp[50];
 	char y=5;
 	char x1=5;
-	char x2=250;
+	char x2=240;
 	char i=1;
 	
 	ILI9341_Fill(COLOR_BLACK);
 	//
-	ILI9341_printText("FFT Enabled", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_printText("FFT Enabled", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.FFT_Enabled);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 1);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
-	y+=10;
+	y+=18;
 	//
-	ILI9341_printText("CW Generator shift, HZ", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_printText("CW Generator shift", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.CW_GENERATOR_SHIFT_HZ);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 1);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
-	y+=10;
+	y+=18;
 	//
-	ILI9341_printText("Encoder slow rate", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
+	ILI9341_printText("Encoder slow rate", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.ENCODER_SLOW_RATE);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 1);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
-	y+=10;
+	y+=18;
 	//
 	//
-	ILI9341_printText("LCD Calibrate", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
-	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 1);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	ILI9341_printText("LCD Calibrate", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
-	y+=10;
+	y+=18;
 	//
-	ILI9341_printText("Set Clock Time", x1, y, COLOR_WHITE, COLOR_BLACK, 1);
-	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 1);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+9,310,COLOR_WHITE);
+	ILI9341_printText("Set Clock Time", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
-	y+=10;
+	y+=18;
 	//
 	ILI9341_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	ILI9341_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
+	
+	ILI9341_Fill_RectXY(290,80,320,110,COLOR_GREEN);
+	ILI9341_printText("<", 298, 85, COLOR_BLACK, COLOR_GREEN, 3);
+	
+	ILI9341_Fill_RectXY(290,140,320,170,COLOR_GREEN);
+	ILI9341_printText(">", 298, 145, COLOR_BLACK, COLOR_GREEN, 3);
 	
 	LCD_UpdateQuery.SystemMenu=false;
 	LCD_busy=false;
