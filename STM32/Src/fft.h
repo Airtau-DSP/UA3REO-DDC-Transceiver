@@ -6,14 +6,16 @@
 #include <math.h> 
 #include "arm_math.h"
 
-#define FFT_SIZE 512 //указываем размер FFT
-#define FFT_PRINT_SIZE 256 //указываем размер FFT
-#define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
+#define FFT_SIZE 512 //СѓРєР°Р·С‹РІР°РµРј СЂР°Р·РјРµСЂ FFT
+#define FFT_PRINT_SIZE 256 //СѓРєР°Р·С‹РІР°РµРј СЂР°Р·РјРµСЂ FFT
+#define FFT_MAX_HEIGHT 30 //СѓРєР°Р·С‹РІР°РµРј РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РІС‹СЃРѕС‚Сѓ FFT
 #define FFT_BOTTOM_OFFSET 190 //start of FFT
-#define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
-#define FFT_MIN 0.000001f //MIN порог сигнала FFT
-#define FFT_MAX 120 //MAX порог сигнала FFT
-#define FFT_HZ_IN_PIXEL 187 // 48000/256
+#define FFT_WTF_HEIGHT 50 //СѓРєР°Р·С‹РІР°РµРј РјР°РєСЃРёРјР°Р»СЊРЅСѓСЋ РІС‹СЃРѕС‚Сѓ РІРѕРґРѕРїР°РґР°
+#define FFT_MIN 0.001f //MIN РїРѕСЂРѕРі СЃРёРіРЅР°Р»Р° FFT
+#define FFT_STEP_UP 1000.0f //С€Р°Рі РїРµСЂРµСЃС‚СЂРѕР№РєРё РєР°Р»РёР±СЂРѕРІРєРё СЃРёРіРЅР°Р»Р° FFT РІРІРµСЂС…
+#define FFT_STEP_DOWN 100.0f //С€Р°Рі РїРµСЂРµСЃС‚СЂРѕР№РєРё РєР°Р»РёР±СЂРѕРІРєРё СЃРёРіРЅР°Р»Р° FFT РІРЅРёР·
+#define FFT_MAX_IN_RED_ZONE 8 //РјР°РєСЃРёРјСѓРј РєСЂР°СЃРЅС‹С… РїРёРєРѕРІ РЅР° РІРѕРґРѕРїР°РґРµ
+#define FFT_HZ_IN_PIXEL (48000/FFT_PRINT_SIZE) // РіРµСЂС† РІ РѕРґРЅРѕРј РїРёРєСЃРµР»Рµ
 
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);

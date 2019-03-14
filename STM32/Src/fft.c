@@ -19,15 +19,15 @@ const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
 
 uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 };
 
-uint32_t maxIndex = 0; // »Ì‰ÂÍÒ ˝ÎÂÏÂÌÚ‡ Ï‡ÒÒË‚‡ Ò Ï‡ÍÒËÏ‡Î¸ÌÓÈ ‡ÏÔÎËÚÛ‰ÓÈ ‚ ÂÁÛÎ¸ÚËÛ˛˘ÂÈ ¿◊’
-float32_t maxValue = 0; // Ã‡ÍÒËÏ‡Î¸ÌÓÂ ÁÌ‡˜ÂÌËÂ ‡ÏÔÎËÚÛ‰˚ ‚ ÂÁÛÎ¸ÚËÛ˛˘ÂÈ ¿◊’
-uint16_t height = 0; //‚˚ÒÓÚ‡ ÒÚÓÎ·ˆ‡ ‚ ‚˚‚Ó‰Â FFT
-uint16_t maxValueErrors = 0; //ÍÓÎË˜ÂÒÚ‚Ó ÔÂ‚˚¯ÂÌËÈ ÒË„Ì‡Î‡ ‚ FFT
+uint32_t maxIndex = 0; // –ò–Ω–¥–µ–∫—Å —ç–ª–µ–º–µ–Ω—Ç–∞ –º–∞—Å—Å–∏–≤–∞ —Å –º–∞–∫—Å–∏–º–∞–ª—å–Ω–æ–π –∞–º–ø–ª–∏—Ç—É–¥–æ–π –≤ —Ä–µ–∑—É–ª—å—Ç–∏—Ä—É—é—â–µ–π –ê–ß–•
+float32_t maxValue = 0; // –ú–∞–∫—Å–∏–º–∞–ª—å–Ω–æ–µ –∑–Ω–∞—á–µ–Ω–∏–µ –∞–º–ø–ª–∏—Ç—É–¥—ã –≤ —Ä–µ–∑—É–ª—å—Ç–∏—Ä—É—é—â–µ–π –ê–ß–•
+uint16_t height = 0; //–≤—ã—Å–æ—Ç–∞ —Å—Ç–æ–ª–±—Ü–∞ –≤ –≤—ã–≤–æ–¥–µ FFT
+uint16_t maxValueErrors = 0; //–∫–æ–ª–∏—á–µ—Å—Ç–≤–æ –ø—Ä–µ–≤—ã—à–µ–Ω–∏–π —Å–∏–≥–Ω–∞–ª–∞ –≤ FFT
 uint16_t tmp = 0;
 uint8_t fft_compress_rate = FFT_SIZE / FFT_PRINT_SIZE;
 float32_t fft_compress_tmp = 0;
 
-bool FFT_need_fft = true; //ÌÂÓ·ıÓ‰ËÏÓ ÔÓÎ‰„ÓÚÓ‚ËÚ¸ ‰‡ÌÌ˚Â ‰Îˇ ÓÚÓ·‡ÊÂÌËˇ Ì‡ ˝Í‡Ì
+bool FFT_need_fft = true; //–Ω–µ–æ–±—Ö–æ–¥–∏–º–æ –ø–æ–ª–¥–≥–æ—Ç–æ–≤–∏—Ç—å –¥–∞–Ω–Ω—ã–µ –¥–ª—è –æ—Ç–æ–±—Ä–∞–∂–µ–Ω–∏—è –Ω–∞ —ç–∫—Ä–∞–Ω
 
 void FFT_doFFT(void)
 {
@@ -58,14 +58,17 @@ void FFT_doFFT(void)
 		arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 	}
 	//Min and Max on FFT print
-	if (maxValueErrors > 10 || maxValueErrors == 0)
+	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE)
 	{
-		arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //Ë˘ÂÏ Ï‡ÍÒËÏÛÏ
+		maxValue+=FFT_STEP_UP;
+		//arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //–∏—â–µ–º –º–∞–∫—Å–∏–º—É–º
 		//if (maxValue > Processor_AVG_amplitude*FFT_MAX) maxValue = Processor_AVG_amplitude * FFT_MAX;
 	}
+	else
+		maxValue-=FFT_STEP_DOWN;
 	maxValueErrors = 0;
 	if (maxValue < FFT_MIN) maxValue = FFT_MIN;
-	// ÕÓÏËÛÂÏ ¿◊’ Í Â‰ËÌËˆÂ
+	// –ù–æ—Ä–º–∏—Ä—É–µ–º –ê–ß–• –∫ –µ–¥–∏–Ω–∏—Ü–µ
 	for (uint16_t n = 0; n < FFT_SIZE; n++)
 	{
 		FFTOutput[n] = FFTOutput[n] / maxValue;
@@ -97,7 +100,7 @@ void FFT_printFFT(void)
 
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET), COLOR_GREEN);
 
-	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //ÒÏÂ˘‡ÂÏ ‚Ó‰ÓÔ‡‰ ‚ÌËÁ
+	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //—Å–º–µ—â–∞–µ–º –≤–æ–¥–æ–ø–∞–¥ –≤–Ω–∏–∑
 		memcpy(&wtf_buffer[tmp], &wtf_buffer[tmp - 1], sizeof(wtf_buffer[tmp - 1]));
 
 	uint8_t new_x = 0;
@@ -146,12 +149,12 @@ void FFT_moveWaterfall(int16_t freq_diff)
 
 	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
 	{
-		if (freq_diff > 0)
+		if (freq_diff > 0) //freq up
 		{
 			for (int16_t x = 0; x <= FFT_PRINT_SIZE; x++)
 			{
 				new_x = x + freq_diff;
-				if (new_x<0 || new_x>FFT_PRINT_SIZE)
+				if (new_x<0 || new_x>=FFT_PRINT_SIZE)
 				{
 					wtf_buffer[y][x] = 0;
 					continue;
@@ -159,12 +162,12 @@ void FFT_moveWaterfall(int16_t freq_diff)
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
 			}
 		}
-		if (freq_diff < 0)
+		else if (freq_diff < 0) // freq down
 		{
 			for (int16_t x = FFT_PRINT_SIZE; x >= 0; x--)
 			{
 				new_x = x + freq_diff;
-				if (new_x<0 || new_x>FFT_PRINT_SIZE)
+				if (new_x<=0 || new_x>FFT_PRINT_SIZE)
 				{
 					wtf_buffer[y][x] = 0;
 					continue;
