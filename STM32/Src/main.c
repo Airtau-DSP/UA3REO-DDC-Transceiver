@@ -64,6 +64,7 @@ RTC_HandleTypeDef hrtc;
 SPI_HandleTypeDef hspi1;
 SPI_HandleTypeDef hspi2;
 
+TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim6;
@@ -94,6 +95,7 @@ static void MX_SPI1_Init(void);
 static void MX_TIM4_Init(void);
 static void MX_RTC_Init(void);
 static void MX_USART1_UART_Init(void);
+static void MX_TIM3_Init(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
@@ -142,6 +144,7 @@ int main(void)
   MX_RTC_Init();
   MX_USART1_UART_Init();
   MX_USB_DEVICE_Init();
+  MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
 
 	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit in RCC_CFGR register! Hence we need to set it manually here!
@@ -168,6 +171,7 @@ int main(void)
 	HAL_RTC_Init(&hrtc);
 	InitProfiler();
 	sendToDebug_str("\r\n");
+	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4); //LCD backlight
 	LoadSettings();
 	LCD_Init();
 	WM8731_Init();
@@ -388,6 +392,65 @@ static void MX_SPI2_Init(void)
   /* USER CODE BEGIN SPI2_Init 2 */
 
   /* USER CODE END SPI2_Init 2 */
+
+}
+
+/**
+  * @brief TIM3 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM3_Init(void)
+{
+
+  /* USER CODE BEGIN TIM3_Init 0 */
+
+  /* USER CODE END TIM3_Init 0 */
+
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
+  TIM_MasterConfigTypeDef sMasterConfig = {0};
+  TIM_OC_InitTypeDef sConfigOC = {0};
+
+  /* USER CODE BEGIN TIM3_Init 1 */
+
+  /* USER CODE END TIM3_Init 1 */
+  htim3.Instance = TIM3;
+  htim3.Init.Prescaler = 0;
+  htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim3.Init.Period = 65535;
+  htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim3.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim3, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  if (HAL_TIM_PWM_Init(&htim3) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
+  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
+  if (HAL_TIMEx_MasterConfigSynchronization(&htim3, &sMasterConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sConfigOC.OCMode = TIM_OCMODE_PWM1;
+  sConfigOC.Pulse = 0;
+  sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
+  sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
+  if (HAL_TIM_PWM_ConfigChannel(&htim3, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM3_Init 2 */
+
+  /* USER CODE END TIM3_Init 2 */
+  HAL_TIM_MspPostInit(&htim3);
 
 }
 
@@ -679,7 +742,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOA, FPGA_OUT_D0_Pin|FPGA_OUT_D1_Pin|FPGA_OUT_D2_Pin|FPGA_OUT_D3_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(GPIOB, W26Q16_CS_Pin|LED_BL_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(W26Q16_CS_GPIO_Port, W26Q16_CS_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOD, WM8731_SCK_Pin|WM8731_SDA_Pin, GPIO_PIN_RESET);
@@ -742,12 +805,12 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   HAL_GPIO_Init(LED_PEN_GPIO_Port, &GPIO_InitStruct);
 
-  /*Configure GPIO pins : W26Q16_CS_Pin LED_BL_Pin */
-  GPIO_InitStruct.Pin = W26Q16_CS_Pin|LED_BL_Pin;
+  /*Configure GPIO pin : W26Q16_CS_Pin */
+  GPIO_InitStruct.Pin = W26Q16_CS_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_PULLUP;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_Init(W26Q16_CS_GPIO_Port, &GPIO_InitStruct);
 
   /*Configure GPIO pins : PB2 PB11 PB6 PB7 
                            PB8 PB9 */
@@ -809,6 +872,7 @@ static void MX_GPIO_Init(void)
 static void MX_FSMC_Init(void)
 {
   FSMC_NORSRAM_TimingTypeDef Timing;
+  FSMC_NORSRAM_TimingTypeDef ExtTiming;
 
   /** Perform the SRAM1 memory initialization sequence
   */
@@ -825,7 +889,7 @@ static void MX_FSMC_Init(void)
   hsram1.Init.WaitSignalActive = FSMC_WAIT_TIMING_BEFORE_WS;
   hsram1.Init.WriteOperation = FSMC_WRITE_OPERATION_ENABLE;
   hsram1.Init.WaitSignal = FSMC_WAIT_SIGNAL_DISABLE;
-  hsram1.Init.ExtendedMode = FSMC_EXTENDED_MODE_DISABLE;
+  hsram1.Init.ExtendedMode = FSMC_EXTENDED_MODE_ENABLE;
   hsram1.Init.AsynchronousWait = FSMC_ASYNCHRONOUS_WAIT_DISABLE;
   hsram1.Init.WriteBurst = FSMC_WRITE_BURST_DISABLE;
   hsram1.Init.PageSize = FSMC_PAGE_SIZE_NONE;
@@ -833,13 +897,20 @@ static void MX_FSMC_Init(void)
   Timing.AddressSetupTime = 2;
   Timing.AddressHoldTime = 15;
   Timing.DataSetupTime = 5;
-  Timing.BusTurnAroundDuration = 0;
+  Timing.BusTurnAroundDuration = 5;
   Timing.CLKDivision = 16;
   Timing.DataLatency = 17;
   Timing.AccessMode = FSMC_ACCESS_MODE_A;
   /* ExtTiming */
+  ExtTiming.AddressSetupTime = 2;
+  ExtTiming.AddressHoldTime = 15;
+  ExtTiming.DataSetupTime = 5;
+  ExtTiming.BusTurnAroundDuration = 3;
+  ExtTiming.CLKDivision = 16;
+  ExtTiming.DataLatency = 17;
+  ExtTiming.AccessMode = FSMC_ACCESS_MODE_A;
 
-  if (HAL_SRAM_Init(&hsram1, &Timing, NULL) != HAL_OK)
+  if (HAL_SRAM_Init(&hsram1, &Timing, &ExtTiming) != HAL_OK)
   {
     Error_Handler( );
   }

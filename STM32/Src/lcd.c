@@ -41,7 +41,7 @@ DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,fals
 
 void LCD_Init(void)
 {
-	HAL_GPIO_WritePin(LED_BL_GPIO_Port, LED_BL_Pin, GPIO_PIN_RESET); //turn on LED BL
+	ILI9341_setBrightness(TRX.LCD_Brightness);
 	ILI9341_Init();
 	ILI9341_setRotation(4);
 	ILI9341_Fill(COLOR_WHITE);

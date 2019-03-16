@@ -3,7 +3,7 @@
 #include "LCD/xpt2046_spi.h"
 
 uint8_t systemMenuIndex=1;
-const uint8_t systemMenuIndexCount=5;
+const uint8_t systemMenuIndexCount=6;
 
 void drawSystemMenu(void)
 {
@@ -33,6 +33,13 @@ void drawSystemMenu(void)
 	//
 	ILI9341_printText("CW Generator shift", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
 	sprintf(ctmp, "%d", TRX.CW_GENERATOR_SHIFT_HZ);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
+	i++;
+	y+=18;
+	//
+	ILI9341_printText("LCD Brightness", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	sprintf(ctmp, "%d", TRX.LCD_Brightness);
 	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
 	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
@@ -82,17 +89,24 @@ void eventRotateSystemMenu(int direction)
 	}
 	if(systemMenuIndex==3)
 	{
+		TRX.LCD_Brightness+=direction;
+		if(TRX.LCD_Brightness<1) TRX.LCD_Brightness=1;
+		if(TRX.LCD_Brightness>100) TRX.LCD_Brightness=100;
+		ILI9341_setBrightness(TRX.LCD_Brightness);
+	}
+	if(systemMenuIndex==4)
+	{
 		TRX.ENCODER_SLOW_RATE+=direction;
 		if(TRX.ENCODER_SLOW_RATE<1) TRX.ENCODER_SLOW_RATE=1;
 		if(TRX.ENCODER_SLOW_RATE>100) TRX.ENCODER_SLOW_RATE=100;
 	}
-	if(systemMenuIndex==4)
+	if(systemMenuIndex==5)
 	{
 		HAL_Delay(500);
 		Touch_Calibrate();
 		LCD_redraw();
 	}
-	if(systemMenuIndex==5) LCD_Handler_SETTIME();
+	if(systemMenuIndex==6) LCD_Handler_SETTIME();
 	LCD_UpdateQuery.SystemMenu=true;
 }
 

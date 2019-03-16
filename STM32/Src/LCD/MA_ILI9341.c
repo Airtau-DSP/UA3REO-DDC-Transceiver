@@ -680,3 +680,8 @@ void ILI9341_vertScroll(int16_t offset)
 	ILI9341_SendData(offset >> 8);
 	ILI9341_SendData(offset);
 }
+
+void ILI9341_setBrightness(uint8_t percent)
+{
+	TIM3->CCR4=65000-650*percent;
+}

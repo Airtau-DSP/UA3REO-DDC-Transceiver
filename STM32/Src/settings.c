@@ -57,6 +57,7 @@ void LoadSettings(void)
 		TRX.Touchpad_ay = -15.588235;
 		TRX.Touchpad_by = 250;
 		TRX.ENCODER_SLOW_RATE=20;
+		TRX.LCD_Brightness=100;
 	}
 }
 

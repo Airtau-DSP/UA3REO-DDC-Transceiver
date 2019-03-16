@@ -444,5 +444,6 @@ void ILI9341_setRotation(uint8_t rotate);
 uint16_t rgb888torgb565(uint8_t red, uint8_t green, uint8_t blue);
 void ILI9341_vertScrollSetup(int16_t top, int16_t scrollines);
 void ILI9341_vertScroll(int16_t offset);
-
+void ILI9341_setBrightness(uint8_t percent);
+	
 #endif
