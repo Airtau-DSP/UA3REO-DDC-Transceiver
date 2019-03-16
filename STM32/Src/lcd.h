@@ -19,6 +19,11 @@
 
 #define TOUCHPAD_DELAY 100 //anti-bounce
 
+#define COLOR_BUTTON_ACTIVE COLOR_DGREEN
+#define COLOR_BUTTON_INACTIVE rgb888torgb565(198, 202, 206)
+#define COLOR_BUTTON_MENU rgb888torgb565(224, 145, 8)
+#define COLOR_BUTTON_TEXT rgb888torgb565(0, 27, 51)
+
 typedef struct {
 	bool Background;
 	bool MainMenu;

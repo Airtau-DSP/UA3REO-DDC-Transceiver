@@ -66,41 +66,41 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		ILI9341_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
 		int32_t freq_mhz = (int32_t)(TRX_getFrequency() / 1000000);
 
-		printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 1), LCD_Handler_BAND_160);
-		printButton(68, 5, 58, 60, "3.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 3), LCD_Handler_BAND_80);
-		printButton(131, 5, 58, 60, "7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 7), LCD_Handler_BAND_40);
-		printButton(194, 5, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 10), LCD_Handler_BAND_30);
-		printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_BAND_BACK);
-		printButton(5, 70, 58, 60, "14", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 14), LCD_Handler_BAND_20);
-		printButton(68, 70, 58, 60, "18", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 18), LCD_Handler_BAND_17);
-		printButton(131, 70, 58, 60, "21", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 21), LCD_Handler_BAND_15);
-		printButton(194, 70, 58, 60, "24", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 24), LCD_Handler_BAND_12);
-		printButton(257, 70, 58, 60, "28", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz == 28 && freq_mhz <= 29), LCD_Handler_BAND_10);
-		printButton(5, 135, 58, 60, "FM1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >= 65 && freq_mhz < 74), LCD_Handler_BAND_FM1);
-		printButton(68, 135, 58, 60, "FM2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >= 87 && freq_mhz < 108), LCD_Handler_BAND_FM2);
-		printButton(131, 135, 58, 60, "VHF", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >= 144 && freq_mhz < 146), LCD_Handler_BAND_VHF);
-		printButton(194, 135, 58, 60, "UHF", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (freq_mhz >= 430 && freq_mhz < 440), LCD_Handler_BAND_UHF);
+		printButton(5, 5, 58, 60, "1.8", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 1), LCD_Handler_BAND_160);
+		printButton(68, 5, 58, 60, "3.5", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 3), LCD_Handler_BAND_80);
+		printButton(131, 5, 58, 60, "7", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 7), LCD_Handler_BAND_40);
+		printButton(194, 5, 58, 60, "10", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 10), LCD_Handler_BAND_30);
+		printButton(257, 5, 58, 60, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_BAND_BACK);
+		printButton(5, 70, 58, 60, "14", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 14), LCD_Handler_BAND_20);
+		printButton(68, 70, 58, 60, "18", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 18), LCD_Handler_BAND_17);
+		printButton(131, 70, 58, 60, "21", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 21), LCD_Handler_BAND_15);
+		printButton(194, 70, 58, 60, "24", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 24), LCD_Handler_BAND_12);
+		printButton(257, 70, 58, 60, "28", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 28 && freq_mhz <= 29), LCD_Handler_BAND_10);
+		printButton(5, 135, 58, 60, "FM1", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 65 && freq_mhz < 74), LCD_Handler_BAND_FM1);
+		printButton(68, 135, 58, 60, "FM2", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 87 && freq_mhz < 108), LCD_Handler_BAND_FM2);
+		printButton(131, 135, 58, 60, "VHF", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 144 && freq_mhz < 146), LCD_Handler_BAND_VHF);
+		printButton(194, 135, 58, 60, "UHF", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 430 && freq_mhz < 440), LCD_Handler_BAND_UHF);
 	}
 	//вывод модов
 	else if (LCD_modeMenuOpened)
 	{
 		ILI9341_Fill(COLOR_BLACK);
 
-		printButton(5, 5, 58, 60, MODE_DESCR[TRX_MODE_LSB], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_LSB), LCD_Handler_MODE_LSB);
-		printButton(68, 5, 58, 60, MODE_DESCR[TRX_MODE_USB], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_USB), LCD_Handler_MODE_USB);
-		printButton(131, 5, 58, 60, MODE_DESCR[TRX_MODE_IQ], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_IQ), LCD_Handler_MODE_IQ);
-		printButton(194, 5, 58, 60, MODE_DESCR[TRX_MODE_AM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_AM), LCD_Handler_MODE_AM);
-		printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MODE_BACK);
-		printButton(5, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_L], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_DIGI_L), LCD_Handler_MODE_DIGL);
-		printButton(68, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_U], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_DIGI_U), LCD_Handler_MODE_DIGU);
-		printButton(131, 70, 58, 60, MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
-		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_NFM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_NFM), LCD_Handler_MODE_NFM);
-		printButton(257, 70, 58, 60, MODE_DESCR[TRX_MODE_WFM], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_WFM), LCD_Handler_MODE_WFM);
-		printButton(5, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_L], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW_L), LCD_Handler_MODE_CW_L);
-		printButton(68, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_U], COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_getMode() == TRX_MODE_CW_U), LCD_Handler_MODE_CW_U);
-		printButton(131, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
-		printButton(194, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
-		printButton(257, 135, 58, 60, "", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, false, NULL);
+		printButton(5, 5, 58, 60, MODE_DESCR[TRX_MODE_LSB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LSB), LCD_Handler_MODE_LSB);
+		printButton(68, 5, 58, 60, MODE_DESCR[TRX_MODE_USB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_USB), LCD_Handler_MODE_USB);
+		printButton(131, 5, 58, 60, MODE_DESCR[TRX_MODE_IQ], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_IQ), LCD_Handler_MODE_IQ);
+		printButton(194, 5, 58, 60, MODE_DESCR[TRX_MODE_AM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_AM), LCD_Handler_MODE_AM);
+		printButton(257, 5, 58, 60, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_MODE_BACK);
+		printButton(5, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_L], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_DIGI_L), LCD_Handler_MODE_DIGL);
+		printButton(68, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_U], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_DIGI_U), LCD_Handler_MODE_DIGU);
+		printButton(131, 70, 58, 60, MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
+		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_NFM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_NFM), LCD_Handler_MODE_NFM);
+		printButton(257, 70, 58, 60, MODE_DESCR[TRX_MODE_WFM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_WFM), LCD_Handler_MODE_WFM);
+		printButton(5, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_L], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_CW_L), LCD_Handler_MODE_CW_L);
+		printButton(68, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_U], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_CW_U), LCD_Handler_MODE_CW_U);
+		printButton(131, 135, 58, 60, "", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(194, 135, 58, 60, "", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(257, 135, 58, 60, "", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
 	}
 	//вывод аудио фильтров
 	else if (LCD_widthMenuOpened)
@@ -111,51 +111,51 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		{
 		case TRX_MODE_CW_L:
 		case TRX_MODE_CW_U:
-			printButton(5, 5, 58, 60, "0.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 300), LCD_Handler_WIDTH_03);
-			printButton(68, 5, 58, 60, "0.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 500), LCD_Handler_WIDTH_05);
-			printButton(131, 5, 58, 60, "1.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1400), LCD_Handler_WIDTH_14);
-			printButton(194, 5, 58, 60, "1.6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1600), LCD_Handler_WIDTH_16);
-			printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
+			printButton(5, 5, 58, 60, "0.3", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 300), LCD_Handler_WIDTH_03);
+			printButton(68, 5, 58, 60, "0.5", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 500), LCD_Handler_WIDTH_05);
+			printButton(131, 5, 58, 60, "1.4", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 1400), LCD_Handler_WIDTH_14);
+			printButton(194, 5, 58, 60, "1.6", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 1600), LCD_Handler_WIDTH_16);
+			printButton(257, 5, 58, 60, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_WIDTH_BACK);
 			break;
 		case TRX_MODE_NFM:
 		case TRX_MODE_WFM:
-			printButton(5, 5, 58, 60, "5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 5000), LCD_Handler_WIDTH_50);
-			printButton(68, 5, 58, 60, "6", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 6000), LCD_Handler_WIDTH_60);
-			printButton(131, 5, 58, 60, "7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 7000), LCD_Handler_WIDTH_70);
-			printButton(194, 5, 58, 60, "8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 8000), LCD_Handler_WIDTH_80);
-			printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
-			printButton(5, 70, 58, 60, "9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9000), LCD_Handler_WIDTH_90);
-			printButton(68, 70, 58, 60, "9.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 9500), LCD_Handler_WIDTH_95);
-			printButton(131, 70, 58, 60, "10", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 10000), LCD_Handler_WIDTH_100);
-			printButton(194, 70, 58, 60, "15", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 15000), LCD_Handler_WIDTH_150);
-			printButton(257, 70, 58, 60, "NONE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 0), LCD_Handler_WIDTH_0);
+			printButton(5, 5, 58, 60, "5", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 5000), LCD_Handler_WIDTH_50);
+			printButton(68, 5, 58, 60, "6", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 6000), LCD_Handler_WIDTH_60);
+			printButton(131, 5, 58, 60, "7", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 7000), LCD_Handler_WIDTH_70);
+			printButton(194, 5, 58, 60, "8", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 8000), LCD_Handler_WIDTH_80);
+			printButton(257, 5, 58, 60, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_WIDTH_BACK);
+			printButton(5, 70, 58, 60, "9", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 9000), LCD_Handler_WIDTH_90);
+			printButton(68, 70, 58, 60, "9.5", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 9500), LCD_Handler_WIDTH_95);
+			printButton(131, 70, 58, 60, "10", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 10000), LCD_Handler_WIDTH_100);
+			printButton(194, 70, 58, 60, "15", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 15000), LCD_Handler_WIDTH_150);
+			printButton(257, 70, 58, 60, "NONE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 0), LCD_Handler_WIDTH_0);
 			break;
 		default:
-			printButton(5, 5, 58, 60, "1.8", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 1800), LCD_Handler_WIDTH_18);
-			printButton(68, 5, 58, 60, "2.1", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2100), LCD_Handler_WIDTH_21);
-			printButton(131, 5, 58, 60, "2.3", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2300), LCD_Handler_WIDTH_23);
-			printButton(194, 5, 58, 60, "2.5", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2500), LCD_Handler_WIDTH_25);
-			printButton(257, 5, 58, 60, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH_BACK);
-			printButton(5, 70, 58, 60, "2.7", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2700), LCD_Handler_WIDTH_27);
-			printButton(68, 70, 58, 60, "2.9", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 2900), LCD_Handler_WIDTH_29);
-			printButton(131, 70, 58, 60, "3.0", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 3000), LCD_Handler_WIDTH_30);
-			printButton(194, 70, 58, 60, "3.2", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 3200), LCD_Handler_WIDTH_32);
-			printButton(257, 70, 58, 60, "3.4", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Filter_Width == 3400), LCD_Handler_WIDTH_34);
+			printButton(5, 5, 58, 60, "1.8", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 1800), LCD_Handler_WIDTH_18);
+			printButton(68, 5, 58, 60, "2.1", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 2100), LCD_Handler_WIDTH_21);
+			printButton(131, 5, 58, 60, "2.3", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 2300), LCD_Handler_WIDTH_23);
+			printButton(194, 5, 58, 60, "2.5", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 2500), LCD_Handler_WIDTH_25);
+			printButton(257, 5, 58, 60, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_WIDTH_BACK);
+			printButton(5, 70, 58, 60, "2.7", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 2700), LCD_Handler_WIDTH_27);
+			printButton(68, 70, 58, 60, "2.9", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 2900), LCD_Handler_WIDTH_29);
+			printButton(131, 70, 58, 60, "3.0", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 3000), LCD_Handler_WIDTH_30);
+			printButton(194, 70, 58, 60, "3.2", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 3200), LCD_Handler_WIDTH_32);
+			printButton(257, 70, 58, 60, "3.4", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Filter_Width == 3400), LCD_Handler_WIDTH_34);
 			break;
 		}
 	}
 	//вывод основных кнопок
 	else
 	{
-		printButton(5, 5, 73, 30, MODE_DESCR[TRX_getMode()], COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MODE);
-		printButton(83, 5, 73, 30, "WIDTH", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_WIDTH);
-		printButton(161, 5, 73, 30, "TUNE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX_tune == true), LCD_Handler_TUNE);
-		printButton(239, 5, 76, 30, "BAND", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_BAND);
-		printButton(5, 40, 53, 30, (!TRX.current_vfo) ? "VFOA" : "VFOB", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.current_vfo == true), LCD_Handler_VFO);
-		printButton(63, 40, 53, 30, "AGC", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (CurrentVFO()->Agc == true), LCD_Handler_AGC);
-		printButton(121, 40, 53, 30, "FAST", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Fast == true), LCD_Handler_FAST);
-		printButton(179, 40, 55, 30, "MUTE", COLOR_CYAN, COLOR_BLUE, COLOR_YELLOW, (TRX.Mute == true), LCD_Handler_MUTE);
-		printButton(239, 40, 76, 30, "MENU", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_MENU);
+		printButton(5, 5, 73, 30, MODE_DESCR[TRX_getMode()], COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MODE);
+		printButton(83, 5, 73, 30, "WIDTH", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_WIDTH);
+		printButton(161, 5, 73, 30, "BAND", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_BAND);
+		printButton(239, 5, 76, 30, "MENU", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MENU);
+		printButton(5, 40, 53, 30, (!TRX.current_vfo) ? "VFOA" : "VFOB", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.current_vfo == true), LCD_Handler_VFO);
+		printButton(63, 40, 53, 30, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Agc == true), LCD_Handler_AGC);
+		printButton(121, 40, 53, 30, "FAST", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Fast == true), LCD_Handler_FAST);
+		printButton(179, 40, 55, 30, "MUTE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Mute == true), LCD_Handler_MUTE);
+		printButton(239, 40, 76, 30, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
 	}
 	LCD_UpdateQuery.TopButtons = false;
 }
@@ -239,7 +239,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	else
 		ILI9341_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
 
-	int width = 200;
+	int width = 202;
 	ILI9341_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
 
 	int step = width / 8;
@@ -274,7 +274,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 		TRX_s_meter=TRX_s_meter*((width/8)*5/9); //первые 9 баллов по 6 дб
 	else
 		TRX_s_meter=((width/8)*5)+(TRX_s_meter-9)*((width/8)*3/10); //остальные 3 балла по 10 дб
-	if (TRX_s_meter >= width) TRX_s_meter = width-1;
+	if (TRX_s_meter > width) TRX_s_meter = width;
 	if (TRX_s_meter < 0) TRX_s_meter = 0;
 
 	int s_width = TRX_s_meter;
@@ -930,17 +930,17 @@ void LCD_Handler_SETTIME(void)
 	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
 	sprintf(ctmp, "%d", Hours);
 	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 76, 100, COLOR_BLUE, TimeMenuSelection == 0 ? COLOR_WHITE : COLOR_BLACK, 3);
-	ILI9341_printText(":", 124, 100, COLOR_BLUE, COLOR_BLACK, 3);
+	ILI9341_printText(ctmp, 76, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 0 ? COLOR_WHITE : COLOR_BLACK, 3);
+	ILI9341_printText(":", 124, 100, COLOR_BUTTON_TEXT, COLOR_BLACK, 3);
 	sprintf(ctmp, "%d", Minutes);
 	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 148, 100, COLOR_BLUE, TimeMenuSelection == 1 ? COLOR_WHITE : COLOR_BLACK, 3);
-	ILI9341_printText(":", 194, 100, COLOR_BLUE, COLOR_BLACK, 3);
+	ILI9341_printText(ctmp, 148, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 1 ? COLOR_WHITE : COLOR_BLACK, 3);
+	ILI9341_printText(":", 194, 100, COLOR_BUTTON_TEXT, COLOR_BLACK, 3);
 	sprintf(ctmp, "%d", Seconds);
 	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 220, 100, COLOR_BLUE, TimeMenuSelection == 2 ? COLOR_WHITE : COLOR_BLACK, 3);
-	printButton(50, 170, 76, 30, ">", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_TIMEMENU_NEXT);
-	printButton(200, 170, 76, 30, "BACK", COLOR_DGREEN, COLOR_BLUE, COLOR_DGREEN, false, LCD_Handler_TIMEMENU_BACK);
+	ILI9341_printText(ctmp, 220, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 2 ? COLOR_WHITE : COLOR_BLACK, 3);
+	printButton(50, 170, 76, 30, ">", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_TIMEMENU_NEXT);
+	printButton(200, 170, 76, 30, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_TIMEMENU_BACK);
 }
 
 void LCD_Handler_TIMEMENU_NEXT(void)
@@ -1017,13 +1017,13 @@ void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* 
 
 void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void(*onclick) ())
 {
-	uint16_t color = active ? COLOR_YELLOW : COLOR_DGREEN;
-	if (!switchable) color = active ? COLOR_YELLOW : COLOR_CYAN;
+	uint16_t color = active ? COLOR_BUTTON_MENU : COLOR_BUTTON_ACTIVE;
+	if (!switchable) color = active ? COLOR_BUTTON_MENU : COLOR_BUTTON_INACTIVE;
 	ILI9341_Fill_RectWH(x, y, width, height, color);
 
 	uint16_t x1, y1, w, h;
 	ILI9341_getTextBounds(text1, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
-	ILI9341_printTextFont(text1, x + (width - w) / 2, y + (h) / 2 + h + 2, COLOR_BLUE, color, FreeSans9pt7b);
+	ILI9341_printTextFont(text1, x + (width - w) / 2, y + (h) / 2 + h + 2, COLOR_BUTTON_TEXT, color, FreeSans9pt7b);
 
 	ILI9341_printText(text2, x + (width - strlen(text2) * 6 * 1) / 2 + 1, y + (height - 8 * 2 - 8 * 1) / 2 + 8 * 2 + 4, COLOR_BLACK, color, 1);
 	button_handlers[button_handlers_count].x1 = x;
