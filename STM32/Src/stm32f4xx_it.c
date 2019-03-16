@@ -354,6 +354,16 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		FPGA_NeedSendParams = true;
 	}
+	//S-Meter Calculate
+	int32_t Audio_Vpp_value=Processor_RX_Audio_Samples_MAX_value-Processor_RX_Audio_Samples_MIN_value; //получаем разницу между максимальным и минимальным значением в аудио-семплах
+	Audio_Vpp_value=(Audio_Vpp_value>>(FPGA_BUS_BITS-ADC_BITS)); //приводим разрядность аудио к разрядности АЦП
+	float32_t ADC_Vpp_Value=Audio_Vpp_value*ADC_VREF/ADC_MAX_VALUE_UNSIGNED; //получаем значение пик-пик напряжения на входе АЦП в вольтах
+	float32_t ADC_Vrms_Value=ADC_Vpp_Value*0.3535f; // Получаем действующее (RMS) напряжение на аходе АЦП
+	float32_t ADC_RF_IN_Value=(ADC_Vrms_Value/ADC_RF_TRANS_RATIO)*ADC_RF_INPUT_VALUE_CALIBRATION; //Получаем напряжение на антенном входе с учётом трансформатора и калибровки
+	TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(ADC_RESISTANCE*0.001)) ; //получаем значение мощности в dBm для 200ом входа АЦП
+	Processor_RX_Audio_Samples_MAX_value=0;
+	Processor_RX_Audio_Samples_MIN_value=0;
+	//
 	if (ms100_counter == 10)
 	{
 		ms100_counter = 0;
@@ -366,7 +376,7 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_num32(WM8731_Buffer_underrun); //0
 		//sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0]);
 		//sendToDebug_str("\r\n");
-
+		
 		ext_counter = 0;
 		FPGA_samples = 0;
 		AUDIOPROC_samples = 0;

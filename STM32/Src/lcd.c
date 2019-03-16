@@ -239,7 +239,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	else
 		ILI9341_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
 
-	int width = 275;
+	int width = 200;
 	ILI9341_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
 
 	int step = width / 8;
@@ -266,13 +266,19 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 		return;
 	}
 	LCD_busy = true;
-	int width = 273;
-	TRX_s_meter = (float32_t)73 * log10f_fast(agc_wdsp.volts) + ((float32_t)0.35*(float32_t)73);
-	if (TRX_s_meter > width) TRX_s_meter = width;
+	char ctmp[50];
+	
+	int width = 200;
+	float32_t TRX_s_meter = (127+TRX_RX_dBm)/6; //127dbm - S0, 6dBm - 1S div
+	if(TRX_s_meter<=9)
+		TRX_s_meter=TRX_s_meter*((width/8)*5/9); //первые 9 баллов по 6 дб
+	else
+		TRX_s_meter=((width/8)*5)+(TRX_s_meter-9)*((width/8)*3/10); //остальные 3 балла по 10 дб
+	if (TRX_s_meter >= width) TRX_s_meter = width-1;
 	if (TRX_s_meter < 0) TRX_s_meter = 0;
 
 	int s_width = TRX_s_meter;
-	if (LCD_last_s_meter > s_width) s_width = LCD_last_s_meter - ((LCD_last_s_meter - s_width) / 6); //сглаживаем движение с-метра
+	if (LCD_last_s_meter > s_width) s_width = LCD_last_s_meter - ((LCD_last_s_meter - s_width) / 4); //сглаживаем движение с-метра
 	if (LCD_last_s_meter < s_width) s_width = s_width - ((s_width - LCD_last_s_meter) / 2);
 	if (LCD_last_s_meter != s_width)
 	{
@@ -280,14 +286,18 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 		ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
 		LCD_last_s_meter = s_width;
 	}
-
+	
+	sprintf(ctmp, "%d", TRX_RX_dBm);
+	ILI9341_Fill_RectWH(275,130,10,15,COLOR_BLACK);
+	ILI9341_printTextFont(ctmp,250,142,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
+	ILI9341_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
+	
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_agc_wdsp_action && CurrentVFO()->Agc && (CurrentVFO()->Mode == TRX_MODE_LSB || CurrentVFO()->Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR || TRX_DAC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_ptt && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && (TRX_ptt || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
-	char ctmp[50];
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
 	Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);

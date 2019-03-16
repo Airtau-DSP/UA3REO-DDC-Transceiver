@@ -27,8 +27,10 @@ float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
 uint16_t block = 0;
 
-float32_t Processor_AVG_amplitude = 0;
-float32_t Processor_TX_MAX_amplitude = 0;
+float32_t Processor_AVG_amplitude = 0; //средняя амплитуда семплов при прёме
+float32_t Processor_TX_MAX_amplitude = 0; //средняя амплитуда семплов при передаче
+float32_t Processor_RX_Audio_Samples_MAX_value = 0; //максимальное значение семплов
+float32_t Processor_RX_Audio_Samples_MIN_value = 0; //минимальное значение семплов
 float32_t ampl_val_i = 0;
 float32_t ampl_val_q = 0;
 float32_t selected_rfpower_amplitude = 0;
@@ -236,6 +238,16 @@ void processRxAudio(void)
 		if (CurrentVFO()->Filter_Width > 0)
 			for (block = 0; block < numBlocks; block++)
 				arm_iir_lattice_f32(&IIR_LPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //IIR LPF
+		
+		//Prepare data to calculate s-meter
+		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+		{
+			if(FPGA_Audio_Buffer_I_tmp[i]>Processor_RX_Audio_Samples_MAX_value) Processor_RX_Audio_Samples_MAX_value=FPGA_Audio_Buffer_I_tmp[i];
+			if(FPGA_Audio_Buffer_Q_tmp[i]>Processor_RX_Audio_Samples_MAX_value) Processor_RX_Audio_Samples_MAX_value=FPGA_Audio_Buffer_Q_tmp[i];
+			if(FPGA_Audio_Buffer_I_tmp[i]<Processor_RX_Audio_Samples_MIN_value) Processor_RX_Audio_Samples_MIN_value=FPGA_Audio_Buffer_I_tmp[i];
+			if(FPGA_Audio_Buffer_Q_tmp[i]<Processor_RX_Audio_Samples_MIN_value) Processor_RX_Audio_Samples_MIN_value=FPGA_Audio_Buffer_Q_tmp[i];
+		}
+		
 		//AGC
 		if (CurrentVFO()->Agc && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 			RxAgcWdsp(numBlocks*APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]); //AGC
