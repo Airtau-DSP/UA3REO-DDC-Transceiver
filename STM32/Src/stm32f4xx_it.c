@@ -226,6 +226,7 @@ void EXTI2_IRQHandler(void)
   /* USER CODE END EXTI2_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_2);
   /* USER CODE BEGIN EXTI2_IRQn 1 */
+	TRX_Time_InActive=0;
 	if (TRX_inited) ENCODER_checkRotate();
   /* USER CODE END EXTI2_IRQn 1 */
 }
@@ -240,6 +241,7 @@ void EXTI4_IRQHandler(void)
   /* USER CODE END EXTI4_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_4);
   /* USER CODE BEGIN EXTI4_IRQn 1 */
+	TRX_Time_InActive=0;
 	if (TRX_inited && TRX_getMode() != TRX_MODE_NO_TX) TRX_ptt_change();
   /* USER CODE END EXTI4_IRQn 1 */
 }
@@ -282,6 +284,7 @@ void EXTI9_5_IRQHandler(void)
   /* USER CODE END EXTI9_5_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
+	TRX_Time_InActive=0;
 	LCD_checkTouchPad();
   /* USER CODE END EXTI9_5_IRQn 1 */
 }
@@ -383,6 +386,7 @@ void TIM6_DAC_IRQHandler(void)
 		AUDIOPROC_TXA_samples = 0;
 		AUDIOPROC_TXB_samples = 0;
 		WM8731_DMA_samples = 0;
+		TRX_Time_InActive++;
 		WM8731_Buffer_underrun = false;
 		FPGA_Buffer_underrun = false;
 		FPGA_NeedSendParams = true;

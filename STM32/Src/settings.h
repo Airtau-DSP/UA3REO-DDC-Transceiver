@@ -47,6 +47,7 @@ extern struct TRX_SETTINGS {
 	uint16_t CW_GENERATOR_SHIFT_HZ;
 	uint8_t	ENCODER_SLOW_RATE;
 	uint8_t LCD_Brightness;
+	uint8_t Standby_Time;
 } TRX;
 
 extern bool NeedSaveSettings;

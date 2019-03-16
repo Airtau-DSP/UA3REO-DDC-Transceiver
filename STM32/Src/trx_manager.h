@@ -48,5 +48,6 @@ extern bool TRX_agc_wdsp_action;
 extern bool TRX_ADC_OTR;
 extern bool TRX_DAC_OTR;
 extern char *MODE_DESCR[];
+extern uint8_t TRX_Time_InActive;
 
 #endif

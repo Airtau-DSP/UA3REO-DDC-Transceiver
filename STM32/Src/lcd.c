@@ -371,6 +371,12 @@ void LCD_redraw(void) {
 void LCD_doEvents(void)
 {
 	if (LCD_busy) return;
+	
+	if(TRX_Time_InActive>TRX.Standby_Time && TRX.Standby_Time>0)
+		ILI9341_setBrightness(0);
+	else
+		ILI9341_setBrightness(TRX.LCD_Brightness);
+	
 	if (LCD_UpdateQuery.Background)
 	{
 		LCD_busy = true;

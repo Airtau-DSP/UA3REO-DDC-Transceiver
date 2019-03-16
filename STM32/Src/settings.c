@@ -23,9 +23,9 @@ void LoadSettings(void)
 {
 	Flash_Read_Data();
 	
-	if (TRX.clean_flash != 129) //code to trace new clean flash
+	if (TRX.clean_flash != 120) //code to trace new clean flash
 	{
-		TRX.clean_flash = 129;
+		TRX.clean_flash = 120;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Agc = true;
@@ -35,7 +35,7 @@ void LoadSettings(void)
 		TRX.VFO_B.Agc = true;
 		TRX.VFO_B.Filter_Width = 2700;
 		TRX.current_vfo = false; // A
-		TRX.Preamp = true;
+		TRX.Preamp = false;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;
@@ -58,6 +58,7 @@ void LoadSettings(void)
 		TRX.Touchpad_by = 250;
 		TRX.ENCODER_SLOW_RATE=20;
 		TRX.LCD_Brightness=100;
+		TRX.Standby_Time=180;
 	}
 }
 
