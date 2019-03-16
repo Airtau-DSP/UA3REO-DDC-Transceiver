@@ -5,6 +5,7 @@
 #include "math.h"
 #include "trx_manager.h"
 #include "settings.h"
+#include "lcd.h"
 
 int32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 int32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
@@ -64,20 +65,21 @@ void I2SEx_Fix(I2S_HandleTypeDef *hi2s)
 	hi2s->hdmatx->XferCpltCallback = UA3REO_I2SEx_TxRxDMACplt;
 }
 
-void WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
+uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
 {
 	uint8_t st = 2;
 	uint8_t repeats = 0;
-	while (st != 0 || repeats < 3)
+	while (st != 0 && repeats < 3)
 	{
 		i2c_begin();
 		i2c_beginTransmission_u8(B8(0011010)); //I2C_ADDRESS_WM8731 00110100
 		i2c_write_u8(reg); // MSB
 		i2c_write_u8(value); // MSB
 		st = i2c_endTransmission();
-		if (st == 0) repeats++;
+		if (st != 0) repeats++;
 		HAL_Delay(1);
 	}
+	return st;
 }
 
 void WM8731_TX_mode(void)
@@ -143,7 +145,8 @@ void WM8731_Init(void)
 {
 	sendToDebug_str("WM8731 ");
 	FPGA_stop_audio_clock();
-	WM8731_SendI2CCommand(B8(00011110), B8(00000000)); //R15 Reset Chip
+	if(WM8731_SendI2CCommand(B8(00011110), B8(00000000))!=0) //R15 Reset Chip
+		LCD_showError("Audio codec init error");
 	WM8731_SendI2CCommand(B8(00001110), B8(00000010)); //R7 Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 16bits
 	WM8731_SendI2CCommand(B8(00010000), B8(00000000)); //R8 Sampling Control normal mode, 256fs, SR=0 (MCLK@12.288Mhz, fs=48kHz)) 0 0000
 	WM8731_SendI2CCommand(B8(00010010), B8(00000001)); //R9 reactivate digital audio interface

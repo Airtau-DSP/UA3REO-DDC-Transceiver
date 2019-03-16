@@ -11,6 +11,7 @@ Description:				This library makes use of the FSMC interface of the STM32 board 
 
 //Header files
 #include "MA_ILI9341.h"
+#include "fonts.h"
 #include "../functions.h"
 
 static uint8_t rotationNum = 1;

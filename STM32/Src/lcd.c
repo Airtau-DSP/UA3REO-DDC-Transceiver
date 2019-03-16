@@ -1023,3 +1023,13 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 	button_handlers[button_handlers_count].handler = onclick;
 	button_handlers_count++;
 }
+
+void LCD_showError(char text[])
+{
+	LCD_busy=true;
+	ILI9341_Fill(COLOR_RED);
+	ILI9341_printTextFont(text,5,110,COLOR_WHITE,COLOR_RED,FreeSans12pt7b);
+	HAL_Delay(3000);
+	LCD_busy=false;
+	LCD_redraw();
+}

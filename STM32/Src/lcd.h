@@ -38,13 +38,15 @@ struct button_handler {
 };
 
 extern void LCD_Init(void);
+extern void LCD_doEvents(void);
+extern void LCD_showError(char text[]);
+	
 void LCD_displayFreqInfo(void);
 void LCD_displayTopButtons(bool redraw);
 void LCD_checkTouchPad(void);
 void LCD_displayMainMenu(void);
 void LCD_displayStatusInfoBar(void);
 void LCD_displayStatusInfoGUI(void);
-extern void LCD_doEvents(void);
 void LCD_redraw(void);
 void LCD_resetTouchpadPins(void);
 void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void(*onclick) ());
@@ -63,7 +65,6 @@ extern char LCD_freq_string_mhz[6];
 extern bool LCD_bandMenuOpened;
 extern int LCD_last_s_meter;
 extern bool LCD_busy;
-
 extern uint8_t TimeMenuSelection;
 
 //HANDLERS

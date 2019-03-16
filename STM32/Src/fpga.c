@@ -95,6 +95,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	{
 		sendToDebug_str("ERROR 0 PIN\r\n");
 		sendToDebug_num(FPGA_fpgadata_in_tmp8);
+		LCD_showError("FPGA bus PIN0 error");
 		return;
 	}
 	//clock
@@ -111,6 +112,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	{
 		sendToDebug_str("ERROR 1 PIN\r\n");
 		sendToDebug_num(FPGA_fpgadata_in_tmp8);
+		LCD_showError("FPGA bus PIN1 error");
 		return;
 	}
 	//clock
@@ -127,6 +129,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	{
 		sendToDebug_str("ERROR 2 PIN\r\n");
 		sendToDebug_num(FPGA_fpgadata_in_tmp8);
+		LCD_showError("FPGA bus PIN2 error");
 		return;
 	}
 	//clock
@@ -143,6 +146,7 @@ void FPGA_testbus(void) //проверка целостности шины да�
 	{
 		sendToDebug_str("ERROR 3 PIN\r\n");
 		sendToDebug_num(FPGA_fpgadata_in_tmp8);
+		LCD_showError("FPGA bus PIN3 error");
 		return;
 	}
 	//clock

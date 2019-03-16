@@ -21,7 +21,7 @@ extern DMA_HandleTypeDef hdma_spi3_tx;
 
 extern bool WM8731_DMA_state;
 extern bool WM8731_Buffer_underrun;
-void WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
+uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
 extern void WM8731_Init(void);
 extern void start_i2s_and_dma(void);
 void WM8731_TX_mode(void);
