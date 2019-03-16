@@ -21,6 +21,8 @@ uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 };
 
 uint32_t maxIndex = 0; // Индекс элемента массива с максимальной амплитудой в результирующей АЧХ
 float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
+float32_t maxValueFFT = 0; // Максимальное значение амплитуды в результирующей АЧХ
+float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 uint16_t height = 0; //высота столбца в выводе FFT
 uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
 uint16_t tmp = 0;
@@ -42,8 +44,8 @@ void FFT_doFFT(void)
 			FFTInput_A[i * 2 + 1] = multiplier * FFTInput_A[i * 2 + 1];
 		}
 		arm_cfft_f32(S, FFTInput_A, 0, 1);
-		//arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
-		arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		//arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
 	}
 	else //A in progress
 	{
@@ -54,24 +56,29 @@ void FFT_doFFT(void)
 			FFTInput_B[i * 2 + 1] = multiplier * FFTInput_B[i * 2 + 1];
 		}
 		arm_cfft_f32(S, FFTInput_B, 0, 1);
-		//arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
-		arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
+		//arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 	}
-	//Min and Max on FFT print
-	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE)
-	{
-		maxValue+=FFT_STEP_UP;
-		//arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум
-		//if (maxValue > Processor_AVG_amplitude*FFT_MAX) maxValue = Processor_AVG_amplitude * FFT_MAX;
-	}
-	else
-		maxValue-=FFT_STEP_DOWN;
+	//Autocalibrate MIN and MAX on FFT
+	arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
+	diffValue=(maxValue-maxValueFFT)/FFT_STEP_COEFF;
+	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE && diffValue>0) maxValueFFT+=diffValue;
+	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_FIX) maxValueFFT+=diffValue;
+	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_FIX) maxValueFFT-=FFT_STEP_FIX;
+	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_PRECISION) maxValueFFT+=diffValue;
+	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_PRECISION) maxValueFFT-=FFT_STEP_PRECISION;
+	//sendToDebug_float32(maxValueErrors); //красных пиков на водопаде (перегрузок)
+	//sendToDebug_float32(diffValue); //разница между максимальным и пороговым в FFT
+	//sendToDebug_float32(maxValue); //максимальное в выборке
+	//sendToDebug_float32(maxValueFFT); //максимальный порог в отображаемом FFT
+	//sendToDebug_str("\r\n");
 	maxValueErrors = 0;
-	if (maxValue < FFT_MIN) maxValue = FFT_MIN;
+	if (maxValueFFT < FFT_MIN) maxValueFFT = FFT_MIN;
+	//
 	// Нормируем АЧХ к единице
 	for (uint16_t n = 0; n < FFT_SIZE; n++)
 	{
-		FFTOutput[n] = FFTOutput[n] / maxValue;
+		FFTOutput[n] = FFTOutput[n] / maxValueFFT;
 		if (FFTOutput[n] > 1) FFTOutput[n] = 1;
 	}
 	//Compress FFT_SIZE to FFT_PRINT_SIZE

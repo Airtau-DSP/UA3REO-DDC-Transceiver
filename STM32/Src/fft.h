@@ -11,10 +11,12 @@
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
 #define FFT_BOTTOM_OFFSET 190 //start of FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
-#define FFT_MIN 0.001f //MIN порог сигнала FFT
-#define FFT_STEP_UP 1000.0f //шаг перестройки калибровки сигнала FFT вверх
-#define FFT_STEP_DOWN 100.0f //шаг перестройки калибровки сигнала FFT вниз
-#define FFT_MAX_IN_RED_ZONE 8 //максимум красных пиков на водопаде
+#define FFT_MIN 20.0f //MIN порог сигнала FFT
+#define FFT_STEP_COEFF 10.0f //коэффициент шага автокалибровки сигнала FFT (больше - медленней)
+#define FFT_STEP_FIX 50.0f //шаг снижения коэффициента FFT
+#define FFT_STEP_PRECISION 10.0f //шаг снижения коэффициента FFT (для слабых сигналов)
+#define FFT_MAX_IN_RED_ZONE 10 //максимум красных пиков на водопаде (для автоподстройки)
+#define FFT_MIN_IN_RED_ZONE 5 //минимум красных пиков на водопаде (для автоподстройки)
 #define FFT_HZ_IN_PIXEL (48000/FFT_PRINT_SIZE) // герц в одном пикселе
 
 extern void FFT_doFFT(void);
