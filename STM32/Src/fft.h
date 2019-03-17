@@ -30,4 +30,7 @@ extern float32_t FFTInput_A[FFT_SIZE * 2];
 extern float32_t FFTInput_B[FFT_SIZE * 2];
 uint16_t getFFTColor(uint8_t height);
 
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream7;
+
 #endif

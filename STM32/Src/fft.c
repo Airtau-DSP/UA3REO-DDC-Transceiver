@@ -110,12 +110,19 @@ void FFT_printFFT(void)
 	if (LCD_bandMenuOpened) return;
 	LCD_busy = true;
 
-	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240 - FFT_BOTTOM_OFFSET), COLOR_GREEN);
-
-	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--) //смещаем водопад вниз
-		memcpy(&wtf_buffer[tmp], &wtf_buffer[tmp - 1], sizeof(wtf_buffer[tmp - 1]));
+	//разделительная линия по центру
+	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, FFT_MAX_HEIGHT, COLOR_GREEN);
+	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++) wtf_buffer[y][(FFT_PRINT_SIZE / 2)-1]=COLOR_GREEN;
+	
+	//смещаем водопад вниз c помощью DMA
+	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--)
+	{
+		HAL_DMA_Start(&hdma_memtomem_dma2_stream7, (uint32_t)&wtf_buffer[tmp - 1], (uint32_t)&wtf_buffer[tmp], sizeof(wtf_buffer[tmp - 1])/4);
+		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream7, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+	}
 
 	uint8_t new_x = 0;
+	
 	for (uint32_t fft_x = 0; fft_x < FFT_PRINT_SIZE; fft_x++)
 	{
 		if (fft_x < (FFT_PRINT_SIZE / 2)) new_x = fft_x + (FFT_PRINT_SIZE / 2);
@@ -130,28 +137,14 @@ void FFT_printFFT(void)
 		}
 		else
 			tmp = getFFTColor(height);
-
 		wtf_buffer[0][new_x] = tmp;
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT - 1, COLOR_BLACK);
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
 
-	//FFT_need_fft = true; LCD_busy = false; return;
-
+	//выводим на экран с помощью DMA
 	ILI9341_SetCursorAreaPosition(1, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
-	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
-	{
-		for (uint16_t x = 0; x < FFT_PRINT_SIZE; x++)
-		{
-			if ((x + 1) == FFT_PRINT_SIZE / 2)
-				ILI9341_SendData(COLOR_GREEN);
-			else
-				ILI9341_SendData(wtf_buffer[y][x]);
-		}
-	}
-
-	FFT_need_fft = true;
-	LCD_busy = false;
+	HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, 0x60080000, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
 }
 
 void FFT_moveWaterfall(int16_t freq_diff)

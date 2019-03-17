@@ -71,6 +71,12 @@ extern I2S_HandleTypeDef hi2s3;
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream3;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream7;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim4;
@@ -410,6 +416,21 @@ void OTG_FS_IRQHandler(void)
   /* USER CODE BEGIN OTG_FS_IRQn 1 */
 
   /* USER CODE END OTG_FS_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 stream6 global interrupt.
+  */
+void DMA2_Stream6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
+	
+  /* USER CODE END DMA2_Stream6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_memtomem_dma2_stream6);
+  /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
+	FFT_need_fft = true;
+	LCD_busy = false;
+  /* USER CODE END DMA2_Stream6_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

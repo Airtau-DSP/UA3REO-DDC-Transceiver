@@ -181,7 +181,6 @@ void ILI9341_Fill(uint16_t color) {
 	{
 		ILI9341_SetCursorAreaPosition(0, 0, ILI9341_HEIGHT - 1, ILI9341_WIDTH - 1);
 	}
-
 	while (n) {
 		n--;
 		ILI9341_SendData(color);
