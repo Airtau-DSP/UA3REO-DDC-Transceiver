@@ -7,7 +7,7 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define ADC_CLIP_WARN_THRESHOLD 30000
+#define ADC_CLIP_WARN_THRESHOLD 5000
 
 #define agc_wdsp_slope 70
 #define agc_wdsp_hang_time 500
