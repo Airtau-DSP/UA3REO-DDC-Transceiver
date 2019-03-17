@@ -145,7 +145,6 @@ void FFT_printFFT(void)
 	
 	//разделительная линия по центру
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240-FFT_BOTTOM_OFFSET+FFT_MAX_HEIGHT), COLOR_GREEN);
-	//for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++) wtf_buffer[y][(FFT_PRINT_SIZE / 2)-1]=COLOR_GREEN;
 	
 	FFT_need_fft = true;
 	LCD_busy = false;

@@ -27,20 +27,11 @@ void ILI9341_SendCommand(uint16_t com)
 {
 	*(__IO uint16_t *)(0x60000000) = com;
 }
-uint16_t ILI9341_ReadCommand(void)
-{
-	return *(volatile uint16_t *)(0x60000000);
-}
 
 //2. Write data to LCD
 void ILI9341_SendData(uint16_t data)
 {
 	*(__IO uint16_t *)(0x60080000) = data;
-}
-
-uint16_t ILI9341_ReadData(void)
-{
-	return *(__IO uint16_t *)(0x60080000);
 }
 
 //3. Set cursor position
@@ -158,15 +149,6 @@ void ILI9341_Init(void)
 void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint16_t color) {
 	ILI9341_SetCursorPosition(x, y);
 	ILI9341_SendData(color);
-}
-
-uint16_t ILI9341_ReadPixel(void) {
-	ILI9341_SendCommand(0x00);
-	ILI9341_SendCommand(ILI9341_CMD_MEMORY_READ);
-	//ILI9341_SendData(0x00);
-	//HAL_Delay(1);
-	//return ILI9341_ReadCommand();
-	return ILI9341_ReadData();
 }
 
 //6. Fill the entire screen with a background color

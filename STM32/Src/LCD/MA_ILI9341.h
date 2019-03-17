@@ -400,10 +400,8 @@ const unsigned char font1[] = {
 //***** Functions prototypes *****//
 //1. Write Command to LCD
 void ILI9341_SendCommand(uint16_t com);
-uint16_t ILI9341_ReadCommand(void);
 //2. Write data to LCD
 void ILI9341_SendData(uint16_t data);
-uint16_t ILI9341_ReadData(void);
 //3. Set cursor position
 void ILI9341_SetCursorAreaPosition(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
 void ILI9341_SetCursorPosition(uint16_t x, uint16_t y);
@@ -412,7 +410,6 @@ uint16_t ILI9341_GetCurrentXOffset(void);
 void ILI9341_Init(void);
 //5. Write data to a single pixel
 void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint16_t color); //Draw single pixel to ILI9341
-uint16_t ILI9341_ReadPixel(void);
 //6. Fill the entire screen with a background color
 void ILI9341_Fill(uint16_t color); //Fill entire ILI9341 with color
 //7. Rectangle drawing functions

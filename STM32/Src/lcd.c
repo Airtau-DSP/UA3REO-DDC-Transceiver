@@ -57,6 +57,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		LCD_UpdateQuery.TopButtons = true;
 		return;
 	}
+	LCD_busy=true;
 	if (redraw) ILI9341_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	button_handlers_count = 0;
 
@@ -157,6 +158,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(179, 40, 55, 30, "MUTE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Mute == true), LCD_Handler_MUTE);
 		printButton(239, 40, 76, 30, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
 	}
+	LCD_busy=false;
 	LCD_UpdateQuery.TopButtons = false;
 }
 
@@ -288,7 +290,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	}
 	
 	sprintf(ctmp, "%d", TRX_RX_dBm);
-	ILI9341_Fill_RectWH(275,130,10,15,COLOR_BLACK);
+	ILI9341_Fill_RectWH(250,130,35,15,COLOR_BLACK);
 	ILI9341_printTextFont(ctmp,250,143,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
 	ILI9341_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
 	
