@@ -123,12 +123,7 @@ void FFT_printFFT(void)
 	{
 		if (fft_x < (FFT_PRINT_SIZE / 2)) new_x = fft_x + (FFT_PRINT_SIZE / 2);
 		if (fft_x >= (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
-		if ((new_x + 1) == FFT_PRINT_SIZE / 2)
-		{
-			ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_GREEN);
-			FFT_NOP_DELAY
-			continue;
-		}
+		if ((new_x + 1) == FFT_PRINT_SIZE / 2) continue;
 		height = FFTOutput[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
 		if (height > FFT_MAX_HEIGHT - 1)
 		{
@@ -140,22 +135,38 @@ void FFT_printFFT(void)
 			tmp = getFFTColor(height);
 		wtf_buffer[0][new_x] = tmp;
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT - 1, COLOR_BLACK);
-		FFT_NOP_DELAY
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
-		FFT_NOP_DELAY
 	}
 
-	//выводим на экран с помощью DMA
+	//разделитель и полоса приёма
+	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_GREEN);
+	switch(CurrentVFO()->Mode)
+	{
+		case TRX_MODE_LSB:
+		case TRX_MODE_CW_L:
+		case TRX_MODE_DIGI_L:
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			break;
+		case TRX_MODE_USB:
+		case TRX_MODE_CW_U:
+		case TRX_MODE_DIGI_U:
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			break;
+		case TRX_MODE_NFM:
+		case TRX_MODE_AM:
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
+			break;
+		default:
+			break;
+	}
+	
+	//выводим на экран водопада с помощью DMA
 	ILI9341_SetCursorAreaPosition(1, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
-	for (uint32_t y = 0; y < FFT_WTF_HEIGHT; y++)
-		for (uint32_t x = 0; x < FFT_PRINT_SIZE; x++)
-		{
-			if((x+1)==(FFT_PRINT_SIZE / 2))
-				ILI9341_SendData(COLOR_GREEN);
-			else
-				ILI9341_SendData(wtf_buffer[y][x]);
-			FFT_NOP_DELAY
-		}
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, 0x60080000, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream6, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+	
+	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, COLOR_GREEN);
 	
 	FFT_need_fft = true;
 	LCD_busy = false;

@@ -19,8 +19,6 @@
 #define FFT_MIN_IN_RED_ZONE 1 //минимум красных пиков на водопаде (для автоподстройки)
 #define FFT_HZ_IN_PIXEL (48000/FFT_PRINT_SIZE) // герц в одном пикселе
 
-#define FFT_NOP_DELAY for(int i=0;i<50;i++) { __asm("nop"); };
-
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);
 extern void FFT_moveWaterfall(int16_t freq_diff);
