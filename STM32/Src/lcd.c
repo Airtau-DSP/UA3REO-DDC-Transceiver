@@ -289,7 +289,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	
 	sprintf(ctmp, "%d", TRX_RX_dBm);
 	ILI9341_Fill_RectWH(275,130,10,15,COLOR_BLACK);
-	ILI9341_printTextFont(ctmp,250,142,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
+	ILI9341_printTextFont(ctmp,250,143,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
 	ILI9341_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
 	
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
