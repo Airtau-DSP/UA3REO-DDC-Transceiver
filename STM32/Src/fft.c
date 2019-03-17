@@ -21,6 +21,7 @@ uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 };
 
 uint32_t maxIndex = 0; // Индекс элемента массива с максимальной амплитудой в результирующей АЧХ
 float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
+float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
 float32_t maxValueFFT = 0; // Максимальное значение амплитуды в результирующей АЧХ
 float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 uint16_t height = 0; //высота столбца в выводе FFT
@@ -61,15 +62,19 @@ void FFT_doFFT(void)
 	}
 	//Autocalibrate MIN and MAX on FFT
 	arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
+	arm_mean_f32(FFTOutput, FFT_SIZE, &meanValue); //ищем среднее в АЧХ
+	
 	diffValue=(maxValue-maxValueFFT)/FFT_STEP_COEFF;
 	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE && diffValue>0) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_FIX) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_FIX) maxValueFFT-=FFT_STEP_FIX;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_PRECISION) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_PRECISION) maxValueFFT-=FFT_STEP_PRECISION;
+	if((meanValue*3)>maxValueFFT) maxValueFFT=(meanValue*3);
 	//sendToDebug_float32(maxValueErrors); //красных пиков на водопаде (перегрузок)
 	//sendToDebug_float32(diffValue); //разница между максимальным и пороговым в FFT
 	//sendToDebug_float32(maxValue); //максимальное в выборке
+	//sendToDebug_float32(meanValue); //среднее в выборке
 	//sendToDebug_float32(maxValueFFT); //максимальный порог в отображаемом FFT
 	//sendToDebug_str("\r\n");
 	maxValueErrors = 0;
