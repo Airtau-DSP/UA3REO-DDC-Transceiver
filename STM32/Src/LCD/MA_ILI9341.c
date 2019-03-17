@@ -453,8 +453,8 @@ void ILI9341_drawCharFont(int16_t x, int16_t y, unsigned char c, uint16_t color,
 	ILI9341_SetCursorAreaPosition(x, y + yo, x + xa - 1, y + yo + h - 1); //char area
 
 	for (yy = 0; yy < h; yy++) {
-		for (xx = 0; xx < (xa); xx++) {
-			if (xx < (xo) || xx >= (xo + w))
+		for (xx = 0; xx < xa; xx++) {
+			if (xx < xo || xx >= (xo + w))
 			{
 				ILI9341_SendData(bg); //background pixel
 				continue;
