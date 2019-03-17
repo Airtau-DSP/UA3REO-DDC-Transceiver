@@ -7,15 +7,15 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define FPGA_AUDIO_BUFFER_SIZE 32
+#define FPGA_AUDIO_BUFFER_SIZE 256
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
-#define APROCESSOR_BLOCK_SIZE 16
+#define APROCESSOR_BLOCK_SIZE 32
 #define CLICK_REMOVE_THRESHOLD 10000 //peak difference from avg amplitude
 #define CLICK_REMOVE_STEPSIZE 10 //peak difference from avg amplitude
 #define RF_AGC_UP_STEPSIZE 1 //audio level control
 
-#define FM_RX_LPF_ALPHA		0.05f			// For FM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
-#define FM_RX_HPF_ALPHA		0.96f			// For FM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
+#define FM_RX_LPF_ALPHA		0.05f			// For NFM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
+#define FM_RX_HPF_ALPHA		0.96f			// For NFM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
 #define	FM_SQUELCH_HYSTERESIS	0.5f			// Hysteresis for FM squelch
 #define FM_SQUELCH_PROC_DECIMATION	50		// Number of times we go through the FM demod algorithm before we do a squelch calculation
 #define FM_RX_SQL_SMOOTHING	0.005f			// Smoothing factor for IIR squelch noise averaging

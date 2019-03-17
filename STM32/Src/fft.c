@@ -70,7 +70,7 @@ void FFT_doFFT(void)
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_FIX) maxValueFFT-=FFT_STEP_FIX;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_PRECISION) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_PRECISION) maxValueFFT-=FFT_STEP_PRECISION;
-	if((meanValue*3)>maxValueFFT) maxValueFFT=(meanValue*3);
+	if((meanValue*4)>maxValueFFT) maxValueFFT=(meanValue*4);
 	//sendToDebug_float32(maxValueErrors); //красных пиков на водопаде (перегрузок)
 	//sendToDebug_float32(diffValue); //разница между максимальным и пороговым в FFT
 	//sendToDebug_float32(maxValue); //максимальное в выборке
@@ -110,10 +110,6 @@ void FFT_printFFT(void)
 	if (LCD_bandMenuOpened) return;
 	LCD_busy = true;
 
-	//разделительная линия по центру
-	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, FFT_MAX_HEIGHT, COLOR_GREEN);
-	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++) wtf_buffer[y][(FFT_PRINT_SIZE / 2)-1]=COLOR_GREEN;
-	
 	//смещаем водопад вниз c помощью DMA
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--)
 	{
@@ -144,7 +140,15 @@ void FFT_printFFT(void)
 
 	//выводим на экран с помощью DMA
 	ILI9341_SetCursorAreaPosition(1, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
-	HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, 0x60080000, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, 0x60080000, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream6, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+	
+	//разделительная линия по центру
+	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET - FFT_MAX_HEIGHT, (240-FFT_BOTTOM_OFFSET+FFT_MAX_HEIGHT), COLOR_GREEN);
+	//for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++) wtf_buffer[y][(FFT_PRINT_SIZE / 2)-1]=COLOR_GREEN;
+	
+	FFT_need_fft = true;
+	LCD_busy = false;
 }
 
 void FFT_moveWaterfall(int16_t freq_diff)

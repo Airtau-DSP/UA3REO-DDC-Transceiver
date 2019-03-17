@@ -59,11 +59,12 @@
 #include "wm8731.h"
 #include "audio_processor.h"
 #include "agc.h"
+#include "fft.h"
 #include "settings.h"
 #include "fpga.h"
 #include "profiler.h"
 
-uint32_t ms100_counter = 0;
+uint32_t ms50_counter = 0;
 uint32_t ext_counter = 0;
 
 extern I2S_HandleTypeDef hi2s3;
@@ -71,12 +72,6 @@ extern I2S_HandleTypeDef hi2s3;
 
 /* External variables --------------------------------------------------------*/
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream3;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream7;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim4;
@@ -357,25 +352,28 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE END TIM6_DAC_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
-	ms100_counter++;
+	ms50_counter++;
 	FFT_printFFT();
 	if (NeedSaveSettings)
 	{
 		FPGA_NeedSendParams = true;
 	}
-	//S-Meter Calculate
-	float32_t Audio_Vpp_value=(Processor_RX_Audio_Samples_MAX_value/TRX.RF_Gain)-(Processor_RX_Audio_Samples_MIN_value/TRX.RF_Gain); //получаем разницу между максимальным и минимальным значением в аудио-семплах
-	for(int i=0;i<(FPGA_BUS_BITS-ADC_BITS);i++) Audio_Vpp_value=Audio_Vpp_value/2; //приводим разрядность аудио к разрядности АЦП
-	float32_t ADC_Vpp_Value=Audio_Vpp_value*ADC_VREF/ADC_MAX_VALUE_SIGNED; //получаем значение пик-пик напряжения на входе АЦП в вольтах
-	float32_t ADC_Vrms_Value=ADC_Vpp_Value*0.3535f; // Получаем действующее (RMS) напряжение на аходе АЦП
-	float32_t ADC_RF_IN_Value=(ADC_Vrms_Value/ADC_RF_TRANS_RATIO)*ADC_RF_INPUT_VALUE_CALIBRATION; //Получаем напряжение на антенном входе с учётом трансформатора и калибровки
-	TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(ADC_RESISTANCE*0.001)) ; //получаем значение мощности в dBm для сопротивления входа АЦП
-	Processor_RX_Audio_Samples_MAX_value=0;
-	Processor_RX_Audio_Samples_MIN_value=0;
-	//
-	if (ms100_counter == 10)
+	if ((ms50_counter % 2) == 0) // every 100ms
 	{
-		ms100_counter = 0;
+		//S-Meter Calculate
+		float32_t Audio_Vpp_value=(Processor_RX_Audio_Samples_MAX_value/TRX.RF_Gain)-(Processor_RX_Audio_Samples_MIN_value/TRX.RF_Gain); //получаем разницу между максимальным и минимальным значением в аудио-семплах
+		for(int i=0;i<(FPGA_BUS_BITS-ADC_BITS);i++) Audio_Vpp_value=Audio_Vpp_value/2; //приводим разрядность аудио к разрядности АЦП
+		float32_t ADC_Vpp_Value=Audio_Vpp_value*ADC_VREF/ADC_MAX_VALUE_SIGNED; //получаем значение пик-пик напряжения на входе АЦП в вольтах
+		float32_t ADC_Vrms_Value=ADC_Vpp_Value*0.3535f; // Получаем действующее (RMS) напряжение на аходе АЦП
+		float32_t ADC_RF_IN_Value=(ADC_Vrms_Value/ADC_RF_TRANS_RATIO)*ADC_RF_INPUT_VALUE_CALIBRATION; //Получаем напряжение на антенном входе с учётом трансформатора и калибровки
+		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(ADC_RESISTANCE*0.001)) ; //получаем значение мощности в dBm для сопротивления входа АЦП
+		Processor_RX_Audio_Samples_MAX_value=0;
+		Processor_RX_Audio_Samples_MIN_value=0;
+		//
+	}
+	if (ms50_counter == 20) // every 1 sec
+	{
+		ms50_counter = 0;
 		//PrintProfilerResult();
 		//sendToDebug_num32(FPGA_samples); //~48800 on 50Mhz
 		//sendToDebug_num32(AUDIOPROC_samples); //~3135
@@ -416,21 +414,6 @@ void OTG_FS_IRQHandler(void)
   /* USER CODE BEGIN OTG_FS_IRQn 1 */
 
   /* USER CODE END OTG_FS_IRQn 1 */
-}
-
-/**
-  * @brief This function handles DMA2 stream6 global interrupt.
-  */
-void DMA2_Stream6_IRQHandler(void)
-{
-  /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
-	
-  /* USER CODE END DMA2_Stream6_IRQn 0 */
-  HAL_DMA_IRQHandler(&hdma_memtomem_dma2_stream6);
-  /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
-	FFT_need_fft = true;
-	LCD_busy = false;
-  /* USER CODE END DMA2_Stream6_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
