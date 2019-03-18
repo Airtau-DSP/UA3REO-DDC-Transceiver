@@ -20,7 +20,7 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-#include <usb_device.h>
+#include <usb_device_main.h>
 #include <usbd_cdc.h>
 
 /** @brief USB device configuration */

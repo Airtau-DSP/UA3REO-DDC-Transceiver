@@ -290,10 +290,10 @@
 
 /* ignore some GCC warnings */
 #if defined ( __GNUC__ )
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsign-conversion"
-#pragma GCC diagnostic ignored "-Wconversion"
-#pragma GCC diagnostic ignored "-Wunused-parameter"
+//#pragma GCC diagnostic push
+//#pragma GCC diagnostic ignored "-Wsign-conversion"
+//#pragma GCC diagnostic ignored "-Wconversion"
+//#pragma GCC diagnostic ignored "-Wunused-parameter"
 #endif
 
 #define __CMSIS_GENERIC         /* disable NVIC and Systick functions */
@@ -7143,7 +7143,7 @@ void arm_rfft_fast_f32(
 
 
 #if defined ( __GNUC__ )
-#pragma GCC diagnostic pop
+//#pragma GCC diagnostic pop
 #endif
 
 #endif /* _ARM_MATH_H */

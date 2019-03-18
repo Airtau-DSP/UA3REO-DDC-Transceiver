@@ -6,7 +6,7 @@
 #include <math.h>
 #include "arm_math.h"
 #include "fpga.h"
-#include <usb_device.h>
+#include <usb_device_main.h>
 #include <usbd_cdc.h>
 
 void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length)

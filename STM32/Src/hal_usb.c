@@ -23,7 +23,7 @@
 #include "stm32f4xx_hal.h"
 
 #include <xpd_usb.h>
-#include <usb_device.h>
+#include <usb_device_main.h>
 
 void HAL_USB_OTG_FS_MspInit(void* handle)
 {
