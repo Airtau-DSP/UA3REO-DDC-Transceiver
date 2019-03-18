@@ -325,7 +325,7 @@
             <uThumb>0</uThumb>
             <uSurpInc>0</uSurpInc>
             <uC99>1</uC99>
-            <uGnu>0</uGnu>
+            <uGnu>1</uGnu>
             <useXO>0</useXO>
             <v6Lang>3</v6Lang>
             <v6LangP>3</v6LangP>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc;                                                                                                                                                                                                                                                                                                                                               ../Drivers/STM32F4xx_HAL_Driver/Inc;                                                                                                                                                                                                                                                                                                                                               ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;                                                                                                                                                                                                                                                                                                                                               ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;                                                                                                                                                                                                                                                                                                                                               ../Drivers/CMSIS/Include;                                     ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc;                                ../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Inc</IncludePath>
+              <IncludePath>../Inc;../Drivers/STM32F4xx_HAL_Driver/Inc;../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;../Drivers/CMSIS/Device/ST/STM32F4xx/Include;../Drivers/CMSIS/Include;..\XPD_USB;..\USBDevice\PDs\STM32_XPD;..\USBDevice\Include</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -558,26 +558,6 @@
               <FilePath>../Src/main.c</FilePath>
             </File>
             <File>
-              <FileName>usb_device.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/usb_device.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_conf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/usbd_conf.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/usbd_desc.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_cdc_if.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/usbd_cdc_if.c</FilePath>
-            </File>
-            <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_it.c</FilePath>
@@ -586,6 +566,26 @@
               <FileName>stm32f4xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
+            </File>
+            <File>
+              <FileName>hal_usb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\hal_usb.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\usb_device.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_dev_debug.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\usb_dev_debug.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_dev_cat.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\usb_dev_cat.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -596,21 +596,6 @@
               <FileName>stm32f4xx_hal_rcc_ex.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Drivers\STM32F4xx_HAL_Driver\Inc\stm32f4xx_hal_rcc_ex.h</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_hal_pcd.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_hal_pcd_ex.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c</FilePath>
-            </File>
-            <File>
-              <FileName>stm32f4xx_ll_usb.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_ll_fsmc.c</FileName>
@@ -666,6 +651,21 @@
               <FileName>stm32f4xx_hal_uart.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_pcd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_hal_pcd_ex.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_hal_pcd_ex.c</FilePath>
+            </File>
+            <File>
+              <FileName>stm32f4xx_ll_usb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Drivers/STM32F4xx_HAL_Driver/Src/stm32f4xx_ll_usb.c</FilePath>
             </File>
             <File>
               <FileName>stm32f4xx_hal_rcc.c</FileName>
@@ -775,27 +775,57 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>Middlewares/USB_Device_Library</GroupName>
+          <GroupName>USBDevice</GroupName>
           <Files>
             <File>
-              <FileName>usbd_core.c</FileName>
+              <FileName>usbd.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_core.c</FilePath>
+              <FilePath>..\USBDevice\Device\usbd.c</FilePath>
             </File>
             <File>
-              <FileName>usbd_ctlreq.c</FileName>
+              <FileName>usbd_ctrl.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ctlreq.c</FilePath>
+              <FilePath>..\USBDevice\Device\usbd_ctrl.c</FilePath>
             </File>
             <File>
-              <FileName>usbd_ioreq.c</FileName>
+              <FileName>usbd_desc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Middlewares/ST/STM32_USB_Device_Library/Core/Src/usbd_ioreq.c</FilePath>
+              <FilePath>..\USBDevice\Device\usbd_desc.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_ep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\Device\usbd_ep.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\Device\usbd_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\Device\usbd_utils.c</FilePath>
             </File>
             <File>
               <FileName>usbd_cdc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>../Middlewares/ST/STM32_USB_Device_Library/Class/CDC/Src/usbd_cdc.c</FilePath>
+              <FilePath>..\USBDevice\Class\CDC\usbd_cdc.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>XPM_USB</GroupName>
+          <Files>
+            <File>
+              <FileName>xpd_usb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\XPD_USB\xpd_usb.c</FilePath>
+            </File>
+            <File>
+              <FileName>xpd_usb_otg.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\XPD_USB\xpd_usb_otg.c</FilePath>
             </File>
           </Files>
         </Group>

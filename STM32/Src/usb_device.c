@@ -1,101 +1,70 @@
-/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : usb_device.c
-  * @version        : v1.0_Cube
-  * @brief          : This file implements the USB Device
-  ******************************************************************************
-  * @attention
+  * @file    usb_device.c
+  * @author  Benedek Kupper
+  * @version 0.1
+  * @date    2018-11-03
+  * @brief   USB device definition and initialization
   *
-  * <h2><center>&copy; Copyright (c) 2019 STMicroelectronics.
-  * All rights reserved.</center></h2>
+  * Copyright (c) 2018 Benedek Kupper
   *
-  * This software component is licensed by ST under Ultimate Liberty license
-  * SLA0044, the "License"; You may not use this file except in compliance with
-  * the License. You may obtain a copy of the License at:
-  *                             www.st.com/SLA0044
+  * Licensed under the Apache License, Version 2.0 (the "License");
+  * you may not use this file except in compliance with the License.
+  * You may obtain a copy of the License at
   *
-  ******************************************************************************
+  *     http://www.apache.org/licenses/LICENSE-2.0
+  *
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
+  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  * See the License for the specific language governing permissions and
+  * limitations under the License.
   */
-/* USER CODE END Header */
+#include <usb_device.h>
+#include <usbd_cdc.h>
 
-/* Includes ------------------------------------------------------------------*/
+/** @brief USB device configuration */
+const USBD_DescriptionType hdev_cfg = {
+    .Vendor = {
+        .Name           = "UA3REO",
+        .ID             = 0x0483,
+    },
+    .Product = {
+        .Name           = "UA3REO Debug Port",
+        .ID             = 0xF001,
+        .Version.bcd    = 0x0100,
+    },
+    .Config = {
+        .Name           = "UA3REO Debug Port config",
+        .MaxCurrent_mA  = 500,
+        .RemoteWakeup   = 0,
+        .SelfPowered    = 1,
+    },
+}, *const dev_cfg = &hdev_cfg;
 
-#include "usb_device.h"
-#include "usbd_core.h"
-#include "usbd_desc.h"
-#include "usbd_cdc.h"
-#include "usbd_cdc_if.h"
+USBD_HandleType hUsbDevice, *const UsbDevice = &hUsbDevice;
 
-/* USER CODE BEGIN Includes */
+extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_if;
+extern USBD_CDC_IfHandleType *const ua3reo_dev_cat_if;
 
-/* USER CODE END Includes */
-
-/* USER CODE BEGIN PV */
-/* Private variables ---------------------------------------------------------*/
-
-/* USER CODE END PV */
-
-/* USER CODE BEGIN PFP */
-/* Private function prototypes -----------------------------------------------*/
-
-/* USER CODE END PFP */
-
-/* USB Device Core handle declaration. */
-USBD_HandleTypeDef hUsbDeviceFS;
-
-/*
- * -- Insert your variables declaration here --
- */
-/* USER CODE BEGIN 0 */
-
-/* USER CODE END 0 */
-
-/*
- * -- Insert your external function declaration here --
- */
-/* USER CODE BEGIN 1 */
-
-/* USER CODE END 1 */
-
-/**
-  * Init USB device Library, add supported class and start the library
-  * @retval None
-  */
-void MX_USB_DEVICE_Init(void)
+void UsbDevice_Init(void)
 {
-  /* USER CODE BEGIN USB_DEVICE_Init_PreTreatment */
-  
-  /* USER CODE END USB_DEVICE_Init_PreTreatment */
-  
-  /* Init Device Library, add supported class and start the library. */
-  if (USBD_Init(&hUsbDeviceFS, &FS_Desc, DEVICE_FS) != USBD_OK)
-  {
-    Error_Handler();
-  }
-  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_CDC) != USBD_OK)
-  {
-    Error_Handler();
-  }
-  if (USBD_CDC_RegisterInterface(&hUsbDeviceFS, &USBD_Interface_fops_FS) != USBD_OK)
-  {
-    Error_Handler();
-  }
-  if (USBD_Start(&hUsbDeviceFS) != USBD_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USB_DEVICE_Init_PostTreatment */
-  
-  /* USER CODE END USB_DEVICE_Init_PostTreatment */
+    /* All fields of Config have to be properly set up */
+    ua3reo_dev_debug_if->Config.InEpNum  = 0x81;
+    ua3reo_dev_debug_if->Config.OutEpNum = 0x01;
+    ua3reo_dev_debug_if->Config.NotEpNum = 0x82;
+	
+		ua3reo_dev_cat_if->Config.InEpNum  = 0x83;
+    ua3reo_dev_cat_if->Config.OutEpNum = 0x03;
+    ua3reo_dev_cat_if->Config.NotEpNum = 0x84;
+
+    /* Mount the interfaces to the device */
+    USBD_CDC_MountInterface(ua3reo_dev_debug_if, UsbDevice);
+		USBD_CDC_MountInterface(ua3reo_dev_cat_if, UsbDevice);
+
+    /* Initialize the device */
+    USBD_Init(UsbDevice, dev_cfg);
+
+    /* The device connection can be made */
+    USBD_Connect(UsbDevice);
 }
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/

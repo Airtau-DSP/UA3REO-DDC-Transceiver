@@ -1,10 +1,10 @@
 /**
   ******************************************************************************
-  * @file    usb_device.h
+  * @file    usbd_utils.h
   * @author  Benedek Kupper
   * @version 0.1
-  * @date    2018-11-03
-  * @brief   USBDevice demo
+  * @date    2018-01-31
+  * @brief   Universal Serial Bus Device Driver
   *
   * Copyright (c) 2018 Benedek Kupper
   *
@@ -20,23 +20,20 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-#ifndef __USB_DEVICE_H_
-#define __USB_DEVICE_H_
+#ifndef __USBD_UTILS_H_
+#define __USBD_UTILS_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include <usbd.h>
+#include <stdint.h>
 
-extern USBD_HandleType *const UsbDevice;
-
-extern void HAL_USBD_Setup(void);
-void UsbDevice_Init(void);
+extern void Uint2Unicode(const uint8_t *data, uint8_t *unicode, uint16_t len);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __USB_DEVICE_H_ */
+#endif /* __USBD_UTILS_H_ */

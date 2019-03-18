@@ -1,10 +1,11 @@
 /**
   ******************************************************************************
-  * @file    usb_device.h
+  * @file    usbd.h
   * @author  Benedek Kupper
   * @version 0.1
-  * @date    2018-11-03
-  * @brief   USBDevice demo
+  * @date    2018-01-31
+  * @brief   Universal Serial Bus Device Driver
+  *          Public functions header
   *
   * Copyright (c) 2018 Benedek Kupper
   *
@@ -20,23 +21,33 @@
   * See the License for the specific language governing permissions and
   * limitations under the License.
   */
-#ifndef __USB_DEVICE_H_
-#define __USB_DEVICE_H_
+#ifndef __USBD_H_
+#define __USBD_H_
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#include <usbd.h>
+#include <usbd_types.h>
 
-extern USBD_HandleType *const UsbDevice;
+/** @ingroup USBD
+ * @addtogroup USBD_Exported_Functions
+ * @{ */
+void            USBD_Init               (USBD_HandleType *dev,
+                                         const USBD_DescriptionType *desc);
+void            USBD_Deinit             (USBD_HandleType *dev);
+void            USBD_UnmountInterfaces  (USBD_HandleType *dev);
 
-extern void HAL_USBD_Setup(void);
-void UsbDevice_Init(void);
+void            USBD_Connect            (USBD_HandleType *dev);
+void            USBD_Disconnect         (USBD_HandleType *dev);
+
+USBD_ReturnType USBD_SetRemoteWakeup    (USBD_HandleType *dev);
+USBD_ReturnType USBD_ClearRemoteWakeup  (USBD_HandleType *dev);
+/** @} */
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __USB_DEVICE_H_ */
+#endif /* __USBD_H_ */
