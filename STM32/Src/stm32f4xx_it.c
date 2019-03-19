@@ -63,6 +63,8 @@
 #include "settings.h"
 #include "fpga.h"
 #include "profiler.h"
+#include <usb_device_main.h>
+#include <usbd_cdc.h>
 
 uint32_t ms50_counter = 0;
 uint32_t ext_counter = 0;
@@ -397,6 +399,7 @@ void TIM6_DAC_IRQHandler(void)
 		if (NeedSaveSettings) SaveSettings();
 	}
 	LCD_doEvents();
+	USBD_CDC_Transmit_FIFO_Events(ua3reo_dev_debug_ptt_key_if);
 	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }

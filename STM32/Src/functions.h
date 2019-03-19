@@ -46,6 +46,8 @@ uint32_t getPhraseFromFrequency(uint32_t freq);
 uint32_t hexStringToInt(char* in);
 void addSymbols(char* dest, char* str, uint8_t length, char* symbol, bool toEnd);
 void sendToDebug_str(char* str);
+void sendToDebug_str2(char* data1,char* data2);
+void sendToDebug_str3(char* data1,char* data2,char* data3);
 void sendToDebug_num(uint8_t data);
 void sendToDebug_numinline(uint8_t data);
 void sendToDebug_num16(uint16_t data);

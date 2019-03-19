@@ -54,11 +54,23 @@ void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t inde
 	}
 }
 
-extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_ptt_key_if;
 void sendToDebug_str(char* data)
 {
-	USBD_CDC_Transmit(ua3reo_dev_debug_ptt_key_if, (uint8_t*)data, strlen(data));
+	USBD_CDC_Transmit_FIFO(ua3reo_dev_debug_ptt_key_if, (uint8_t*)data, strlen(data));
 	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), 1000);
+}
+
+void sendToDebug_str2(char* data1,char* data2)
+{
+	sendToDebug_str(data1);
+	sendToDebug_str(data2);
+}
+
+void sendToDebug_str3(char* data1,char* data2,char* data3)
+{
+	sendToDebug_str(data1);
+	sendToDebug_str(data2);
+	sendToDebug_str(data3);
 }
 
 void sendToDebug_num(uint8_t data)

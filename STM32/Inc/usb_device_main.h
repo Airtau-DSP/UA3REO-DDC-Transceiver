@@ -29,8 +29,10 @@ extern "C"
 #endif
 
 #include <usbd.h>
+#include <usbd_cdc.h>
 
 extern USBD_HandleType *const UsbDevice;
+extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_ptt_key_if;
 
 extern void HAL_USBD_Setup(void);
 void UsbDevice_Init(void);
