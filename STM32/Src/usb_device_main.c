@@ -30,12 +30,12 @@ const USBD_DescriptionType hdev_cfg = {
         .ID             = 0x0483,
     },
     .Product = {
-        .Name           = "UA3REO Debug Port",
+        .Name           = "UA3REO Transceiver",
         .ID             = 0xF001,
         .Version.bcd    = 0x0100,
     },
     .Config = {
-        .Name           = "UA3REO Debug Port config",
+        .Name           = "UA3REO Transceiver config",
         .MaxCurrent_mA  = 500,
         .RemoteWakeup   = 0,
         .SelfPowered    = 1,
@@ -44,22 +44,22 @@ const USBD_DescriptionType hdev_cfg = {
 
 USBD_HandleType hUsbDevice, *const UsbDevice = &hUsbDevice;
 
-extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_if;
+extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_ptt_key_if;
 extern USBD_CDC_IfHandleType *const ua3reo_dev_cat_if;
 
 void UsbDevice_Init(void)
 {
     /* All fields of Config have to be properly set up */
-    ua3reo_dev_debug_if->Config.InEpNum  = 0x81;
-    ua3reo_dev_debug_if->Config.OutEpNum = 0x01;
-    ua3reo_dev_debug_if->Config.NotEpNum = 0x82;
+    ua3reo_dev_debug_ptt_key_if->Config.InEpNum  = 0x81;
+    ua3reo_dev_debug_ptt_key_if->Config.OutEpNum = 0x01;
+    ua3reo_dev_debug_ptt_key_if->Config.NotEpNum = 0x82;
 	
 		ua3reo_dev_cat_if->Config.InEpNum  = 0x83;
     ua3reo_dev_cat_if->Config.OutEpNum = 0x03;
     ua3reo_dev_cat_if->Config.NotEpNum = 0x84;
 
     /* Mount the interfaces to the device */
-    USBD_CDC_MountInterface(ua3reo_dev_debug_if, UsbDevice);
+    USBD_CDC_MountInterface(ua3reo_dev_debug_ptt_key_if, UsbDevice);
 		USBD_CDC_MountInterface(ua3reo_dev_cat_if, UsbDevice);
 
     /* Initialize the device */

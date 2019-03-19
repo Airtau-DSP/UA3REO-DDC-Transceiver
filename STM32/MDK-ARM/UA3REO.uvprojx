@@ -558,14 +558,14 @@
               <FilePath>..\Src\hal_usb.c</FilePath>
             </File>
             <File>
-              <FileName>usb_dev_debug.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\usb_dev_debug.c</FilePath>
-            </File>
-            <File>
               <FileName>usb_dev_cat.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\usb_dev_cat.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_dev_debug_ptt_key.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\usb_dev_debug_ptt_key.c</FilePath>
             </File>
             <File>
               <FileName>usb_device_main.c</FileName>
