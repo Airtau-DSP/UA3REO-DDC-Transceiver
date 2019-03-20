@@ -191,7 +191,7 @@ void FPGA_fpgadata_iqclock(void)
 
 	//STAGE 1
 	//out
-	if (TRX_ptt || TRX_tune) FPGA_fpgadata_out_tmp8 = 3;
+	if (TRX_ptt_hard || TRX_ptt_cat || TRX_tune) FPGA_fpgadata_out_tmp8 = 3;
 	else FPGA_fpgadata_out_tmp8 = 4;
 
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
@@ -202,7 +202,7 @@ void FPGA_fpgadata_iqclock(void)
 	//clock
 	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
 
-	if (TRX_ptt || TRX_tune) FPGA_fpgadata_sendiq();
+	if (TRX_ptt_hard || TRX_ptt_cat || TRX_tune) FPGA_fpgadata_sendiq();
 	else FPGA_fpgadata_getiq();
 
 	FPGA_busy = false;
@@ -211,7 +211,7 @@ void FPGA_fpgadata_iqclock(void)
 void FPGA_fpgadata_sendparam(void)
 {
 	uint32_t TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq);
-	if (!TRX_ptt && !TRX_tune)
+	if (!TRX_ptt_hard && !TRX_ptt_cat && !TRX_tune)
 	{
 		switch (TRX_getMode())
 		{
@@ -228,8 +228,8 @@ void FPGA_fpgadata_sendparam(void)
 	//STAGE 2
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;
-	bitWrite(FPGA_fpgadata_out_tmp8, 3, TRX_ptt || TRX_tune);
-	if (!TRX_ptt && !TRX_tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
+	bitWrite(FPGA_fpgadata_out_tmp8, 3, TRX_ptt_hard || TRX_ptt_cat || TRX_tune);
+	if (!TRX_ptt_hard && !TRX_ptt_cat && !TRX_tune) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 	//clock
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);

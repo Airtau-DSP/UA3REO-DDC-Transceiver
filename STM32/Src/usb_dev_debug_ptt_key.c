@@ -46,8 +46,8 @@ static void ua3reo_dev_debug_ptt_key_if_close(void* itf)
 static void ua3reo_dev_debug_ptt_key_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
 {
 	uint8_t buff[length];
+  USBD_CDC_Transmit(ua3reo_dev_debug_ptt_key_if, pbuf, length);
 	USBD_CDC_Receive(ua3reo_dev_debug_ptt_key_if, buff, length);
-  USBD_CDC_Transmit(ua3reo_dev_debug_ptt_key_if, buff, length);
 }
 
 static void ua3reo_dev_debug_ptt_key_if_out_cmplt(void* itf, uint8_t * pbuf, uint16_t length)

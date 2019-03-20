@@ -8,6 +8,7 @@
 #include "trx_manager.h"
 #include <stdlib.h>
 #include "lcd.h"
+#include "fpga.h"
 
 #define UART_BUFFER_SIZE 64
 
@@ -37,8 +38,8 @@ USBD_CDC_IfHandleType _ua3reo_dev_cat_if = {
 
 static void ua3reo_dev_cat_if_open(void* itf, USBD_CDC_LineCodingType * lc)
 {
-	uint8_t buff[1];
-	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, 1);
+	uint8_t buff[8];
+	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, 8);
 }
 
 static void ua3reo_dev_cat_if_close(void* itf)
@@ -48,7 +49,6 @@ static void ua3reo_dev_cat_if_close(void* itf)
 static void ua3reo_dev_cat_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
 {
 	uint8_t buff[length];
-	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, length);
 	if(length<=UART_BUFFER_SIZE)
 	{
 		for(uint16_t i=0;i<length;i++)
@@ -74,6 +74,7 @@ static void ua3reo_dev_cat_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t lengt
 			}
 		}
 	}
+	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, length);
 }
 
 static void ua3reo_dev_cat_if_out_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
@@ -311,6 +312,24 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		return;
 	}
+
+	if(strcmp(command,"PC")==0) // POWER CONTROL
+	{
+		if(!has_args)
+		{
+			char answer[30]={0};
+			strcat(answer, "PC");
+			sprintf(ctmp, "%d", TRX.RF_Power);
+			strcat(answer, ctmp);
+			strcat(answer, ";");
+			CAT_Transmit(answer);
+		}
+		else
+		{
+			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+		}
+		return;
+	}
 	
 	if(strcmp(command,"SH")==0) // WIDTH
 	{
@@ -494,11 +513,23 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 	{
 		if(!has_args)
 		{
-			CAT_Transmit("TX0;");
+			if(TRX_ptt_cat)
+				CAT_Transmit("TX1;");
+			else if(TRX_ptt_hard)
+				CAT_Transmit("TX2;");
+			else
+				CAT_Transmit("TX0;");
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			if(strcmp(arguments,"0")==0)
+			{
+				TRX_ptt_cat=false;
+			}			
+			if(strcmp(arguments,"1")==0)
+			{
+				TRX_ptt_cat=true;
+			}
 		}
 		return;
 	}

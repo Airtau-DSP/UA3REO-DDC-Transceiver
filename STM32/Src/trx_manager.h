@@ -39,7 +39,9 @@ void TRX_Start_TX(void);
 void TRX_Start_Loopback(void);
 void TRX_Restart_Mode(void);
 
-extern bool TRX_ptt;
+extern bool TRX_ptt_hard;
+extern bool TRX_ptt_cat;
+extern bool TRX_new_ptt_cat;
 extern bool TRX_squelched;
 extern bool TRX_tune;
 extern bool TRX_inited;

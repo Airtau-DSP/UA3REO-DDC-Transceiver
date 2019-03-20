@@ -236,7 +236,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 		return;
 	}
 	LCD_busy = true;
-	if (TRX_ptt)
+	if (TRX_ptt_hard || TRX_ptt_cat)
 		ILI9341_printTextFont("TX", 10, 144, COLOR_RED, COLOR_BLACK, FreeSans9pt7b);
 	else
 		ILI9341_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
@@ -297,8 +297,8 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_agc_wdsp_action && CurrentVFO()->Agc && (CurrentVFO()->Mode == TRX_MODE_LSB || CurrentVFO()->Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR || TRX_DAC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
-	if (WM8731_Buffer_underrun && !TRX_ptt && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
-	if (FPGA_Buffer_underrun && (TRX_ptt || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (WM8731_Buffer_underrun && !TRX_ptt_hard && !TRX_ptt_cat && !TRX_tune) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (FPGA_Buffer_underrun && (TRX_ptt_hard || TRX_ptt_cat || TRX_tune)) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
@@ -397,7 +397,7 @@ void LCD_doEvents(void)
 void LCD_Handler_TUNE(void)
 {
 	TRX_tune = !TRX_tune;
-	TRX_ptt = TRX_tune;
+	TRX_ptt_hard = TRX_tune;
 	LCD_displayStatusInfoGUI();
 	LCD_displayTopButtons(false);
 	NeedSaveSettings = true;

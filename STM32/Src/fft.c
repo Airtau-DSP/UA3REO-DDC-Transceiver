@@ -103,7 +103,7 @@ void FFT_printFFT(void)
 {
 	if (LCD_busy) return;
 	if (!TRX.FFT_Enabled) return;
-	if (TRX_ptt || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK) return;
+	if (TRX_ptt_hard || TRX_ptt_cat || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK) return;
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
 	if (LCD_modeMenuOpened) return;

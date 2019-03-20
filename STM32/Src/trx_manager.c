@@ -11,7 +11,10 @@
 #include "audio_filters.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
-bool TRX_ptt = false;
+bool TRX_ptt_hard = false;
+bool TRX_ptt_cat = false;
+bool TRX_new_ptt_hard = false;
+bool TRX_new_ptt_cat = false;
 bool TRX_squelched = false;
 bool TRX_tune = false;
 bool TRX_inited = false;
@@ -44,7 +47,7 @@ void TRX_Init()
 
 void TRX_Restart_Mode()
 {
-	if (TRX_ptt)
+	if (TRX_ptt_hard || TRX_ptt_cat)
 	{
 		TRX_Start_TX();
 	}
@@ -64,7 +67,6 @@ void TRX_Restart_Mode()
 void TRX_Start_RX()
 {
 	sendToDebug_str("RX MODE\r\n");
-	TRX_ptt = false;
 	memset(&CODEC_Audio_Buffer_RX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	Processor_NeedBuffer = true;
 	FPGA_Audio_Buffer_Index = 0;
@@ -77,7 +79,6 @@ void TRX_Start_RX()
 void TRX_Start_TX()
 {
 	sendToDebug_str("TX MODE\r\n");
-	TRX_ptt = true;
 	memset(&CODEC_Audio_Buffer_RX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	memset(&CODEC_Audio_Buffer_TX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	WM8731_TX_mode();
@@ -96,10 +97,18 @@ void TRX_Start_Loopback()
 void TRX_ptt_change()
 {
 	if (TRX_tune) return;
-	bool TRX_new_ptt = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
-	if (TRX_ptt != TRX_new_ptt)
+	TRX_new_ptt_hard = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
+	if (TRX_ptt_hard != TRX_new_ptt_hard)
 	{
-		TRX_ptt = TRX_new_ptt;
+		TRX_ptt_hard = TRX_new_ptt_hard;
+		TRX_ptt_cat=false;
+		LCD_displayStatusInfoGUI();
+		FPGA_NeedSendParams = true;
+		TRX_Restart_Mode();
+	}
+	if (TRX_ptt_cat != TRX_new_ptt_cat)
+	{
+		TRX_new_ptt_cat=TRX_ptt_cat;
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();

@@ -331,7 +331,7 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
-	if (TRX_ptt || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK)
+	if (TRX_ptt_cat || TRX_ptt_hard || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK)
 	{
 		if (TRX_getMode() != TRX_MODE_NO_TX)
 			processTxAudio();
@@ -400,7 +400,8 @@ void TIM6_DAC_IRQHandler(void)
 	}
 	LCD_doEvents();
 	USBD_CDC_Transmit_FIFO_Events(ua3reo_dev_debug_ptt_key_if);
-	if (TRX_ptt == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
+	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
+	if (TRX_ptt_cat != TRX_new_ptt_cat) TRX_ptt_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 
