@@ -415,7 +415,7 @@ extern "C"
    * @brief definition to read/write two 16 bit values.
    */
 #if defined __CC_ARM
-  #define __SIMD32_TYPE int32_t __packed
+  #define __SIMD32_TYPE int32_t
   #define CMSIS_UNUSED __attribute__((unused))
 
 #elif defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)

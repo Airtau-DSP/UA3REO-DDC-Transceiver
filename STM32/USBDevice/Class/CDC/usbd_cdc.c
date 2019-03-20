@@ -513,7 +513,7 @@ USBD_ReturnType USBD_CDC_Transmit(USBD_CDC_IfHandleType *itf, uint8_t *data, uin
     return USBD_EpSend(itf->Base.Device, itf->Config.InEpNum, data, length);
 }
 
-#define CDC_TX_FIFO_BUFFER_SIZE 64
+#define CDC_TX_FIFO_BUFFER_SIZE 256
 uint8_t cdc_tx_fifo[CDC_TX_FIFO_BUFFER_SIZE]={0};
 uint8_t cdc_tx_fifo_head=0;
 void USBD_CDC_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length)

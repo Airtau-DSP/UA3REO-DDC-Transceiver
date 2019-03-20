@@ -12,6 +12,7 @@
 #define UART_BUFFER_SIZE 64
 
 static void ua3reo_dev_cat_if_open         (void* itf, USBD_CDC_LineCodingType * lc);
+static void ua3reo_dev_cat_if_close        (void* itf);
 static void ua3reo_dev_cat_if_in_cmplt     (void* itf, uint8_t * pbuf, uint16_t length);
 static void ua3reo_dev_cat_if_out_cmplt    (void* itf, uint8_t * pbuf, uint16_t length);
 static void ua3reo_dev_cat_parseCommand(char* command);
@@ -19,11 +20,12 @@ static char rx_buffer[UART_BUFFER_SIZE]={0};
 static uint8_t rx_buffer_head=0;
 static uint8_t getFT450Mode(uint8_t VFO_Mode);
 static uint8_t setFT450Mode(uint8_t FT450_Mode);
-	
+
 static const USBD_CDC_AppType ua3reo_dev_cat_app =
 {
     .Name           = "CAT serial port as standard I/O",
     .Open           = ua3reo_dev_cat_if_open,
+	  .Close          = ua3reo_dev_cat_if_close,
     .Received       = ua3reo_dev_cat_if_in_cmplt,
     .Transmitted    = ua3reo_dev_cat_if_out_cmplt,
 };
@@ -35,7 +37,12 @@ USBD_CDC_IfHandleType _ua3reo_dev_cat_if = {
 
 static void ua3reo_dev_cat_if_open(void* itf, USBD_CDC_LineCodingType * lc)
 {
-    
+	uint8_t buff[1];
+	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, 1);
+}
+
+static void ua3reo_dev_cat_if_close(void* itf)
+{
 }
 
 static void ua3reo_dev_cat_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
