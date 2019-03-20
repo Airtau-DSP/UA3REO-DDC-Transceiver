@@ -149,7 +149,7 @@ int main(void)
   MX_RTC_Init();
   MX_USART1_UART_Init();
   MX_TIM3_Init();
-  //MX_IWDG_Init();
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
 
 	__HAL_RCC_PWR_CLK_ENABLE();
