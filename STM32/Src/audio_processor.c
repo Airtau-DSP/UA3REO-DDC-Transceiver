@@ -201,14 +201,22 @@ void processRxAudio(void)
 
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)
 	{
+		//hilbert fir
 		if (TRX_getMode() != TRX_MODE_AM && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 		{
 			for (block = 0; block < numBlocks; block++)
 			{
-				arm_fir_f32(&FIR_RX_Hilbert_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //hilbert fir
-				arm_fir_f32(&FIR_RX_Hilbert_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //hilbert fir
+				arm_fir_f32(&FIR_RX_Hilbert_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE);
+				arm_fir_f32(&FIR_RX_Hilbert_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); 
 			}
 		}
+		//IIR LPF
+		if (CurrentVFO()->Filter_Width > 0)
+			for (block = 0; block < numBlocks; block++)
+			{
+				arm_iir_lattice_f32(&IIR_LPF_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE);
+				arm_iir_lattice_f32(&IIR_LPF_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); 
+			}
 		switch (TRX_getMode())
 		{
 		case TRX_MODE_LSB:
@@ -222,11 +230,6 @@ void processRxAudio(void)
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
 			break;
 		case TRX_MODE_AM:
-			for (block = 0; block < numBlocks; block++)
-			{
-				arm_iir_lattice_f32(&IIR_LPF_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //IIR LPF
-				arm_iir_lattice_f32(&IIR_LPF_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //IIR LPF
-			}
 			arm_mult_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);
 			arm_mult_f32((float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);
@@ -238,12 +241,6 @@ void processRxAudio(void)
 			DemodFM();
 			break;
 		}
-
-		//LPF
-		if (TRX_getMode() != TRX_MODE_AM)
-			if (CurrentVFO()->Filter_Width > 0)
-				for (block = 0; block < numBlocks; block++)
-					arm_iir_lattice_f32(&IIR_LPF_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); //IIR LPF
 		
 		//Prepare data to calculate s-meter
 		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
@@ -352,34 +349,34 @@ static void DemodFM(void)
 	}
 
 	// *** Squelch Processing ***
-	arm_iir_lattice_f32(&IIR_Squelch_HPF, squelch_buf, squelch_buf, FPGA_AUDIO_BUFFER_HALF_SIZE);	// Do IIR high-pass filter on audio so we may detect squelch noise energy
+	//arm_iir_lattice_f32(&IIR_Squelch_HPF, squelch_buf, squelch_buf, FPGA_AUDIO_BUFFER_HALF_SIZE);	// Do IIR high-pass filter on audio so we may detect squelch noise energy
 	fm_sql_avg = ((1 - FM_RX_SQL_SMOOTHING) * fm_sql_avg) + (FM_RX_SQL_SMOOTHING * sqrtf(fabsf(squelch_buf[0])));// IIR filter squelch energy magnitude:  We need look at only one representative sample
 
 	// Squelch processing
 	// Determine if the (averaged) energy in "ads.fm_sql_avg" is above or below the squelch threshold
 	if (fm_sql_count == 0)	// do the squelch threshold calculation much less often than we are called to process this audio
 	{
-		if (fm_sql_avg > 0.5f)	// limit maximum noise value in averaging to keep it from going out into the weeds under no-signal conditions (higher = noisier)
-			fm_sql_avg = 0.5f;
+		if (fm_sql_avg > 0.7f)	// limit maximum noise value in averaging to keep it from going out into the weeds under no-signal conditions (higher = noisier)
+			fm_sql_avg = 0.7f;
 		b = fm_sql_avg * 10;// scale noise amplitude to range of squelch setting
 		// Now evaluate noise power with respect to squelch setting
 		if (!TRX.FM_SQL_threshold)	 	// is squelch set to zero?
 			TRX_squelched = false;		// yes, the we are un-squelched
 		else if (TRX_squelched)	 	// are we squelched?
 		{
-			if (b >= (float)(TRX.FM_SQL_threshold + FM_SQUELCH_HYSTERESIS))	// yes - is average above threshold plus hysteresis?
+			if (b <= (float)((10-TRX.FM_SQL_threshold) - FM_SQUELCH_HYSTERESIS))	// yes - is average above threshold plus hysteresis?
 				TRX_squelched = false;		//  yes, open the squelch
 		}
 		else	 	// is the squelch open (e.g. passing audio)?
 		{
-			if (TRX.FM_SQL_threshold > FM_SQUELCH_HYSTERESIS)// is setting higher than hysteresis?
+			if ((10-TRX.FM_SQL_threshold) > FM_SQUELCH_HYSTERESIS)// is setting higher than hysteresis?
 			{
-				if (b < (float)(TRX.FM_SQL_threshold - FM_SQUELCH_HYSTERESIS))// yes - is average below threshold minus hysteresis?
+				if (b > (float)((10-TRX.FM_SQL_threshold) + FM_SQUELCH_HYSTERESIS))// yes - is average below threshold minus hysteresis?
 					TRX_squelched = true;	// yes, close the squelch
 			}
 			else	 // setting is lower than hysteresis so we can't use it!
 			{
-				if (b < (float)TRX.FM_SQL_threshold)// yes - is average below threshold?
+				if (b > (10-(float)TRX.FM_SQL_threshold))// yes - is average below threshold?
 					TRX_squelched = true;	// yes, close the squelch
 			}
 		}

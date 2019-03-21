@@ -16,7 +16,7 @@
 
 #define FM_RX_LPF_ALPHA		0.05f			// For NFM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
 #define FM_RX_HPF_ALPHA		0.96f			// For NFM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
-#define	FM_SQUELCH_HYSTERESIS	0.5f			// Hysteresis for FM squelch
+#define	FM_SQUELCH_HYSTERESIS	0.3f			// Hysteresis for FM squelch
 #define FM_SQUELCH_PROC_DECIMATION	50		// Number of times we go through the FM demod algorithm before we do a squelch calculation
 #define FM_RX_SQL_SMOOTHING	0.005f			// Smoothing factor for IIR squelch noise averaging
 
