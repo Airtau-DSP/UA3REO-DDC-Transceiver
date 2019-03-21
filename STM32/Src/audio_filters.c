@@ -114,8 +114,8 @@ void InitFilters(void)
 {
 	arm_fir_init_f32(&FIR_RX_Hilbert_I, IQ_RX_HILBERT_TAPS, (float32_t *)&i_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
 	arm_fir_init_f32(&FIR_RX_Hilbert_Q, IQ_RX_HILBERT_TAPS, (float32_t *)&q_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
-	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
-	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // +/-45 degrees phase added
+	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +45 degrees phase added
+	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -45 degrees phase added
 
 	arm_iir_lattice_init_f32(&IIR_HPF, IIR_HPF_STAGES, (float32_t *)&IIR_HPF_150_PKcoeffs, (float32_t *)&IIR_HPF_150_PVcoeffs, (float32_t *)&IIR_HPF_State[0], APROCESSOR_BLOCK_SIZE);
 

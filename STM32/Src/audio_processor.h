@@ -14,7 +14,9 @@
 #define CLICK_REMOVE_STEPSIZE 10 //peak difference from avg amplitude
 #define TX_AGC_STEPSIZE 0.5f //audio level control compressor atack
 #define TX_AGC_MAXGAIN 100.0f //максимальное усиление микрофона при компрессировании
-#define TX_AGC_NOISEGATE 100.0f //минимальный уровень сигнала для усиления
+#define TX_AGC_NOISEGATE 0.1f //минимальный уровень сигнала для усиления
+
+#define AM_CARRIER_LEVEL 100.0f //уровень несущей при передаче AM
 
 #define FM_RX_LPF_ALPHA		0.05f			// For NFM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
 #define FM_RX_HPF_ALPHA		0.96f			// For NFM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
