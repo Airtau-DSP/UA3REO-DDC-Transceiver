@@ -12,7 +12,9 @@
 #define APROCESSOR_BLOCK_SIZE 32
 #define CLICK_REMOVE_THRESHOLD 10000 //peak difference from avg amplitude
 #define CLICK_REMOVE_STEPSIZE 10 //peak difference from avg amplitude
-#define RF_AGC_UP_STEPSIZE 1 //audio level control
+#define TX_AGC_STEPSIZE 0.5f //audio level control compressor atack
+#define TX_AGC_MAXGAIN 100.0f //максимальное усиление микрофона при компрессировании
+#define TX_AGC_NOISEGATE 100.0f //минимальный уровень сигнала для усиления
 
 #define FM_RX_LPF_ALPHA		0.05f			// For NFM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
 #define FM_RX_HPF_ALPHA		0.96f			// For NFM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
@@ -41,6 +43,7 @@ extern uint16_t fpga_index_copy;
 extern float32_t Processor_AVG_amplitude;
 extern float32_t Processor_TX_MAX_amplitude;
 extern float32_t ALC_need_gain;
+extern float32_t ALC_need_gain_new;
 extern float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
 extern float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
 extern float32_t fm_sql_avg;
