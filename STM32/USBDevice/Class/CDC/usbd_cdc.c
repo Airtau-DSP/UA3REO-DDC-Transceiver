@@ -513,34 +513,6 @@ USBD_ReturnType USBD_CDC_Transmit(USBD_CDC_IfHandleType *itf, uint8_t *data, uin
     return USBD_EpSend(itf->Base.Device, itf->Config.InEpNum, data, length);
 }
 
-#define CDC_TX_FIFO_BUFFER_SIZE 256
-uint8_t cdc_tx_fifo[CDC_TX_FIFO_BUFFER_SIZE]={0};
-uint8_t cdc_tx_fifo_head=0;
-void USBD_CDC_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length)
-{
-	if(length<=CDC_TX_FIFO_BUFFER_SIZE)
-		for(uint16_t i=0;i<length;i++)
-		{
-			cdc_tx_fifo[cdc_tx_fifo_head]=data[i];
-			cdc_tx_fifo_head++;
-			if(cdc_tx_fifo_head>=CDC_TX_FIFO_BUFFER_SIZE)
-			{
-				cdc_tx_fifo_head=0;
-				memset(&cdc_tx_fifo,0,CDC_TX_FIFO_BUFFER_SIZE);
-			}
-		}
-}
-
-void USBD_CDC_Transmit_FIFO_Events(USBD_CDC_IfHandleType *itf)
-{
-	USBD_ReturnType res=USBD_CDC_Transmit(itf, cdc_tx_fifo, cdc_tx_fifo_head);
-	if(res==USBD_E_OK)
-	{
-		cdc_tx_fifo_head=0;
-		memset(&cdc_tx_fifo,0,CDC_TX_FIFO_BUFFER_SIZE);
-	}
-}
-
 /**
  * @brief Receives data through the CDC OUT endpoint.
  * @param itf: reference of the CDC interface

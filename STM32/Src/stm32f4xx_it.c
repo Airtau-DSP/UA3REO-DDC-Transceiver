@@ -376,15 +376,19 @@ void TIM6_DAC_IRQHandler(void)
 	if (ms50_counter == 20) // every 1 sec
 	{
 		ms50_counter = 0;
-		//PrintProfilerResult();
-		//sendToDebug_num32(FPGA_samples); //~48800 on 50Mhz
-		//sendToDebug_num32(AUDIOPROC_samples); //~3135
-		//sendToDebug_num32(WM8731_DMA_samples/2); //~50000
-		//sendToDebug_num32(AUDIOPROC_TXA_samples++); //~1571
-		//sendToDebug_num32(AUDIOPROC_TXB_samples++); //~1571
-		//sendToDebug_num32(WM8731_Buffer_underrun); //0
-		//sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0]);
-		//sendToDebug_str("\r\n");
+		
+		#if 0 //DEBUG
+		PrintProfilerResult();
+		sendToDebug_str("FPGA Samples: "); sendToDebug_num32(FPGA_samples); //~48800 on 50Mhz
+		sendToDebug_str("Audio DMA samples: "); sendToDebug_num32(WM8731_DMA_samples/2); //~50000
+		sendToDebug_str("Audioproc cycles: "); sendToDebug_num32(AUDIOPROC_samples); //~3135
+		sendToDebug_str("Audioproc cycles A: "); sendToDebug_num32(AUDIOPROC_TXA_samples++); //~1571
+		sendToDebug_str("Audioproc cycles B: "); sendToDebug_num32(AUDIOPROC_TXB_samples++); //~1571
+		sendToDebug_str("WM8731 Buffer underrun: "); sendToDebug_num32(WM8731_Buffer_underrun); //0
+		sendToDebug_str("First bite of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0]); //first bite of I
+		sendToDebug_str("First bite of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0]); //first bite of Q
+		sendToDebug_str("\r\n");
+		#endif
 		
 		ext_counter = 0;
 		FPGA_samples = 0;
