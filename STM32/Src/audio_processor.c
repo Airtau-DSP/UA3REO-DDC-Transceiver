@@ -21,7 +21,8 @@ uint32_t AUDIOPROC_TXB_samples = 0;
 int32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 int32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 uint8_t Processor_AudioBuffer_ReadyBuffer = 0;
-bool Processor_NeedBuffer = false;
+bool Processor_NeedRXBuffer = false;
+bool Processor_NeedTXBuffer = false;
 float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
@@ -48,13 +49,12 @@ void initAudioProcessor(void)
 
 void processTxAudio(void)
 {
-	if (!Processor_NeedBuffer) return;
+	if (!Processor_NeedTXBuffer) return;
 	AUDIOPROC_samples++;
-
-	if (WM8731_DMA_state) //compleate
-		readHalfFromCircleBufferU32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], CODEC_AUDIO_BUFFER_SIZE / 2, CODEC_AUDIO_BUFFER_SIZE);
-	else //half
-		readHalfFromCircleBufferU32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], 0, CODEC_AUDIO_BUFFER_SIZE);
+	
+	uint16_t dma_index=CODEC_AUDIO_BUFFER_SIZE-__HAL_DMA_GET_COUNTER(hi2s3.hdmarx)/2;
+	if((dma_index%2)==1) dma_index++;
+	readHalfFromCircleBufferU32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], dma_index, CODEC_AUDIO_BUFFER_SIZE);
 
 	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 	{
@@ -80,6 +80,22 @@ void processTxAudio(void)
 
 		if(TRX_getMode() != TRX_MODE_LOOPBACK && TRX_getMode() != TRX_MODE_IQ)
 		{
+			//Anti-"click"
+			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+			{
+				arm_abs_f32(&FPGA_Audio_Buffer_I_tmp[i], &ampl_val_i, 1);
+				arm_abs_f32(&FPGA_Audio_Buffer_Q_tmp[i], &ampl_val_q, 1);
+				if (ampl_val_i > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
+				if (ampl_val_i < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
+				if (ampl_val_q > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
+				if (ampl_val_q < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
+				if (ampl_val_i - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_TX || ampl_val_q - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_TX)
+				{
+					FPGA_Audio_Buffer_I_tmp[i] = 0;
+					FPGA_Audio_Buffer_Q_tmp[i] = 0;
+				}
+			}
+		
 			//RF PowerControl (Audio Level Control) Compressor
 			Processor_TX_MAX_amplitude=0;
 			if (TRX_tune) ALC_need_gain=1;
@@ -100,10 +116,10 @@ void processTxAudio(void)
 			
 			if(ALC_need_gain>TX_AGC_MAXGAIN) ALC_need_gain=TX_AGC_MAXGAIN;
 			if(Processor_TX_MAX_amplitude<TX_AGC_NOISEGATE) ALC_need_gain=0.0f;
+			
 			arm_scale_f32(FPGA_Audio_Buffer_I_tmp, ALC_need_gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 			arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, ALC_need_gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 			//
-		
 			switch (TRX_getMode())
 			{
 				case TRX_MODE_USB:
@@ -119,6 +135,8 @@ void processTxAudio(void)
 				case TRX_MODE_LSB:
 				case TRX_MODE_DIGI_L:
 					//hilbert fir
+					for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+						FPGA_Audio_Buffer_Q_tmp[i] = FPGA_Audio_Buffer_I_tmp[i];
 					for (block = 0; block < numBlocks; block++)
 					{
 						// + 45 deg to I data
@@ -137,8 +155,8 @@ void processTxAudio(void)
 					}
 					for (size_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 					{
-						float32_t i_am = (FPGA_Audio_Buffer_I_tmp[i] - FPGA_Audio_Buffer_Q_tmp[i]) + (AM_CARRIER_LEVEL);
-						float32_t q_am = (FPGA_Audio_Buffer_Q_tmp[i] - FPGA_Audio_Buffer_I_tmp[i]) - (AM_CARRIER_LEVEL);
+						float32_t i_am = ((FPGA_Audio_Buffer_I_tmp[i] - FPGA_Audio_Buffer_Q_tmp[i]) + (selected_rfpower_amplitude))/2.0f;
+						float32_t q_am = ((FPGA_Audio_Buffer_Q_tmp[i] - FPGA_Audio_Buffer_I_tmp[i]) - (selected_rfpower_amplitude))/2.0f;
 						FPGA_Audio_Buffer_I_tmp[i] = i_am;
 						FPGA_Audio_Buffer_Q_tmp[i] = q_am;
 					}
@@ -197,12 +215,12 @@ void processTxAudio(void)
 			HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream3, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		}
 	}
-	Processor_NeedBuffer = false;
+	Processor_NeedTXBuffer = false;
 }
 
 void processRxAudio(void)
 {
-	if (!Processor_NeedBuffer) return;
+	if (!Processor_NeedRXBuffer) return;
 	AUDIOPROC_samples++;
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_Q[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_I[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
@@ -212,6 +230,7 @@ void processRxAudio(void)
 	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 
 	//Anti-"click"
+	/*
 	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 	{
 		arm_abs_f32(&FPGA_Audio_Buffer_I_tmp[i], &ampl_val_i, 1);
@@ -220,12 +239,13 @@ void processRxAudio(void)
 		if (ampl_val_i < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
 		if (ampl_val_q > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
 		if (ampl_val_q < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
-		if (ampl_val_i - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD || ampl_val_q - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD)
+		if (ampl_val_i - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_RX || ampl_val_q - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_RX)
 		{
 			FPGA_Audio_Buffer_I_tmp[i] = 0;
 			FPGA_Audio_Buffer_Q_tmp[i] = 0;
 		}
 	}
+	*/
 
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)
 	{
@@ -333,7 +353,7 @@ void processRxAudio(void)
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		AUDIOPROC_TXB_samples++;
 	}
-	Processor_NeedBuffer = false;
+	Processor_NeedRXBuffer = false;
 }
 
 static void DemodFM(void)

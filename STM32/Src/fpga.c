@@ -454,14 +454,30 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_Audio_Buffer_Index++;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE)
 	{
-		if (Processor_NeedBuffer) FPGA_Buffer_underrun = true;
-		FPGA_Audio_Buffer_Index = 0;
-		FPGA_Audio_Buffer_State = true;
+		if (Processor_NeedTXBuffer) 
+		{
+			FPGA_Buffer_underrun = true;
+			FPGA_Audio_Buffer_Index--;
+		}
+		else
+		{
+			FPGA_Audio_Buffer_Index = 0;
+			FPGA_Audio_Buffer_State = true;
+			Processor_NeedTXBuffer = true;
+		}
 	}
 	else if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE / 2)
 	{
-		if (Processor_NeedBuffer) FPGA_Buffer_underrun = true;
-		FPGA_Audio_Buffer_State = false;
+		if (Processor_NeedTXBuffer)
+		{
+			FPGA_Buffer_underrun = true;
+			FPGA_Audio_Buffer_Index--;
+		}
+		else
+		{
+			FPGA_Audio_Buffer_State = false;
+			Processor_NeedTXBuffer = true;
+		}
 	}
 }
 

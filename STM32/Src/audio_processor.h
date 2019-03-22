@@ -10,14 +10,12 @@
 #define FPGA_AUDIO_BUFFER_SIZE 256
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
 #define APROCESSOR_BLOCK_SIZE 32
-#define CLICK_REMOVE_THRESHOLD 10000 //peak difference from avg amplitude
-#define CLICK_REMOVE_STEPSIZE 10 //peak difference from avg amplitude
+#define CLICK_REMOVE_THRESHOLD_TX 100 //peak difference from avg amplitude
+#define CLICK_REMOVE_THRESHOLD_RX 10000 //peak difference from avg amplitude
+#define CLICK_REMOVE_STEPSIZE 10 //peak difference from avg amplitude step
 #define TX_AGC_STEPSIZE 0.5f //audio level control compressor atack
 #define TX_AGC_MAXGAIN 100.0f //максимальное усиление микрофона при компрессировании
 #define TX_AGC_NOISEGATE 0.1f //минимальный уровень сигнала для усиления
-
-#define AM_CARRIER_LEVEL 100.0f //уровень несущей при передаче AM
-
 #define FM_RX_LPF_ALPHA		0.05f			// For NFM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
 #define FM_RX_HPF_ALPHA		0.96f			// For NFM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
 #define	FM_SQUELCH_HYSTERESIS	0.3f			// Hysteresis for FM squelch
@@ -36,7 +34,8 @@ extern uint32_t AUDIOPROC_TXB_samples;
 extern int32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
 extern int32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
 extern uint8_t Processor_AudioBuffer_ReadyBuffer;
-extern bool Processor_NeedBuffer;
+extern bool Processor_NeedRXBuffer;
+extern bool Processor_NeedTXBuffer;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;

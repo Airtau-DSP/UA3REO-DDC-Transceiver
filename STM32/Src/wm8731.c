@@ -27,9 +27,9 @@ void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
-		if (Processor_NeedBuffer) WM8731_Buffer_underrun = true;
+		if (Processor_NeedRXBuffer) WM8731_Buffer_underrun = true;
 		WM8731_DMA_state = true;
-		Processor_NeedBuffer = true;
+		Processor_NeedRXBuffer = true;
 		WM8731_DMA_samples += FPGA_AUDIO_BUFFER_SIZE;
 	}
 }
@@ -38,9 +38,9 @@ void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
-		if (Processor_NeedBuffer) WM8731_Buffer_underrun = true;
+		if (Processor_NeedRXBuffer) WM8731_Buffer_underrun = true;
 		WM8731_DMA_state = false;
-		Processor_NeedBuffer = true;
+		Processor_NeedRXBuffer = true;
 		WM8731_DMA_samples += FPGA_AUDIO_BUFFER_SIZE;
 	}
 }

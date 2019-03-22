@@ -68,7 +68,7 @@ void TRX_Start_RX()
 {
 	sendToDebug_str("RX MODE\r\n");
 	memset(&CODEC_Audio_Buffer_RX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
-	Processor_NeedBuffer = true;
+	Processor_NeedRXBuffer = true;
 	FPGA_Audio_Buffer_Index = 0;
 	WM8731_Buffer_underrun = false;
 	WM8731_DMA_state = true;
