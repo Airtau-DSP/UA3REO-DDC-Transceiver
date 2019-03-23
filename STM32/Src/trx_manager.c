@@ -43,6 +43,7 @@ void TRX_Init()
 {
 	TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
 	TRX_Start_RX();
+	TRX_setMode(CurrentVFO()->Mode);
 }
 
 void TRX_Restart_Mode()
