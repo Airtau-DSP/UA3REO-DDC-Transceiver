@@ -160,9 +160,22 @@ void processTxAudio(void)
 						FPGA_Audio_Buffer_I_tmp[i] = i_am;
 						FPGA_Audio_Buffer_Q_tmp[i] = q_am;
 					}
-				break;
+					break;
+				case TRX_MODE_NFM:
+				case TRX_MODE_WFM:
+					ModulateFM();
+					break;
 				default:
 				break;
+			}
+			
+			//signal limiter
+			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+			{
+				if(FPGA_Audio_Buffer_I_tmp[i]>selected_rfpower_amplitude) FPGA_Audio_Buffer_I_tmp[i]=selected_rfpower_amplitude;
+				if(FPGA_Audio_Buffer_Q_tmp[i]>selected_rfpower_amplitude) FPGA_Audio_Buffer_Q_tmp[i]=selected_rfpower_amplitude;
+				if(FPGA_Audio_Buffer_I_tmp[i]<-selected_rfpower_amplitude) FPGA_Audio_Buffer_I_tmp[i]=-selected_rfpower_amplitude;
+				if(FPGA_Audio_Buffer_Q_tmp[i]<-selected_rfpower_amplitude) FPGA_Audio_Buffer_Q_tmp[i]=-selected_rfpower_amplitude;
 			}
 		}
 	}
@@ -286,7 +299,7 @@ void processRxAudio(void)
 			break;
 		case TRX_MODE_NFM:
 		case TRX_MODE_WFM:
-			DemodFM();
+			DemodulateFM();
 			break;
 		}
 		
@@ -356,7 +369,7 @@ void processRxAudio(void)
 	Processor_NeedRXBuffer = false;
 }
 
-static void DemodFM(void)
+static void DemodulateFM(void)
 {
 	float32_t angle, x, y, a, b;
 	static float lpf_prev, hpf_prev_a, hpf_prev_b;// used in FM detection and low/high pass processing
@@ -432,4 +445,25 @@ static void DemodFM(void)
 		fm_sql_count++;// bump count that controls how often the squelch threshold is checked
 		fm_sql_count &= FM_SQUELCH_PROC_DECIMATION;	// enforce the count limit
 	}
+}
+
+static void ModulateFM()
+{
+	static uint16_t modulation=1024;
+  static float32_t hpf_prev_a=0;
+	static float32_t hpf_prev_b=0;
+	static float32_t sin_data=0;
+  static uint32_t fm_mod_accum = 0;
+  // Do differentiating high-pass filter to provide 6dB/octave pre-emphasis - which also removes any DC component!
+  for(int i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+  {
+    float32_t a = FPGA_Audio_Buffer_I_tmp[i];
+    hpf_prev_b = FM_TX_HPF_ALPHA * (hpf_prev_b + a - hpf_prev_a);    // do differentiation
+    hpf_prev_a = a;     // save "[n-1] samples for next iteration
+    fm_mod_accum    += hpf_prev_b;   // save differentiated data in audio buffer // change frequency using scaled audio
+    fm_mod_accum    %= modulation;             // limit range
+		sin_data=(fm_mod_accum/(float32_t)modulation)*TWOPI;
+    FPGA_Audio_Buffer_I_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data);
+		FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data-(PI/2));
+  }
 }
