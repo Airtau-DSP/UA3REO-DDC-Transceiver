@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "arm_math.h"
+#include "bands.h"
 
 #define W25Q16_COMMAND_Write_Enable 0x06
 #define W25Q16_COMMAND_Erase_Chip 0xC7
@@ -43,6 +44,7 @@ extern struct TRX_SETTINGS {
 	bool FFT_Enabled;
 	uint8_t	FM_SQL_threshold;
 	uint8_t	RF_Gain;
+	uint32_t saved_freq[BANDS_COUNT];
 	//system settings
 	uint16_t CW_GENERATOR_SHIFT_HZ;
 	uint8_t	ENCODER_SLOW_RATE;

@@ -7,6 +7,7 @@
 #include "lcd.h"
 #include "fpga.h"
 #include "main.h"
+#include "bands.h"
 
 //W25Q16
 uint8_t Write_Enable = W25Q16_COMMAND_Write_Enable;
@@ -23,9 +24,9 @@ void LoadSettings(void)
 {
 	Flash_Read_Data();
 	
-	if (TRX.clean_flash != 120) //code to trace new clean flash
+	if (TRX.clean_flash != 123) //code to trace new clean flash
 	{
-		TRX.clean_flash = 120;
+		TRX.clean_flash = 123;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Agc = true;
@@ -49,6 +50,7 @@ void LoadSettings(void)
 		TRX.RF_Power = 25;
 		TRX.FM_SQL_threshold = 1;
 		TRX.RF_Gain = 50;
+		for(uint8_t i=0;i<BANDS_COUNT;i++) TRX.saved_freq[i]=BANDS[i].startFreq+(BANDS[i].endFreq-BANDS[i].startFreq)/2;
 		//system settings
 		TRX.FFT_Enabled = true;
 		TRX.CW_GENERATOR_SHIFT_HZ=500;

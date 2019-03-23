@@ -376,6 +376,14 @@ const BAND_MAP BANDS[] =
 	//
 };
 
+int8_t getBandFromFreq(uint32_t freq)
+{
+	for (int b = 0; b < BANDS_COUNT; b++)
+		if (BANDS[b].startFreq <= freq && freq <= BANDS[b].endFreq)
+			return b;
+	return -1;
+}
+
 uint8_t getModeFromFreq(uint32_t freq)
 {
 	uint8_t ret = 0;

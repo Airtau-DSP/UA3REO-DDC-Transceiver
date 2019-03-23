@@ -703,28 +703,28 @@ void LCD_Handler_MENU(void)
 
 void LCD_Handler_BAND_160(void)
 {
-	TRX_setFrequency(1850000);
+	TRX_setFrequency(TRX.saved_freq[0]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_80(void)
 {
-	TRX_setFrequency(3600000);
+	TRX_setFrequency(TRX.saved_freq[1]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_40(void)
 {
-	TRX_setFrequency(7100000);
+	TRX_setFrequency(TRX.saved_freq[2]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_30(void)
 {
-	TRX_setFrequency(10130000);
+	TRX_setFrequency(TRX.saved_freq[3]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
@@ -737,63 +737,63 @@ void LCD_Handler_BAND_BACK(void)
 
 void LCD_Handler_BAND_20(void)
 {
-	TRX_setFrequency(14100000);
+	TRX_setFrequency(TRX.saved_freq[4]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_17(void)
 {
-	TRX_setFrequency(18100000);
+	TRX_setFrequency(TRX.saved_freq[5]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_15(void)
 {
-	TRX_setFrequency(21100000);
+	TRX_setFrequency(TRX.saved_freq[6]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_12(void)
 {
-	TRX_setFrequency(24900000);
+	TRX_setFrequency(TRX.saved_freq[7]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_10(void)
 {
-	TRX_setFrequency(28100000);
+	TRX_setFrequency(TRX.saved_freq[8]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_FM1(void)
 {
-	TRX_setFrequency(70000000);
+	TRX_setFrequency(TRX.saved_freq[9]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_FM2(void)
 {
-	TRX_setFrequency(90200000);
+	TRX_setFrequency(TRX.saved_freq[10]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_VHF(void)
 {
-	TRX_setFrequency(145300000);
+	TRX_setFrequency(TRX.saved_freq[11]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
 void LCD_Handler_BAND_UHF(void)
 {
-	TRX_setFrequency(435000000);
+	TRX_setFrequency(TRX.saved_freq[12]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }

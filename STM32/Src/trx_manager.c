@@ -123,6 +123,7 @@ void TRX_setFrequency(int32_t _freq)
 	FFT_moveWaterfall(_freq - CurrentVFO()->Freq);
 
 	CurrentVFO()->Freq = _freq;
+	if(getBandFromFreq(_freq)>=0) TRX.saved_freq[getBandFromFreq(_freq)]=_freq;
 	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(CurrentVFO()->Freq))
 	{
 		TRX_setMode(getModeFromFreq(CurrentVFO()->Freq));
