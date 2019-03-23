@@ -79,23 +79,7 @@ void processTxAudio(void)
 		memcpy(&FPGA_Audio_Buffer_Q_tmp[0], &FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE * 4); //double left and right channel
 
 		if(TRX_getMode() != TRX_MODE_LOOPBACK && TRX_getMode() != TRX_MODE_IQ)
-		{
-			//Anti-"click"
-			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-			{
-				arm_abs_f32(&FPGA_Audio_Buffer_I_tmp[i], &ampl_val_i, 1);
-				arm_abs_f32(&FPGA_Audio_Buffer_Q_tmp[i], &ampl_val_q, 1);
-				if (ampl_val_i > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
-				if (ampl_val_i < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
-				if (ampl_val_q > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
-				if (ampl_val_q < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
-				if (ampl_val_i - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_TX || ampl_val_q - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_TX)
-				{
-					FPGA_Audio_Buffer_I_tmp[i] = 0;
-					FPGA_Audio_Buffer_Q_tmp[i] = 0;
-				}
-			}
-		
+		{	
 			//RF PowerControl (Audio Level Control) Compressor
 			Processor_TX_MAX_amplitude=0;
 			if (TRX_tune) ALC_need_gain=1;
@@ -244,24 +228,6 @@ void processRxAudio(void)
 	//RF Gain
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
-
-	//Anti-"click"
-	/*
-	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-	{
-		arm_abs_f32(&FPGA_Audio_Buffer_I_tmp[i], &ampl_val_i, 1);
-		arm_abs_f32(&FPGA_Audio_Buffer_Q_tmp[i], &ampl_val_q, 1);
-		if (ampl_val_i > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
-		if (ampl_val_i < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
-		if (ampl_val_q > Processor_AVG_amplitude) Processor_AVG_amplitude += (float32_t)CLICK_REMOVE_STEPSIZE;
-		if (ampl_val_q < Processor_AVG_amplitude) Processor_AVG_amplitude -= (float32_t)CLICK_REMOVE_STEPSIZE;
-		if (ampl_val_i - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_RX || ampl_val_q - Processor_AVG_amplitude > (float32_t)CLICK_REMOVE_THRESHOLD_RX)
-		{
-			FPGA_Audio_Buffer_I_tmp[i] = 0;
-			FPGA_Audio_Buffer_Q_tmp[i] = 0;
-		}
-	}
-	*/
 
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)
 	{

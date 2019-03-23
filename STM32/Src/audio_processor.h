@@ -10,9 +10,6 @@
 #define FPGA_AUDIO_BUFFER_SIZE 256
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
 #define APROCESSOR_BLOCK_SIZE 32
-#define CLICK_REMOVE_THRESHOLD_TX 100 //peak difference from avg amplitude
-#define CLICK_REMOVE_THRESHOLD_RX 10000 //peak difference from avg amplitude
-#define CLICK_REMOVE_STEPSIZE 10 //peak difference from avg amplitude step
 #define TX_AGC_STEPSIZE 0.5f //audio level control compressor atack
 #define TX_AGC_MAXGAIN 100.0f //максимальное усиление микрофона при компрессировании
 #define TX_AGC_NOISEGATE 0.1f //минимальный уровень сигнала для усиления
