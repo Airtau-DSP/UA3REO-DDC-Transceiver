@@ -238,7 +238,10 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	}
 	LCD_busy = true;
 	if (TRX_ptt_hard || TRX_ptt_cat)
+	{
+		ILI9341_Fill_RectWH(10,128,25,20,COLOR_BLACK);
 		ILI9341_printTextFont("TX", 10, 144, COLOR_RED, COLOR_BLACK, FreeSans9pt7b);
+	}
 	else
 		ILI9341_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
 
