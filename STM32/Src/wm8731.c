@@ -87,20 +87,20 @@ uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
 void WM8731_TX_mode(void)
 {
 	FPGA_stop_audio_clock();
-	WM8731_SendI2CCommand(B8(00000100), B8(00000000)); //Left Headphone Out 
-	WM8731_SendI2CCommand(B8(00000110), B8(00000000)); //Right Headphone Out
-	WM8731_SendI2CCommand(B8(00001010), B8(00001110)); //R5 Digital Audio Path Control
+	WM8731_SendI2CCommand(B8(00000100), B8(00000000)); //R2 Left Headphone Out 
+	WM8731_SendI2CCommand(B8(00000110), B8(00000000)); //R3 Right Headphone Out
+	WM8731_SendI2CCommand(B8(00001010), B8(00001111)); //R5 Digital Audio Path Control
 	if (TRX.LineMicIn)
 	{ //line
-		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //Left Line In
-		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //Right Line In 
+		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //R0 Left Line In
+		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00000010)); //R4 Analogue Audio Path Control
 		WM8731_SendI2CCommand(B8(00001100), B8(00101010)); //R6 Power Down Control
 	}
 	else
 	{ //mic
-		WM8731_SendI2CCommand(B8(00000000), B8(10000000)); //Left Line In
-		WM8731_SendI2CCommand(B8(00000010), B8(10000000)); //Right Line In 
+		WM8731_SendI2CCommand(B8(00000001), B8(10000000)); //R0 Left Line In
+		WM8731_SendI2CCommand(B8(00000011), B8(10000000)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00000101)); //R4 Analogue Audio Path Control
 		WM8731_SendI2CCommand(B8(00001100), B8(00101001)); //R6 Power Down Control
 	}
@@ -110,33 +110,33 @@ void WM8731_TX_mode(void)
 void WM8731_RX_mode(void)
 {
 	FPGA_stop_audio_clock();
-	WM8731_SendI2CCommand(B8(00000000), B8(10000000)); //Left Line In
-	WM8731_SendI2CCommand(B8(00000010), B8(10000000)); //Right Line In 
-	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //Left Headphone Out 
-	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //Right Headphone Out
+	WM8731_SendI2CCommand(B8(00000000), B8(10000000)); //R0 Left Line In
+	WM8731_SendI2CCommand(B8(00000010), B8(10000000)); //R1 Right Line In 
+	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //R2 Left Headphone Out 
+	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //R3 Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001000), B8(00010110)); //R4 Analogue Audio Path Control
-	WM8731_SendI2CCommand(B8(00001010), B8(00000110)); //R5 Digital Audio Path Control
+	WM8731_SendI2CCommand(B8(00001010), B8(00000111)); //R5 Digital Audio Path Control
 	WM8731_SendI2CCommand(B8(00001100), B8(00100111)); //R6 Power Down Control
 	FPGA_start_audio_clock();
 }
 
-void WM8731_TXRX_mode(void)
+void WM8731_TXRX_mode(void) //loopback
 {
 	FPGA_stop_audio_clock();
-	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //Left Headphone Out 
-	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //Right Headphone Out
-	WM8731_SendI2CCommand(B8(00001010), B8(00000110)); //R5 Digital Audio Path Control
+	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //R2 Left Headphone Out 
+	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //R3 Right Headphone Out
+	WM8731_SendI2CCommand(B8(00001010), B8(00000111)); //R5 Digital Audio Path Control
 	if (TRX.LineMicIn)
 	{ //line
-		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //Left Line In
-		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //Right Line In 
+		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //R0 Left Line In
+		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00010010)); //R4 Analogue Audio Path Control
 		WM8731_SendI2CCommand(B8(00001100), B8(00100010)); //R6 Power Down Control, internal crystal
 	}
 	else
 	{ //mic
-		WM8731_SendI2CCommand(B8(00000000), B8(10000000)); //Left Line In
-		WM8731_SendI2CCommand(B8(00000010), B8(10000000)); //Right Line In 
+		WM8731_SendI2CCommand(B8(00000001), B8(10000000)); //R0 Left Line In
+		WM8731_SendI2CCommand(B8(00000011), B8(10000000)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00010101)); //R4 Analogue Audio Path Control
 		WM8731_SendI2CCommand(B8(00001100), B8(00100001)); //R6 Power Down Control, internal crystal
 	}
