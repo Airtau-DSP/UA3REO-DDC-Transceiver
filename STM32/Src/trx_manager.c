@@ -74,7 +74,7 @@ void TRX_Start_RX()
 	WM8731_Buffer_underrun = false;
 	WM8731_DMA_state = true;
 	WM8731_RX_mode();
-	start_i2s_and_dma();
+	WM8731_start_i2s_and_dma();
 }
 
 void TRX_Start_TX()
@@ -84,7 +84,7 @@ void TRX_Start_TX()
 	memset(&CODEC_Audio_Buffer_TX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	HAL_Delay(10); //задерка перед подачей ВЧ сигнала, чтобы успели сработать реле
 	WM8731_TX_mode();
-	start_i2s_and_dma();
+	WM8731_start_i2s_and_dma();
 }
 
 void TRX_Start_Loopback()
@@ -93,7 +93,7 @@ void TRX_Start_Loopback()
 	memset(&CODEC_Audio_Buffer_RX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	memset(&CODEC_Audio_Buffer_TX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	WM8731_TXRX_mode();
-	start_i2s_and_dma();
+	WM8731_start_i2s_and_dma();
 }
 
 void TRX_ptt_change()

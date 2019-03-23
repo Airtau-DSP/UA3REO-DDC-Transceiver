@@ -13,8 +13,9 @@ int32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 uint32_t WM8731_DMA_samples = 0;
 bool WM8731_DMA_state = true; //true - compleate ; false - half
 bool WM8731_Buffer_underrun = false;
+bool WM8731_Beeping = false;
 
-void start_i2s_and_dma(void)
+void WM8731_start_i2s_and_dma(void)
 {
 	if (HAL_I2S_GetState(&hi2s3) == HAL_I2S_STATE_READY)
 	{
@@ -27,6 +28,7 @@ void HAL_I2SEx_TxRxCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
+		if(WM8731_Beeping) return;
 		if (Processor_NeedRXBuffer) WM8731_Buffer_underrun = true;
 		WM8731_DMA_state = true;
 		Processor_NeedRXBuffer = true;
@@ -39,6 +41,7 @@ void HAL_I2SEx_TxRxHalfCpltCallback(I2S_HandleTypeDef *hi2s)
 {
 	if (hi2s->Instance == SPI3)
 	{
+		if(WM8731_Beeping) return;
 		if (Processor_NeedRXBuffer) WM8731_Buffer_underrun = true;
 		WM8731_DMA_state = false;
 		Processor_NeedRXBuffer = true;
@@ -65,6 +68,15 @@ void I2SEx_Fix(I2S_HandleTypeDef *hi2s)
 	hi2s->hdmatx->XferHalfCpltCallback = UA3REO_I2SEx_TxRxDMAHalfCplt;
 	hi2s->hdmarx->XferCpltCallback = NULL;
 	hi2s->hdmatx->XferCpltCallback = UA3REO_I2SEx_TxRxDMACplt;
+}
+
+void WM8731_Beep(void)
+{
+	WM8731_Beeping=true;
+	for(uint16_t i=0;i<CODEC_AUDIO_BUFFER_SIZE;i++)
+		CODEC_Audio_Buffer_RX[i]=((float32_t)TRX.Volume/100.0f)*10000.0f*arm_sin_f32(((float32_t)i/(float32_t)CODEC_AUDIO_BUFFER_SIZE)*PI*1.5);
+	HAL_Delay(50);
+	WM8731_Beeping=false;
 }
 
 uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value)

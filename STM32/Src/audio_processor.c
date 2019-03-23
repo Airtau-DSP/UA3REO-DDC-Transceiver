@@ -431,8 +431,8 @@ static void ModulateFM()
     hpf_prev_a = a;     // save "[n-1] samples for next iteration
     fm_mod_accum    += hpf_prev_b;   // save differentiated data in audio buffer // change frequency using scaled audio
     fm_mod_accum    %= modulation;             // limit range
-		sin_data=(fm_mod_accum/(float32_t)modulation)*TWOPI;
+		sin_data=(fm_mod_accum/(float32_t)modulation)*PI;
     FPGA_Audio_Buffer_I_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data);
-		FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data-(PI/2));
+		FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data-(PI/4));
   }
 }

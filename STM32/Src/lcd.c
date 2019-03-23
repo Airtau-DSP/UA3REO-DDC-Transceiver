@@ -9,6 +9,7 @@
 #include "audio_filters.h"
 #include "LCD/fonts.h"
 #include "LCD/xpt2046_spi.h"
+#include "wm8731.h"
 
 char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
@@ -985,6 +986,7 @@ void LCD_checkTouchPad(void)
 	char dest[100];
 	sprintf(dest, "Touchpad x = %d  y = %d\r\n", x, y);
 	sendToDebug_str(dest);
+	WM8731_Beep();
 
 	if(LCD_systemMenuOpened && !LCD_timeMenuOpened)
 	{
