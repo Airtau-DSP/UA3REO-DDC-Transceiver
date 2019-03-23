@@ -3,6 +3,7 @@
 
 #include "stm32f4xx_hal.h"
 #include <stdbool.h>
+#include "settings.h"
 
 #define MAX_FREQ_HZ 750000000 // From ADC Datasheet
 
@@ -11,9 +12,9 @@
 #define ADC_MAX_VALUE_UNSIGNED 4095 //максимальное возможное значение из АЦП
 #define ADC_MAX_VALUE_SIGNED 2047 //максимальное возможное значение из АЦП с учётом знака
 #define ADC_VREF 1.0f //опорное напряжение АЦП, при подаче на вход которого АЦП отдаёт максимальное значение, вольт
-#define ADC_RESISTANCE 200 //сопротивление входа АЦП, ом
+#define ADC_RESISTANCE 100 //сопротивление входа АЦП, ом
 #define ADC_RF_TRANS_RATIO 4 //коэффициент трансформации трансформатора :) на входе АЦП
-#define ADC_RF_INPUT_VALUE_CALIBRATION 2.0f; //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера
+#define ADC_RF_INPUT_VALUE_CALIBRATION 3.7f //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера
 
 #define TRX_MODE_LSB 0
 #define TRX_MODE_USB 1
