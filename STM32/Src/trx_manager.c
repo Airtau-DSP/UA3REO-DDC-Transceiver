@@ -82,6 +82,7 @@ void TRX_Start_TX()
 	sendToDebug_str("TX MODE\r\n");
 	memset(&CODEC_Audio_Buffer_RX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
 	memset(&CODEC_Audio_Buffer_TX[0], 0x00, CODEC_AUDIO_BUFFER_SIZE * 4);
+	HAL_Delay(10); //задерка перед подачей ВЧ сигнала, чтобы успели сработать реле
 	WM8731_TX_mode();
 	start_i2s_and_dma();
 }
