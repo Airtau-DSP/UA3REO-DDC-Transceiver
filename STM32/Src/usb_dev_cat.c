@@ -202,6 +202,7 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 				TRX_setFrequency(atoi(arguments));
 			TRX.VFO_A.Freq=atoi(arguments);
 			LCD_displayFreqInfo();
+			LCD_displayTopButtons(false);
 		}
 		return;
 	}
@@ -224,6 +225,7 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 				TRX_setFrequency(atoi(arguments));
 			TRX.VFO_B.Freq=atoi(arguments);
 			LCD_displayFreqInfo();
+			LCD_displayTopButtons(false);
 		}
 		return;
 	}
