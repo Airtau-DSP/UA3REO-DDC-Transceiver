@@ -44,7 +44,7 @@ module tx_cic_cic_ii_0 (
     parameter DIF_MEM =  "auto";
     parameter IN_WIDTH             =  16;
     parameter OUT_WIDTH            =  16;
-    parameter ROUND_TYPE         =  "CONV_ROUND";
+    parameter ROUND_TYPE         =  "TRUNCATE";
     parameter PIPELINING              =  0;
 
 
