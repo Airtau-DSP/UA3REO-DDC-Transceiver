@@ -2,9 +2,9 @@
 # 
 preplace inst cic.cic_ii_0 -pg 1 -lvl 1 -y 30
 preplace inst cic -pg 1 -lvl 1 -y 40 -regy -20
-preplace netloc EXPORT<net_container>cic</net_container>(SLAVE)cic_ii_0.av_st_out,(SLAVE)cic.av_st_out) 1 0 1 NJ
 preplace netloc EXPORT<net_container>cic</net_container>(SLAVE)cic.clock,(SLAVE)cic_ii_0.clock) 1 0 1 NJ
 preplace netloc EXPORT<net_container>cic</net_container>(SLAVE)cic.av_st_in,(SLAVE)cic_ii_0.av_st_in) 1 0 1 NJ
 preplace netloc EXPORT<net_container>cic</net_container>(SLAVE)cic.reset,(SLAVE)cic_ii_0.reset) 1 0 1 NJ
+preplace netloc EXPORT<net_container>cic</net_container>(SLAVE)cic.av_st_out,(SLAVE)cic_ii_0.av_st_out) 1 0 1 NJ
 levelinfo -pg 1 0 70 210
 levelinfo -hier cic 80 110 200

@@ -82,12 +82,12 @@ ADC_INPUT[11]                : 11        : input  : 3.3-V LVTTL       :         
 GND*                         : 12        :        :                   :         : 1         :                
 GND*                         : 13        :        :                   :         : 1         :                
 nCONFIG                      : 14        :        :                   :         : 1         :                
-altera_reserved_tdi          : 15        : input  : 2.5 V             :         : 1         : N              
-altera_reserved_tck          : 16        : input  : 2.5 V             :         : 1         : N              
+TDI                          : 15        : input  :                   :         : 1         :                
+TCK                          : 16        : input  :                   :         : 1         :                
 VCCIO1                       : 17        : power  :                   : 2.5V    : 1         :                
-altera_reserved_tms          : 18        : input  : 2.5 V             :         : 1         : N              
+TMS                          : 18        : input  :                   :         : 1         :                
 GND                          : 19        : gnd    :                   :         :           :                
-altera_reserved_tdo          : 20        : output : 2.5 V             :         : 1         : N              
+TDO                          : 20        : output :                   :         : 1         :                
 nCE                          : 21        :        :                   :         : 1         :                
 GND                          : 22        : gnd    :                   :         :           :                
 clk_sys                      : 23        : input  : 2.5 V             :         : 1         : Y              

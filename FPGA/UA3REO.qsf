@@ -179,6 +179,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_I2S_CLOCK
 set_location_assignment PIN_51 -to AUDIO_48K_CLOCK
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_48K_CLOCK
 
+set_global_assignment -name VERILOG_FILE rx_mixer_shift.v
 set_global_assignment -name VERILOG_FILE DAC_corrector.v
 set_global_assignment -name QSYS_FILE DEBUG.qsys
 set_global_assignment -name QSYS_FILE NCO_TX.qsys

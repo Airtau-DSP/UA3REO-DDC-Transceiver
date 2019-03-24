@@ -73,7 +73,7 @@
   <parameter name="D_DELAY" value="1" />
   <parameter name="FILTER_TYPE" value="decimator" />
   <parameter name="INTERFACES" value="1" />
-  <parameter name="IN_WIDTH" value="24" />
+  <parameter name="IN_WIDTH" value="23" />
   <parameter name="RCF_FIX" value="512" />
   <parameter name="RCF_LB" value="8" />
   <parameter name="RCF_UB" value="21" />

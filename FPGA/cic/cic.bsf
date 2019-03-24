@@ -40,8 +40,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 120)
 		(input)
-		(text "in_data[23..0]" (rect 0 0 53 12)(font "Arial" (font_size 8)))
-		(text "in_data[23..0]" (rect 4 109 88 120)(font "Arial" (font_size 8)))
+		(text "in_data[22..0]" (rect 0 0 53 12)(font "Arial" (font_size 8)))
+		(text "in_data[22..0]" (rect 4 109 88 120)(font "Arial" (font_size 8)))
 		(line (pt 0 120)(pt 80 120)(line_width 3))
 	)
 	(port
