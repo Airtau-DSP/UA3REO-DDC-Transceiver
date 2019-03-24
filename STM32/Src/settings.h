@@ -50,6 +50,7 @@ extern struct TRX_SETTINGS {
 	uint8_t	ENCODER_SLOW_RATE;
 	uint8_t LCD_Brightness;
 	uint8_t Standby_Time;
+	bool Beeping;
 } TRX;
 
 extern bool NeedSaveSettings;

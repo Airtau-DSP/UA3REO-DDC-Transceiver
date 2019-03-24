@@ -24,7 +24,7 @@ extern bool WM8731_Buffer_underrun;
 uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
 extern void WM8731_Init(void);
 extern void WM8731_start_i2s_and_dma(void);
-void WM8731_beep(void);
+extern void WM8731_Beep(void);
 void WM8731_TX_mode(void);
 void WM8731_RX_mode(void);
 void WM8731_TXRX_mode(void);

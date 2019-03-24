@@ -3,7 +3,7 @@
 #include "LCD/xpt2046_spi.h"
 
 uint8_t systemMenuIndex=1;
-const uint8_t systemMenuIndexCount=7;
+const uint8_t systemMenuIndexCount=8;
 
 void drawSystemMenu(void)
 {
@@ -72,6 +72,12 @@ void drawSystemMenu(void)
 	i++;
 	y+=18;
 	//
+	ILI9341_printText("Touchpad beeping", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	sprintf(ctmp, "%d", TRX.Beeping);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
+	i++;
+	y+=18;
 	
 	ILI9341_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	ILI9341_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
@@ -120,6 +126,7 @@ void eventRotateSystemMenu(int direction)
 		if(TRX.Standby_Time>0 || direction>0) TRX.Standby_Time+=direction;
 		if(TRX.Standby_Time>250) TRX.Standby_Time=250;
 	}
+	if(systemMenuIndex==8) TRX.Beeping=!TRX.Beeping;
 	LCD_UpdateQuery.SystemMenu=true;
 }
 

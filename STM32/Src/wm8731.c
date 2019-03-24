@@ -72,6 +72,7 @@ void I2SEx_Fix(I2S_HandleTypeDef *hi2s)
 
 void WM8731_Beep(void)
 {
+	if(!TRX.Beeping) return;
 	WM8731_Beeping=true;
 	for(uint16_t i=0;i<CODEC_AUDIO_BUFFER_SIZE;i++)
 		CODEC_Audio_Buffer_RX[i]=((float32_t)TRX.Volume/100.0f)*10000.0f*arm_sin_f32(((float32_t)i/(float32_t)CODEC_AUDIO_BUFFER_SIZE)*PI*1.5);
