@@ -1,44 +1,38 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="cd9cfd0575b64ce84947"/>
+    <hash md5_digest_80b="296d77929116f7cfa20d"/>
   </project>
   <file_info>
     <file device="EP4CE22E22C8" path="UA3REO.sof" usercode="0xFFFFFFFF"/>
   </file_info>
   <sld_infos>
-    <sld_info hpath="NCO_TX:TX_NCO" name="TX_NCO">
-      <assignment_values>
-        <assignment_value text="QSYS_NAME NCO_TX HAS_SOPCINFO 1 GENERATION_ID 1553437201"/>
-      </assignment_values>
-      <parameters/>
-    </sld_info>
     <sld_info hpath="cic:RX_CIC_I" name="RX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1553437229"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1553445897"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="cic:RX_CIC_Q" name="RX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1553437229"/>
+        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1553445897"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="nco:NCO" name="NCO">
       <assignment_values>
-        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1553437220"/>
+        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1553445888"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1553437210"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1553445878"/>
       </assignment_values>
       <parameters/>
     </sld_info>
     <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
       <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1553437210"/>
+        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1553445878"/>
       </assignment_values>
       <parameters/>
     </sld_info>
