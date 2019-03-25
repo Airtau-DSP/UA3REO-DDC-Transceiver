@@ -164,19 +164,6 @@ int main(void)
 		Line 1294 hpcd->Init.speed = PCD_SPEED_HIGH;
 		Line 1298 hpcd->Init.speed = PCD_SPEED_FULL;
 	*/
-
-	//FORCE RESET USB (REMOVE PULLUP RESISTOR FROM D+ USB LINE R21/1.5K)
-	/*
-	GPIO_InitTypeDef GPIO_InitStruct;
-	GPIO_InitStruct.Pin = GPIO_PIN_12;
-	GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_OD;
-	HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-	HAL_GPIO_WritePin(GPIOA, 12, GPIO_PIN_RESET);
-	HAL_Delay(100);
-	MX_USB_DEVICE_Init();
-	HAL_Delay(100);
-	*/
-	//
 	HAL_RTC_Init(&hrtc);
 	InitProfiler();
 	sendToDebug_str("\r\n");
