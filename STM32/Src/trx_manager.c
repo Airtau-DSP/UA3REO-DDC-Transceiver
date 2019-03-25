@@ -102,6 +102,7 @@ void TRX_ptt_change()
 	TRX_new_ptt_hard = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
 	if (TRX_ptt_hard != TRX_new_ptt_hard)
 	{
+		TRX_Time_InActive=0;
 		TRX_ptt_hard = TRX_new_ptt_hard;
 		TRX_ptt_cat=false;
 		LCD_displayStatusInfoGUI();
@@ -110,6 +111,7 @@ void TRX_ptt_change()
 	}
 	if (TRX_ptt_cat != TRX_new_ptt_cat)
 	{
+		TRX_Time_InActive=0;
 		TRX_new_ptt_cat=TRX_ptt_cat;
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
