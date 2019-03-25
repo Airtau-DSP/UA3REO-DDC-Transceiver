@@ -301,6 +301,7 @@ void TIM4_IRQHandler(void)
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
+	USBD_CDC_Transmit_FIFO_Events(ua3reo_dev_debug_ptt_key_if);
 	if (FFT_need_fft && !TRX_ptt_cat && !TRX_ptt_hard) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
 }
@@ -386,12 +387,15 @@ void TIM6_DAC_IRQHandler(void)
 		sendToDebug_str("Audioproc cycles B: "); sendToDebug_num32(AUDIOPROC_TXB_samples++); //~190
 		sendToDebug_str("Audioproc timer couter: "); sendToDebug_num32(tim5_counter); 
 		sendToDebug_str("WM8731 Buffer underrun: "); sendToDebug_num32(WM8731_Buffer_underrun); //0
-		sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_num32(FPGA_Buffer_underrun); //0
-		//sendToDebug_str("TX Autogain: "); sendToDebug_float32(ALC_need_gain);
-		//sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(ALC_need_gain_new);
-		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(Processor_TX_MAX_amplitude);
-		//sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0]); //first byte of I
-		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0]); //first byte of Q
+		if(TRX_ptt_cat || TRX_ptt_hard)
+		{
+			sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_num32(FPGA_Buffer_underrun); //0
+			sendToDebug_str("TX Autogain: "); sendToDebug_float32(ALC_need_gain);
+			sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(ALC_need_gain_new);
+			sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(Processor_TX_MAX_amplitude);
+		}
+		sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0]); //first byte of I
+		sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0]); //first byte of Q
 		sendToDebug_str("\r\n");
 		#endif
 		
@@ -409,7 +413,6 @@ void TIM6_DAC_IRQHandler(void)
 		if (NeedSaveSettings) SaveSettings();
 	}
 	LCD_doEvents();
-	USBD_CDC_Transmit_FIFO_Events(ua3reo_dev_debug_ptt_key_if);
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
 	if (TRX_ptt_cat != TRX_new_ptt_cat) TRX_ptt_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */

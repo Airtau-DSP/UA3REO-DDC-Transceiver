@@ -797,6 +797,11 @@
               <FileType>1</FileType>
               <FilePath>..\USBDevice\Class\CDC\usbd_cdc.c</FilePath>
             </File>
+            <File>
+              <FileName>usbd_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Inc\usbd_config.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

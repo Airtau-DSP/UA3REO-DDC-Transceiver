@@ -51,7 +51,7 @@
 #define USBD_CDC_NOTEP_USED         0
 
 /** @brief Set to 1 if SET_CONTROL_LINE_STATE request is used by a CDC-ACM interface. */
-#define USBD_CDC_CONTROL_LINE_USED  0
+#define USBD_CDC_CONTROL_LINE_USED  1
 
 /** @brief Set to 1 if SEND_BREAK request is used by a CDC-ACM interface. */
 #define USBD_CDC_BREAK_SUPPORT      0
