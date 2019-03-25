@@ -309,7 +309,7 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 			else
 			{
 				TRX_setMode(setFT450Mode(atoi(arguments)));
-				LCD_redraw();
+				LCD_displayTopButtons(false);
 			}
 		}
 		return;
