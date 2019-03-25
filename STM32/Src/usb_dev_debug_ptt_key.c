@@ -5,6 +5,7 @@
 #include <string.h>
 #include "functions.h"
 #include "trx_manager.h"
+#include "LCD/MA_ILI9341.h"
 
 #define CDC_TX_FIFO_BUFFER_SIZE 64
 uint8_t cdc_tx_fifo[CDC_TX_FIFO_BUFFER_SIZE]={0};
@@ -45,8 +46,11 @@ static void ua3reo_dev_debug_ptt_key_if_close(void* itf)
 
 static void ua3reo_dev_debug_ptt_key_if_SetCtrlLine(void* itf, uint8_t dtr, uint8_t rts)
 {
-  if(dtr==1) TRX_ptt_cat=true;
-	else if(dtr==0) TRX_ptt_cat=false;
+  //if(dtr==1) TRX_ptt_cat=true;
+	//else if(dtr==0) TRX_ptt_cat=false;
+	
+	//if(rts==1) ILI9341_DrawPixel(1,1,COLOR_RED);
+	//if(rts==0) ILI9341_DrawPixel(1,1,COLOR_GREEN);
 }
 
 static void ua3reo_dev_debug_ptt_key_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t length)

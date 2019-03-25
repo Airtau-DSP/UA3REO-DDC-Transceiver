@@ -360,7 +360,7 @@ static USBD_ReturnType cdc_setupStage(USBD_CDC_IfHandleType *itf)
                             struct {
                                 uint16_t DTR : 1; /* Data Terminal Ready */
                                 uint16_t RTS : 1; /* Request To Send */
-                                uint16_t : 14;
+                                uint16_t OTHER : 14;
                             }b;
                             uint16_t w;
                         } *ctrl = (void*)&dev->Setup.Value;
