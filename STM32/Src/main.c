@@ -787,8 +787,8 @@ static void MX_DMA_Init(void)
   hdma_memtomem_dma2_stream5.Init.Priority = DMA_PRIORITY_MEDIUM;
   hdma_memtomem_dma2_stream5.Init.FIFOMode = DMA_FIFOMODE_ENABLE;
   hdma_memtomem_dma2_stream5.Init.FIFOThreshold = DMA_FIFO_THRESHOLD_FULL;
-  hdma_memtomem_dma2_stream5.Init.MemBurst = DMA_MBURST_SINGLE;
-  hdma_memtomem_dma2_stream5.Init.PeriphBurst = DMA_PBURST_SINGLE;
+  hdma_memtomem_dma2_stream5.Init.MemBurst = DMA_MBURST_INC8;
+  hdma_memtomem_dma2_stream5.Init.PeriphBurst = DMA_PBURST_INC8;
   if (HAL_DMA_Init(&hdma_memtomem_dma2_stream5) != HAL_OK)
   {
     Error_Handler( );
