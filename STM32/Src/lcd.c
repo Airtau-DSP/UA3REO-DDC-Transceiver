@@ -339,13 +339,13 @@ void LCD_displayMainMenu() {
 	char ctmp[50];
 	if (LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
 
-	printMenuButton(5, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
 	sprintf(ctmp, "%d", TRX.Volume);
-	printMenuButton(84, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
+	printMenuButton(5, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
 	sprintf(ctmp, "%d %%", TRX.RF_Gain);
-	printMenuButton(163, 5, 74, 50, "RF GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_GAIN), false, LCD_Handler_MENU_RF_GAIN);
+	printMenuButton(84, 5, 74, 50, "RF GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_GAIN), false, LCD_Handler_MENU_RF_GAIN);
 	sprintf(ctmp, "%d %%", TRX.RF_Power);
-	printMenuButton(242, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
+	printMenuButton(163, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
+	printMenuButton(242, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
 
 	sprintf(ctmp, "%d", TRX.Agc_speed);
 	printMenuButton(5, 60, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
