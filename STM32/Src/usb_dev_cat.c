@@ -136,7 +136,9 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			if(strcmp(arguments,"0")==0) {} //SPLIT DONT SUPPOTED
+			else if(strcmp(arguments,"1")==0) {} //SPLIT DONT SUPPOTED
+			else sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
 		}
 		return;
 	}
@@ -152,7 +154,12 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			if(strcmp(arguments,"0")==0) TRX.current_vfo = 0;
+			else if(strcmp(arguments,"1")==0) TRX.current_vfo = 1;
+			NeedSaveSettings = true;
+			InitFilters();
+			LCD_redraw();
+			sendToDebug_str3("CAT arguments: ",_command,"\r\n");
 		}
 		return;
 	}
