@@ -14,6 +14,8 @@ Description:				This library makes use of the FSMC interface of the STM32 board 
 #include "fonts.h"
 #include "../functions.h"
 
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream5;
+
 static uint8_t rotationNum = 1;
 static bool _cp437 = false;
 
@@ -153,7 +155,6 @@ void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint16_t color) {
 
 //6. Fill the entire screen with a background color
 void ILI9341_Fill(uint16_t color) {
-	uint32_t n = ILI9341_PIXEL_COUNT;
 	if (rotationNum == 1 || rotationNum == 3)
 	{
 		ILI9341_SetCursorAreaPosition(0, 0, ILI9341_WIDTH - 1, ILI9341_HEIGHT - 1);
@@ -162,20 +163,23 @@ void ILI9341_Fill(uint16_t color) {
 	{
 		ILI9341_SetCursorAreaPosition(0, 0, ILI9341_HEIGHT - 1, ILI9341_WIDTH - 1);
 	}
-	while (n) {
-		n--;
-		ILI9341_SendData(color);
-	}
+	uint16_t fill_char=color;
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, ILI9341_WIDTH*ILI9341_HEIGHT/2);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, ILI9341_WIDTH*ILI9341_HEIGHT/2);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 }
 //7. Rectangle drawing functions
 void ILI9341_Fill_RectXY(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, uint16_t color) {
 	uint32_t n = ((x1 + 1) - x0)*((y1 + 1) - y0);
 	if (n > ILI9341_PIXEL_COUNT) n = ILI9341_PIXEL_COUNT;
 	ILI9341_SetCursorAreaPosition(x0, y0, x1, y1);
-	while (n) {
-		n--;
-		ILI9341_SendData(color);
-	}
+	
+	uint16_t fill_char=color;
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, n/2);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, n/2);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 }
 
 void ILI9341_Fill_RectWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint16_t color) {
