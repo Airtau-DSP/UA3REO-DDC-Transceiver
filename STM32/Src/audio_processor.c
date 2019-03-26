@@ -51,6 +51,7 @@ void processTxAudio(void)
 {
 	if (!Processor_NeedTXBuffer) return;
 	AUDIOPROC_samples++;
+	selected_rfpower_amplitude = TRX.RF_Power / 100.0f * MAX_TX_AMPLITUDE;
 	
 	uint16_t dma_index=CODEC_AUDIO_BUFFER_SIZE-__HAL_DMA_GET_COUNTER(hi2s3.hdmarx)/2;
 	if((dma_index%2)==1) dma_index++;
@@ -60,8 +61,8 @@ void processTxAudio(void)
 	{
 		if (TRX_tune)
 		{
-			FPGA_Audio_Buffer_Q_tmp[i] = TRX.RF_Power / 100.0f * MAX_TX_AMPLITUDE;
-			FPGA_Audio_Buffer_I_tmp[i] = TRX.RF_Power / 100.0f * MAX_TX_AMPLITUDE;
+			FPGA_Audio_Buffer_Q_tmp[i] = TUNE_AMPLITUDE;
+			FPGA_Audio_Buffer_I_tmp[i] = TUNE_AMPLITUDE;
 		}
 		else
 		{
@@ -90,7 +91,6 @@ void processTxAudio(void)
 				if (ampl_val_i > Processor_TX_MAX_amplitude) Processor_TX_MAX_amplitude=ampl_val_i;
 				if (ampl_val_q > Processor_TX_MAX_amplitude) Processor_TX_MAX_amplitude=ampl_val_q;
 			}
-			selected_rfpower_amplitude = TRX.RF_Power / 100.0f * MAX_TX_AMPLITUDE;
 			if(Processor_TX_MAX_amplitude==0.0f) Processor_TX_MAX_amplitude=0.001f;
 			ALC_need_gain_new = selected_rfpower_amplitude / Processor_TX_MAX_amplitude;
 			if(ALC_need_gain_new>ALC_need_gain)
@@ -106,6 +106,15 @@ void processTxAudio(void)
 			//
 			switch (TRX_getMode())
 			{
+				case TRX_MODE_CW_L:
+				case TRX_MODE_CW_U:
+					if(!TRX_key_serial && !TRX_ptt_hard) selected_rfpower_amplitude=0;
+					for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+					{
+						FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude;
+						FPGA_Audio_Buffer_I_tmp[i] = selected_rfpower_amplitude;
+					}
+					break;
 				case TRX_MODE_USB:
 				case TRX_MODE_DIGI_U:
 					for (block = 0; block < numBlocks; block++)

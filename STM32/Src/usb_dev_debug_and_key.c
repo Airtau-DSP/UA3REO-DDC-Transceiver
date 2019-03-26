@@ -62,7 +62,7 @@ static void ua3reo_dev_debug_key_if_out_cmplt(void* itf, uint8_t * pbuf, uint16_
 
 }
 
-void USBD_CDC_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length)
+void USBD_CDC_Debug_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length)
 {
 	if(length<=CDC_TX_FIFO_BUFFER_SIZE)
 		for(uint16_t i=0;i<length;i++)
