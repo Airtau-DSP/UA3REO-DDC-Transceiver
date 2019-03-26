@@ -24,7 +24,7 @@ static uint8_t setFT450Mode(uint8_t FT450_Mode);
 
 static const USBD_CDC_AppType ua3reo_dev_cat_app =
 {
-    .Name           = "CAT serial port as standard I/O",
+    .Name           = "UA3REO CAT serial port",
     .Open           = ua3reo_dev_cat_if_open,
 	  .Close          = ua3reo_dev_cat_if_close,
     .Received       = ua3reo_dev_cat_if_in_cmplt,

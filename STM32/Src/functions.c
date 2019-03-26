@@ -56,7 +56,7 @@ void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t inde
 
 void sendToDebug_str(char* data)
 {
-	USBD_CDC_Transmit_FIFO(ua3reo_dev_debug_ptt_key_if, (uint8_t*)data, strlen(data));
+	USBD_CDC_Transmit_FIFO(ua3reo_dev_debug_key_if, (uint8_t*)data, strlen(data));
 	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), 1000);
 }
 

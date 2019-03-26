@@ -660,8 +660,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Src\usb_dev_cat.c</PathWithFileName>
-      <FilenameWithoutPath>usb_dev_cat.c</FilenameWithoutPath>
+      <PathWithFileName>..\Src\usb_dev_debug_and_key.c</PathWithFileName>
+      <FilenameWithoutPath>usb_dev_debug_and_key.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -672,8 +672,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\Src\usb_dev_debug_ptt_key.c</PathWithFileName>
-      <FilenameWithoutPath>usb_dev_debug_ptt_key.c</FilenameWithoutPath>
+      <PathWithFileName>..\Src\usb_dev_cat.c</PathWithFileName>
+      <FilenameWithoutPath>usb_dev_cat.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

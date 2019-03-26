@@ -226,9 +226,6 @@ USBD_ReturnType USBD_CDC_Receive        (USBD_CDC_IfHandleType *itf,
                                          uint8_t *data,
                                          uint16_t length);
 
-void USBD_CDC_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length);
-void USBD_CDC_Transmit_FIFO_Events(USBD_CDC_IfHandleType *itf);
-
 #if (USBD_CDC_NOTEP_USED == 1)
 USBD_ReturnType USBD_CDC_Notify         (USBD_CDC_IfHandleType *itf,
                                          USBD_CDC_NotifyMessageType *notice);

@@ -11,12 +11,12 @@ CatalogFile=ua3reo.cat
 
 [DeviceList]
 %DESCRIPTION%=UA3REOUSB, USB\VID_0483&PID_F001 ; root driver
-%COMPOSITE0% =UA3REOUSB, USB\VID_0483&PID_F001&MI_00 ; PTT/KEY/DEBUG driver
+%COMPOSITE0% =UA3REOUSB, USB\VID_0483&PID_F001&MI_00 ; KEY/DEBUG driver
 %COMPOSITE2% =UA3REOUSB, USB\VID_0483&PID_F001&MI_02 ; CAT driver
 
 [DeviceList.NTamd64]
 %DESCRIPTION%=DriverInstall, USB\VID_0483&PID_F001 ; root driver
-%COMPOSITE0% =DriverInstall, USB\VID_0483&PID_F001&MI_00 ; PTT/KEY/DEBUG driver
+%COMPOSITE0% =DriverInstall, USB\VID_0483&PID_F001&MI_00 ; KEY/DEBUG driver
 %COMPOSITE2% =DriverInstall, USB\VID_0483&PID_F001&MI_02 ; CAT driver
 
 ;------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ ServiceBinary=%12%\%DRIVERFILENAME%.sys
 UA3REO       = "UA3REO"
 SERVICE = "UA3REO Driver"
 DESCRIPTION = "UA3REO"
-COMPOSITE0 = "UA3REO PTT/KEY/DEBUG Port"
+COMPOSITE0 = "UA3REO KEY/DEBUG Port"
 COMPOSITE2 = "UA3REO CAT Port"
 INSTDISK="UA3REO Driver Installer"
 DRIVERFILENAME ="usbser"

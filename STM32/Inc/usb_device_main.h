@@ -32,7 +32,9 @@ extern "C"
 #include <usbd_cdc.h>
 
 extern USBD_HandleType *const UsbDevice;
-extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_ptt_key_if;
+extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_key_if;
+void USBD_CDC_Debug_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length);
+void USBD_CDC_Debug_Transmit_FIFO_Events(USBD_CDC_IfHandleType *itf);
 
 extern void HAL_USBD_Setup(void);
 void UsbDevice_Init(void);
