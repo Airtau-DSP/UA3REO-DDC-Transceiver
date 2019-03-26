@@ -22,6 +22,9 @@ Description:				This library makes use of the FSMC interface of the STM32 board 
 #define ILI9341_WIDTH       240
 #define ILI9341_HEIGHT      320
 
+#define ILI9341_COMM_ADDR 0x60000000
+#define ILI9341_DATA_ADDR 0x60080000
+
 #define ILI9341_NORMAL_WIDTH       320
 #define ILI9341_NORMAL_HEIGHT      240
 

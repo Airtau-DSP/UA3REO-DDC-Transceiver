@@ -163,7 +163,7 @@ void FFT_printFFT(void)
 	
 	//выводим на экран водопада с помощью DMA
 	ILI9341_SetCursorAreaPosition(1, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
-	HAL_DMA_Start(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, 0x60080000, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, ILI9341_DATA_ADDR, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
 	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream6, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, COLOR_GREEN);

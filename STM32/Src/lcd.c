@@ -386,7 +386,7 @@ void LCD_doEvents(void)
 	if (LCD_UpdateQuery.Background)
 	{
 		LCD_busy = true;
-		ILI9341_Fill_RectWH(0, 0, 319, 239, COLOR_BLACK);
+		ILI9341_Fill(COLOR_BLACK);
 		LCD_UpdateQuery.Background = false;
 		LCD_busy = false;
 	}

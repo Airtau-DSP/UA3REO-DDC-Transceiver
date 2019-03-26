@@ -25,13 +25,13 @@ static bool wrap = false;
 //1. Write Command to LCD
 void ILI9341_SendCommand(uint16_t com)
 {
-	*(__IO uint16_t *)(0x60000000) = com;
+	*(__IO uint16_t *)(ILI9341_COMM_ADDR) = com;
 }
 
 //2. Write data to LCD
 void ILI9341_SendData(uint16_t data)
 {
-	*(__IO uint16_t *)(0x60080000) = data;
+	*(__IO uint16_t *)(ILI9341_DATA_ADDR) = data;
 }
 
 //3. Set cursor position
@@ -154,7 +154,6 @@ void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint16_t color) {
 //6. Fill the entire screen with a background color
 void ILI9341_Fill(uint16_t color) {
 	uint32_t n = ILI9341_PIXEL_COUNT;
-
 	if (rotationNum == 1 || rotationNum == 3)
 	{
 		ILI9341_SetCursorAreaPosition(0, 0, ILI9341_WIDTH - 1, ILI9341_HEIGHT - 1);
