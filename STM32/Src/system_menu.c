@@ -3,7 +3,7 @@
 #include "LCD/xpt2046_spi.h"
 
 uint8_t systemMenuIndex=1;
-const uint8_t systemMenuIndexCount=8;
+const uint8_t systemMenuIndexCount=9;
 
 void drawSystemMenu(void)
 {
@@ -78,6 +78,13 @@ void drawSystemMenu(void)
 	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
 	y+=18;
+	//
+	ILI9341_printText("Key timeout", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	sprintf(ctmp, "%d", TRX.Key_timeout);
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
+	i++;
+	y+=18;
 	
 	ILI9341_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	ILI9341_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
@@ -127,6 +134,11 @@ void eventRotateSystemMenu(int direction)
 		if(TRX.Standby_Time>250) TRX.Standby_Time=250;
 	}
 	if(systemMenuIndex==8) TRX.Beeping=!TRX.Beeping;
+	if(systemMenuIndex==9)
+	{
+		if(TRX.Key_timeout>0 || direction>0) TRX.Key_timeout+=direction*50;
+		if(TRX.Key_timeout>5000) TRX.Key_timeout=5000;
+	}
 	LCD_UpdateQuery.SystemMenu=true;
 }
 

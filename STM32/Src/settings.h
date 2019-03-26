@@ -51,6 +51,7 @@ extern struct TRX_SETTINGS {
 	uint8_t LCD_Brightness;
 	uint8_t Standby_Time;
 	bool Beeping;
+	uint16_t Key_timeout;
 } TRX;
 
 extern bool NeedSaveSettings;

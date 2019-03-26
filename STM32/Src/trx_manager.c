@@ -11,10 +11,15 @@
 #include "audio_filters.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
+
 bool TRX_ptt_hard = false;
+bool TRX_old_ptt_hard = false;
 bool TRX_ptt_cat = false;
-bool TRX_new_ptt_hard = false;
-bool TRX_new_ptt_cat = false;
+bool TRX_old_ptt_cat = false;
+bool TRX_key_serial = false;
+bool TRX_old_key_serial = false;
+uint16_t TRX_Key_Timeout_est = 0;
+
 bool TRX_squelched = false;
 bool TRX_tune = false;
 bool TRX_inited = false;
@@ -39,6 +44,12 @@ char *MODE_DESCR[] = {
 	"LOOP"
 };
 
+bool TRX_on_TX(void)
+{
+	if (TRX_ptt_hard || TRX_ptt_cat || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK || TRX_Key_Timeout_est>0) return true;
+	return false;
+}
+
 void TRX_Init()
 {
 	TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
@@ -48,20 +59,16 @@ void TRX_Init()
 
 void TRX_Restart_Mode()
 {
-	if (TRX_ptt_hard || TRX_ptt_cat)
+	if (TRX_on_TX())
 	{
-		TRX_Start_TX();
+		if (TRX_getMode() == TRX_MODE_LOOPBACK)
+			TRX_Start_Loopback();
+		else
+			TRX_Start_TX();
 	}
 	else
 	{
-		if (TRX_getMode() == TRX_MODE_LOOPBACK)
-		{
-			TRX_Start_Loopback();
-		}
-		else
-		{
-			TRX_Start_RX();
-		}
+		TRX_Start_RX();
 	}
 }
 
@@ -96,10 +103,10 @@ void TRX_Start_Loopback()
 	WM8731_start_i2s_and_dma();
 }
 
-void TRX_ptt_change()
+void TRX_ptt_change(void)
 {
 	if (TRX_tune) return;
-	TRX_new_ptt_hard = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
+	bool TRX_new_ptt_hard = !HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin);
 	if (TRX_ptt_hard != TRX_new_ptt_hard)
 	{
 		TRX_Time_InActive=0;
@@ -109,10 +116,25 @@ void TRX_ptt_change()
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();
 	}
-	if (TRX_ptt_cat != TRX_new_ptt_cat)
+	if (TRX_ptt_cat != TRX_old_ptt_cat)
 	{
 		TRX_Time_InActive=0;
-		TRX_new_ptt_cat=TRX_ptt_cat;
+		TRX_old_ptt_cat=TRX_ptt_cat;
+		LCD_displayStatusInfoGUI();
+		FPGA_NeedSendParams = true;
+		TRX_Restart_Mode();
+	}
+}
+
+void TRX_key_change(void)
+{
+	if (TRX_tune) return;
+	if (TRX_key_serial != TRX_old_key_serial)
+	{
+		TRX_Time_InActive=0;
+		TRX_old_key_serial=TRX_key_serial;
+		if(TRX_key_serial==true) TRX_Key_Timeout_est=TRX.Key_timeout;
+		if(TRX.Key_timeout==0) TRX_ptt_cat=TRX_key_serial;
 		LCD_displayStatusInfoGUI();
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();

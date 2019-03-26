@@ -34,14 +34,20 @@ int32_t TRX_getFrequency(void);
 void TRX_setMode(uint8_t _mode);
 uint8_t TRX_getMode(void);
 void TRX_ptt_change(void);
+void TRX_key_change(void);
 void TRX_Start_RX(void);
 void TRX_Start_TX(void);
 void TRX_Start_Loopback(void);
 void TRX_Restart_Mode(void);
+bool TRX_on_TX(void);
 
 extern bool TRX_ptt_hard;
 extern bool TRX_ptt_cat;
-extern bool TRX_new_ptt_cat;
+extern bool TRX_old_ptt_cat;
+extern bool TRX_key_serial;
+extern bool TRX_old_key_serial;
+extern uint16_t TRX_Key_Timeout_est;
+
 extern bool TRX_squelched;
 extern bool TRX_tune;
 extern bool TRX_inited;

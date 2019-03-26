@@ -24,9 +24,9 @@ void LoadSettings(void)
 {
 	Flash_Read_Data();
 	
-	if (TRX.clean_flash != 130) //code to trace new clean flash
+	if (TRX.clean_flash != 140) //code to trace new clean flash
 	{
-		TRX.clean_flash = 130;
+		TRX.clean_flash = 140;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Agc = true;
@@ -62,6 +62,7 @@ void LoadSettings(void)
 		TRX.LCD_Brightness=100;
 		TRX.Standby_Time=180;
 		TRX.Beeping=true;
+		TRX.Key_timeout=1000;
 	}
 }
 

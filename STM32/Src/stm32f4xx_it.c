@@ -302,7 +302,7 @@ void TIM4_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
 	USBD_CDC_Debug_Transmit_FIFO_Events(ua3reo_dev_debug_key_if);
-	if (FFT_need_fft && !TRX_ptt_cat && !TRX_ptt_hard) FFT_doFFT();
+	if (FFT_need_fft && !TRX_on_TX()) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
 }
 
@@ -332,7 +332,7 @@ void TIM5_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
 	tim5_counter++;
-	if (TRX_ptt_cat || TRX_ptt_hard || TRX_tune || TRX_getMode() == TRX_MODE_LOOPBACK)
+	if (TRX_on_TX())
 	{
 		if (TRX_getMode() != TRX_MODE_NO_TX)
 			processTxAudio();
@@ -356,6 +356,16 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms50_counter++;
 	FFT_printFFT();
+	if(TRX_Key_Timeout_est>0)
+	{
+		TRX_Key_Timeout_est-=50;
+		if(TRX_Key_Timeout_est==0)
+		{
+			LCD_displayStatusInfoGUI();
+			FPGA_NeedSendParams = true;
+			TRX_Restart_Mode();
+		}
+	}
 	if (NeedSaveSettings)
 	{
 		FPGA_NeedSendParams = true;
@@ -387,7 +397,7 @@ void TIM6_DAC_IRQHandler(void)
 		sendToDebug_str("Audioproc cycles B: "); sendToDebug_num32(AUDIOPROC_TXB_samples++); //~190
 		sendToDebug_str("Audioproc timer couter: "); sendToDebug_num32(tim5_counter); 
 		sendToDebug_str("WM8731 Buffer underrun: "); sendToDebug_num32(WM8731_Buffer_underrun); //0
-		if(TRX_ptt_cat || TRX_ptt_hard)
+		if(TRX_on_TX())
 		{
 			sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_num32(FPGA_Buffer_underrun); //0
 			sendToDebug_str("TX Autogain: "); sendToDebug_float32(ALC_need_gain);
@@ -414,7 +424,8 @@ void TIM6_DAC_IRQHandler(void)
 	}
 	LCD_doEvents();
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
-	if (TRX_ptt_cat != TRX_new_ptt_cat) TRX_ptt_change();
+	if (TRX_ptt_cat != TRX_old_ptt_cat) TRX_ptt_change();
+	if (TRX_key_serial != TRX_old_key_serial) TRX_key_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 

@@ -46,11 +46,8 @@ static void ua3reo_dev_debug_key_if_close(void* itf)
 
 static void ua3reo_dev_debug_key_if_SetCtrlLine(void* itf, uint8_t dtr, uint8_t rts)
 {
-  if(dtr==1) TRX_ptt_cat=true;
-	else if(dtr==0) TRX_ptt_cat=false;
-	
-	if(rts==1) ILI9341_DrawPixel(1,1,COLOR_RED);
-	if(rts==0) ILI9341_DrawPixel(1,1,COLOR_GREEN);
+  if(dtr==1) TRX_key_serial=true;
+	else if(dtr==0) TRX_key_serial=false;
 }
 
 static void ua3reo_dev_debug_key_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
@@ -62,7 +59,7 @@ static void ua3reo_dev_debug_key_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t
 
 static void ua3reo_dev_debug_key_if_out_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
 {
-    //USBD_CDC_Receive(ua3reo_dev_debug_key_if,&pbuf, length);
+
 }
 
 void USBD_CDC_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length)
