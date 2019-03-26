@@ -395,7 +395,7 @@ void LCD_doEvents(void)
 	if (LCD_UpdateQuery.StatusInfoGUI) LCD_displayStatusInfoGUI();
 	LCD_displayStatusInfoBar();
 	if (LCD_UpdateQuery.MainMenu) LCD_displayMainMenu();
-	if (LCD_UpdateQuery.SystemMenu) drawSystemMenu();
+	if (LCD_UpdateQuery.SystemMenu) drawSystemMenu(false);
 }
 
 void LCD_Handler_TUNE(void)
@@ -687,6 +687,7 @@ void LCD_Handler_MENU_MAP(void)
 void LCD_Handler_MENU_SYSTEM_MENU(void)
 {
 	LCD_systemMenuOpened=true;
+	LCD_UpdateQuery.Background=true;
 	LCD_UpdateQuery.SystemMenu=true;
 	LCD_doEvents();
 }

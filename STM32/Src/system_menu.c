@@ -1,3 +1,4 @@
+#include "system_menu.h"
 #include "lcd.h"
 #include "settings.h"
 #include "LCD/xpt2046_spi.h"
@@ -5,7 +6,12 @@
 uint8_t systemMenuIndex=1;
 const uint8_t systemMenuIndexCount=9;
 
-void drawSystemMenu(void)
+char y=5;
+char x1=5;
+char x2=240;
+char i=1;
+
+void drawSystemMenu(bool draw_background)
 {
 	if(LCD_busy)
 	{
@@ -16,75 +22,19 @@ void drawSystemMenu(void)
 	if (LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
 	LCD_busy=true;
 	
-	char ctmp[50];
-	char y=5;
-	char x1=5;
-	char x2=240;
-	char i=1;
+	i=1;
+	y=5;
 	
-	ILI9341_Fill(COLOR_BLACK);
-	//
-	ILI9341_printText("FFT Enabled", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.FFT_Enabled);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("CW Generator shift", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.CW_GENERATOR_SHIFT_HZ);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("LCD Brightness", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.LCD_Brightness);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("Encoder slow rate", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.ENCODER_SLOW_RATE);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	//
-	ILI9341_printText("LCD Calibrate", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("Set Clock Time", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	ILI9341_printText("RUN", x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("Time to standby", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.Standby_Time);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("Touchpad beeping", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.Beeping);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
-	//
-	ILI9341_printText("Key timeout", x1, y, COLOR_WHITE, COLOR_BLACK, 2);
-	sprintf(ctmp, "%d", TRX.Key_timeout);
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
+	if(draw_background) ILI9341_Fill(COLOR_BLACK);
+	drawSystemMenuElement("FFT Enabled", SYSMENU_BOOLEAN, TRX.FFT_Enabled);
+	drawSystemMenuElement("CW Generator shift", SYSMENU_INTEGER, TRX.CW_GENERATOR_SHIFT_HZ);
+	drawSystemMenuElement("LCD Brightness", SYSMENU_INTEGER, TRX.LCD_Brightness);
+	drawSystemMenuElement("Encoder slow rate", SYSMENU_INTEGER, TRX.ENCODER_SLOW_RATE);
+	drawSystemMenuElement("LCD Calibrate", SYSMENU_RUN, 0);
+	drawSystemMenuElement("Set Clock Time", SYSMENU_RUN, 0);
+	drawSystemMenuElement("Time to standby", SYSMENU_INTEGER, TRX.Standby_Time);
+	drawSystemMenuElement("Touchpad beeping", SYSMENU_BOOLEAN, TRX.Beeping);
+	drawSystemMenuElement("CW Key timeout", SYSMENU_INTEGER, TRX.Key_timeout);
 	
 	ILI9341_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	ILI9341_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
@@ -165,4 +115,19 @@ void eventClickSystemMenu(uint16_t x, uint16_t y)
 			systemMenuIndex++;
 		LCD_UpdateQuery.SystemMenu=true;
 	}
+}
+
+void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value)
+{
+	char ctmp[50];
+	ILI9341_Fill_RectXY(1,y,320,y+17,COLOR_BLACK);
+	ILI9341_printText(title, x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(type==SYSMENU_INTEGER) sprintf(ctmp, "%d", value);
+	if(type==SYSMENU_BOOLEAN && value==1) sprintf(ctmp, "YES");
+	if(type==SYSMENU_BOOLEAN && value==0) sprintf(ctmp, "NO");
+	if(type==SYSMENU_RUN) sprintf(ctmp, "RUN");
+	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
+	i++;
+	y+=18;
 }
