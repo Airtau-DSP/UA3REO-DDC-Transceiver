@@ -134,35 +134,37 @@ void FFT_printFFT(void)
 		else
 			tmp = getFFTColor(height);
 		wtf_buffer[0][new_x] = tmp;
-		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT - 1, COLOR_BLACK);
+		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_BLACK);
 		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
 
 	//разделитель и полоса приёма
 	ILI9341_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_GREEN);
+	ILI9341_drawFastHLine(0, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, FFT_PRINT_SIZE, COLOR_BLACK);
 	switch(CurrentVFO()->Mode)
 	{
 		case TRX_MODE_LSB:
 		case TRX_MODE_CW_L:
 		case TRX_MODE_DIGI_L:
-			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
 			break;
 		case TRX_MODE_USB:
 		case TRX_MODE_CW_U:
 		case TRX_MODE_DIGI_U:
-			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
 			break;
+		case TRX_MODE_WFM:
 		case TRX_MODE_NFM:
 		case TRX_MODE_AM:
-			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
-			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-1, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
 			break;
 		default:
 			break;
 	}
 	
 	//выводим на экран водопада с помощью DMA
-	ILI9341_SetCursorAreaPosition(1, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
+	ILI9341_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE-1, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
 	HAL_DMA_Start(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, ILI9341_DATA_ADDR, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
 	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream6, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	
