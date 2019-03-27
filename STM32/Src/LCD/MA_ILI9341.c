@@ -668,6 +668,6 @@ void ILI9341_vertScroll(int16_t offset)
 
 void ILI9341_setBrightness(uint8_t percent)
 {
-	uint32_t perc=65000-650*percent;
+	uint32_t perc=65535-65535*percent/100;
 	if(TIM3->CCR4!=perc) TIM3->CCR4=perc;
 }
