@@ -179,6 +179,27 @@ void processTxAudio(void)
 		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, 0, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	}
 
+	//Send TX data to FFT
+	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+	{
+		if (FFTInputBufferInProgress) // A buffer in progress
+		{
+			FFTInput_A[FFT_buff_index] = FPGA_Audio_Buffer_I_tmp[i];
+			FFTInput_A[FFT_buff_index+1] = FPGA_Audio_Buffer_Q_tmp[i];
+		}
+		else // B buffer in progress
+		{
+			FFTInput_B[FFT_buff_index] = FPGA_Audio_Buffer_I_tmp[i];
+			FFTInput_B[FFT_buff_index+1] = FPGA_Audio_Buffer_Q_tmp[i];
+		}
+		FFT_buff_index += 2;
+		if (FFT_buff_index == FFT_SIZE * 2)
+		{
+			FFT_buff_index = 0;
+			FFTInputBufferInProgress = !FFTInputBufferInProgress;
+		}
+	}
+	
 	//Loopback mode
 	if (TRX_getMode() == TRX_MODE_LOOPBACK && !TRX_tune)
 	{

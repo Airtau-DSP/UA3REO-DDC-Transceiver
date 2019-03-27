@@ -105,7 +105,6 @@ void FFT_printFFT(void)
 {
 	if (LCD_busy) return;
 	if (!TRX.FFT_Enabled) return;
-	if (TRX_on_TX()) return;
 	if (FFT_need_fft) return;
 	if (LCD_mainMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
@@ -158,8 +157,8 @@ void FFT_printFFT(void)
 		case TRX_MODE_WFM:
 		case TRX_MODE_NFM:
 		case TRX_MODE_AM:
-			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
-			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL/2, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			ILI9341_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
 			break;
 		default:
 			break;

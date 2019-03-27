@@ -302,7 +302,7 @@ void TIM4_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
 	USBD_CDC_Debug_Transmit_FIFO_Events(ua3reo_dev_debug_key_if);
-	if (FFT_need_fft && !TRX_on_TX()) FFT_doFFT();
+	if (FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
 }
 
