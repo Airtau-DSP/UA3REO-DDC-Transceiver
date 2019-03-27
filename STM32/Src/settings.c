@@ -47,7 +47,7 @@ void LoadSettings(void)
 		TRX.CW_Filter = 500;
 		TRX.SSB_Filter = 2700;
 		TRX.FM_Filter = 15000;
-		TRX.RF_Power = 25;
+		TRX.RF_Power = 20;
 		TRX.FM_SQL_threshold = 1;
 		TRX.RF_Gain = 50;
 		for(uint8_t i=0;i<BANDS_COUNT;i++) TRX.saved_freq[i]=BANDS[i].startFreq+(BANDS[i].endFreq-BANDS[i].startFreq)/2;
