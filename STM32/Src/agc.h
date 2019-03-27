@@ -24,7 +24,7 @@ typedef struct
 	//#define MAX_TAU_ATTACK      0.01f
 	//#define RB_SIZE       (int) (MAX_SAMPLE_RATE * MAX_N_TAU * MAX_TAU_ATTACK + 1)
 	//#define AGC_WDSP_RB_SIZE (int)(MAX_SAMPLE_RATE * MAX_N_TAU * MAX_TAU_ATTACK + 1) //384
-#define AGC_WDSP_RB_SIZE 400 //384
+#define AGC_WDSP_RB_SIZE 384 //384
 
 	int pmode;// = 1; // if 0, calculate magnitude by max(|I|, |Q|), if 1, calculate sqrtf(I*I+Q*Q)
 	float32_t out_sample[2];

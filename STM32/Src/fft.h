@@ -17,7 +17,7 @@
 #define FFT_STEP_PRECISION 1.0f //шаг снижения коэффициента FFT (для слабых сигналов)
 #define FFT_MAX_IN_RED_ZONE 8 //максимум красных пиков на водопаде (для автоподстройки)
 #define FFT_MIN_IN_RED_ZONE 1 //минимум красных пиков на водопаде (для автоподстройки)
-#define FFT_HZ_IN_PIXEL (48000/FFT_PRINT_SIZE) // герц в одном пикселе
+#define FFT_HZ_IN_PIXEL (WM8731_SAMPLERATE/FFT_PRINT_SIZE) // герц в одном пикселе
 
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);

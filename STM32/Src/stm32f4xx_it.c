@@ -390,11 +390,11 @@ void TIM6_DAC_IRQHandler(void)
 		
 		#if 0 //DEBUG
 		PrintProfilerResult();
-		sendToDebug_str("FPGA Samples: "); sendToDebug_num32(FPGA_samples); //~48800 on 50Mhz
+		sendToDebug_str("FPGA Samples: "); sendToDebug_num32(FPGA_samples); //~48000
 		sendToDebug_str("Audio DMA samples: "); sendToDebug_num32(WM8731_DMA_samples/2); //~48000
-		sendToDebug_str("Audioproc cycles: "); sendToDebug_num32(AUDIOPROC_samples); //~377
-		sendToDebug_str("Audioproc cycles A: "); sendToDebug_num32(AUDIOPROC_TXA_samples++); //~190
-		sendToDebug_str("Audioproc cycles B: "); sendToDebug_num32(AUDIOPROC_TXB_samples++); //~190
+		sendToDebug_str("Audioproc cycles: "); sendToDebug_num32(AUDIOPROC_samples); //~375
+		sendToDebug_str("Audioproc cycles A: "); sendToDebug_num32(AUDIOPROC_TXA_samples++); //~187
+		sendToDebug_str("Audioproc cycles B: "); sendToDebug_num32(AUDIOPROC_TXB_samples++); //~187
 		sendToDebug_str("Audioproc timer couter: "); sendToDebug_num32(tim5_counter); 
 		sendToDebug_str("WM8731 Buffer underrun: "); sendToDebug_num32(WM8731_Buffer_underrun); //0
 		if(TRX_on_TX())

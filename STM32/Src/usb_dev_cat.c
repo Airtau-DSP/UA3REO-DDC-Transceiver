@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include "lcd.h"
 #include "fpga.h"
+#include "audio_filters.h"
 
 #define UART_BUFFER_SIZE 64
 

@@ -7,7 +7,7 @@
 #include "trx_manager.h"
 #include "LCD/MA_ILI9341.h"
 
-#define CDC_TX_FIFO_BUFFER_SIZE 64
+#define CDC_TX_FIFO_BUFFER_SIZE 512
 uint8_t cdc_tx_fifo[CDC_TX_FIFO_BUFFER_SIZE]={0};
 uint16_t cdc_tx_fifo_head=0;
 uint16_t cdc_tx_fifo_tail=0;
@@ -76,9 +76,9 @@ void USBD_CDC_Debug_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uin
 
 void USBD_CDC_Debug_Transmit_FIFO_Events(USBD_CDC_IfHandleType *itf)
 {
+	if(cdc_tx_fifo_head==cdc_tx_fifo_tail) return;
 	USBD_EpHandleType *ep = &itf->Base.Device->EP.IN[itf->Config.InEpNum & 0xF];
 	if ((ep->State != USB_EP_STATE_IDLE) && (ep->Type  != USB_EP_TYPE_ISOCHRONOUS)) return;
-	if(cdc_tx_fifo_head==cdc_tx_fifo_tail) return;
 	
 	uint8_t temp_buff[CDC_TX_FIFO_BUFFER_SIZE]={0};
 	uint16_t indx=0;
