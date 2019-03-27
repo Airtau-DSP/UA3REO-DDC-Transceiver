@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "wire.h"
 #include "fpga.h"
+#include "audio_processor.h"
 
 #define I2C_ADDRESS_WM8731 0x34
 #define WM8731_SAMPLERATE 48000

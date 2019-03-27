@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <math.h> 
 #include "arm_math.h"
+#include "wm8731.h"
 
 #define FFT_SIZE 512 //указываем размер FFT
 #define FFT_PRINT_SIZE 256 //указываем размер FFT

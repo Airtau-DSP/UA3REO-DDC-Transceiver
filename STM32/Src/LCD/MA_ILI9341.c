@@ -178,7 +178,7 @@ void ILI9341_Fill_RectXY(unsigned int x0, unsigned int y0, unsigned int x1, unsi
 	uint16_t fill_char=color;
 	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, n/2);
 	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
-	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, n/2);
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, ILI9341_DATA_ADDR, n/2+1);
 	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 }
 
@@ -300,7 +300,7 @@ void ILI9341_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t c
 
 void ILI9341_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
 {
-	int16_t x2 = x + w - 1;
+	int16_t x2 = x + w;
 	if (x2 < x)
 		ILI9341_Fill_RectXY(x2, y, x, y, color);
 	else
