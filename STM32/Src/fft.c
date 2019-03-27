@@ -12,7 +12,8 @@ uint32_t FFT_buff_index = 0;
 float32_t FFTInput_A[FFT_SIZE * 2] = { 0 };
 float32_t FFTInput_B[FFT_SIZE * 2] = { 0 };
 bool FFTInputBufferInProgress = false; //false - A, true - B
-float32_t FFTOutput[FFT_SIZE];
+float32_t FFTOutput[FFT_SIZE] = { 0 };
+float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 };
 
 uint8_t FFT_status;
 const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
@@ -36,6 +37,7 @@ void FFT_doFFT(void)
 {
 	if (!TRX.FFT_Enabled) return;
 	if (!FFT_need_fft) return;
+	
 	if (FFTInputBufferInProgress) //B in progress
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
@@ -60,10 +62,10 @@ void FFT_doFFT(void)
 		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 		//arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
 	}
+	
 	//Autocalibrate MIN and MAX on FFT
 	arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
 	arm_mean_f32(FFTOutput, FFT_SIZE, &meanValue); //ищем среднее в АЧХ
-	
 	diffValue=(maxValue-maxValueFFT)/FFT_STEP_COEFF;
 	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE && diffValue>0) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_FIX) maxValueFFT+=diffValue;
@@ -71,21 +73,9 @@ void FFT_doFFT(void)
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_PRECISION) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT>FFT_STEP_PRECISION) maxValueFFT-=FFT_STEP_PRECISION;
 	if((meanValue*4)>maxValueFFT) maxValueFFT=(meanValue*4);
-	//sendToDebug_float32(maxValueErrors); //красных пиков на водопаде (перегрузок)
-	//sendToDebug_float32(diffValue); //разница между максимальным и пороговым в FFT
-	//sendToDebug_float32(maxValue); //максимальное в выборке
-	//sendToDebug_float32(meanValue); //среднее в выборке
-	//sendToDebug_float32(maxValueFFT); //максимальный порог в отображаемом FFT
-	//sendToDebug_str("\r\n");
 	maxValueErrors = 0;
 	if (maxValueFFT < FFT_MIN) maxValueFFT = FFT_MIN;
-	//
-	// Нормируем АЧХ к единице
-	for (uint16_t n = 0; n < FFT_SIZE; n++)
-	{
-		FFTOutput[n] = FFTOutput[n] / maxValueFFT;
-		if (FFTOutput[n] > 1) FFTOutput[n] = 1;
-	}
+	
 	//Compress FFT_SIZE to FFT_PRINT_SIZE
 	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
 	{
@@ -93,9 +83,21 @@ void FFT_doFFT(void)
 		for (uint8_t c = 0; c < fft_compress_rate; c++)
 			fft_compress_tmp += FFTOutput[n*fft_compress_rate + c];
 		FFTOutput[n] = fft_compress_tmp / fft_compress_rate;
+	}
+	
+	//Нормируем АЧХ к единице
+	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
+	{
+		FFTOutput[n] = FFTOutput[n] / maxValueFFT;
 		if (FFTOutput[n] > 1) FFTOutput[n] = 1;
 	}
-	//
+	
+	//Усреднение значений для последующего вывода (от резких всплесков)
+	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
+	{
+		FFTOutput_mean[n]=(FFTOutput_mean[n]+FFTOutput[n])/2.0f;
+	}
+	
 	FFT_need_fft = false;
 }
 
@@ -124,7 +126,7 @@ void FFT_printFFT(void)
 		if (fft_x < (FFT_PRINT_SIZE / 2)) new_x = fft_x + (FFT_PRINT_SIZE / 2);
 		if (fft_x >= (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
 		if ((new_x + 1) == FFT_PRINT_SIZE / 2) continue;
-		height = FFTOutput[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
+		height = FFTOutput_mean[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
 		if (height > FFT_MAX_HEIGHT - 1)
 		{
 			height = FFT_MAX_HEIGHT;
@@ -134,8 +136,8 @@ void FFT_printFFT(void)
 		else
 			tmp = getFFTColor(height);
 		wtf_buffer[0][new_x] = tmp;
-		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_BLACK);
-		ILI9341_drawFastVLine(new_x + 1, FFT_BOTTOM_OFFSET, -height, tmp);
+		ILI9341_drawFastVLine(new_x, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_BLACK);
+		ILI9341_drawFastVLine(new_x, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
 
 	//разделитель и полоса приёма

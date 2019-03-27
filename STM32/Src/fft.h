@@ -12,7 +12,7 @@
 #define FFT_BOTTOM_OFFSET 190 //start of FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
 #define FFT_MIN 20.0f //MIN порог сигнала FFT
-#define FFT_STEP_COEFF 50.0f //коэффициент шага автокалибровки сигнала FFT (больше - медленней)
+#define FFT_STEP_COEFF 30.0f //коэффициент шага автокалибровки сигнала FFT (больше - медленней)
 #define FFT_STEP_FIX 10.0f //шаг снижения коэффициента FFT
 #define FFT_STEP_PRECISION 1.0f //шаг снижения коэффициента FFT (для слабых сигналов)
 #define FFT_MAX_IN_RED_ZONE 8 //максимум красных пиков на водопаде (для автоподстройки)
