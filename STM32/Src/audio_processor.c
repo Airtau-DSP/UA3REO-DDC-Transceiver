@@ -13,7 +13,6 @@
 #include "agc.h"
 #include "settings.h"
 #include "profiler.h"
-#include <complex.h>
 
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;

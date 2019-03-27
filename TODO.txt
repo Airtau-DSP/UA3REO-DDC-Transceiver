@@ -1,5 +1,4 @@
 ----TODO Ideas SOFT----
-Фильтр шума
 CW Decoder
 Подключение по USB аудио
 Адаптация кода под ARM C Compiler 6
