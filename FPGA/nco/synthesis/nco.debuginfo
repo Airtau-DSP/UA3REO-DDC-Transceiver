@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="system" version="18.1" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2019.03.24.20:18:16 -->
+ <!-- 2019.03.30.22:33:43 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1553444295</value>
+  <value>1553970822</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -258,7 +258,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="want_dither">
    <type>boolean</type>
-   <value>true</value>
+   <value>false</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -268,7 +268,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>10</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>
@@ -620,5 +620,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <reportVersion>18.1 625</reportVersion>
- <uniqueIdentifier>00FF3199AA1600000169B07ED416</uniqueIdentifier>
+ <uniqueIdentifier>00FF3199AA1600000169CFE1009E</uniqueIdentifier>
 </EnsembleReport>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="nco" version="1.0" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2019.03.30.20:52:42 -->
+ <!-- 2019.03.30.22:34:46 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1553964762</value>
+  <value>1553970886</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -206,7 +206,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="want_dither">
    <type>boolean</type>
-   <value>true</value>
+   <value>false</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -216,7 +216,7 @@ the requested settings for a module instance. -->
    <type>int</type>
    <value>10</value>
    <derived>false</derived>
-   <enabled>true</enabled>
+   <enabled>false</enabled>
    <visible>true</visible>
    <valid>true</valid>
   </parameter>

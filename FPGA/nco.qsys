@@ -78,7 +78,7 @@
   <parameter name="selected_device_family" value="Cyclone IV E" />
   <parameter name="trig_cycles_per_output" value="1" />
   <parameter name="use_dedicated_multipliers" value="true" />
-  <parameter name="want_dither" value="true" />
+  <parameter name="want_dither" value="false" />
   <parameter name="want_freq_mod" value="false" />
   <parameter name="want_phase_mod" value="false" />
   <parameter name="want_sin_and_cos" value="dual_output" />
