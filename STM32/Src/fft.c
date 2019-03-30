@@ -124,7 +124,6 @@ void FFT_printFFT(void)
 	{
 		if (fft_x < (FFT_PRINT_SIZE / 2)) new_x = fft_x + (FFT_PRINT_SIZE / 2);
 		if (fft_x >= (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
-		if ((new_x + 1) == FFT_PRINT_SIZE / 2) continue;
 		height = FFTOutput_mean[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
 		if (height > FFT_MAX_HEIGHT - 1)
 		{
