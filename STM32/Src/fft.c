@@ -123,7 +123,7 @@ void FFT_printFFT(void)
 	for (uint32_t fft_x = 0; fft_x < FFT_PRINT_SIZE; fft_x++)
 	{
 		if (fft_x < (FFT_PRINT_SIZE / 2)) new_x = fft_x + (FFT_PRINT_SIZE / 2);
-		if (fft_x >= (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
+		if (fft_x > (FFT_PRINT_SIZE / 2)) new_x = fft_x - (FFT_PRINT_SIZE / 2);
 		height = FFTOutput_mean[(uint16_t)fft_x] * FFT_MAX_HEIGHT;
 		if (height > FFT_MAX_HEIGHT - 1)
 		{

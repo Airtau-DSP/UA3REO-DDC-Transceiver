@@ -2,7 +2,7 @@ set_global_assignment -entity "cic" -library "cic" -name IP_TOOL_NAME "Qsys"
 set_global_assignment -entity "cic" -library "cic" -name IP_TOOL_VERSION "18.1"
 set_global_assignment -entity "cic" -library "cic" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "cic" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../cic.sopcinfo"]
-set_global_assignment -entity "cic" -library "cic" -name SLD_INFO "QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1553437119"
+set_global_assignment -entity "cic" -library "cic" -name SLD_INFO "QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1553964716"
 set_global_assignment -library "cic" -name MISC_FILE [file join $::quartus(qip_path) "../cic.cmp"]
 set_global_assignment -library "cic" -name SLD_FILE [file join $::quartus(qip_path) "cic.debuginfo"]
 set_global_assignment -entity "cic" -library "cic" -name IP_TARGETED_DEVICE_FAMILY "Cyclone IV E"
@@ -15,7 +15,7 @@ set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_DISPLAY_NA
 set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU1MzQzNzExOQ==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU1Mzk2NDcxNg==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBJViBF::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::RVA0Q0UyMkUyMkM4::QXV0byBERVZJQ0U="
 set_global_assignment -entity "cic" -library "cic" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::OA==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
