@@ -22,6 +22,9 @@ void FPGA_clockFall(void);
 extern bool FPGA_busy;
 extern uint32_t FPGA_samples;
 extern bool FPGA_Buffer_underrun;
+extern float32_t FPGA_MAX_I_Value;
+extern float32_t FPGA_MIN_I_Value;
+extern float32_t FPGA_DC_Offset;
 
 extern float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE];

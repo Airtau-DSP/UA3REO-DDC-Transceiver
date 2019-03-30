@@ -355,7 +355,14 @@ void TIM6_DAC_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms50_counter++;
+	
+	float32_t new_dc_offset=(FPGA_MIN_I_Value+FPGA_MAX_I_Value)*4.0f;
+	FPGA_DC_Offset+=(FPGA_DC_Offset+new_dc_offset)/200.0f;
+	FPGA_MIN_I_Value=0;
+	FPGA_MAX_I_Value=0;
+	
 	FFT_printFFT();
+	
 	if(TRX_Key_Timeout_est>0)
 	{
 		TRX_Key_Timeout_est-=50;
@@ -366,14 +373,14 @@ void TIM6_DAC_IRQHandler(void)
 			TRX_Restart_Mode();
 		}
 	}
+	
 	if (NeedSaveSettings)
-	{
 		FPGA_NeedSendParams = true;
-	}
+	
 	if ((ms50_counter % 2) == 0) // every 100ms
 	{
 		//S-Meter Calculate
-		float32_t Audio_Vpp_value=(Processor_RX_Audio_Samples_MAX_value/TRX.RF_Gain)-(Processor_RX_Audio_Samples_MIN_value/TRX.RF_Gain); //получаем разницу между максимальным и минимальным значением в аудио-семплах
+		float32_t Audio_Vpp_value=(Processor_RX_Audio_Samples_MAX_value/(float32_t)TRX.RF_Gain)-(Processor_RX_Audio_Samples_MIN_value/(float32_t)TRX.RF_Gain); //получаем разницу между максимальным и минимальным значением в аудио-семплах
 		for(int i=0;i<(FPGA_BUS_BITS-ADC_BITS);i++) Audio_Vpp_value=Audio_Vpp_value/2; //приводим разрядность аудио к разрядности АЦП
 		float32_t ADC_Vpp_Value=Audio_Vpp_value*ADC_VREF/ADC_MAX_VALUE_UNSIGNED; //получаем значение пик-пик напряжения на входе АЦП в вольтах
 		float32_t ADC_Vrms_Value=ADC_Vpp_Value*0.3535f; // Получаем действующее (RMS) напряжение на аходе АЦП
@@ -384,20 +391,19 @@ void TIM6_DAC_IRQHandler(void)
 		Processor_RX_Audio_Samples_MIN_value=0;
 		//
 	}
+	
 	if (ms50_counter == 20) // every 1 sec
 	{
 		ms50_counter = 0;
-		
 		#if 0 //DEBUG
 		PrintProfilerResult();
 		sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
 		sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000
-		sendToDebug_str("Audioproc cycles: "); sendToDebug_uint32(AUDIOPROC_samples,false); //~375
 		sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(AUDIOPROC_TXA_samples,false); //~187
 		sendToDebug_str("Audioproc cycles B: "); sendToDebug_uint32(AUDIOPROC_TXB_samples,false); //~187
-		sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(cpu_sleep_counter/1000.0f,false); 
+		sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(cpu_sleep_counter/1000.0f,false);  
 		sendToDebug_str("Audioproc timer counter: "); sendToDebug_uint32(tim5_counter,false); 
-		sendToDebug_str("WM8731 Buffer underrun: "); sendToDebug_uint32(WM8731_Buffer_underrun,false); //0
+		sendToDebug_str("DC Offset: "); sendToDebug_float32(FPGA_DC_Offset,false); 
 		if(TRX_on_TX())
 		{
 			sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_uint32(FPGA_Buffer_underrun,false); //0

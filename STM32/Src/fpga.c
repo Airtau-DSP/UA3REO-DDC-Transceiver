@@ -23,6 +23,11 @@ float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
+
+float32_t FPGA_MAX_I_Value = 0;
+float32_t FPGA_MIN_I_Value = 0;
+float32_t FPGA_DC_Offset = 0;
+
 uint16_t FPGA_Audio_Buffer_Index = 0;
 bool FPGA_Audio_Buffer_State = true; //true - compleate ; false - half
 
@@ -330,12 +335,12 @@ void FPGA_fpgadata_getiq(void)
 	{
 		if(TRX_IQ_swap)
 		{
-			FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
 		}
 		else
 		{
-			FFTInput_A[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_A[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index + 1];
 		}
 	}
@@ -343,12 +348,12 @@ void FPGA_fpgadata_getiq(void)
 	{
 		if(TRX_IQ_swap)
 		{
-			FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
 		}
 		else
 		{
-			FFTInput_B[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_B[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index + 1];
 		}
 	}
@@ -389,12 +394,12 @@ void FPGA_fpgadata_getiq(void)
 	{
 		if(TRX_IQ_swap)
 		{
-			FFTInput_A[FFT_buff_index+1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_A[FFT_buff_index+1] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index+1];
 		}
 		else
 		{
-			FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
 		}
 	}
@@ -402,15 +407,18 @@ void FPGA_fpgadata_getiq(void)
 	{
 		if(TRX_IQ_swap)
 		{
-			FFTInput_B[FFT_buff_index+1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_B[FFT_buff_index+1] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index+1];
 		}
 		else
 		{
-			FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
 			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
 		}
 	}
+	
+	if(FPGA_MAX_I_Value<FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]) FPGA_MAX_I_Value=FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
+	if(FPGA_MIN_I_Value>FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]) FPGA_MIN_I_Value=FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
 	FPGA_Audio_Buffer_Index++;
 	FFT_buff_index += 2;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE) FPGA_Audio_Buffer_Index = 0;
@@ -483,7 +491,7 @@ void FPGA_fpgadata_sendiq(void)
 	FPGA_clockRise();
 	//clock
 	FPGA_clockFall();
-
+	
 	FPGA_Audio_Buffer_Index++;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE)
 	{
