@@ -48,6 +48,7 @@ extern bool TRX_key_serial;
 extern bool TRX_old_key_serial;
 extern uint16_t TRX_Key_Timeout_est;
 
+extern bool TRX_IQ_swap;
 extern bool TRX_squelched;
 extern bool TRX_tune;
 extern bool TRX_inited;

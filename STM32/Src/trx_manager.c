@@ -20,6 +20,7 @@ bool TRX_key_serial = false;
 bool TRX_old_key_serial = false;
 uint16_t TRX_Key_Timeout_est = 0;
 
+bool TRX_IQ_swap = false;
 bool TRX_squelched = false;
 bool TRX_tune = false;
 bool TRX_inited = false;

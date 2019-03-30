@@ -6,6 +6,7 @@
 #include <math.h>
 #include "arm_math.h"
 #include "fpga.h"
+#include "trx_manager.h"
 #include <usb_device_main.h>
 #include <usbd_cdc.h>
 
@@ -142,11 +143,11 @@ uint32_t getFrequencyFromPhrase(uint32_t phrase) //высчитываем фаз
 
 uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем частоту из фразы ля FPGA
 {
+	bool inverted = false;
 	uint32_t res = 0;
 	uint32_t _freq = freq;
 	if (_freq > ADCDAC_CLOCK / 2) //Go Nyquist
 	{
-		bool inverted = false;
 		while (_freq > ADCDAC_CLOCK / 2)
 		{
 			_freq -= ADCDAC_CLOCK / 2;
@@ -157,6 +158,7 @@ uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем част
 			_freq = ADCDAC_CLOCK / 2 - _freq;
 		}
 	}
+	TRX_IQ_swap=inverted;
 	res = round(((double)_freq / ADCDAC_CLOCK) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 	return res;
 }

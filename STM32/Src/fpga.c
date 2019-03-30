@@ -327,13 +327,29 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
 	if (FFTInputBufferInProgress) // A buffer in progress
 	{
-		FFTInput_A[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16;
-		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index + 1];
+		if(TRX_IQ_swap)
+		{
+			FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
+		}
+		else
+		{
+			FFTInput_A[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index + 1];
+		}
 	}
 	else // B buffer in progress
 	{
-		FFTInput_B[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16;
-		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index + 1];
+		if(TRX_IQ_swap)
+		{
+			FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
+		}
+		else
+		{
+			FFTInput_B[FFT_buff_index + 1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index + 1];
+		}
 	}
 	//clock
 	GPIOC->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
@@ -370,13 +386,29 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
 	if (FFTInputBufferInProgress) // A buffer in progress
 	{
-		FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
-		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
+		if(TRX_IQ_swap)
+		{
+			FFTInput_A[FFT_buff_index+1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index+1];
+		}
+		else
+		{
+			FFTInput_A[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_A[FFT_buff_index];
+		}
 	}
 	else // B buffer in progress
 	{
-		FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
-		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
+		if(TRX_IQ_swap)
+		{
+			FFTInput_B[FFT_buff_index+1] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index+1];
+		}
+		else
+		{
+			FFTInput_B[FFT_buff_index] = (int16_t)FPGA_fpgadata_in_inttmp16;
+			FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FFTInput_B[FFT_buff_index];
+		}
 	}
 	FPGA_Audio_Buffer_Index++;
 	FFT_buff_index += 2;
