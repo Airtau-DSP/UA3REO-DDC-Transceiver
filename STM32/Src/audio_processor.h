@@ -11,12 +11,12 @@
 #define FPGA_AUDIO_BUFFER_HALF_SIZE FPGA_AUDIO_BUFFER_SIZE/2
 #define APROCESSOR_BLOCK_SIZE 32
 #define TX_AGC_STEPSIZE 0.5f //audio level control compressor atack
-#define TX_AGC_MAXGAIN 100.0f //максимальное усиление микрофона при компрессировании
+#define TX_AGC_MAXGAIN 500.0f //максимальное усиление микрофона при компрессировании
 #define TX_AGC_NOISEGATE 0.1f //минимальный уровень сигнала для усиления
 
 #define FM_RX_LPF_ALPHA		0.05f			// For NFM demodulator:  "Alpha" (low-pass) factor to result in -6dB "knee" at approx. 270 Hz 0.05f
 #define FM_RX_HPF_ALPHA		0.96f			// For NFM demodulator:  "Alpha" (high-pass) factor to result in -6dB "knee" at approx. 180 Hz 0.96f
-#define FM_TX_HPF_ALPHA   0.05f     // For FM modulator:  "Alpha" (high-pass) factor to pre-emphasis
+#define FM_TX_HPF_ALPHA   0.95f     // For FM modulator:  "Alpha" (high-pass) factor to pre-emphasis
 #define	FM_SQUELCH_HYSTERESIS	0.3f	// Hysteresis for FM squelch
 #define FM_SQUELCH_PROC_DECIMATION	50	// Number of times we go through the FM demod algorithm before we do a squelch calculation
 #define FM_RX_SQL_SMOOTHING	0.005f	// Smoothing factor for IIR squelch noise averaging

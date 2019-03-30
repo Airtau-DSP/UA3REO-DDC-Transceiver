@@ -160,15 +160,6 @@ void processTxAudio(void)
 				default:
 				break;
 			}
-			
-			//signal limiter
-			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-			{
-				if(FPGA_Audio_Buffer_I_tmp[i]>selected_rfpower_amplitude) FPGA_Audio_Buffer_I_tmp[i]=selected_rfpower_amplitude;
-				if(FPGA_Audio_Buffer_Q_tmp[i]>selected_rfpower_amplitude) FPGA_Audio_Buffer_Q_tmp[i]=selected_rfpower_amplitude;
-				if(FPGA_Audio_Buffer_I_tmp[i]<-selected_rfpower_amplitude) FPGA_Audio_Buffer_I_tmp[i]=-selected_rfpower_amplitude;
-				if(FPGA_Audio_Buffer_Q_tmp[i]<-selected_rfpower_amplitude) FPGA_Audio_Buffer_Q_tmp[i]=-selected_rfpower_amplitude;
-			}
 		}
 	}
 
@@ -447,11 +438,21 @@ static void DemodulateFM(void)
 
 static void ModulateFM()
 {
-	static uint16_t modulation=1024;
+	static uint32_t modulation=WM8731_SAMPLERATE;
   static float32_t hpf_prev_a=0;
 	static float32_t hpf_prev_b=0;
 	static float32_t sin_data=0;
   static uint32_t fm_mod_accum = 0;
+	static float32_t modulation_index=2.0f;
+	if (CurrentVFO()->Filter_Width == 5000) modulation_index=2.0f;
+	if (CurrentVFO()->Filter_Width == 6000) modulation_index=3.0f;
+	if (CurrentVFO()->Filter_Width == 7000) modulation_index=4.0f;
+	if (CurrentVFO()->Filter_Width == 8000) modulation_index=5.0f;
+	if (CurrentVFO()->Filter_Width == 9000) modulation_index=6.0f;
+	if (CurrentVFO()->Filter_Width == 9500) modulation_index=7.0f;
+	if (CurrentVFO()->Filter_Width == 10000) modulation_index=8.0f;
+	if (CurrentVFO()->Filter_Width == 15000) modulation_index=9.0f;
+	if (CurrentVFO()->Filter_Width == 0) modulation_index=10.0f;
   // Do differentiating high-pass filter to provide 6dB/octave pre-emphasis - which also removes any DC component!
   for(int i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
   {
@@ -460,8 +461,8 @@ static void ModulateFM()
     hpf_prev_a = a;     // save "[n-1] samples for next iteration
     fm_mod_accum    += hpf_prev_b;   // save differentiated data in audio buffer // change frequency using scaled audio
     fm_mod_accum    %= modulation;             // limit range
-		sin_data=(fm_mod_accum/(float32_t)modulation)*PI;
+		sin_data=(fm_mod_accum/(float32_t)modulation)*PI*modulation_index;
     FPGA_Audio_Buffer_I_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data);
-		FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude*arm_sin_f32(sin_data-(PI/4));
+		FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude*arm_cos_f32(sin_data);
   }
 }

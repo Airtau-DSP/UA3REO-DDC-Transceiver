@@ -7,7 +7,7 @@
 #include "audio_processor.h"
 
 #define ADCDAC_CLOCK 50000000
-#define MAX_TX_AMPLITUDE 32767.0f
+#define MAX_TX_AMPLITUDE 30000.0f // 32767.0f - limit
 #define HALF_TX_AMPLITUDE 16383.5f
 #define TUNE_AMPLITUDE 6500.0f
 
