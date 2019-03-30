@@ -41,24 +41,24 @@
 extern uint8_t FPGA_spi_data;
 extern UART_HandleTypeDef huart1;
 
-uint32_t getFrequencyFromPhrase(uint32_t phrase);
-uint32_t getPhraseFromFrequency(uint32_t freq);
-uint32_t hexStringToInt(char* in);
-void addSymbols(char* dest, char* str, uint8_t length, char* symbol, bool toEnd);
-void sendToDebug_str(char* str);
-void sendToDebug_str2(char* data1,char* data2);
-void sendToDebug_str3(char* data1,char* data2,char* data3);
-void sendToDebug_num(uint8_t data);
-void sendToDebug_numinline(uint8_t data);
-void sendToDebug_num16(uint16_t data);
-void sendToDebug_num32(uint32_t data);
-void sendToDebug_int16(int16_t data);
-void sendToDebug_int32(int32_t data);
-void sendToDebug_float32(float32_t data);
-void delay_us(uint32_t us);
-float log10f_fast(float X);
-void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length);
-void readHalfFromCircleBufferU16(uint16_t *source, uint16_t *dest, uint16_t index, uint16_t length);
-void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t index, uint16_t length);
+extern uint32_t getFrequencyFromPhrase(uint32_t phrase);
+extern uint32_t getPhraseFromFrequency(uint32_t freq);
+extern uint32_t hexStringToInt(char* in);
+extern void addSymbols(char* dest, char* str, uint8_t length, char* symbol, bool toEnd);
+extern void sendToDebug_str(char* str);
+extern void sendToDebug_str2(char* data1,char* data2);
+extern void sendToDebug_str3(char* data1,char* data2,char* data3);
+extern void sendToDebug_newline(void);
+extern void sendToDebug_uint8(uint8_t data, bool _inline);
+extern void sendToDebug_uint16(uint16_t data, bool _inline);
+extern void sendToDebug_uint32(uint32_t data, bool _inline);
+extern void sendToDebug_int16(int16_t data, bool _inline);
+extern void sendToDebug_int32(int32_t data, bool _inline);
+extern void sendToDebug_float32(float32_t data, bool _inline);
+extern void delay_us(uint32_t us);
+extern float log10f_fast(float X);
+extern void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length);
+extern void readHalfFromCircleBufferU16(uint16_t *source, uint16_t *dest, uint16_t index, uint16_t length);
+extern void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t index, uint16_t length);
 
 #endif

@@ -82,7 +82,7 @@ SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+uint32_t cpu_sleep_counter=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -193,6 +193,7 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 		HAL_IWDG_Refresh(&hiwdg);
+		cpu_sleep_counter++;
 		__WFI();
 	}
   /* USER CODE END 3 */

@@ -74,49 +74,65 @@ void sendToDebug_str3(char* data1,char* data2,char* data3)
 	sendToDebug_str(data3);
 }
 
-void sendToDebug_num(uint8_t data)
+void sendToDebug_newline(void)
+{
+	sendToDebug_str("\r\n");
+}
+
+void sendToDebug_uint8(uint8_t data, bool _inline)
 {
 	char tmp[50] = "";
-	sprintf(tmp, "%d\r\n", data);
+	if(_inline)
+		sprintf(tmp, "%d", data);
+	else
+		sprintf(tmp, "%d\r\n", data);
 	sendToDebug_str(tmp);
 }
 
-void sendToDebug_numinline(uint8_t data)
+void sendToDebug_uint16(uint16_t data, bool _inline)
 {
 	char tmp[50] = "";
-	sprintf(tmp, "%d", data);
+	if(_inline)
+		sprintf(tmp, "%d", data);
+	else
+		sprintf(tmp, "%d\r\n", data);
+	sendToDebug_str(tmp);
+}
+void sendToDebug_uint32(uint32_t data, bool _inline)
+{
+	char tmp[50] = "";
+	if(_inline)
+		sprintf(tmp, "%d", data);
+	else
+		sprintf(tmp, "%d\r\n", data);
+	sendToDebug_str(tmp);
+}
+void sendToDebug_int16(int16_t data, bool _inline)
+{
+	char tmp[50] = "";
+	if(_inline)
+		sprintf(tmp, "%d", data);
+	else
+		sprintf(tmp, "%d\r\n", data);
+	sendToDebug_str(tmp);
+}
+void sendToDebug_int32(int32_t data, bool _inline)
+{
+	char tmp[50] = "";
+	if(_inline)
+		sprintf(tmp, "%d", data);
+	else
+		sprintf(tmp, "%d\r\n", data);
 	sendToDebug_str(tmp);
 }
 
-void sendToDebug_num16(uint16_t data)
+void sendToDebug_float32(float32_t data, bool _inline)
 {
 	char tmp[50] = "";
-	sprintf(tmp, "%d\r\n", data);
-	sendToDebug_str(tmp);
-}
-void sendToDebug_int16(int16_t data)
-{
-	char tmp[50] = "";
-	sprintf(tmp, "%d\r\n", data);
-	sendToDebug_str(tmp);
-}
-void sendToDebug_int32(int32_t data)
-{
-	char tmp[50] = "";
-	sprintf(tmp, "%d\r\n", data);
-	sendToDebug_str(tmp);
-}
-void sendToDebug_num32(uint32_t data)
-{
-	char tmp[50] = "";
-	sprintf(tmp, "%d\r\n", data);
-	sendToDebug_str(tmp);
-}
-
-void sendToDebug_float32(float32_t data)
-{
-	char tmp[50] = "";
-	sprintf(tmp, "%f\r\n", data);
+	if(_inline)
+		sprintf(tmp, "%f", data);
+	else
+		sprintf(tmp, "%f\r\n", data);
 	sendToDebug_str(tmp);
 }
 

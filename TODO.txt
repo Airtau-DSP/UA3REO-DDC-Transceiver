@@ -4,7 +4,6 @@
 Readme по сборке и прошивке
 Шумоподавление (Noise Reduction)
 Анти-помеха (Notch Blank)
-Переход на ARM C Compiler 6
 CW декодер
 RTTY декодер
 Улучшить модуляцию AM

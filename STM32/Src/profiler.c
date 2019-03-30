@@ -63,9 +63,9 @@ void PrintProfilerResult()
 		if (profiles[i].samples > 0)
 		{
 			sendToDebug_str("Profile #");
-			sendToDebug_numinline(i);
+			sendToDebug_uint8(i,true);
 			sendToDebug_str(": ");
-			sendToDebug_num32(profiles[i].diff);
+			sendToDebug_uint32(profiles[i].diff,false);
 			profiles[i].diff = 0;
 			profiles[i].samples = 0;
 			printed = true;

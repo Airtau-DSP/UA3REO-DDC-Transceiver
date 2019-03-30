@@ -87,7 +87,7 @@ typedef struct {
          uint32_t __RESERVED2;
 } USB_OTG_GenEndpointType;
 
-#define USB_OTG_DMA_SUPPORT         (defined(USB_OTG_HS) && 1)
+#define USB_OTG_DMA_SUPPORT         0
 
 #if (USB_OTG_DMA_SUPPORT != 0)
 #define USB_DMA_CONFIG(HANDLE)      USB_REG_BIT((HANDLE),GAHBCFG,DMAEN)

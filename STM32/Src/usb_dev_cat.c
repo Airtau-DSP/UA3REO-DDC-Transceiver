@@ -39,8 +39,8 @@ USBD_CDC_IfHandleType _ua3reo_dev_cat_if = {
 
 static void ua3reo_dev_cat_if_open(void* itf, USBD_CDC_LineCodingType * lc)
 {
-	uint8_t buff[8];
-	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, 8);
+	uint8_t buff[UART_BUFFER_SIZE];
+	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, UART_BUFFER_SIZE);
 }
 
 static void ua3reo_dev_cat_if_close(void* itf)
@@ -49,14 +49,14 @@ static void ua3reo_dev_cat_if_close(void* itf)
 
 static void ua3reo_dev_cat_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
 {
-	uint8_t buff[length];
+	uint8_t buff[UART_BUFFER_SIZE];
 	if(length<=UART_BUFFER_SIZE)
 	{
 		for(uint16_t i=0;i<length;i++)
 		{
-			if(buff[i]!=0)
+			if(pbuf[i]!=0)
 			{
-				rx_buffer[rx_buffer_head]=buff[i];
+				rx_buffer[rx_buffer_head]=pbuf[i];
 				if(rx_buffer[rx_buffer_head]==';')
 				{
 					char commandLine[UART_BUFFER_SIZE]={0};
@@ -75,12 +75,12 @@ static void ua3reo_dev_cat_if_in_cmplt(void* itf, uint8_t * pbuf, uint16_t lengt
 			}
 		}
 	}
-	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, length);
+	USBD_CDC_Receive(ua3reo_dev_cat_if, buff, UART_BUFFER_SIZE);
 }
 
 static void ua3reo_dev_cat_if_out_cmplt(void* itf, uint8_t * pbuf, uint16_t length)
 {
-    //USBD_CDC_Receive(ua3reo_dev_cat_if,&pbuf, length);
+	
 }
 
 static void CAT_Transmit(char* data)
@@ -90,9 +90,10 @@ static void CAT_Transmit(char* data)
 
 static void ua3reo_dev_cat_parseCommand(char* _command)
 {
-	//sendToDebug_str3("New CAT command: ",_command,"\r\n");
+	//sendToDebug_str3("New CAT command: |",_command,"|\r\n");
+	
 	if(strlen(_command)<2) return;
-	char command[2]={0};
+	char command[3]={0};
 	strncpy(command, _command, 2);
 	bool has_args=false;	
 	char arguments[32]={0};

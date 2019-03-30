@@ -16,6 +16,8 @@ void FPGA_fpgadata_iqclock(void);
 void FPGA_fpgadata_stuffclock(void);
 uint8_t FPGA_readPacket(void);
 void FPGA_writePacket(uint8_t packet);
+void FPGA_clockRise(void);
+void FPGA_clockFall(void);
 
 extern bool FPGA_busy;
 extern uint32_t FPGA_samples;
