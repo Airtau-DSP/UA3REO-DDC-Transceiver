@@ -568,6 +568,11 @@
               <FilePath>..\Src\usb_dev_cat.c</FilePath>
             </File>
             <File>
+              <FileName>usb_dev_audio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\usb_dev_audio.c</FilePath>
+            </File>
+            <File>
               <FileName>usb_device_main.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\usb_device_main.c</FilePath>
@@ -798,9 +803,24 @@
               <FilePath>..\USBDevice\Class\CDC\usbd_cdc.c</FilePath>
             </File>
             <File>
+              <FileName>usbd_cdc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USBDevice\Include\usbd_cdc.h</FilePath>
+            </File>
+            <File>
               <FileName>usbd_config.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Inc\usbd_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_audio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\Class\AUDIO\usbd_audio.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_audio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USBDevice\Include\usbd_audio.h</FilePath>
             </File>
           </Files>
         </Group>

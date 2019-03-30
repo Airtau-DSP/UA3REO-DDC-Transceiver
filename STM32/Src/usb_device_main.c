@@ -22,6 +22,7 @@
   */
 #include <usb_device_main.h>
 #include <usbd_cdc.h>
+#include <usbd_audio.h>
 
 /** @brief USB device configuration */
 const USBD_DescriptionType hdev_cfg = {
@@ -46,6 +47,7 @@ USBD_HandleType hUsbDevice, *const UsbDevice = &hUsbDevice;
 
 extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_key_if;
 extern USBD_CDC_IfHandleType *const ua3reo_dev_cat_if;
+extern USBD_AUDIO_IfHandleType *const ua3reo_dev_audio_if;
 
 void UsbDevice_Init(void)
 {
@@ -58,9 +60,12 @@ void UsbDevice_Init(void)
     ua3reo_dev_cat_if->Config.OutEpNum = 0x03;
     ua3reo_dev_cat_if->Config.NotEpNum = 0x84;
 
+		ua3reo_dev_audio_if->Config.OutEpNum  = 0x85;
+	
     /* Mount the interfaces to the device */
     USBD_CDC_MountInterface(ua3reo_dev_debug_key_if, UsbDevice);
 		USBD_CDC_MountInterface(ua3reo_dev_cat_if, UsbDevice);
+		//USBD_AUDIO_MountInterface(ua3reo_dev_audio_if, UsbDevice);
 
     /* Initialize the device */
     USBD_Init(UsbDevice, dev_cfg);
