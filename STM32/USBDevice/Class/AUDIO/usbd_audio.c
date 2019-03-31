@@ -835,21 +835,21 @@ USBD_ReturnType USBD_AUDIO_MountInterface(USBD_AUDIO_IfHandleType *itf, USBD_Han
 
 		USBD_EpHandleType *ep;
 		
+		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
+		dev->IfCount++;
+
 		ep= USBD_EpAddr2Ref(dev, itf->Config.OutEpNum);
 		ep->Type = USB_EP_TYPE_ISOCHRONOUS;
 		ep->MaxPacketSize = AUDIO_OUT_PACKET;
 		ep->IfNum = dev->IfCount;
 		
+		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
+		dev->IfCount++;
+		
 		ep = USBD_EpAddr2Ref(dev, itf->Config.InEpNum);
 		ep->Type = USB_EP_TYPE_ISOCHRONOUS;
 		ep->MaxPacketSize = AUDIO_OUT_PACKET;
 		ep->IfNum = dev->IfCount;
-		
-		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
-		dev->IfCount++;
-
-		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
-		dev->IfCount++;
 		
 		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
 		dev->IfCount++;
