@@ -463,8 +463,10 @@ static uint16_t USBD_AUDIO_GetDesc(USBD_AUDIO_IfHandleType *itf, uint8_t ifNum, 
 	desc->IADA.iFunction  = USBD_IIF_INDEX(ifNum, 0);
 
 	desc->ACIF.bInterfaceNumber = ifNum;
+	desc->ACI.baInterfaceNr = ifNum + 1;
 	desc->ADID0.bInterfaceNumber = ifNum + 1;
 	desc->ADID1.bInterfaceNumber = ifNum + 1;
+	desc->ACI.baInterfaceNr2 = ifNum + 2;
 	desc->ADID02.bInterfaceNumber = ifNum + 2;
 	desc->ADID12.bInterfaceNumber = ifNum + 2;
 

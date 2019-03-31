@@ -64,9 +64,9 @@ void UsbDevice_Init(void)
 		ua3reo_dev_audio_if->Config.InEpNum  = 0x86;
 	
     /* Mount the interfaces to the device */
+		//USBD_AUDIO_MountInterface(ua3reo_dev_audio_if, UsbDevice);
     USBD_CDC_MountInterface(ua3reo_dev_debug_key_if, UsbDevice);
 		USBD_CDC_MountInterface(ua3reo_dev_cat_if, UsbDevice);
-		//USBD_AUDIO_MountInterface(ua3reo_dev_audio_if, UsbDevice);
 
     /* Initialize the device */
     USBD_Init(UsbDevice, dev_cfg);
