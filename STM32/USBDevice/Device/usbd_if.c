@@ -22,6 +22,7 @@
   * limitations under the License.
   */
 #include <private/usbd_private.h>
+#include "../../Src/functions.h"
 
 /** @ingroup USBD_Private
  * @defgroup USBD_Private_Functions_If USBD Interface Management
@@ -103,9 +104,8 @@ USBD_ReturnType USBD_IfRequest(USBD_HandleType *dev)
     USBD_ReturnType retval = USBD_E_INVALID;
     uint8_t ifNum = (uint8_t)dev->Setup.Index;
     USBD_IfHandleType *itf = dev->IF[ifNum];
-
     if ((dev->ConfigSelector == 0) || (ifNum >= dev->IfCount))
-    {
+    {	
         /* Configured and valid indexed interfaces only */
     }
     else if (dev->Setup.RequestType.Type == USB_REQ_TYPE_STANDARD)
@@ -124,7 +124,6 @@ USBD_ReturnType USBD_IfRequest(USBD_HandleType *dev)
             case USB_REQ_SET_INTERFACE:
             {
                 uint8_t altSel = (uint8_t)dev->Setup.Value;
-
                 /* Check validity */
                 if (itf->AltCount > altSel)
                 {
@@ -135,7 +134,6 @@ USBD_ReturnType USBD_IfRequest(USBD_HandleType *dev)
 
                     /* Init with new AS */
                     USBD_IfClass_Init(itf);
-
                     retval = USBD_E_OK;
                 }
                 break;
@@ -150,11 +148,10 @@ USBD_ReturnType USBD_IfRequest(USBD_HandleType *dev)
         }
     }
     else
-    {
+    {	
         /* forward the request to the IF */
         retval = USBD_IfClass_SetupStage(itf);
     }
-
     return retval;
 }
 
