@@ -189,6 +189,7 @@ extern "C" {
 
 	extern USBD_ClassType USBD_AUDIO;
 	extern USBD_ReturnType USBD_AUDIO_MountInterface(USBD_AUDIO_IfHandleType *itf, USBD_HandleType *dev);
+extern void USBD_AUDIO_TEST(USBD_AUDIO_IfHandleType *pdev);	
 #define USBD_AUDIO_CLASS    &USBD_AUDIO
 	/**
 	  * @}

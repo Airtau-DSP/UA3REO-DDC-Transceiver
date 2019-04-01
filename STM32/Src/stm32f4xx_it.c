@@ -395,7 +395,9 @@ void TIM6_DAC_IRQHandler(void)
 	if (ms50_counter == 20) // every 1 sec
 	{
 		ms50_counter = 0;
+		
 		#if 0 //DEBUG
+		//USBD_AUDIO_TEST(ua3reo_dev_audio_if);
 		PrintProfilerResult();
 		sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
 		sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000

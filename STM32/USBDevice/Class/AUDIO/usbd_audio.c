@@ -477,8 +477,8 @@ static uint16_t USBD_AUDIO_GetDesc(USBD_AUDIO_IfHandleType *itf, uint8_t ifNum, 
 //desc->ADID0.iInterface = USBD_IIF_INDEX(ifNum, 0);
 	//desc->ADID1.iInterface = USBD_IIF_INDEX(ifNum, 0);
 
-	desc->EP1.bEndpointAddress = itf->Config.OutEpNum;
-	desc->EP12.bEndpointAddress = itf->Config.InEpNum;
+	desc->EP1.bEndpointAddress = itf->Config.InEpNum;
+	desc->EP12.bEndpointAddress = itf->Config.OutEpNum;
 
 	return len;
 }
@@ -513,12 +513,20 @@ static void USBD_AUDIO_Init(USBD_AUDIO_IfHandleType *pdev)
 			USBD_SAFE_CALLBACK(AUDIO_APP(pdev)->Init, pdev, USBD_AUDIO_FREQ, AUDIO_DEFAULT_VOLUME, 0U);
 
 			/* Prepare Out endpoint to receive 1st packet */
-			USBD_EpReceive(pdev->Base.Device, pdev->Config.OutEpNum, haudio->buffer, AUDIO_OUT_PACKET);
+			USBD_ReturnType ret=USBD_EpReceive(pdev->Base.Device, pdev->Config.InEpNum, haudio->buffer, AUDIO_OUT_PACKET);
+			sendToDebug_uint8(ret,false);
     }
     else
     {
         /* TODO reset MAC address to default */
     }
+}
+
+void USBD_AUDIO_TEST(USBD_AUDIO_IfHandleType *pdev)
+{
+	USBD_AUDIO_HandleTypeDef   *haudio;
+	haudio = (USBD_AUDIO_HandleTypeDef*)&pdev->Config.handle;
+	sendToDebug_uint16(haudio->buffer[0],false);
 }
 
 /**
@@ -597,20 +605,6 @@ static void USBD_AUDIO_DataStage(USBD_AUDIO_IfHandleType *itf)
 			USBD_AUDIO_Init(itf,0);
 	}
 	*/
-}
-
-/**
-  * @brief  USBD_AUDIO_DataIn
-  *         handle data IN Stage
-  * @param  pdev: device instance
-  * @param  epnum: endpoint index
-  * @retval status
-  */
-static uint8_t  USBD_AUDIO_DataIn(USBD_AUDIO_IfHandleType *pdev,	uint8_t epnum)
-{
-
-	/* Only OUT data are processed */
-	return USBD_E_OK;
 }
 
 /**
@@ -720,6 +714,21 @@ void  USBD_AUDIO_Sync(USBD_AUDIO_IfHandleType *pdev, AUDIO_OffsetTypeDef offset)
 	}
 }
 
+
+/**
+  * @brief  USBD_AUDIO_DataIn
+  *         handle data IN Stage
+  * @param  pdev: device instance
+  * @param  epnum: endpoint index
+  * @retval status
+  */
+static uint8_t  USBD_AUDIO_DataIn(USBD_AUDIO_IfHandleType *pdev,	uint8_t epnum)
+{
+	sendToDebug_str("in");
+	/* Only OUT data are processed */
+	return USBD_E_OK;
+}
+
 /**
   * @brief  USBD_AUDIO_DataOut
   *         handle data OUT Stage
@@ -729,6 +738,7 @@ void  USBD_AUDIO_Sync(USBD_AUDIO_IfHandleType *pdev, AUDIO_OffsetTypeDef offset)
   */
 static uint8_t  USBD_AUDIO_DataOut(USBD_AUDIO_IfHandleType *pdev,	uint8_t epnum)
 {
+	sendToDebug_str("out");
 	USBD_AUDIO_HandleTypeDef   *haudio;
 	haudio = (USBD_AUDIO_HandleTypeDef*)&pdev->Config.handle;
 

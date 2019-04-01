@@ -30,9 +30,11 @@ extern "C"
 
 #include <usbd.h>
 #include <usbd_cdc.h>
+#include <usbd_audio.h>
 
 extern USBD_HandleType *const UsbDevice;
 extern USBD_CDC_IfHandleType *const ua3reo_dev_debug_key_if;
+extern USBD_AUDIO_IfHandleType *const ua3reo_dev_audio_if;
 void USBD_CDC_Debug_Transmit_FIFO(USBD_CDC_IfHandleType *itf, uint8_t *data, uint16_t length);
 void USBD_CDC_Debug_Transmit_FIFO_Events(USBD_CDC_IfHandleType *itf);
 
