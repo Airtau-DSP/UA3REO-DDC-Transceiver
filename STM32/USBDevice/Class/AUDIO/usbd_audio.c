@@ -76,8 +76,7 @@ typedef struct
 		uint8_t bDescriptorType;
 		uint8_t bDescriptorSubtype;
 		uint8_t bTerminalID;
-		uint8_t wTerminalType1;
-		uint8_t wTerminalType2;
+		uint16_t wTerminalType;
 		uint8_t bAssocTerminal;
 		uint8_t bNrChannels;
 		uint16_t wChannelConfig;
@@ -85,6 +84,7 @@ typedef struct
 		uint8_t iTerminal;
 	}__packed AITS;
 	/* Audio Feature Unit (Speaker) */
+	/*
 	struct {
 		uint8_t bLength;
 		uint8_t bDescriptorType;
@@ -96,14 +96,14 @@ typedef struct
 		uint8_t bmaControls1;
 		uint8_t iFeature;
 	}__packed AFUS;
+	*/
 	/* Audio Output Terminal (Speaker) */
 	struct {
 		uint8_t bLength;
 		uint8_t bDescriptorType;
 		uint8_t bDescriptorSubtype;
 		uint8_t bTerminalID;
-		uint8_t wTerminalType1;
-		uint8_t wTerminalType2;
+		uint16_t wTerminalType;
 		uint8_t bAssocTerminal;
 		uint8_t bSourceID;
 		uint8_t iTerminal;
@@ -141,8 +141,7 @@ typedef struct
 		uint8_t bDescriptorSubtype;
 		uint8_t bTerminalLink;
 		uint8_t bDelay;
-		uint8_t wFormatTagLSB;
-		uint8_t wFormatTagMSB;
+		uint16_t wFormatTag;
 	}__packed ASID;
 	/* USB Speaker Audio Type I Format Interface Descriptor */
 	struct {
@@ -174,8 +173,7 @@ typedef struct
 		uint8_t bDescriptorSubType;
 		uint8_t bmAttributes;
 		uint8_t bLockDelayUnits;
-		uint8_t wLockDelay;
-		uint8_t tmp;
+		uint16_t wLockDelay;
 	}__packed EP1D;
 	USB_InterfaceDescType ADID02; /* USB Speaker Audio Streaming Interface Descriptor alt0 */
 	USB_InterfaceDescType ADID12; /* USB Speaker Audio Streaming Interface Descriptor alt1 */
@@ -219,12 +217,12 @@ typedef struct
 		uint8_t bDescriptorSubType;
 		uint8_t bmAttributes;
 		uint8_t bLockDelayUnits;
-		uint8_t wLockDelay;
-		uint8_t tmp;
+		uint16_t wLockDelay;
 	}__packed EP1D2;
 }__packed USBD_AUDIO_DescType;
 
-#define TOTAL_CONTROL_INTF_LENGTH    (sizeof(audio_desc.ACI) + 2*sizeof(audio_desc.AITS) + sizeof(audio_desc.AFUS) + 2*sizeof(audio_desc.AOTS))
+//#define TOTAL_CONTROL_INTF_LENGTH    (sizeof(audio_desc.ACI) + sizeof(audio_desc.AITS) + sizeof(audio_desc.AFUS) + sizeof(audio_desc.AOTS) + sizeof(audio_desc.AITM) + sizeof(audio_desc.AOTM))
+#define TOTAL_CONTROL_INTF_LENGTH    (sizeof(audio_desc.ACI) + sizeof(audio_desc.AITS) + sizeof(audio_desc.AOTS) + sizeof(audio_desc.AITM) + sizeof(audio_desc.AOTM))
 
 /* USB AUDIO device Configuration Descriptor */
 static const USBD_AUDIO_DescType audio_desc = {
@@ -265,46 +263,47 @@ static const USBD_AUDIO_DescType audio_desc = {
 		.bLength = sizeof(audio_desc.AITS),
 		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 		.bDescriptorSubtype = AUDIO_CONTROL_INPUT_TERMINAL, /* bDescriptorSubtype: Header Func Desc */
-		.bTerminalID = 0x01,
-				.wTerminalType1 = 0x01,
-				.wTerminalType2 = 0x01,
+		.bTerminalID = 0x0C,
+				.wTerminalType = 0x0101, //USB Streaming
 				.bAssocTerminal = 0x00,
-				.bNrChannels = 0x01,
-				.wChannelConfig = 0x0000,
+				.bNrChannels = 0x02,
+				.wChannelConfig = 0x0003,
 				.iChannelNames = 0x00,
 				.iTerminal = 0x00,
 	},
-	.AFUS = { /* Audio Feature Unit (Speaker) */
+	/*
+	.AFUS = { // Audio Feature Unit (Speaker)
 		.bLength = sizeof(audio_desc.AFUS),
-		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
-		.bDescriptorSubtype = AUDIO_CONTROL_FEATURE_UNIT, /* bDescriptorSubtype: Header Func Desc */
-		.bUnitID = AUDIO_OUT_STREAMING_CTRL, //0x02
-		.bSourceID = 0x01,
+		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, // bDescriptorType: CS_INTERFACE
+		.bDescriptorSubtype = AUDIO_CONTROL_FEATURE_UNIT, // bDescriptorSubtype: Header Func Desc 
+		//.bUnitID = AUDIO_OUT_STREAMING_CTRL, //0x02
+		.bUnitID = 0x16,
+		.bSourceID = 0x0C,
 		.bControlSize = 0x01,
 		.bmaControls0 = AUDIO_CONTROL_MUTE, // | AUDIO_CONTROL_VOLUME
 		.bmaControls1 = 0x0,
 		.iFeature = 0x00,
 	},
+	*/
 	.AOTS = { /* Audio Output Terminal (Speaker) */
 		.bLength = sizeof(audio_desc.AOTS),
 		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 		.bDescriptorSubtype = AUDIO_CONTROL_OUTPUT_TERMINAL, /* bDescriptorSubtype: Header Func Desc */
-		.bTerminalID = 0x03,
-				.wTerminalType1 = 0x01,
-				.wTerminalType2 = 0x03,
+		.bTerminalID = 0x11,
+				.wTerminalType = 0x0711, //Radio Transmitter
 				.bAssocTerminal = 0x00,
-				.bSourceID = 0x02,
+				.bSourceID = 0x0C,
 				.iTerminal = 0x00,
 	},
 	.AITM = { /* Audio Input Terminal (Microphone) */
 		.bLength = sizeof(audio_desc.AITM),
 		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 		.bDescriptorSubtype = AUDIO_CONTROL_INPUT_TERMINAL, /* bDescriptorSubtype: Header Func Desc */
-		.bTerminalID = 0x04,
-				.wTerminalType = 0x0201,
+		.bTerminalID = 0x1E,
+				.wTerminalType = 0x0710, //Radio Receiver
 				.bAssocTerminal = 0x00,
 				.bNrChannels = 0x02,
-				.wChannelConfig = 0x0000,
+				.wChannelConfig = 0x0003,
 				.iChannelNames = 0x00,
 				.iTerminal = 0x00,
 	},
@@ -312,12 +311,15 @@ static const USBD_AUDIO_DescType audio_desc = {
 		.bLength = sizeof(audio_desc.AOTM),
 		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 		.bDescriptorSubtype = AUDIO_CONTROL_OUTPUT_TERMINAL, /* bDescriptorSubtype: Header Func Desc */
-		.bTerminalID = 0x05,
+		.bTerminalID = 0x23,
 				.wTerminalType = 0x0101,
 				.bAssocTerminal = 0x00,
-				.bSourceID = 0x04,
+				.bSourceID = 0x1E,
 				.iTerminal = 0x00,
 	},
+	
+	//Speaker
+	
 	.ADID0 = { /* Interface 1, Alternate Setting 0, Audio Streaming - Zero Bandwith */
 		.bLength = sizeof(audio_desc.ADID0),
 		.bDescriptorType = USB_DESC_TYPE_INTERFACE,
@@ -344,10 +346,9 @@ static const USBD_AUDIO_DescType audio_desc = {
 		.bLength = sizeof(audio_desc.ASID),
 		.bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 		.bDescriptorSubtype = AUDIO_STREAMING_GENERAL, /* bDescriptorSubtype: Header Func Desc */
-		.bTerminalLink = 0x01,
-		.bDelay = 0x00,
-		.wFormatTagLSB = 0x01,
-		.wFormatTagMSB = 0x00,
+		.bTerminalLink = 0x0C,
+		.bDelay = 0x01,
+		.wFormatTag = 0x0001, //PCM
 	},
 	.ASFID = { /* Audio Type I Format */
 		.bLength = sizeof(audio_desc.ASFID),
@@ -368,7 +369,8 @@ static const USBD_AUDIO_DescType audio_desc = {
 		  .bLength = sizeof(audio_desc.EP1),
 		  .bDescriptorType = USB_DESC_TYPE_ENDPOINT, /* bDescriptorType: CS_INTERFACE */
 		  .bEndpointAddress = 0x85,
-				  .bmAttributes = USB_EP_TYPE_ISOCHRONOUS,
+				  //.bmAttributes = USB_EP_TYPE_ISOCHRONOUS,
+			.bmAttributes = 0x05, //(Transfer: Isochronous / Synch: Asynchronous / Usage: Data)
 		  .wMaxPacketSize = AUDIO_PACKET_SZE(USBD_AUDIO_FREQ),
 				  .bInterval = 0x01,
 				  .bRefresh = 0x00,
@@ -380,10 +382,11 @@ static const USBD_AUDIO_DescType audio_desc = {
 		  .bDescriptorSubType = AUDIO_ENDPOINT_GENERAL,
 				  .bmAttributes = 0x00,
 		  .bLockDelayUnits = 0x00,
-				  .wLockDelay = 0x00,
-			.tmp = 0,
+				  .wLockDelay = 0x0000,
 	  },
 			
+		//// Microphone
+		
 		.ADID02 = { /* Interface 1, Alternate Setting 0, Audio Streaming - Zero Bandwith */
 		  .bLength = sizeof(audio_desc.ADID02),
 		  .bDescriptorType = USB_DESC_TYPE_INTERFACE,
@@ -410,7 +413,7 @@ static const USBD_AUDIO_DescType audio_desc = {
 		  .bLength = sizeof(audio_desc.ASID2),
 		  .bDescriptorType = AUDIO_INTERFACE_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 		  .bDescriptorSubtype = AUDIO_SUBCLASS_AUDIOCONTROL, /* bDescriptorSubtype: Header Func Desc */
-		  .bTerminalLink = 0x05,
+		  .bTerminalLink = 0x23,
 				  .bDelay = 0x01,
 				  .wFormatTagLSB = 0x01,
 				  .wFormatTagMSB = 0x00,
@@ -434,7 +437,8 @@ static const USBD_AUDIO_DescType audio_desc = {
 			.bLength = sizeof(audio_desc.EP12),
 			.bDescriptorType = USB_DESC_TYPE_ENDPOINT, /* bDescriptorType: CS_INTERFACE */
 			.bEndpointAddress = 0x86,
-					.bmAttributes = USB_EP_TYPE_ISOCHRONOUS,
+			//.bmAttributes = USB_EP_TYPE_ISOCHRONOUS,
+			.bmAttributes = 0x25, //(Transfer: Isochronous / Synch: Asynchronous / Usage: Implicit)
 			.wMaxPacketSize = AUDIO_PACKET_SZE(USBD_AUDIO_FREQ),
 					.bInterval = 0x01,
 					.bRefresh = 0x00,
@@ -445,9 +449,8 @@ static const USBD_AUDIO_DescType audio_desc = {
 			.bDescriptorType = AUDIO_ENDPOINT_DESCRIPTOR_TYPE, /* bDescriptorType: CS_INTERFACE */
 			.bDescriptorSubType = AUDIO_ENDPOINT_GENERAL,
 					.bmAttributes = 0x00,
-			.bLockDelayUnits = 0x00,
-					.wLockDelay = 0x00,
-			.tmp = 0x00,
+			.bLockDelayUnits = 0x02,
+					.wLockDelay = 0x0000,
 		},
 };
 
@@ -838,7 +841,7 @@ USBD_ReturnType USBD_AUDIO_MountInterface(USBD_AUDIO_IfHandleType *itf, USBD_Han
 		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
 		dev->IfCount++;
 
-		ep= USBD_EpAddr2Ref(dev, itf->Config.OutEpNum);
+		ep= USBD_EpAddr2Ref(dev, itf->Config.InEpNum);
 		ep->Type = USB_EP_TYPE_ISOCHRONOUS;
 		ep->MaxPacketSize = AUDIO_OUT_PACKET;
 		ep->IfNum = dev->IfCount;
@@ -846,7 +849,7 @@ USBD_ReturnType USBD_AUDIO_MountInterface(USBD_AUDIO_IfHandleType *itf, USBD_Han
 		dev->IF[dev->IfCount] = (USBD_IfHandleType*)itf;
 		dev->IfCount++;
 		
-		ep = USBD_EpAddr2Ref(dev, itf->Config.InEpNum);
+		ep = USBD_EpAddr2Ref(dev, itf->Config.OutEpNum);
 		ep->Type = USB_EP_TYPE_ISOCHRONOUS;
 		ep->MaxPacketSize = AUDIO_OUT_PACKET;
 		ep->IfNum = dev->IfCount;
