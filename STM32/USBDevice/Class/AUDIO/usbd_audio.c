@@ -526,7 +526,13 @@ void USBD_AUDIO_TEST(USBD_AUDIO_IfHandleType *pdev)
 {
 	USBD_AUDIO_HandleTypeDef   *haudio;
 	haudio = (USBD_AUDIO_HandleTypeDef*)&pdev->Config.handle;
-	sendToDebug_uint16(haudio->buffer[0],false);
+	sendToDebug_uint16(haudio->buffer[0],true);
+	sendToDebug_uint16(haudio->buffer[1],true);
+	
+	USBD_ReturnType ret=USBD_EpReceive(pdev->Base.Device, pdev->Config.InEpNum, haudio->buffer, AUDIO_OUT_PACKET);
+	sendToDebug_uint8(ret,false);
+	sendToDebug_uint16(haudio->buffer[0],true);
+	sendToDebug_uint16(haudio->buffer[1],false);
 }
 
 /**

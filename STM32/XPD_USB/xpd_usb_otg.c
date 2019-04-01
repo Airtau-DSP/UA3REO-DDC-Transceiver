@@ -23,6 +23,7 @@
 #include <xpd_usb_otg.h>
 #include <xpd_rcc.h>
 #include <xpd_utils.h>
+#include "../../../SRC/functions.h"
 
 #if defined(USB_OTG_FS)
 
@@ -1131,6 +1132,7 @@ void USB_vEpSend(
  */
 void USB_vDevIRQHandler(USB_HandleType * pxUSB)
 {
+	//sendToDebug_str("_");
     uint32_t ulGINT = pxUSB->Inst->GINTSTS.w & pxUSB->Inst->GINTMSK.w;
 
     if (ulGINT != 0)
