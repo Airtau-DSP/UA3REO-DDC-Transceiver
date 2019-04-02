@@ -1,6 +1,6 @@
 ----TODO Ideas SOFT----
-USB Audio Terminal type радиоприемник и радиопередатчик
 Подключение по USB аудио
+USB Audio Terminal type радиоприемник и радиопередатчик
 Отказ от лицензированных модулей в FPGA
 Readme по сборке и прошивке
 Шумоподавление (Noise Reduction)
