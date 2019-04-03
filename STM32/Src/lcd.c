@@ -1053,7 +1053,9 @@ void LCD_showError(char text[])
 	LCD_busy=true;
 	ILI9341_Fill(COLOR_RED);
 	ILI9341_printTextFont(text,5,110,COLOR_WHITE,COLOR_RED,FreeSans12pt7b);
+	HAL_IWDG_Refresh(&hiwdg);
 	HAL_Delay(3000);
+	HAL_IWDG_Refresh(&hiwdg);
 	LCD_busy=false;
 	LCD_redraw();
 }

@@ -71,6 +71,7 @@ extern bool LCD_bandMenuOpened;
 extern int LCD_last_s_meter;
 extern bool LCD_busy;
 extern uint8_t TimeMenuSelection;
+extern IWDG_HandleTypeDef hiwdg;
 
 //HANDLERS
 void LCD_Handler_TUNE(void);
