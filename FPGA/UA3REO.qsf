@@ -93,7 +93,7 @@ set_location_assignment PIN_133 -to ADC_INPUT[3]
 set_location_assignment PIN_132 -to ADC_INPUT[2]
 set_location_assignment PIN_129 -to ADC_INPUT[1]
 set_location_assignment PIN_128 -to ADC_INPUT[0]
-set_location_assignment PIN_23 -to clk_sys
+set_location_assignment PIN_126 -to clk_sys
 set_global_assignment -name CONFIGURATION_VCCIO_LEVEL 2.5V
 set_global_assignment -name RESERVE_ALL_UNUSED_PINS_WEAK_PULLUP "AS OUTPUT DRIVING GROUND"
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_INPUT[11]

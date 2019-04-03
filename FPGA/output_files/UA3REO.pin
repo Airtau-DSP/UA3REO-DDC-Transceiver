@@ -90,7 +90,7 @@ GND                          : 19        : gnd    :                   :         
 TDO                          : 20        : output :                   :         : 1         :                
 nCE                          : 21        :        :                   :         : 1         :                
 GND                          : 22        : gnd    :                   :         :           :                
-clk_sys                      : 23        : input  : 2.5 V             :         : 1         : Y              
+GND+                         : 23        :        :                   :         : 1         :                
 GND+                         : 24        :        :                   :         : 2         :                
 GND+                         : 25        :        :                   :         : 2         :                
 VCCIO2                       : 26        : power  :                   : 3.3V    : 2         :                
@@ -193,7 +193,7 @@ VCCIO7                       : 122       : power  :                   : 3.3V    
 GND                          : 123       : gnd    :                   :         :           :                
 VCCINT                       : 124       : power  :                   : 1.2V    :           :                
 ADC_OTR                      : 125       : input  : 3.3-V LVTTL       :         : 7         : Y              
-GND+                         : 126       :        :                   :         : 7         :                
+clk_sys                      : 126       : input  : 2.5 V             :         : 7         : Y              
 GND+                         : 127       :        :                   :         : 7         :                
 ADC_INPUT[0]                 : 128       : input  : 3.3-V LVTTL       :         : 8         : Y              
 ADC_INPUT[1]                 : 129       : input  : 3.3-V LVTTL       :         : 8         : Y              
