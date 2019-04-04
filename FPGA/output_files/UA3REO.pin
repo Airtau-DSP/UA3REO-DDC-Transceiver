@@ -193,7 +193,7 @@ VCCIO7                       : 122       : power  :                   : 3.3V    
 GND                          : 123       : gnd    :                   :         :           :                
 VCCINT                       : 124       : power  :                   : 1.2V    :           :                
 ADC_OTR                      : 125       : input  : 3.3-V LVTTL       :         : 7         : Y              
-clk_sys                      : 126       : input  : 2.5 V             :         : 7         : Y              
+clk_sys                      : 126       : input  : 3.3-V LVTTL       :         : 7         : Y              
 GND+                         : 127       :        :                   :         : 7         :                
 ADC_INPUT[0]                 : 128       : input  : 3.3-V LVTTL       :         : 8         : Y              
 ADC_INPUT[1]                 : 129       : input  : 3.3-V LVTTL       :         : 8         : Y              
