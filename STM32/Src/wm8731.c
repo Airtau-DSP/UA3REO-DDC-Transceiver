@@ -108,14 +108,14 @@ void WM8731_TX_mode(void)
 		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //R0 Left Line In
 		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00000010)); //R4 Analogue Audio Path Control
-		WM8731_SendI2CCommand(B8(00001100), B8(00101010)); //R6 Power Down Control
+		WM8731_SendI2CCommand(B8(00001100), B8(01101010)); //R6 Power Down Control
 	}
 	else
 	{ //mic
 		WM8731_SendI2CCommand(B8(00000001), B8(10000000)); //R0 Left Line In
 		WM8731_SendI2CCommand(B8(00000011), B8(10000000)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00000101)); //R4 Analogue Audio Path Control
-		WM8731_SendI2CCommand(B8(00001100), B8(00101001)); //R6 Power Down Control
+		WM8731_SendI2CCommand(B8(00001100), B8(01101001)); //R6 Power Down Control
 	}
 	FPGA_start_audio_clock();
 }
@@ -129,7 +129,7 @@ void WM8731_RX_mode(void)
 	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //R3 Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001000), B8(00010110)); //R4 Analogue Audio Path Control
 	WM8731_SendI2CCommand(B8(00001010), B8(00000111)); //R5 Digital Audio Path Control
-	WM8731_SendI2CCommand(B8(00001100), B8(00100111)); //R6 Power Down Control
+	WM8731_SendI2CCommand(B8(00001100), B8(01100111)); //R6 Power Down Control
 	FPGA_start_audio_clock();
 }
 
@@ -144,14 +144,14 @@ void WM8731_TXRX_mode(void) //loopback
 		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //R0 Left Line In
 		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00010010)); //R4 Analogue Audio Path Control
-		WM8731_SendI2CCommand(B8(00001100), B8(00100010)); //R6 Power Down Control, internal crystal
+		WM8731_SendI2CCommand(B8(00001100), B8(01100010)); //R6 Power Down Control, internal crystal
 	}
 	else
 	{ //mic
 		WM8731_SendI2CCommand(B8(00000001), B8(10000000)); //R0 Left Line In
 		WM8731_SendI2CCommand(B8(00000011), B8(10000000)); //R1 Right Line In 
 		WM8731_SendI2CCommand(B8(00001000), B8(00010101)); //R4 Analogue Audio Path Control
-		WM8731_SendI2CCommand(B8(00001100), B8(00100001)); //R6 Power Down Control, internal crystal
+		WM8731_SendI2CCommand(B8(00001100), B8(01100001)); //R6 Power Down Control, internal crystal
 	}
 	FPGA_start_audio_clock();
 }
@@ -163,9 +163,8 @@ void WM8731_Init(void)
 	if(WM8731_SendI2CCommand(B8(00011110), B8(00000000))!=0) //R15 Reset Chip
 		LCD_showError("Audio codec init error");
 	WM8731_SendI2CCommand(B8(00001110), B8(00000010)); //R7 Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 16bits
-	WM8731_SendI2CCommand(B8(00010000), B8(00000000)); //R8 Sampling Control normal mode, 256fs, SR=0 (MCLK@12.288Mhz, fs=48kHz)) 0 0000
+	WM8731_SendI2CCommand(B8(00010000), B8(00000000)); //R8 Sampling Control normal mode, 256fs, SR=0 (MCLK@12.288Mhz, fs=48kHz))
 	WM8731_SendI2CCommand(B8(00010010), B8(00000001)); //R9 reactivate digital audio interface
 	WM8731_RX_mode();
-
-	sendToDebug_str(" Inited\r\n");
+	sendToDebug_str(" Inited\r\n"); 
 }
