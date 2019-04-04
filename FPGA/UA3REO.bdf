@@ -123,7 +123,7 @@ refer to the applicable agreement for further details.
 )
 (pin
 	(output)
-	(rect 2096 200 2272 216)
+	(rect 2136 200 2312 216)
 	(text "OUTPUT" (rect 1 0 39 10)(font "Arial" (font_size 6)))
 	(text "PREAMP" (rect 90 0 134 12)(font "Arial" ))
 	(pt 0 8)
@@ -136,7 +136,7 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 2272 216 2328 240))
+	(annotation_block (location)(rect 2312 216 2368 240))
 )
 (pin
 	(output)
@@ -171,7 +171,7 @@ refer to the applicable agreement for further details.
 		(line (pt 82 8)(pt 78 12))
 		(line (pt 78 12)(pt 82 8))
 	)
-	(annotation_block (location)(rect 2272 184 2328 208))
+	(annotation_block (location)(rect 2296 160 2352 184))
 )
 (pin
 	(output)
@@ -2696,6 +2696,31 @@ refer to the applicable agreement for further details.
 		(line (pt 0 0)(pt 0 200))
 	)
 )
+(symbol
+	(rect 2080 192 2128 224)
+	(text "NOT" (rect 1 0 21 10)(font "Arial" (font_size 6)))
+	(text "PREAMP_NOT" (rect 3 21 73 38)(font "Intel Clear" ))
+	(port
+		(pt 0 16)
+		(input)
+		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
+		(text "IN" (rect 2 7 13 19)(font "Courier New" (bold))(invisible))
+		(line (pt 0 16)(pt 13 16))
+	)
+	(port
+		(pt 48 16)
+		(output)
+		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
+		(text "OUT" (rect 32 7 49 19)(font "Courier New" (bold))(invisible))
+		(line (pt 39 16)(pt 48 16))
+	)
+	(drawing
+		(line (pt 13 25)(pt 13 7))
+		(line (pt 13 7)(pt 31 16))
+		(line (pt 13 25)(pt 31 16))
+		(circle (rect 31 12 39 20))
+	)
+)
 (connector
 	(pt 824 176)
 	(pt 800 176)
@@ -3251,10 +3276,6 @@ refer to the applicable agreement for further details.
 	(pt 2112 104)
 )
 (connector
-	(pt 1912 208)
-	(pt 2096 208)
-)
-(connector
 	(pt 1912 176)
 	(pt 2096 176)
 	(bus)
@@ -3635,6 +3656,14 @@ refer to the applicable agreement for further details.
 	(pt 760 240)
 	(pt 736 240)
 	(bus)
+)
+(connector
+	(pt 1912 208)
+	(pt 2080 208)
+)
+(connector
+	(pt 2128 208)
+	(pt 2136 208)
 )
 (junction (pt 376 120))
 (junction (pt 776 136))
