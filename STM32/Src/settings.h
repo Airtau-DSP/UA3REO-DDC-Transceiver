@@ -22,6 +22,9 @@
 #define ADC_RF_TRANS_RATIO 4 //коэффициент трансформации трансформатора :) на входе АЦП
 #define ADC_RF_INPUT_VALUE_CALIBRATION 0.45f //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера (PREAMP включен)
 
+#define ILI9341 true //выбираем используемый дисплей
+//#define ILI9325 true //другие комментируем
+
 #define W25Q16_COMMAND_Write_Enable 0x06
 #define W25Q16_COMMAND_Erase_Chip 0xC7
 #define W25Q16_COMMAND_Sector_Erase 0x20

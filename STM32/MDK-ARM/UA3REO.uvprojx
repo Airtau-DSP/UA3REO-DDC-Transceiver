@@ -738,16 +738,6 @@
           <GroupName>LCD</GroupName>
           <Files>
             <File>
-              <FileName>MA_ILI9341.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Src\LCD\MA_ILI9341.c</FilePath>
-            </File>
-            <File>
-              <FileName>MA_ILI9341.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Src\LCD\MA_ILI9341.h</FilePath>
-            </File>
-            <File>
               <FileName>xpt2046_spi.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\LCD\xpt2046_spi.c</FilePath>
@@ -761,6 +751,16 @@
               <FileName>fonts.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Src\LCD\fonts.h</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\LCD\lcd_driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>lcd_driver.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\LCD\lcd_driver.h</FilePath>
             </File>
           </Files>
         </Group>

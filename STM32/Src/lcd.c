@@ -42,10 +42,10 @@ DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,fals
 
 void LCD_Init(void)
 {
-	ILI9341_setBrightness(TRX.LCD_Brightness);
-	ILI9341_Init();
-	ILI9341_setRotation(4);
-	ILI9341_Fill(COLOR_WHITE);
+	LCDDriver_setBrightness(TRX.LCD_Brightness);
+	LCDDriver_Init();
+	LCDDriver_setRotation(4);
+	LCDDriver_Fill(COLOR_WHITE);
 	Init_XPT2046();
 	LCD_redraw();
 }
@@ -59,13 +59,13 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		return;
 	}
 	LCD_busy=true;
-	if (redraw) ILI9341_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
+	if (redraw) LCDDriver_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	button_handlers_count = 0;
 
 	//вывод диапазонов
 	if (LCD_bandMenuOpened)
 	{
-		ILI9341_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
+		LCDDriver_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
 		int32_t freq_mhz = (int32_t)(TRX_getFrequency() / 1000000);
 
 		printButton(5, 5, 58, 60, "1.8", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 1), LCD_Handler_BAND_160);
@@ -86,7 +86,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	//вывод модов
 	else if (LCD_modeMenuOpened)
 	{
-		ILI9341_Fill(COLOR_BLACK);
+		LCDDriver_Fill(COLOR_BLACK);
 
 		printButton(5, 5, 58, 60, MODE_DESCR[TRX_MODE_LSB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LSB), LCD_Handler_MODE_LSB);
 		printButton(68, 5, 58, 60, MODE_DESCR[TRX_MODE_USB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_USB), LCD_Handler_MODE_USB);
@@ -107,7 +107,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	//вывод аудио фильтров
 	else if (LCD_widthMenuOpened)
 	{
-		ILI9341_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
+		LCDDriver_Fill_RectWH(0, 0, 320, 130, COLOR_BLACK);
 
 		switch (TRX_getMode())
 		{
@@ -180,18 +180,18 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 
 	if (TRX_getFrequency() >= 100000000)
 	{
-		ILI9341_Fill_RectWH(0, 87, 5, 35, COLOR_BLACK);
-		ILI9341_SetCursorPosition(5, 120);
+		LCDDriver_Fill_RectWH(0, 87, 5, 35, COLOR_BLACK);
+		LCDDriver_SetCursorPosition(5, 120);
 	}
 	else if (TRX_getFrequency() >= 10000000)
 	{
-		ILI9341_Fill_RectWH(0, 87, 31, 35, COLOR_BLACK);
-		ILI9341_SetCursorPosition(31, 120);
+		LCDDriver_Fill_RectWH(0, 87, 31, 35, COLOR_BLACK);
+		LCDDriver_SetCursorPosition(31, 120);
 	}
 	else
 	{
-		ILI9341_Fill_RectWH(0, 87, 57, 35, COLOR_BLACK);
-		ILI9341_SetCursorPosition(57, 120);
+		LCDDriver_Fill_RectWH(0, 87, 57, 35, COLOR_BLACK);
+		LCDDriver_SetCursorPosition(57, 120);
 	}
 
 	//добавляем пробелов для вывода частоты
@@ -200,26 +200,26 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	sprintf(LCD_freq_string_mhz, "%d", ((uint32_t)(TRX_getFrequency() / 1000000) % 1000000));
 
 	if (TRX.LCD_menu_freq_index == MENU_FREQ_MHZ)
-		ILI9341_printTextFont(LCD_freq_string_mhz, ILI9341_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+		LCDDriver_printTextFont(LCD_freq_string_mhz, LCDDriver_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
 	else
-		ILI9341_printTextFont(LCD_freq_string_mhz, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+		LCDDriver_printTextFont(LCD_freq_string_mhz, LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
-	ILI9341_printTextFont(".", ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+	LCDDriver_printTextFont(".", LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	char buff[50] = "";
 	addSymbols(buff, LCD_freq_string_khz, 3, "0", false);
 	if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ)
-		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
 	else
-		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
-	ILI9341_printTextFont(".", ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+	LCDDriver_printTextFont(".", LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
 	if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ)
-		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
 	else
-		ILI9341_printTextFont(buff, ILI9341_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 
 	NeedSaveSettings = true;
 	LCD_UpdateQuery.FreqInfo = false;
@@ -239,24 +239,24 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	LCD_busy = true;
 	if (TRX_on_TX())
 	{
-		ILI9341_Fill_RectWH(10,128,25,20,COLOR_BLACK);
-		ILI9341_printTextFont("TX", 10, 144, COLOR_RED, COLOR_BLACK, FreeSans9pt7b);
+		LCDDriver_Fill_RectWH(10,128,25,20,COLOR_BLACK);
+		LCDDriver_printTextFont("TX", 10, 144, COLOR_RED, COLOR_BLACK, FreeSans9pt7b);
 	}
 	else
-		ILI9341_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
+		LCDDriver_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
 
 	int width = 202;
-	ILI9341_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
+	LCDDriver_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
 
 	int step = width / 8;
-	ILI9341_printText("1", 50 + step * 0, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("3", 50 + step * 1, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("5", 50 + step * 2, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("7", 50 + step * 3, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("9", 50 + step * 4, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("+20", 50 + step * 5, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("+40", 50 + step * 6, 150, COLOR_RED, COLOR_BLACK, 1);
-	ILI9341_printText("+60", 50 + step * 7, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("1", 50 + step * 0, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("3", 50 + step * 1, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("5", 50 + step * 2, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("7", 50 + step * 3, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("9", 50 + step * 4, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("+20", 50 + step * 5, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("+40", 50 + step * 6, 150, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_printText("+60", 50 + step * 7, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCD_UpdateQuery.StatusInfoGUI = false;
 	LCD_busy = false;
 }
@@ -288,21 +288,21 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	if (LCD_last_s_meter < s_width) s_width = s_width - ((s_width - LCD_last_s_meter) / 2);
 	if (LCD_last_s_meter != s_width)
 	{
-		ILI9341_Fill_RectWH(41 + s_width, 131, width - s_width, 13, COLOR_BLACK);
-		ILI9341_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
+		LCDDriver_Fill_RectWH(41 + s_width, 131, width - s_width, 13, COLOR_BLACK);
+		LCDDriver_Fill_RectWH(41, 131, s_width, 13, COLOR_WHITE);
 		LCD_last_s_meter = s_width;
 	}
 	
 	sprintf(ctmp, "%d", TRX_RX_dBm);
-	ILI9341_Fill_RectWH(250,130,35,15,COLOR_BLACK);
-	ILI9341_printTextFont(ctmp,250,143,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
-	ILI9341_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
+	LCDDriver_Fill_RectWH(250,130,35,15,COLOR_BLACK);
+	LCDDriver_printTextFont(ctmp,250,143,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
+	LCDDriver_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
 	
-	ILI9341_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
-	if (TRX_agc_wdsp_action && CurrentVFO()->Agc && (CurrentVFO()->Mode == TRX_MODE_LSB || CurrentVFO()->Mode == TRX_MODE_USB)) ILI9341_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
-	if (TRX_ADC_OTR || TRX_DAC_OTR) ILI9341_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
-	if (WM8731_Buffer_underrun && !TRX_on_TX()) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
-	if (FPGA_Buffer_underrun && TRX_on_TX()) ILI9341_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
+	if (TRX_agc_wdsp_action && CurrentVFO()->Agc && (CurrentVFO()->Mode == TRX_MODE_LSB || CurrentVFO()->Mode == TRX_MODE_USB)) LCDDriver_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
+	if (TRX_ADC_OTR || TRX_DAC_OTR) LCDDriver_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
+	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
@@ -312,15 +312,15 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	{
 		sprintf(ctmp, "%d", Hours);
 		addSymbols(ctmp, ctmp, 2, "0", false);
-		ILI9341_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
-		ILI9341_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
 		sprintf(ctmp, "%d", Minutes);
 		addSymbols(ctmp, ctmp, 2, "0", false);
-		ILI9341_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
-		ILI9341_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
 		sprintf(ctmp, "%d", Seconds);
 		addSymbols(ctmp, ctmp, 2, "0", false);
-		ILI9341_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
 		LAST_Time = Time;
 	}
 	LCD_UpdateQuery.StatusInfoBar = false;
@@ -379,14 +379,14 @@ void LCD_doEvents(void)
 	if (LCD_busy) return;
 	
 	if(TRX_Time_InActive>TRX.Standby_Time && TRX.Standby_Time>0)
-		ILI9341_setBrightness(5);
+		LCDDriver_setBrightness(5);
 	else
-		ILI9341_setBrightness(TRX.LCD_Brightness);
+		LCDDriver_setBrightness(TRX.LCD_Brightness);
 	
 	if (LCD_UpdateQuery.Background)
 	{
 		LCD_busy = true;
-		ILI9341_Fill(COLOR_BLACK);
+		LCDDriver_Fill(COLOR_BLACK);
 		LCD_UpdateQuery.Background = false;
 		LCD_busy = false;
 	}
@@ -933,7 +933,7 @@ void LCD_Handler_MENU_AGC_S(void)
 
 void LCD_Handler_SETTIME(void)
 {
-	if (!LCD_timeMenuOpened) ILI9341_Fill(COLOR_BLACK);
+	if (!LCD_timeMenuOpened) LCDDriver_Fill(COLOR_BLACK);
 	LCD_timeMenuOpened = true;
 	button_handlers_count = 0;
 	char ctmp[50];
@@ -943,22 +943,22 @@ void LCD_Handler_SETTIME(void)
 	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
 	sprintf(ctmp, "%d", Hours);
 	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 76, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 0 ? COLOR_WHITE : COLOR_BLACK, 3);
-	ILI9341_printText(":", 124, 100, COLOR_BUTTON_TEXT, COLOR_BLACK, 3);
+	LCDDriver_printText(ctmp, 76, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 0 ? COLOR_WHITE : COLOR_BLACK, 3);
+	LCDDriver_printText(":", 124, 100, COLOR_BUTTON_TEXT, COLOR_BLACK, 3);
 	sprintf(ctmp, "%d", Minutes);
 	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 148, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 1 ? COLOR_WHITE : COLOR_BLACK, 3);
-	ILI9341_printText(":", 194, 100, COLOR_BUTTON_TEXT, COLOR_BLACK, 3);
+	LCDDriver_printText(ctmp, 148, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 1 ? COLOR_WHITE : COLOR_BLACK, 3);
+	LCDDriver_printText(":", 194, 100, COLOR_BUTTON_TEXT, COLOR_BLACK, 3);
 	sprintf(ctmp, "%d", Seconds);
 	addSymbols(ctmp, ctmp, 2, "0", false);
-	ILI9341_printText(ctmp, 220, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 2 ? COLOR_WHITE : COLOR_BLACK, 3);
+	LCDDriver_printText(ctmp, 220, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 2 ? COLOR_WHITE : COLOR_BLACK, 3);
 	printButton(50, 170, 76, 30, ">", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_TIMEMENU_NEXT);
 	printButton(200, 170, 76, 30, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_TIMEMENU_BACK);
 }
 
 void LCD_Handler_TIMEMENU_NEXT(void)
 {
-	ILI9341_Fill(COLOR_BLACK);
+	LCDDriver_Fill(COLOR_BLACK);
 	TimeMenuSelection++;
 	if (TimeMenuSelection == 3) TimeMenuSelection = 0;
 	LCD_UpdateQuery.SystemMenu = true;
@@ -966,7 +966,7 @@ void LCD_Handler_TIMEMENU_NEXT(void)
 
 void LCD_Handler_TIMEMENU_BACK(void)
 {
-	ILI9341_Fill(COLOR_BLACK);
+	LCDDriver_Fill(COLOR_BLACK);
 	LCD_timeMenuOpened = false;
 	LCD_UpdateQuery.SystemMenu = true;
 }
@@ -1017,10 +1017,10 @@ void LCD_checkTouchPad(void)
 
 void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void(*onclick) ())
 {
-	ILI9341_Fill_RectWH(x, y, width, height, active ? active_color : back_color);
+	LCDDriver_Fill_RectWH(x, y, width, height, active ? active_color : back_color);
 	uint16_t x1, y1, w, h;
-	ILI9341_getTextBounds(text, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
-	ILI9341_printTextFont(text, x + (width - w) / 2, y + (height / 2) + h / 2, text_color, active ? active_color : back_color, FreeSans9pt7b);
+	LCDDriver_getTextBounds(text, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
+	LCDDriver_printTextFont(text, x + (width - w) / 2, y + (height / 2) + h / 2, text_color, active ? active_color : back_color, FreeSans9pt7b);
 	button_handlers[button_handlers_count].x1 = x;
 	button_handlers[button_handlers_count].x2 = x + width;
 	button_handlers[button_handlers_count].y1 = y;
@@ -1033,13 +1033,13 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 {
 	uint16_t color = active ? COLOR_BUTTON_MENU : COLOR_BUTTON_ACTIVE;
 	if (!switchable) color = active ? COLOR_BUTTON_MENU : COLOR_BUTTON_INACTIVE;
-	ILI9341_Fill_RectWH(x, y, width, height, color);
+	LCDDriver_Fill_RectWH(x, y, width, height, color);
 
 	uint16_t x1, y1, w, h;
-	ILI9341_getTextBounds(text1, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
-	ILI9341_printTextFont(text1, x + (width - w) / 2, y + (h) / 2 + h + 2, COLOR_BUTTON_TEXT, color, FreeSans9pt7b);
+	LCDDriver_getTextBounds(text1, x, y, &x1, &y1, &w, &h, FreeSans9pt7b);
+	LCDDriver_printTextFont(text1, x + (width - w) / 2, y + (h) / 2 + h + 2, COLOR_BUTTON_TEXT, color, FreeSans9pt7b);
 
-	ILI9341_printText(text2, x + (width - strlen(text2) * 6 * 1) / 2 + 1, y + (height - 8 * 2 - 8 * 1) / 2 + 8 * 2 + 4, COLOR_BLACK, color, 1);
+	LCDDriver_printText(text2, x + (width - strlen(text2) * 6 * 1) / 2 + 1, y + (height - 8 * 2 - 8 * 1) / 2 + 8 * 2 + 4, COLOR_BLACK, color, 1);
 	button_handlers[button_handlers_count].x1 = x;
 	button_handlers[button_handlers_count].x2 = x + width;
 	button_handlers[button_handlers_count].y1 = y;
@@ -1051,8 +1051,8 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 void LCD_showError(char text[])
 {
 	LCD_busy=true;
-	ILI9341_Fill(COLOR_RED);
-	ILI9341_printTextFont(text,5,110,COLOR_WHITE,COLOR_RED,FreeSans12pt7b);
+	LCDDriver_Fill(COLOR_RED);
+	LCDDriver_printTextFont(text,5,110,COLOR_WHITE,COLOR_RED,FreeSans12pt7b);
 	HAL_IWDG_Refresh(&hiwdg);
 	HAL_Delay(3000);
 	HAL_IWDG_Refresh(&hiwdg);

@@ -3,7 +3,7 @@
 
 #include "stm32f4xx_hal.h"
 #include "trx_manager.h"
-#include "LCD/MA_ILI9341.h"
+#include "LCD/lcd_driver.h"
 
 #define MENU_FREQ_HZ 1
 #define MENU_FREQ_KHZ 2

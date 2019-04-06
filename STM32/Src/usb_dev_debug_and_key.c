@@ -5,7 +5,7 @@
 #include <string.h>
 #include "functions.h"
 #include "trx_manager.h"
-#include "LCD/MA_ILI9341.h"
+#include "LCD/lcd_driver.h"
 
 #define CDC_TX_FIFO_BUFFER_SIZE 512
 uint8_t cdc_tx_fifo[CDC_TX_FIFO_BUFFER_SIZE]={0};

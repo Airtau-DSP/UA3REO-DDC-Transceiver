@@ -23,7 +23,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "LCD/MA_ILI9341.h"
+#include "LCD/lcd_driver.h"
 #include "LCD/xpt2046_spi.h"
 #include "functions.h"
 #include "bootloader.h"

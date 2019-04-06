@@ -1,6 +1,6 @@
 #include "stm32f4xx_hal.h"
 #include "xpt2046_spi.h"
-#include "MA_ILI9341.h"
+#include "lcd_driver.h"
 #include "main.h"
 #include "../functions.h"
 #include "../settings.h"
@@ -9,8 +9,8 @@ float ax, ay;
 int16_t bx, by;
 static float axc[2], ayc[2];
 static int16_t bxc[2], byc[2];
-static const int16_t xCenter[] = { 35, ILI9341_NORMAL_WIDTH - 35, 35, ILI9341_NORMAL_WIDTH - 35 };
-static const int16_t yCenter[] = { 35, 35, ILI9341_NORMAL_HEIGHT - 35, ILI9341_NORMAL_HEIGHT - 35 };
+static const int16_t xCenter[] = { 35, LCD_WIDTH - 35, 35, LCD_WIDTH - 35 };
+static const int16_t yCenter[] = { 35, 35, LCD_HEIGHT - 35, LCD_HEIGHT - 35 };
 static int16_t xPos[5], yPos[5];
 
 void Init_XPT2046()
@@ -119,12 +119,12 @@ void Touch_Calibrate(void)
 	uint16_t x, y;
 
 	//рисуем крестик в левом верхнем углу
-	ILI9341_Fill(COLOR_WHITE);
-	ILI9341_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
-	ILI9341_drawLine(10, 10 + 25, 10 + 50, 10 + 25, 0x0000);
-	ILI9341_drawLine(10 + 25, 10, 10 + 25, 10 + 50, 0x0000);
+	LCDDriver_Fill(COLOR_WHITE);
+	LCDDriver_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
+	LCDDriver_drawLine(10, 10 + 25, 10 + 50, 10 + 25, 0x0000);
+	LCDDriver_drawLine(10 + 25, 10, 10 + 25, 10 + 50, 0x0000);
 
-	ILI9341_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
 	while (1)
 	{
 		//ждать нажатия
@@ -138,19 +138,19 @@ void Touch_Calibrate(void)
 		}
 	}
 
-	ILI9341_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
 	//ждать отпускания
 	while (isTouch());
-	ILI9341_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
 
 
 	//рисуем крестик в правом верхнем углу
-	ILI9341_Fill(COLOR_WHITE);
-	ILI9341_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
-	ILI9341_drawLine(ILI9341_NORMAL_WIDTH - 10 - 50, 10 + 25, ILI9341_NORMAL_WIDTH - 10 - 50 + 50, 10 + 25, 0x0000);
-	ILI9341_drawLine(ILI9341_NORMAL_WIDTH - 10 - 25, 10, ILI9341_NORMAL_WIDTH - 10 - 25, 10 + 50, 0x0000);
+	LCDDriver_Fill(COLOR_WHITE);
+	LCDDriver_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
+	LCDDriver_drawLine(LCD_WIDTH - 10 - 50, 10 + 25, LCD_WIDTH - 10 - 50 + 50, 10 + 25, 0x0000);
+	LCDDriver_drawLine(LCD_WIDTH - 10 - 25, 10, LCD_WIDTH - 10 - 25, 10 + 50, 0x0000);
 
-	ILI9341_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
 	while (1)
 	{
 		//ждать нажатия
@@ -163,20 +163,20 @@ void Touch_Calibrate(void)
 			break;
 		}
 	}
-	ILI9341_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
 
 	//ждать отпускания
 	while (isTouch());
-	ILI9341_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
 
 
 	//рисуем крестик в левом нижнем углу
-	ILI9341_Fill(COLOR_WHITE);
-	ILI9341_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
-	ILI9341_drawLine(10, ILI9341_NORMAL_HEIGHT - 10 - 25, 10 + 50, ILI9341_NORMAL_HEIGHT - 10 - 25, 0x0000);	// hor
-	ILI9341_drawLine(10 + 25, ILI9341_NORMAL_HEIGHT - 10 - 50, 10 + 25, ILI9341_NORMAL_HEIGHT - 10 - 50 + 50, 0x0000);	// vert
+	LCDDriver_Fill(COLOR_WHITE);
+	LCDDriver_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
+	LCDDriver_drawLine(10, LCD_HEIGHT - 10 - 25, 10 + 50, LCD_HEIGHT - 10 - 25, 0x0000);	// hor
+	LCDDriver_drawLine(10 + 25, LCD_HEIGHT - 10 - 50, 10 + 25, LCD_HEIGHT - 10 - 50 + 50, 0x0000);	// vert
 
-	ILI9341_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
 	while (1)
 	{
 		// ждать нажатия
@@ -189,20 +189,20 @@ void Touch_Calibrate(void)
 			break;
 		}
 	}
-	ILI9341_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
 
 	// ждать отпускания
 	while (isTouch());
-	ILI9341_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
 
 
 	//рисуем крестик в правом нижнем углу
-	ILI9341_Fill(COLOR_WHITE);
-	ILI9341_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
-	ILI9341_drawLine(ILI9341_NORMAL_WIDTH - 10 - 50, ILI9341_NORMAL_HEIGHT - 10 - 25, ILI9341_NORMAL_WIDTH - 10 - 50 + 50, ILI9341_NORMAL_HEIGHT - 10 - 25, 0x0000);	// hor
-	ILI9341_drawLine(ILI9341_NORMAL_WIDTH - 10 - 25, ILI9341_NORMAL_HEIGHT - 10 - 50, ILI9341_NORMAL_WIDTH - 10 - 25, ILI9341_NORMAL_HEIGHT - 10 - 50 + 50, 0x0000);	// vert
+	LCDDriver_Fill(COLOR_WHITE);
+	LCDDriver_printText("Callibration", 50, 100, 0xFFE0, 0x0000, 2);
+	LCDDriver_drawLine(LCD_WIDTH - 10 - 50, LCD_HEIGHT - 10 - 25, LCD_WIDTH - 10 - 50 + 50, LCD_HEIGHT - 10 - 25, 0x0000);	// hor
+	LCDDriver_drawLine(LCD_WIDTH - 10 - 25, LCD_HEIGHT - 10 - 50, LCD_WIDTH - 10 - 25, LCD_HEIGHT - 10 - 50 + 50, 0x0000);	// vert
 
-	ILI9341_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Press", 50, 120, 0xFFE0, 0x0000, 2);
 	while (1)
 	{
 		// ждать нажатия
@@ -215,11 +215,11 @@ void Touch_Calibrate(void)
 			break;
 		}
 	}
-	ILI9341_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("Off   ", 50, 120, 0xFFE0, 0x0000, 2);
 
 	//ждать отпускания
 	while (isTouch());
-	ILI9341_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
+	LCDDriver_printText("     ", 50, 120, 0xFFE0, 0x0000, 2);
 
 
 	//Расчёт коэффициентов. 
@@ -236,15 +236,15 @@ void Touch_Calibrate(void)
 	int16_t tmp_by = by;
 	Touch_Set_Coef(axc[0], bxc[0], ayc[0], byc[0]);
 	// Сохранить в память
-	ILI9341_Fill(COLOR_WHITE);
-	ILI9341_printText("Save settings?", 50, 100, 0xFFE0, 0x0000, 2);
-	ILI9341_Fill_RectWH(60, 135, 60, 40, COLOR_DGREEN);
-	ILI9341_printText("YES", 70, 150, COLOR_BLACK, COLOR_DGREEN, 2);
-	ILI9341_Fill_RectWH(180, 135, 60, 40, COLOR_RED);
-	ILI9341_printText("NO", 200, 150, COLOR_BLACK, COLOR_RED, 2);
+	LCDDriver_Fill(COLOR_WHITE);
+	LCDDriver_printText("Save settings?", 50, 100, 0xFFE0, 0x0000, 2);
+	LCDDriver_Fill_RectWH(60, 135, 60, 40, COLOR_DGREEN);
+	LCDDriver_printText("YES", 70, 150, COLOR_BLACK, COLOR_DGREEN, 2);
+	LCDDriver_Fill_RectWH(180, 135, 60, 40, COLOR_RED);
+	LCDDriver_printText("NO", 200, 150, COLOR_BLACK, COLOR_RED, 2);
 	while (!isTouch());
 	Get_Touch_XY(&x, &y, 1, 0);
-	ILI9341_Fill(COLOR_WHITE);
+	LCDDriver_Fill(COLOR_WHITE);
 	if (x >= 60 && x <= 120 && y >= 135 && y <= 175)
 	{
 		TRX.Touchpad_ax = axc[0];
@@ -252,12 +252,12 @@ void Touch_Calibrate(void)
 		TRX.Touchpad_ay = ayc[0];
 		TRX.Touchpad_by = byc[0];
 		SaveSettings();
-		ILI9341_printText("Saved", 50, 100, 0xFFE0, 0x0000, 2);
+		LCDDriver_printText("Saved", 50, 100, 0xFFE0, 0x0000, 2);
 	}
 	else
 	{
 		Touch_Set_Coef(tmp_ax, tmp_bx, tmp_ay, tmp_by);
-		ILI9341_printText("Cancelled", 50, 100, 0xFFE0, 0x0000, 2);
+		LCDDriver_printText("Cancelled", 50, 100, 0xFFE0, 0x0000, 2);
 	}
 	HAL_Delay(1000);	// 1 sec
 }

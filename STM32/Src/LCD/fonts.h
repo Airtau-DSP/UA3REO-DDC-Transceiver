@@ -3,7 +3,7 @@
 
 #include <stdbool.h>
 #include "stm32f4xx_hal.h"
-#include "MA_ILI9341.h"
+#include "lcd_driver.h"
 #include <stdlib.h>
 #include <stdio.h>
 

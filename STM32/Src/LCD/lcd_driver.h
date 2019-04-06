@@ -1,80 +1,129 @@
-/*
-Library:						TFT 2.4" LCD - ili9341
-Written by:					Mohamed Yaqoob (Not from scratch, but referring to many open source libraries)
-Date written:				20/01/2018
-
-Description:				This library makes use of the FSMC interface of the STM32 board to control a TFT LCD.
-										The concept shown here is exactly the same for other TFT LCDs, might need to use 16 bits for
-										some LCDs, but the method is similar.
-										You can use this as a starting point to program your own LCD and share it with us ;)
-*/
-
-#ifndef _ILI9341_H_
-#define _ILI9341_H_
+#ifndef _LCDDRIVER_H_
+#define _LCDDRIVER_H_
 
 //List of includes
 #include <stdbool.h>
 #include "stm32f4xx_hal.h"
 #include <stdlib.h>
 #include <stdio.h>
+#include "../settings.h"
 
 //LCD dimensions defines
-#define ILI9341_WIDTH       240
-#define ILI9341_HEIGHT      320
+#define LCD_WIDTH       320
+#define LCD_HEIGHT      240
 
-#define ILI9341_COMM_ADDR 0x60000000
-#define ILI9341_DATA_ADDR 0x60080000
+#ifdef ILI9341
+#define LCD_FSMC_COMM_ADDR 0x60000000
+#define LCD_FSMC_DATA_ADDR 0x60080000
+#endif
+#ifdef ILI9325
+#define LCD_FSMC_COMM_ADDR 0x6c000000
+#define LCD_FSMC_DATA_ADDR 0x6c000080
+#endif
 
-#define ILI9341_NORMAL_WIDTH       320
-#define ILI9341_NORMAL_HEIGHT      240
+#define ILI9341_PIXEL_COUNT	LCD_WIDTH * LCD_HEIGHT
 
-#define ILI9341_PIXEL_COUNT	ILI9341_WIDTH * ILI9341_HEIGHT
 //ILI9341 LCD commands
-#define ILI9341_RESET			 		    	0x01
-#define ILI9341_SLEEP_OUT		  			0x11
-#define ILI9341_GAMMA			    			0x26
-#define ILI9341_DISPLAY_OFF					0x28
-#define ILI9341_DISPLAY_ON					0x29
-#define ILI9341_COLUMN_ADDR					0x2A
-#define ILI9341_PAGE_ADDR			  		0x2B
-#define ILI9341_CMD_MEMORY_READ     0x2E
-#define ILI9341_GRAM				    		0x2C
-#define ILI9341_TEARING_OFF					0x34
-#define ILI9341_TEARING_ON					0x35
-#define ILI9341_DISPLAY_INVERSION		0xb4
-#define ILI9341_MAC			        		0x36
-#define ILI9341_PIXEL_FORMAT    		0x3A
-#define ILI9341_WDB			    	  		0x51
-#define ILI9341_WCD				      		0x53
-#define ILI9341_RGB_INTERFACE   		0xB0
-#define ILI9341_FRC					    	0xB1
-#define ILI9341_BPC					    	0xB5
-#define ILI9341_DFC				 	    	0xB6
-#define ILI9341_Entry_Mode_Set		0xB7
-#define ILI9341_POWER1						0xC0
-#define ILI9341_POWER2						0xC1
-#define ILI9341_VCOM1							0xC5
-#define ILI9341_VCOM2							0xC7
-#define ILI9341_POWERA						0xCB
-#define ILI9341_POWERB						0xCF
-#define ILI9341_PGAMMA						0xE0
-#define ILI9341_NGAMMA						0xE1
-#define ILI9341_DTCA							0xE8
-#define ILI9341_DTCB							0xEA
-#define ILI9341_POWER_SEQ					0xED
-#define ILI9341_3GAMMA_EN					0xF2
-#define ILI9341_INTERFACE					0xF6
-#define ILI9341_PRC				   	  	0xF7
-#define ILI9341_VERTICAL_SCROLL 	0x33
+#ifdef ILI9341
+#define LCD_COMMAND_RESET			 		    	0x01
+#define LCD_COMMAND_SLEEP_OUT		  			0x11
+#define LCD_COMMAND_GAMMA			    			0x26
+#define LCD_COMMAND_DISPLAY_OFF					0x28
+#define LCD_COMMAND_DISPLAY_ON					0x29
+#define LCD_COMMAND_COLUMN_ADDR					0x2A
+#define LCD_COMMAND_PAGE_ADDR			  		0x2B
+#define LCD_COMMAND_CMD_MEMORY_READ     0x2E
+#define LCD_COMMAND_GRAM				    		0x2C
+#define LCD_COMMAND_TEARING_OFF					0x34
+#define LCD_COMMAND_TEARING_ON					0x35
+#define LCD_COMMAND_DISPLAY_INVERSION		0xb4
+#define LCD_COMMAND_MAC			        		0x36
+#define LCD_COMMAND_PIXEL_FORMAT    		0x3A
+#define LCD_COMMAND_WDB			    	  		0x51
+#define LCD_COMMAND_WCD				      		0x53
+#define LCD_COMMAND_RGB_INTERFACE   		0xB0
+#define LCD_COMMAND_FRC					    	0xB1
+#define LCD_COMMAND_BPC					    	0xB5
+#define LCD_COMMAND_DFC				 	    	0xB6
+#define LCD_COMMAND_Entry_Mode_Set		0xB7
+#define LCD_COMMAND_POWER1						0xC0
+#define LCD_COMMAND_POWER2						0xC1
+#define LCD_COMMAND_VCOM1							0xC5
+#define LCD_COMMAND_VCOM2							0xC7
+#define LCD_COMMAND_POWERA						0xCB
+#define LCD_COMMAND_POWERB						0xCF
+#define LCD_COMMAND_PGAMMA						0xE0
+#define LCD_COMMAND_NGAMMA						0xE1
+#define LCD_COMMAND_DTCA							0xE8
+#define LCD_COMMAND_DTCB							0xEA
+#define LCD_COMMAND_POWER_SEQ					0xED
+#define LCD_COMMAND_3GAMMA_EN					0xF2
+#define LCD_COMMAND_INTERFACE					0xF6
+#define LCD_COMMAND_PRC				   	  	0xF7
+#define LCD_COMMAND_VERTICAL_SCROLL 	0x33
+#define LCD_COMMAND_MEMCONTROL         0x36
+#define LCD_COMMAND_MADCTL_MY  0x80
+#define LCD_COMMAND_MADCTL_MX  0x40
+#define LCD_COMMAND_MADCTL_MV  0x20
+#define LCD_COMMAND_MADCTL_ML  0x10
+#define LCD_COMMAND_MADCTL_RGB 0x00
+#define LCD_COMMAND_MADCTL_BGR 0x08
+#define LCD_COMMAND_MADCTL_MH  0x04
+#endif
 
-#define ILI9341_MEMCONTROL         0x36
-#define ILI9341_MADCTL_MY  0x80
-#define ILI9341_MADCTL_MX  0x40
-#define ILI9341_MADCTL_MV  0x20
-#define ILI9341_MADCTL_ML  0x10
-#define ILI9341_MADCTL_RGB 0x00
-#define ILI9341_MADCTL_BGR 0x08
-#define ILI9341_MADCTL_MH  0x04
+//ILI9325 LCD commands
+#ifdef ILI9325
+#define LCD_COMMAND_Driver_Code_Read		0x00
+#define LCD_COMMAND_Driver_Output_Control	0x01
+#define LCD_COMMAND_LCD_Driving_Control		0x02
+#define LCD_COMMAND_Entry_Mode				0x03
+#define LCD_COMMAND_Resize_Control			0x04
+#define LCD_COMMAND_Display_Control_1		0x07
+#define LCD_COMMAND_Display_Control_2		0x08
+#define LCD_COMMAND_Display_Control_3		0x09
+#define LCD_COMMAND_Display_Control_4		0x0A
+#define LCD_COMMAND_RGB_Display_Interface_Control_1		0x0C
+#define LCD_COMMAND_Frame_Maker_Position		0x0D
+#define LCD_COMMAND_RGB_Display_Interface_Control_2		0x0F
+#define LCD_COMMAND_Power_Control_1			0x10
+#define LCD_COMMAND_Power_Control_2			0x11
+#define LCD_COMMAND_Power_Control_3			0x12
+#define LCD_COMMAND_Power_Control_4			0x13
+#define LCD_COMMAND_Horizontal_GRAM_Address_Set		0x20
+#define LCD_COMMAND_Vertical_GRAM_Address_Set		0x21
+#define LCD_COMMAND_Write_Data_to_GRAM		0x22
+#define LCD_COMMAND_Power_Control_7			0x29
+#define LCD_COMMAND_Frame_Rate_and_Color_Control		0x2B
+#define LCD_COMMAND_Gamma_Control_1			0x30
+#define LCD_COMMAND_Gamma_Control_2			0x31
+#define LCD_COMMAND_Gamma_Control_3			0x32
+#define LCD_COMMAND_Gamma_Control_4			0x35
+#define LCD_COMMAND_Gamma_Control_5			0x36
+#define LCD_COMMAND_Gamma_Control_6			0x37
+#define LCD_COMMAND_Gamma_Control_7			0x38
+#define LCD_COMMAND_Gamma_Control_8			0x39
+#define LCD_COMMAND_Gamma_Control_9			0x3C
+#define LCD_COMMAND_Gamma_Control_10		0x3D
+#define LCD_COMMAND_Horizontal_Address_Start_Position		0x50
+#define LCD_COMMAND_Horizontal_Address_End_Position			0x51
+#define LCD_COMMAND_Vertical_Address_Start_Position			0x52
+#define LCD_COMMAND_Vertical_Address_End_Position			0x53
+#define LCD_COMMAND_Driver_Output_Control_2					0x60
+#define LCD_COMMAND_Base_Image_Display_Control				0x61
+#define LCD_COMMAND_Vertical_Scroll_Control					0x6A
+#define LCD_COMMAND_Partial_Image_1_Display_Position		0x80
+#define LCD_COMMAND_Partial_Image_1_Area_Start_Line			0x81
+#define LCD_COMMAND_Partial_Image_1_Area_End_Line			0x82
+#define LCD_COMMAND_Partial_Image_2_Display_Position		0x83
+#define LCD_COMMAND_Partial_Image_2_Area_Start_Line			0x84
+#define LCD_COMMAND_Partial_Image_2_Area_End_Line			0x85
+#define LCD_COMMAND_Panel_Interface_Control_1				0x90
+#define LCD_COMMAND_Panel_Interface_Control_2				0x92
+#define LCD_COMMAND_Panel_Interface_Control_4				0x95
+#define LCD_COMMAND_OTP_VCM_Programming_Control			0xA1
+#define LCD_COMMAND_OTP_VCM_Status_and_Enable				0xA2
+#define LCD_COMMAND_OTP_Programming_ID_Key					0xA5
+#endif
 
 //List of colors
 #define COLOR_BLACK           0x0000  
@@ -402,48 +451,48 @@ const unsigned char font1[] = {
 
 //***** Functions prototypes *****//
 //1. Write Command to LCD
-void ILI9341_SendCommand(uint16_t com);
+void LCDDriver_SendCommand(uint16_t com);
 //2. Write data to LCD
-void ILI9341_SendData(uint16_t data);
+void LCDDriver_SendData(uint16_t data);
 //3. Set cursor position
-void ILI9341_SetCursorAreaPosition(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
-void ILI9341_SetCursorPosition(uint16_t x, uint16_t y);
-uint16_t ILI9341_GetCurrentXOffset(void);
+void LCDDriver_SetCursorAreaPosition(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2);
+void LCDDriver_SetCursorPosition(uint16_t x, uint16_t y);
+uint16_t LCDDriver_GetCurrentXOffset(void);
 //4. Initialise function
-void ILI9341_Init(void);
+void LCDDriver_Init(void);
 //5. Write data to a single pixel
-void ILI9341_DrawPixel(uint16_t x, uint16_t y, uint16_t color); //Draw single pixel to ILI9341
+void LCDDriver_DrawPixel(uint16_t x, uint16_t y, uint16_t color); //Draw single pixel to ILI9341
 //6. Fill the entire screen with a background color
-void ILI9341_Fill(uint16_t color); //Fill entire ILI9341 with color
+void LCDDriver_Fill(uint16_t color); //Fill entire ILI9341 with color
 //7. Rectangle drawing functions
-void ILI9341_Fill_RectXY(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, uint16_t color);
-void ILI9341_Fill_RectWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint16_t color);
+void LCDDriver_Fill_RectXY(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, uint16_t color);
+void LCDDriver_Fill_RectWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint16_t color);
 //8. Circle drawing functions
-void ILI9341_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+void LCDDriver_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
 static void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color);
 static void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color);
-void ILI9341_fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
+void LCDDriver_fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
 //9. Line drawing functions
-void ILI9341_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
-void ILI9341_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
-void ILI9341_drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
-void ILI9341_drawRectXY(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, uint16_t color);
+void LCDDriver_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
+void LCDDriver_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color);
+void LCDDriver_drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color);
+void LCDDriver_drawRectXY(unsigned int x0, unsigned int y0, unsigned int x1, unsigned int y1, uint16_t color);
 //10. Triangle drawing
-void ILI9341_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
-void ILI9341_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void LCDDriver_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
+void LCDDriver_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
 //11. Text printing functions
-void ILI9341_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size);
-void ILI9341_printText(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, uint8_t size);
-void ILI9341_printTextFont(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, GFXfont gfxFont);
-void ILI9341_getTextBounds(char text[], int16_t x, int16_t y, uint16_t *x1, uint16_t *y1, uint16_t *w, uint16_t *h, GFXfont gfxFont);
+void LCDDriver_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size);
+void LCDDriver_printText(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, uint8_t size);
+void LCDDriver_printTextFont(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, GFXfont gfxFont);
+void LCDDriver_getTextBounds(char text[], int16_t x, int16_t y, uint16_t *x1, uint16_t *y1, uint16_t *w, uint16_t *h, GFXfont gfxFont);
 //12. Image print (RGB 565, 2 bytes per pixel)
-void ILI9341_printImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data, uint32_t size);
+void LCDDriver_printImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data, uint32_t size);
 //13. Set screen rotation
-void ILI9341_setRotation(uint8_t rotate);
+void LCDDriver_setRotation(uint8_t rotate);
 
 uint16_t rgb888torgb565(uint8_t red, uint8_t green, uint8_t blue);
-void ILI9341_vertScrollSetup(int16_t top, int16_t scrollines);
-void ILI9341_vertScroll(int16_t offset);
-void ILI9341_setBrightness(uint8_t percent);
+void LCDDriver_vertScrollSetup(int16_t top, int16_t scrollines);
+void LCDDriver_vertScroll(int16_t offset);
+void LCDDriver_setBrightness(uint8_t percent);
 
 #endif

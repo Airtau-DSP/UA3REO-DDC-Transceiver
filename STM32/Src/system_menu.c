@@ -25,7 +25,7 @@ void drawSystemMenu(bool draw_background)
 	i=1;
 	y=5;
 	
-	if(draw_background) ILI9341_Fill(COLOR_BLACK);
+	if(draw_background) LCDDriver_Fill(COLOR_BLACK);
 	drawSystemMenuElement("FFT Enabled", SYSMENU_BOOLEAN, TRX.FFT_Enabled);
 	drawSystemMenuElement("CW Generator shift", SYSMENU_INTEGER, TRX.CW_GENERATOR_SHIFT_HZ);
 	drawSystemMenuElement("LCD Brightness", SYSMENU_INTEGER, TRX.LCD_Brightness);
@@ -36,14 +36,14 @@ void drawSystemMenu(bool draw_background)
 	drawSystemMenuElement("Touchpad beeping", SYSMENU_BOOLEAN, TRX.Beeping);
 	drawSystemMenuElement("CW Key timeout", SYSMENU_INTEGER, TRX.Key_timeout);
 	
-	ILI9341_Fill_RectXY(290,0,320,30,COLOR_GREEN);
-	ILI9341_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
+	LCDDriver_Fill_RectXY(290,0,320,30,COLOR_GREEN);
+	LCDDriver_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
 	
-	ILI9341_Fill_RectXY(290,80,320,110,COLOR_GREEN);
-	ILI9341_printText("<", 298, 85, COLOR_BLACK, COLOR_GREEN, 3);
+	LCDDriver_Fill_RectXY(290,80,320,110,COLOR_GREEN);
+	LCDDriver_printText("<", 298, 85, COLOR_BLACK, COLOR_GREEN, 3);
 	
-	ILI9341_Fill_RectXY(290,140,320,170,COLOR_GREEN);
-	ILI9341_printText(">", 298, 145, COLOR_BLACK, COLOR_GREEN, 3);
+	LCDDriver_Fill_RectXY(290,140,320,170,COLOR_GREEN);
+	LCDDriver_printText(">", 298, 145, COLOR_BLACK, COLOR_GREEN, 3);
 	
 	LCD_UpdateQuery.SystemMenu=false;
 	LCD_busy=false;
@@ -63,7 +63,7 @@ void eventRotateSystemMenu(int direction)
 		TRX.LCD_Brightness+=direction;
 		if(TRX.LCD_Brightness<1) TRX.LCD_Brightness=1;
 		if(TRX.LCD_Brightness>100) TRX.LCD_Brightness=100;
-		ILI9341_setBrightness(TRX.LCD_Brightness);
+		LCDDriver_setBrightness(TRX.LCD_Brightness);
 	}
 	if(systemMenuIndex==4)
 	{
@@ -120,14 +120,14 @@ void eventClickSystemMenu(uint16_t x, uint16_t y)
 void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value)
 {
 	char ctmp[50];
-	ILI9341_Fill_RectXY(1,y,320,y+17,COLOR_BLACK);
-	ILI9341_printText(title, x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	LCDDriver_Fill_RectXY(1,y,320,y+17,COLOR_BLACK);
+	LCDDriver_printText(title, x1, y, COLOR_WHITE, COLOR_BLACK, 2);
 	if(type==SYSMENU_INTEGER) sprintf(ctmp, "%d", value);
 	if(type==SYSMENU_BOOLEAN && value==1) sprintf(ctmp, "YES");
 	if(type==SYSMENU_BOOLEAN && value==0) sprintf(ctmp, "NO");
 	if(type==SYSMENU_RUN) sprintf(ctmp, "RUN");
-	ILI9341_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) ILI9341_drawFastHLine(5,y+17,310,COLOR_WHITE);
+	LCDDriver_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==i) LCDDriver_drawFastHLine(5,y+17,310,COLOR_WHITE);
 	i++;
 	y+=18;
 }
