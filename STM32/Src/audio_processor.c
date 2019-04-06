@@ -291,16 +291,19 @@ void processRxAudio(void)
 			DemodulateFM();
 			break;
 		}
-		
-		//Prepare data to calculate s-meter
-		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-		{
-			if(FPGA_Audio_Buffer_I_tmp[i]>Processor_RX_Audio_Samples_MAX_value) Processor_RX_Audio_Samples_MAX_value=FPGA_Audio_Buffer_I_tmp[i];
-			if(FPGA_Audio_Buffer_Q_tmp[i]>Processor_RX_Audio_Samples_MAX_value) Processor_RX_Audio_Samples_MAX_value=FPGA_Audio_Buffer_Q_tmp[i];
-			if(FPGA_Audio_Buffer_I_tmp[i]<Processor_RX_Audio_Samples_MIN_value) Processor_RX_Audio_Samples_MIN_value=FPGA_Audio_Buffer_I_tmp[i];
-			if(FPGA_Audio_Buffer_Q_tmp[i]<Processor_RX_Audio_Samples_MIN_value) Processor_RX_Audio_Samples_MIN_value=FPGA_Audio_Buffer_Q_tmp[i];
-		}
-		
+	}	
+	
+	//Prepare data to calculate s-meter
+	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+	{
+		if(FPGA_Audio_Buffer_I_tmp[i]>Processor_RX_Audio_Samples_MAX_value) Processor_RX_Audio_Samples_MAX_value=FPGA_Audio_Buffer_I_tmp[i];
+		if(FPGA_Audio_Buffer_Q_tmp[i]>Processor_RX_Audio_Samples_MAX_value) Processor_RX_Audio_Samples_MAX_value=FPGA_Audio_Buffer_Q_tmp[i];
+		if(FPGA_Audio_Buffer_I_tmp[i]<Processor_RX_Audio_Samples_MIN_value) Processor_RX_Audio_Samples_MIN_value=FPGA_Audio_Buffer_I_tmp[i];
+		if(FPGA_Audio_Buffer_Q_tmp[i]<Processor_RX_Audio_Samples_MIN_value) Processor_RX_Audio_Samples_MIN_value=FPGA_Audio_Buffer_Q_tmp[i];
+	}
+	
+	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)	
+	{
 		//AGC
 		if (CurrentVFO()->Agc && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 			RxAgcWdsp(numBlocks*APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]); //AGC
