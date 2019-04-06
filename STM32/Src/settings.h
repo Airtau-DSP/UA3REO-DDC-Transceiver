@@ -7,6 +7,21 @@
 #include "arm_math.h"
 #include "bands.h"
 
+#define ADCDAC_CLOCK 50000000 //Частота генератора АЦП/ЦАП
+#define MAX_FREQ_HZ 750000000 //Максимальная частота приёма (из даташита АЦП)
+#define ADC_BITS 12 //разрядность АЦП
+#define MAX_TX_AMPLITUDE 30000.0f //Максимальный размах при передаче в ЦАП (32767.0f - лимит при 14bit)
+#define TUNE_AMPLITUDE MAX_TX_AMPLITUDE/4.0f //Мощность при использовании кнопки TUNE
+#define AGC_CLIP_WARN_THRESHOLD 5000 //Максимальный уровень усиления в AGC
+#define TX_AGC_STEPSIZE 0.5f //Время срабатывания компрессора голосового сигнала на передачу
+#define TX_AGC_MAXGAIN 500.0f //Максимальное усиление микрофона при компрессировании
+#define TX_AGC_NOISEGATE 0.1f //Минимальный уровень сигнала для усиления (ниже - шум, отрезаем)
+#define TOUCHPAD_DELAY 100 //Время защиты от анти-дребезга нажания на тачпад
+#define ADC_VREF 1.0f //опорное напряжение АЦП, при подаче на вход которого АЦП отдаёт максимальное значение, вольт
+#define ADC_RESISTANCE 100 //сопротивление входа АЦП, ом
+#define ADC_RF_TRANS_RATIO 4 //коэффициент трансформации трансформатора :) на входе АЦП
+#define ADC_RF_INPUT_VALUE_CALIBRATION 0.45f //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера (PREAMP включен)
+
 #define W25Q16_COMMAND_Write_Enable 0x06
 #define W25Q16_COMMAND_Erase_Chip 0xC7
 #define W25Q16_COMMAND_Sector_Erase 0x20

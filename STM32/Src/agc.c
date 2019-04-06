@@ -47,8 +47,8 @@ void SetupAgcWdsp(void)
 		}
 		agc_wdsp.tau_attack = 0.001f;               // tau_attack
 		agc_wdsp.n_tau = 4;                        // n_tau
-		agc_wdsp.max_input = ADC_CLIP_WARN_THRESHOLD; // which is 4096 at the moment
-		agc_wdsp.out_targ = ADC_CLIP_WARN_THRESHOLD; // 4096, tweaked, so that volume when switching between the two AGCs remains equal
+		agc_wdsp.max_input = AGC_CLIP_WARN_THRESHOLD; // which is 4096 at the moment
+		agc_wdsp.out_targ = AGC_CLIP_WARN_THRESHOLD; // 4096, tweaked, so that volume when switching between the two AGCs remains equal
 		agc_wdsp.tau_fast_backaverage = 0.250f;    // tau_fast_backaverage
 		agc_wdsp.tau_fast_decay = 0.005f;          // tau_fast_decay
 		agc_wdsp.pop_ratio = 5.0f;                 // pop_ratio

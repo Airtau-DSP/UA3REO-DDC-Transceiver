@@ -6,7 +6,7 @@
 
 typedef enum 
 {
-  SYSMENU_INTEGER       = 0x00U,
+	SYSMENU_INTEGER       = 0x00U,
 	SYSMENU_BOOLEAN       = 0x01U,
 	SYSMENU_RUN       = 0x02U,
 } SystemMenuType;

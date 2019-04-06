@@ -5,11 +5,9 @@
 #include <stdbool.h>
 #include "fft.h"
 #include "audio_processor.h"
+#include "settings.h"
 
-#define ADCDAC_CLOCK 50000000
-#define MAX_TX_AMPLITUDE 30000.0f // 32767.0f - limit
-#define HALF_TX_AMPLITUDE 16383.5f
-#define TUNE_AMPLITUDE 6500.0f
+#define HALF_TX_AMPLITUDE MAX_TX_AMPLITUDE/2.0f
 
 void FPGA_Init(void);
 void FPGA_fpgadata_iqclock(void);
