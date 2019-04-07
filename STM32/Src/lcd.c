@@ -299,7 +299,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	LCDDriver_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
 	
 	LCDDriver_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
-	if (TRX_agc_wdsp_action && CurrentVFO()->Agc && (CurrentVFO()->Mode == TRX_MODE_LSB || CurrentVFO()->Mode == TRX_MODE_USB)) LCDDriver_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
+	if (TRX_agc_wdsp_action && CurrentVFO()->Agc) LCDDriver_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR || TRX_DAC_OTR) LCDDriver_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
