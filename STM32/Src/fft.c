@@ -9,9 +9,8 @@
 #include "settings.h"
 
 uint32_t FFT_buff_index = 0;
-float32_t FFTInput_A[FFT_SIZE * 2] = { 0 };
-float32_t FFTInput_B[FFT_SIZE * 2] = { 0 };
-bool FFTInputBufferInProgress = false; //false - A, true - B
+float32_t FFTInput[FFT_SIZE * 2] = { 0 };
+bool NeedFFTInputBuffer = false;
 float32_t FFTOutput[FFT_SIZE] = { 0 };
 float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 };
 
@@ -37,31 +36,17 @@ void FFT_doFFT(void)
 {
 	if (!TRX.FFT_Enabled) return;
 	if (!FFT_need_fft) return;
+	if (NeedFFTInputBuffer) return;
 	
-	if (!FFTInputBufferInProgress) //B in progress
+	for (int i = 0; i < FFT_SIZE; i++) //Hanning window
 	{
-		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
-		{
-			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2 * PI*i / FFT_SIZE));
-			FFTInput_A[i * 2] = multiplier * FFTInput_A[i * 2];
-			FFTInput_A[i * 2 + 1] = multiplier * FFTInput_A[i * 2 + 1];
-		}
-		arm_cfft_f32(S, FFTInput_A, 0, 1);
-		arm_cmplx_mag_f32(FFTInput_A, FFTOutput, FFT_SIZE);
-		//arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
+		double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2 * PI*i / FFT_SIZE));
+		FFTInput[i * 2] = multiplier * FFTInput[i * 2];
+		FFTInput[i * 2 + 1] = multiplier * FFTInput[i * 2 + 1];
 	}
-	else //A in progress
-	{
-		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
-		{
-			double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2 * PI*i / FFT_SIZE));
-			FFTInput_B[i * 2] = multiplier * FFTInput_B[i * 2];
-			FFTInput_B[i * 2 + 1] = multiplier * FFTInput_B[i * 2 + 1];
-		}
-		arm_cfft_f32(S, FFTInput_B, 0, 1);
-		arm_cmplx_mag_f32(FFTInput_B, FFTOutput, FFT_SIZE);
-		//arm_cmplx_mag_squared_f32(FFTInput_B, FFTOutput, FFT_SIZE);
-	}
+	arm_cfft_f32(S, FFTInput, 0, 1);
+	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
+	//arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
 	
 	//Autocalibrate MIN and MAX on FFT
 	arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
@@ -97,7 +82,7 @@ void FFT_doFFT(void)
 	{
 		FFTOutput_mean[n]=(FFTOutput_mean[n]+FFTOutput[n])/2.0f;
 	}
-	
+	NeedFFTInputBuffer = true;
 	FFT_need_fft = false;
 }
 

@@ -26,9 +26,9 @@ extern void FFT_moveWaterfall(int16_t freq_diff);
 
 extern uint32_t FFT_buff_index;
 extern bool FFTInputBufferInProgress;
+extern bool NeedFFTInputBuffer;
 extern bool FFT_need_fft;
-extern float32_t FFTInput_A[FFT_SIZE * 2];
-extern float32_t FFTInput_B[FFT_SIZE * 2];
+extern float32_t FFTInput[FFT_SIZE * 2];
 uint16_t getFFTColor(uint8_t height);
 
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
