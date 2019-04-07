@@ -37,6 +37,7 @@ extern bool TRX_ptt_cat;
 extern bool TRX_old_ptt_cat;
 extern bool TRX_key_serial;
 extern bool TRX_old_key_serial;
+extern bool TRX_key_hard;
 extern uint16_t TRX_Key_Timeout_est;
 
 extern bool TRX_IQ_swap;

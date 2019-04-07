@@ -109,7 +109,7 @@ void processTxAudio(void)
 			{
 				case TRX_MODE_CW_L:
 				case TRX_MODE_CW_U:
-					if(!TRX_key_serial && !TRX_ptt_hard) selected_rfpower_amplitude=0;
+					if(!TRX_key_serial && !TRX_ptt_hard && !TRX_key_hard) selected_rfpower_amplitude=0;
 					for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 					{
 						FPGA_Audio_Buffer_Q_tmp[i] = selected_rfpower_amplitude;

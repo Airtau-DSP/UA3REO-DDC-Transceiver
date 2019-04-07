@@ -436,6 +436,7 @@ void TIM6_DAC_IRQHandler(void)
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
 	if (TRX_ptt_cat != TRX_old_ptt_cat) TRX_ptt_change();
 	if (TRX_key_serial != TRX_old_key_serial) TRX_key_change();
+	if (TRX_key_hard == HAL_GPIO_ReadPin(KEY_IN_GPIO_Port, KEY_IN_Pin)) TRX_key_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 

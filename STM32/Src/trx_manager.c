@@ -18,6 +18,8 @@ bool TRX_ptt_cat = false;
 bool TRX_old_ptt_cat = false;
 bool TRX_key_serial = false;
 bool TRX_old_key_serial = false;
+bool TRX_key_hard = false;
+bool TRX_old_key_hard = false;
 uint16_t TRX_Key_Timeout_est = 0;
 
 bool TRX_IQ_swap = false;
@@ -130,6 +132,17 @@ void TRX_ptt_change(void)
 void TRX_key_change(void)
 {
 	if (TRX_tune) return;
+	bool TRX_new_ptt_hard = !HAL_GPIO_ReadPin(KEY_IN_GPIO_Port, KEY_IN_Pin);
+	if (TRX_key_hard != TRX_new_ptt_hard)
+	{
+		TRX_Time_InActive=0;
+		TRX_key_hard=TRX_new_ptt_hard;
+		if(TRX_key_hard==true) TRX_Key_Timeout_est=TRX.Key_timeout;
+		if(TRX.Key_timeout==0) TRX_ptt_cat=TRX_key_hard;
+		LCD_displayStatusInfoGUI();
+		FPGA_NeedSendParams = true;
+		TRX_Restart_Mode();
+	}
 	if (TRX_key_serial != TRX_old_key_serial)
 	{
 		TRX_Time_InActive=0;

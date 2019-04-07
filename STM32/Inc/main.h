@@ -73,6 +73,8 @@ void Error_Handler(void);
 #define FPGA_CLK_GPIO_Port GPIOC
 #define FPGA_SYNC_Pin GPIO_PIN_1
 #define FPGA_SYNC_GPIO_Port GPIOC
+#define KEY_IN_Pin GPIO_PIN_2
+#define KEY_IN_GPIO_Port GPIOC
 #define FPGA_IN_D0_Pin GPIO_PIN_0
 #define FPGA_IN_D0_GPIO_Port GPIOA
 #define FPGA_IN_D1_Pin GPIO_PIN_1
