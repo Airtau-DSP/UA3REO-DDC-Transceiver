@@ -356,7 +356,7 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms50_counter++;
 	
-	float32_t new_dc_offset=(FPGA_MIN_I_Value+FPGA_MAX_I_Value)*4.0f;
+	float32_t new_dc_offset=(FPGA_MIN_I_Value+FPGA_MAX_I_Value)*32.0f;
 	FPGA_DC_Offset+=(FPGA_DC_Offset+new_dc_offset)/200.0f;
 	FPGA_MIN_I_Value=0;
 	FPGA_MAX_I_Value=0;
