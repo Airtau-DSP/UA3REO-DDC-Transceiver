@@ -398,6 +398,7 @@ uint8_t getModeFromFreq(uint32_t freq)
 				if (BANDS[b].regions[r].startFreq <= freq && freq < BANDS[b].regions[r].endFreq)
 				{
 					ret = BANDS[b].regions[r].mode;
+					return ret;
 				}
 			}
 	}
