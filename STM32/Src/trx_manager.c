@@ -164,31 +164,35 @@ void TRX_setFrequency(int32_t _freq)
 
 	CurrentVFO()->Freq = _freq;
 	if(getBandFromFreq(_freq)>=0) TRX.saved_freq[getBandFromFreq(_freq)]=_freq;
-	if (TRX.BandMapEnabled && TRX_getMode() != getModeFromFreq(CurrentVFO()->Freq))
+	if (TRX.BandMapEnabled)
 	{
-		TRX_setMode(getModeFromFreq(CurrentVFO()->Freq));
-		switch (TRX_getMode())
+		uint8_t mode_from_bandmap = getModeFromFreq(CurrentVFO()->Freq);
+		if (TRX_getMode() != mode_from_bandmap)
 		{
-		case TRX_MODE_LSB:
-		case TRX_MODE_USB:
-		case TRX_MODE_DIGI_L:
-		case TRX_MODE_DIGI_U:
-		case TRX_MODE_AM:
-			CurrentVFO()->Filter_Width = TRX.SSB_Filter;
-			break;
-		case TRX_MODE_CW_L:
-		case TRX_MODE_CW_U:
-			CurrentVFO()->Filter_Width = TRX.CW_Filter;
-			break;
-		case TRX_MODE_NFM:
-			CurrentVFO()->Filter_Width = TRX.FM_Filter;
-			break;
-		case TRX_MODE_WFM:
-			CurrentVFO()->Filter_Width = 0;
-			break;
+			TRX_setMode(mode_from_bandmap);
+			switch (mode_from_bandmap)
+			{
+			case TRX_MODE_LSB:
+			case TRX_MODE_USB:
+			case TRX_MODE_DIGI_L:
+			case TRX_MODE_DIGI_U:
+			case TRX_MODE_AM:
+				CurrentVFO()->Filter_Width = TRX.SSB_Filter;
+				break;
+			case TRX_MODE_CW_L:
+			case TRX_MODE_CW_U:
+				CurrentVFO()->Filter_Width = TRX.CW_Filter;
+				break;
+			case TRX_MODE_NFM:
+				CurrentVFO()->Filter_Width = TRX.FM_Filter;
+				break;
+			case TRX_MODE_WFM:
+				CurrentVFO()->Filter_Width = 0;
+				break;
+			}
+			InitFilters();
+			LCD_UpdateQuery.TopButtons = true;
 		}
-		InitFilters();
-		LCD_displayTopButtons(false);
 	}
 	FPGA_NeedSendParams = true;
 }
