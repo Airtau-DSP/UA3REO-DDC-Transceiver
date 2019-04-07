@@ -69,6 +69,7 @@ void LCDDriver_SetCursorPosition(uint16_t x, uint16_t y)
 	LCDDriver_SendData(y >> 8);
 	LCDDriver_SendData(y & 0xFF);
 	LCDDriver_SendCommand(LCD_COMMAND_GRAM);
+	text_cursor_y = y;
 	#endif
 	#ifdef ILI9325
 	LCDDriver_SendCommand (LCD_COMMAND_Vertical_GRAM_Address_Set);
@@ -78,7 +79,6 @@ void LCDDriver_SetCursorPosition(uint16_t x, uint16_t y)
 	LCDDriver_SendCommand (LCD_COMMAND_Write_Data_to_GRAM);
 	#endif
 	text_cursor_x = x;
-	text_cursor_y = y;
 }
 uint16_t LCDDriver_GetCurrentXOffset(void)
 {
