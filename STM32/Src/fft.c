@@ -38,7 +38,7 @@ void FFT_doFFT(void)
 	if (!TRX.FFT_Enabled) return;
 	if (!FFT_need_fft) return;
 	
-	if (FFTInputBufferInProgress) //B in progress
+	if (!FFTInputBufferInProgress) //B in progress
 	{
 		for (int i = 0; i < FFT_SIZE; i++) //Hanning window
 		{
