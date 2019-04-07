@@ -22,22 +22,22 @@
 
 module nco_nco_ii_0(clk, reset_n, clken, phi_inc_i, fsin_o, fcos_o, out_valid);
 
-parameter mpr = 16;
-parameter opr = 32;
+parameter mpr = 14;
+parameter opr = 28;
 parameter apr = 22;
 parameter apri= 22;
 parameter aprf= 32;
 parameter aprp= 16;
 parameter aprid=27;
 parameter dpri= 10;
-parameter rdw = 16;
+parameter rdw = 14;
 parameter rawc = 11;
 parameter rnwc = 2048;
 parameter rawf = 11;
 parameter rnwf = 2048;
 parameter Pn = 1048576;
-parameter mxnbc = 32768;
-parameter mxnbf = 32768;
+parameter mxnbc = 28672;
+parameter mxnbf = 28672;
 parameter rsfc = "nco_nco_ii_0_sin_c.hex";
 parameter rsff = "nco_nco_ii_0_sin_f.hex";
 parameter rcfc = "nco_nco_ii_0_cos_c.hex";

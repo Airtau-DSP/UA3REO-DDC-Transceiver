@@ -9,8 +9,8 @@
   <pin name="reset_n" direction="input" scope="external" />
   <pin name="clken" direction="input" scope="external" />
   <pin name="phi_inc_i[21..0]" direction="input" scope="external" />
-  <pin name="fsin_o[15..0]" direction="output" scope="external" />
-  <pin name="fcos_o[15..0]" direction="output" scope="external" />
+  <pin name="fsin_o[13..0]" direction="output" scope="external" />
+  <pin name="fcos_o[13..0]" direction="output" scope="external" />
   <pin name="out_valid" direction="output" scope="external" />
  </global>
 </pinplan>

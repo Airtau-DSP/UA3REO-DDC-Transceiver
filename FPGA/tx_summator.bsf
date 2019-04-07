@@ -26,15 +26,15 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 40)
 		(input)
-		(text "dataa[31..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
-		(text "dataa[31..0]" (rect 4 26 59 39)(font "Arial" (font_size 8)))
+		(text "dataa[27..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "dataa[27..0]" (rect 4 26 59 39)(font "Arial" (font_size 8)))
 		(line (pt 0 40)(pt 64 40)(line_width 3))
 	)
 	(port
 		(pt 0 72)
 		(input)
-		(text "datab[31..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
-		(text "datab[31..0]" (rect 4 58 59 71)(font "Arial" (font_size 8)))
+		(text "datab[27..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "datab[27..0]" (rect 4 58 59 71)(font "Arial" (font_size 8)))
 		(line (pt 0 72)(pt 64 72)(line_width 3))
 	)
 	(port
@@ -54,8 +54,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 160 56)
 		(output)
-		(text "result[31..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
-		(text "result[31..0]" (rect 100 42 155 55)(font "Arial" (font_size 8)))
+		(text "result[27..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "result[27..0]" (rect 100 42 155 55)(font "Arial" (font_size 8)))
 		(line (pt 160 56)(pt 96 56)(line_width 3))
 	)
 	(port

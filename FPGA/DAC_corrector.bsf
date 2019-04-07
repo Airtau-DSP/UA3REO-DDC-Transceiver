@@ -33,8 +33,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 48)
 		(input)
-		(text "DATA_IN[31..0]" (rect 0 0 68 12)(font "Arial" ))
-		(text "DATA_IN[31..0]" (rect 21 43 89 55)(font "Arial" ))
+		(text "DATA_IN[27..0]" (rect 0 0 69 12)(font "Arial" ))
+		(text "DATA_IN[27..0]" (rect 21 43 90 55)(font "Arial" ))
 		(line (pt 0 48)(pt 16 48)(line_width 3))
 	)
 	(port

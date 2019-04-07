@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.03.05.01:25:40"
+ date="2019.04.07.13:37:53"
  outputDirectory="D:/Dropbox/Develop/Projects/UA3REO/FPGA/DEBUG/">
  <perimeter>
   <parameter
@@ -36,17 +36,17 @@
   <interface name="probes" kind="conduit" start="0">
    <property name="associatedClock" value="" />
    <property name="associatedReset" value="" />
-   <port name="probe" direction="input" role="probe" width="12" />
+   <port name="probe" direction="input" role="probe" width="14" />
   </interface>
  </perimeter>
  <entity
    path=""
-   parameterizationKey="DEBUG:1.0:AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1551734739,AUTO_UNIQUE_ID=(altera_in_system_sources_probes:18.1:create_source_clock=false,create_source_clock_enable=false,device_family=Cyclone IV E,enable_metastability=NO,gui_use_auto_index=true,instance_id=DBG,probe_width=12,sld_auto_instance_index=YES,sld_instance_index=0,source_initial_value=0,source_width=0)"
+   parameterizationKey="DEBUG:1.0:AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1554629873,AUTO_UNIQUE_ID=(altera_in_system_sources_probes:18.1:create_source_clock=false,create_source_clock_enable=false,device_family=Cyclone IV E,enable_metastability=NO,gui_use_auto_index=true,instance_id=DBG,probe_width=14,sld_auto_instance_index=YES,sld_instance_index=0,source_initial_value=0,source_width=0)"
    instancePathKey="DEBUG"
    kind="DEBUG"
    version="1.0"
    name="DEBUG">
-  <parameter name="AUTO_GENERATION_ID" value="1551734739" />
+  <parameter name="AUTO_GENERATION_ID" value="1554629873" />
   <parameter name="AUTO_DEVICE" value="EP4CE22E22C8" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_UNIQUE_ID" value="" />
@@ -90,7 +90,7 @@
  </entity>
  <entity
    path="submodules/"
-   parameterizationKey="altera_in_system_sources_probes:18.1:create_source_clock=false,create_source_clock_enable=false,device_family=Cyclone IV E,enable_metastability=NO,gui_use_auto_index=true,instance_id=DBG,probe_width=12,sld_auto_instance_index=YES,sld_instance_index=0,source_initial_value=0,source_width=0"
+   parameterizationKey="altera_in_system_sources_probes:18.1:create_source_clock=false,create_source_clock_enable=false,device_family=Cyclone IV E,enable_metastability=NO,gui_use_auto_index=true,instance_id=DBG,probe_width=14,sld_auto_instance_index=YES,sld_instance_index=0,source_initial_value=0,source_width=0"
    instancePathKey="DEBUG:.:in_system_sources_probes_0"
    kind="altera_in_system_sources_probes"
    version="18.1"
@@ -100,7 +100,7 @@
   <parameter name="source_initial_value" value="0" />
   <parameter name="sld_auto_instance_index" value="YES" />
   <parameter name="sld_instance_index" value="0" />
-  <parameter name="probe_width" value="12" />
+  <parameter name="probe_width" value="14" />
   <parameter name="source_width" value="0" />
   <parameter name="create_source_clock_enable" value="false" />
   <parameter name="device_family" value="Cyclone IV E" />

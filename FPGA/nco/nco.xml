@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deploy
- date="2019.03.30.22:33:43"
+ date="2019.04.07.12:13:03"
  outputDirectory="D:/Dropbox/Develop/Projects/UA3REO/FPGA/nco/">
  <perimeter>
   <parameter
@@ -66,8 +66,8 @@
   <interface name="out" kind="conduit" start="0">
    <property name="associatedClock" value="clk" />
    <property name="associatedReset" value="rst" />
-   <port name="fsin_o" direction="output" role="fsin_o" width="16" />
-   <port name="fcos_o" direction="output" role="fcos_o" width="16" />
+   <port name="fsin_o" direction="output" role="fsin_o" width="14" />
+   <port name="fcos_o" direction="output" role="fcos_o" width="14" />
    <port name="out_valid" direction="output" role="out_valid" width="1" />
   </interface>
   <interface name="rst" kind="reset" start="0">
@@ -78,13 +78,13 @@
  </perimeter>
  <entity
    path=""
-   parameterizationKey="nco:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1553970822,AUTO_UNIQUE_ID=(altera_nco_ii:18.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=parallel,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=16,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=false,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output)"
+   parameterizationKey="nco:1.0:AUTO_CLK_CLOCK_DOMAIN=-1,AUTO_CLK_CLOCK_RATE=-1,AUTO_CLK_RESET_DOMAIN=-1,AUTO_DEVICE=EP4CE22E22C8,AUTO_DEVICE_FAMILY=Cyclone IV E,AUTO_DEVICE_SPEEDGRADE=8,AUTO_GENERATION_ID=1554624783,AUTO_UNIQUE_ID=(altera_nco_ii:18.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=parallel,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=14,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=false,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output)"
    instancePathKey="nco"
    kind="nco"
    version="1.0"
    name="nco">
   <parameter name="AUTO_CLK_CLOCK_RATE" value="-1" />
-  <parameter name="AUTO_GENERATION_ID" value="1553970822" />
+  <parameter name="AUTO_GENERATION_ID" value="1554624783" />
   <parameter name="AUTO_DEVICE" value="EP4CE22E22C8" />
   <parameter name="AUTO_DEVICE_FAMILY" value="Cyclone IV E" />
   <parameter name="AUTO_CLK_RESET_DOMAIN" value="-1" />
@@ -197,7 +197,7 @@
  </entity>
  <entity
    path="submodules/"
-   parameterizationKey="altera_nco_ii:18.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=parallel,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=16,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=false,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output"
+   parameterizationKey="altera_nco_ii:18.1:apr=22,aprf=32,apri=22,aprp=16,arch=trig,cordic_arch=parallel,cycles_per_output=1,design_env=NATIVE,dpri=10,fmod_pipe=1,freq_out=7.1,fsamp=50.0,hyper_opt=false,hyper_opt_select=false,mpr=14,numba=1,numch=1,phi_inc=595591,pmod_pipe=1,real_freq_out=7.1,selected_device_family=Cyclone IV E,trig_cycles_per_output=1,use_dedicated_multipliers=true,want_dither=false,want_freq_mod=false,want_phase_mod=false,want_sin_and_cos=dual_output"
    instancePathKey="nco:.:nco_ii_0"
    kind="altera_nco_ii"
    version="18.1"
@@ -218,7 +218,7 @@
   <parameter name="hyper_opt" value="false" />
   <parameter name="trig_cycles_per_output" value="1" />
   <parameter name="dpri" value="10" />
-  <parameter name="mpr" value="16" />
+  <parameter name="mpr" value="14" />
   <parameter name="design_env" value="NATIVE" />
   <parameter name="numch" value="1" />
   <parameter name="want_freq_mod" value="false" />

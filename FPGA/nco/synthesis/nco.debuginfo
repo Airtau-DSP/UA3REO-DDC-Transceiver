@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="system" version="18.1" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2019.03.30.22:33:43 -->
+ <!-- 2019.04.07.12:13:04 -->
  <!-- A collection of modules and connections -->
  <parameter name="clockCrossingAdapter">
   <type>com.altera.sopcmodel.ensemble.EClockAdapter</type>
@@ -53,7 +53,7 @@
  </parameter>
  <parameter name="generationId">
   <type>int</type>
-  <value>1553970822</value>
+  <value>1554624783</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>true</visible>
@@ -226,7 +226,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="mpr">
    <type>int</type>
-   <value>16</value>
+   <value>14</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -570,13 +570,13 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>fsin_o</name>
     <direction>Output</direction>
-    <width>16</width>
+    <width>14</width>
     <role>fsin_o</role>
    </port>
    <port>
     <name>fcos_o</name>
     <direction>Output</direction>
-    <width>16</width>
+    <width>14</width>
     <role>fcos_o</role>
    </port>
    <port>
@@ -620,5 +620,5 @@ parameters are a RESULT of the module parameters. -->
   <version>18.1</version>
  </plugin>
  <reportVersion>18.1 625</reportVersion>
- <uniqueIdentifier>00FF3199AA1600000169CFE1009E</uniqueIdentifier>
+ <uniqueIdentifier>00FF3199AA1600000169F6DBA53B</uniqueIdentifier>
 </EnsembleReport>

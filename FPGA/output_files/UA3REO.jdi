@@ -1,38 +1,14 @@
 <sld_project_info>
   <project>
-    <hash md5_digest_80b="a43b0908fe3fc108eec9"/>
+    <hash md5_digest_80b="53a6ae27fddad422ecf2"/>
   </project>
   <file_info>
     <file device="EP4CE22E22C8" path="UA3REO.sof" usercode="0xFFFFFFFF"/>
   </file_info>
   <sld_infos>
-    <sld_info hpath="cic:RX_CIC_I" name="RX_CIC_I">
-      <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1554582065"/>
-      </assignment_values>
-      <parameters/>
-    </sld_info>
-    <sld_info hpath="cic:RX_CIC_Q" name="RX_CIC_Q">
-      <assignment_values>
-        <assignment_value text="QSYS_NAME cic HAS_SOPCINFO 1 GENERATION_ID 1554582065"/>
-      </assignment_values>
-      <parameters/>
-    </sld_info>
     <sld_info hpath="nco:NCO" name="NCO">
       <assignment_values>
-        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1554582053"/>
-      </assignment_values>
-      <parameters/>
-    </sld_info>
-    <sld_info hpath="tx_cic:TX_CIC_I" name="TX_CIC_I">
-      <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1554582041"/>
-      </assignment_values>
-      <parameters/>
-    </sld_info>
-    <sld_info hpath="tx_cic:TX_CIC_Q" name="TX_CIC_Q">
-      <assignment_values>
-        <assignment_value text="QSYS_NAME tx_cic HAS_SOPCINFO 1 GENERATION_ID 1554582041"/>
+        <assignment_value text="QSYS_NAME nco HAS_SOPCINFO 1 GENERATION_ID 1554631473"/>
       </assignment_values>
       <parameters/>
     </sld_info>

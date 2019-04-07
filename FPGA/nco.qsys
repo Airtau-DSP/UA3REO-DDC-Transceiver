@@ -71,7 +71,7 @@
   <parameter name="freq_out" value="7.1" />
   <parameter name="fsamp" value="50.0" />
   <parameter name="hyper_opt_select" value="false" />
-  <parameter name="mpr" value="16" />
+  <parameter name="mpr" value="14" />
   <parameter name="numba" value="1" />
   <parameter name="numch" value="1" />
   <parameter name="pmod_pipe" value="1" />

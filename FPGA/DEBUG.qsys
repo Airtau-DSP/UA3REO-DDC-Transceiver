@@ -57,7 +57,7 @@
   <parameter name="device_family" value="Cyclone IV E" />
   <parameter name="gui_use_auto_index" value="true" />
   <parameter name="instance_id" value="DBG" />
-  <parameter name="probe_width" value="12" />
+  <parameter name="probe_width" value="14" />
   <parameter name="sld_instance_index" value="0" />
   <parameter name="source_initial_value" value="0" />
   <parameter name="source_width" value="0" />

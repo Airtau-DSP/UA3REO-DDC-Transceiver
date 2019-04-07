@@ -11,8 +11,8 @@ module nco (
 	input		clk;
 	input		clken;
 	input	[21:0]	phi_inc_i;
-	output	[15:0]	fsin_o;
-	output	[15:0]	fcos_o;
+	output	[13:0]	fsin_o;
+	output	[13:0]	fcos_o;
 	output		out_valid;
 	input		reset_n;
 endmodule

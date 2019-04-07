@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <EnsembleReport name="nco" kind="nco" version="1.0" fabric="QSYS">
  <!-- Format version 18.1 625 (Future versions may contain additional information.) -->
- <!-- 2019.04.07.00:20:53 -->
+ <!-- 2019.04.07.14:40:14 -->
  <!-- A collection of modules and connections -->
  <parameter name="AUTO_GENERATION_ID">
   <type>java.lang.Integer</type>
-  <value>1554582053</value>
+  <value>1554633614</value>
   <derived>false</derived>
   <enabled>true</enabled>
   <visible>false</visible>
@@ -174,7 +174,7 @@ the requested settings for a module instance. -->
   </parameter>
   <parameter name="mpr">
    <type>int</type>
-   <value>16</value>
+   <value>14</value>
    <derived>false</derived>
    <enabled>true</enabled>
    <visible>true</visible>
@@ -518,13 +518,13 @@ parameters are a RESULT of the module parameters. -->
    <port>
     <name>fsin_o</name>
     <direction>Output</direction>
-    <width>16</width>
+    <width>14</width>
     <role>fsin_o</role>
    </port>
    <port>
     <name>fcos_o</name>
     <direction>Output</direction>
-    <width>16</width>
+    <width>14</width>
     <role>fcos_o</role>
    </port>
    <port>

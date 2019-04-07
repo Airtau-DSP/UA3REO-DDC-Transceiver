@@ -2,7 +2,7 @@ set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_TOOL_NAME "Qsys"
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_TOOL_VERSION "18.1"
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_TOOL_ENV "Qsys"
 set_global_assignment -library "DEBUG" -name SOPCINFO_FILE [file join $::quartus(qip_path) "../../DEBUG.sopcinfo"]
-set_global_assignment -entity "DEBUG" -library "DEBUG" -name SLD_INFO "QSYS_NAME DEBUG HAS_SOPCINFO 1 GENERATION_ID 1551734739"
+set_global_assignment -entity "DEBUG" -library "DEBUG" -name SLD_INFO "QSYS_NAME DEBUG HAS_SOPCINFO 1 GENERATION_ID 1554629873"
 set_global_assignment -library "DEBUG" -name MISC_FILE [file join $::quartus(qip_path) "../DEBUG.cmp"]
 set_global_assignment -library "DEBUG" -name SLD_FILE [file join $::quartus(qip_path) "DEBUG.debuginfo"]
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_TARGETED_DEVICE_FAMILY "Cyclone IV E"
@@ -15,7 +15,7 @@ set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_DISPLA
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_REPORT_HIERARCHY "On"
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_INTERNAL "Off"
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_VERSION "MS4w"
-set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU1MTczNDczOQ==::QXV0byBHRU5FUkFUSU9OX0lE"
+set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_PARAMETER "QVVUT19HRU5FUkFUSU9OX0lE::MTU1NDYyOTg3Mw==::QXV0byBHRU5FUkFUSU9OX0lE"
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfRkFNSUxZ::Q3ljbG9uZSBJViBF::QXV0byBERVZJQ0VfRkFNSUxZ"
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0U=::RVA0Q0UyMkUyMkM4::QXV0byBERVZJQ0U="
 set_global_assignment -entity "DEBUG" -library "DEBUG" -name IP_COMPONENT_PARAMETER "QVVUT19ERVZJQ0VfU1BFRURHUkFERQ==::OA==::QXV0byBERVZJQ0VfU1BFRURHUkFERQ=="
@@ -30,7 +30,7 @@ set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_CO
 set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "Z3VpX3VzZV9hdXRvX2luZGV4::dHJ1ZQ==::QXV0b21hdGljIEluc3RhbmNlIEluZGV4IEFzc2lnbm1lbnQ="
 set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "c2xkX2F1dG9faW5zdGFuY2VfaW5kZXg=::WUVT::c2xkX2F1dG9faW5zdGFuY2VfaW5kZXg="
 set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "aW5zdGFuY2VfaWQ=::REJH::VGhlICdJbnN0YW5jZSBJRCcgb2YgdGhpcyBpbnN0YW5jZSAob3B0aW9uYWwp"
-set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "cHJvYmVfd2lkdGg=::MTI=::UHJvYmUgUG9ydCBXaWR0aCBbMC4uNTEyXQ=="
+set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "cHJvYmVfd2lkdGg=::MTQ=::UHJvYmUgUG9ydCBXaWR0aCBbMC4uNTEyXQ=="
 set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "c291cmNlX3dpZHRo::MA==::U291cmNlIFBvcnQgV2lkdGggWzAuLjUxMl0="
 set_global_assignment -entity "altsource_probe_top" -library "DEBUG" -name IP_COMPONENT_PARAMETER "ZW5hYmxlX21ldGFzdGFiaWxpdHk=::Tk8=::ZW5hYmxlX21ldGFzdGFiaWxpdHk="
 

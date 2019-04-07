@@ -33,15 +33,15 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 0 56)
 		(input)
-		(text "dataa[15..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
-		(text "dataa[15..0]" (rect 4 42 59 55)(font "Arial" (font_size 8)))
+		(text "dataa[13..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "dataa[13..0]" (rect 4 42 59 55)(font "Arial" (font_size 8)))
 		(line (pt 0 56)(pt 72 56)(line_width 3))
 	)
 	(port
 		(pt 0 88)
 		(input)
-		(text "datab[15..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
-		(text "datab[15..0]" (rect 4 74 59 87)(font "Arial" (font_size 8)))
+		(text "datab[13..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "datab[13..0]" (rect 4 74 59 87)(font "Arial" (font_size 8)))
 		(line (pt 0 88)(pt 72 88)(line_width 3))
 	)
 	(port
@@ -54,8 +54,8 @@ refer to the applicable agreement for further details.
 	(port
 		(pt 168 72)
 		(output)
-		(text "result[31..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
-		(text "result[31..0]" (rect 108 58 163 71)(font "Arial" (font_size 8)))
+		(text "result[27..0]" (rect 0 0 67 14)(font "Arial" (font_size 8)))
+		(text "result[27..0]" (rect 108 58 163 71)(font "Arial" (font_size 8)))
 		(line (pt 168 72)(pt 104 72)(line_width 3))
 	)
 	(drawing
