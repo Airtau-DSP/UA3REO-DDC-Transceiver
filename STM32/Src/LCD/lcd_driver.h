@@ -12,14 +12,8 @@
 #define LCD_WIDTH       320
 #define LCD_HEIGHT      240
 
-#ifdef ILI9341
-#define LCD_FSMC_COMM_ADDR 0x60000000
-#define LCD_FSMC_DATA_ADDR 0x60080000
-#endif
-#ifdef ILI9325
-#define LCD_FSMC_COMM_ADDR 0x6c000000
-#define LCD_FSMC_DATA_ADDR 0x6c000080
-#endif
+extern uint32_t LCD_FSMC_COMM_ADDR;
+extern uint32_t LCD_FSMC_DATA_ADDR;
 
 #define ILI9341_PIXEL_COUNT	LCD_WIDTH * LCD_HEIGHT
 

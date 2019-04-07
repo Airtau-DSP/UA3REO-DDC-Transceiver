@@ -24,6 +24,7 @@
 
 #define ILI9341 true //выбираем используемый дисплей
 //#define ILI9325 true //другие комментируем
+#define FSMC_REGISTER_SELECT 18 //из FSMC настроек в STM32Cube (A18, A6, и т.д.)
 
 #define W25Q16_COMMAND_Write_Enable 0x06
 #define W25Q16_COMMAND_Erase_Chip 0xC7

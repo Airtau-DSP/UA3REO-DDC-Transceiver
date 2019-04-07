@@ -5,10 +5,11 @@
 #include "../functions.h"
 
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream5;
-
+extern SRAM_HandleTypeDef hsram1;
 static uint8_t rotationNum = 1;
 static bool _cp437 = false;
-
+uint32_t LCD_FSMC_COMM_ADDR=0;
+uint32_t LCD_FSMC_DATA_ADDR=0;
 static uint16_t text_cursor_y = 0;
 static uint16_t text_cursor_x = 0;
 static bool wrap = false;
@@ -87,6 +88,12 @@ uint16_t LCDDriver_GetCurrentXOffset(void)
 //4. Initialise function
 void LCDDriver_Init(void)
 {
+	if(hsram1.Init.NSBank==FSMC_NORSRAM_BANK1) LCD_FSMC_COMM_ADDR=0x60000000;
+	if(hsram1.Init.NSBank==FSMC_NORSRAM_BANK2) LCD_FSMC_COMM_ADDR=0x6a000000;
+	if(hsram1.Init.NSBank==FSMC_NORSRAM_BANK3) LCD_FSMC_COMM_ADDR=0x6b000000;
+	if(hsram1.Init.NSBank==FSMC_NORSRAM_BANK4) LCD_FSMC_COMM_ADDR=0x6c000000;
+	LCD_FSMC_DATA_ADDR=LCD_FSMC_COMM_ADDR+(1<<(FSMC_REGISTER_SELECT+1));
+	
 	#ifdef ILI9341
 	LCDDriver_SendCommand(LCD_COMMAND_RESET); // software reset comand
 	HAL_Delay(100);
