@@ -150,7 +150,9 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
   /* USER CODE BEGIN 6 */
   USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CAT_ReceivePacket(&hUsbDeviceFS);
-	char* charBuff=(char*)Buf;
+	char charBuff[CAT_BUFFER_SIZE]={0};
+	strncpy(charBuff,(char*)Buf,Len[0]);
+	//sendToDebug_str(charBuff);
 	if(Len[0]<=CAT_BUFFER_SIZE)
 	{
 		for(uint16_t i=0;i<Len[0];i++)

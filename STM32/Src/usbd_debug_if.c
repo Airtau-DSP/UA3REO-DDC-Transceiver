@@ -10,6 +10,11 @@
 uint8_t DEBUG_UserRxBufferFS[DEBUG_APP_RX_DATA_SIZE];
 uint8_t DEBUG_UserTxBufferFS[DEBUG_APP_TX_DATA_SIZE];
 
+#define DEBUG_TX_FIFO_BUFFER_SIZE 512
+uint8_t debug_tx_fifo[DEBUG_TX_FIFO_BUFFER_SIZE]={0};
+uint16_t debug_tx_fifo_head=0;
+uint16_t debug_tx_fifo_tail=0;
+
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 static int8_t DEBUG_Init_FS(void);
@@ -168,16 +173,43 @@ uint8_t DEBUG_Transmit_FS(uint8_t* Buf, uint16_t Len)
   return result;
 }
 
-/* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
+void DEBUG_Transmit_FIFO(uint8_t *data, uint16_t length)
+{
+	if(length<=DEBUG_TX_FIFO_BUFFER_SIZE)
+		for(uint16_t i=0;i<length;i++)
+		{
+			debug_tx_fifo[debug_tx_fifo_head]=data[i];
+			debug_tx_fifo_head++;
+			if(debug_tx_fifo_head>=DEBUG_TX_FIFO_BUFFER_SIZE) debug_tx_fifo_head=0;
+		}
+}
 
-/* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+void DEBUG_Transmit_FIFO_Events(void)
+{
+	if(debug_tx_fifo_head==debug_tx_fifo_tail) return;
+	USBD_DEBUG_HandleTypeDef *hcdc = (USBD_DEBUG_HandleTypeDef*)hUsbDeviceFS.pClassDataDEBUG;
+	if (hcdc->TxState != 0) return;
+	
+	uint8_t temp_buff[DEBUG_TX_FIFO_BUFFER_SIZE]={0};
+	uint16_t indx=0;
+	
+	if(debug_tx_fifo_head<debug_tx_fifo_tail)
+	{
+		for(int i=debug_tx_fifo_tail;i<DEBUG_TX_FIFO_BUFFER_SIZE;i++)
+		{
+			temp_buff[indx]=debug_tx_fifo[i];
+			indx++;
+		}
+		debug_tx_fifo_tail=0;
+	}
+	else if(debug_tx_fifo_head>debug_tx_fifo_tail)
+	{
+		for(int i=debug_tx_fifo_tail;i<debug_tx_fifo_head;i++)
+		{
+			temp_buff[indx]=debug_tx_fifo[i];
+			indx++;
+		}
+		debug_tx_fifo_tail=debug_tx_fifo_head;
+	}
+	DEBUG_Transmit_FS(temp_buff, indx);
+}

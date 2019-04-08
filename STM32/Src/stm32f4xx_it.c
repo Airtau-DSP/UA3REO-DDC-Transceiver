@@ -63,6 +63,7 @@
 #include "settings.h"
 #include "fpga.h"
 #include "profiler.h"
+#include "usbd_debug_if.h"
 
 uint32_t ms50_counter = 0;
 uint32_t tim5_counter = 0;
@@ -301,6 +302,7 @@ void TIM4_IRQHandler(void)
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
+	DEBUG_Transmit_FIFO_Events();
 	if (FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
 }
