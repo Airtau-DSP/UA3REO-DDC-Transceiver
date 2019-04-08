@@ -222,6 +222,7 @@ MxDb.Version=DB.5.0.10
 NVIC.BusFault_IRQn=true\:1\:0\:true\:false\:true\:false\:false
 NVIC.DMA1_Stream0_IRQn=true\:0\:0\:false\:false\:true\:false\:true
 NVIC.DMA1_Stream5_IRQn=true\:0\:0\:false\:false\:true\:false\:true
+NVIC.DMA2_Stream6_IRQn=true\:5\:0\:true\:false\:true\:true\:true
 NVIC.DebugMonitor_IRQn=true\:1\:0\:true\:false\:true\:false\:false
 NVIC.EXTI15_10_IRQn=true\:3\:0\:true\:false\:true\:true\:true
 NVIC.EXTI2_IRQn=true\:5\:0\:true\:false\:true\:true\:true

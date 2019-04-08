@@ -86,7 +86,7 @@ void FFT_printFFT(void)
 	if (LCD_modeMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
 	LCD_busy = true;
-
+	
 	uint16_t tmp = 0;
 	
 	//смещаем водопад вниз c помощью DMA
@@ -96,8 +96,9 @@ void FFT_printFFT(void)
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream7, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	}
 
+	//расчитываем цвета для водопада
 	uint8_t new_x = 0;
-	
+	uint8_t fft_header[FFT_PRINT_SIZE]={0};
 	for (uint32_t fft_x = 0; fft_x < FFT_PRINT_SIZE; fft_x++)
 	{
 		if (fft_x < (FFT_PRINT_SIZE / 2)) new_x = fft_x + (FFT_PRINT_SIZE / 2);
@@ -112,11 +113,22 @@ void FFT_printFFT(void)
 		else
 			tmp = getFFTColor(height);
 		wtf_buffer[0][new_x] = tmp;
+		fft_header[new_x]=height;
 		if(new_x==(FFT_PRINT_SIZE / 2)) continue;
-		LCDDriver_drawFastVLine(new_x, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_BLACK);
-		LCDDriver_drawFastVLine(new_x, FFT_BOTTOM_OFFSET, -height, tmp);
 	}
-
+	
+	//выводим FFT над водопадом
+	LCDDriver_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT, FFT_PRINT_SIZE-1, FFT_BOTTOM_OFFSET);
+	for (uint32_t fft_y = 0; fft_y < FFT_MAX_HEIGHT; fft_y++)
+	for (uint32_t fft_x = 0; fft_x < FFT_PRINT_SIZE; fft_x++)
+	{
+		if(new_x==(FFT_PRINT_SIZE / 2)) continue;
+		if(fft_y<(FFT_MAX_HEIGHT-fft_header[fft_x]))
+			LCDDriver_SendData(COLOR_BLACK);
+		else
+			LCDDriver_SendData(wtf_buffer[0][fft_x]);
+	}
+	
 	//разделитель и полоса приёма
 	LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_GREEN);
 	LCDDriver_drawFastHLine(0, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, FFT_PRINT_SIZE, COLOR_BLACK);
@@ -143,13 +155,7 @@ void FFT_printFFT(void)
 	
 	//выводим на экран водопада с помощью DMA
 	LCDDriver_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE-1, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
-	HAL_DMA_Start(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, LCD_FSMC_DATA_ADDR, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
-	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream6, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
-	
-	LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, COLOR_GREEN);
-	
-	FFT_need_fft = true;
-	LCD_busy = false;
+	HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, LCD_FSMC_DATA_ADDR, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
 }
 
 void FFT_moveWaterfall(int16_t freq_diff)

@@ -72,6 +72,11 @@ extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream7;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream5;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim4;
@@ -398,7 +403,6 @@ void TIM6_DAC_IRQHandler(void)
 		ms50_counter = 0;
 		
 		#if 0 //DEBUG
-		PrintProfilerResult();
 		sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
 		sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000
 		sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(AUDIOPROC_TXA_samples,false); //~187
@@ -417,6 +421,7 @@ void TIM6_DAC_IRQHandler(void)
 		sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
 		sendToDebug_str("\r\n");
 		#endif
+		//PrintProfilerResult();
 		
 		tim5_counter = 0;
 		FPGA_samples = 0;
@@ -452,6 +457,24 @@ void OTG_FS_IRQHandler(void)
   /* USER CODE BEGIN OTG_FS_IRQn 1 */
 
   /* USER CODE END OTG_FS_IRQn 1 */
+}
+
+/**
+  * @brief This function handles DMA2 stream6 global interrupt.
+  */
+void DMA2_Stream6_IRQHandler(void)
+{
+  /* USER CODE BEGIN DMA2_Stream6_IRQn 0 */
+	
+	//DMA, занимающийся отрисовкой водопада
+	
+  /* USER CODE END DMA2_Stream6_IRQn 0 */
+  HAL_DMA_IRQHandler(&hdma_memtomem_dma2_stream6);
+  /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
+	LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE, COLOR_GREEN);
+	FFT_need_fft = true;
+	LCD_busy = false;
+  /* USER CODE END DMA2_Stream6_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */
