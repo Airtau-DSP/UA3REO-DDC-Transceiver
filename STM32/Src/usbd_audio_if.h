@@ -12,6 +12,8 @@ extern USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS;
 
 void TransferComplete_CallBack_FS(void);
 void HalfTransfer_CallBack_FS(void);
+void USBAUDIO_PrepareRxBuffer_FS(void);
+void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev);
 #ifdef __cplusplus
 }
 #endif

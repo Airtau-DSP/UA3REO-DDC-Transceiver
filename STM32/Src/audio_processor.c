@@ -13,7 +13,6 @@
 #include "agc.h"
 #include "settings.h"
 #include "profiler.h"
-#include "usbd_audio_if.h"
 
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;

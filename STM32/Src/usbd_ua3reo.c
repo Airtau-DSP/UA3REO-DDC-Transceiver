@@ -1,5 +1,6 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_ua3reo.h"
+#include "usbd_audio_if.h"
 #include "usbd_ctlreq.h"
 #include "functions.h"
 #include "wm8731.h"
@@ -1241,10 +1242,7 @@ uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev)
     return USBD_FAIL;
   }
 }
-void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev)
-{
-	USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&CODEC_Audio_Buffer_RX, AUDIO_OUT_PACKET);
-}
+
 /**
   * @brief  USBD_CDC_ReceivePacket
   *         prepare OUT Endpoint for reception

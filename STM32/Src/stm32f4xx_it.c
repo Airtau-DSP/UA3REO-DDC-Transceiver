@@ -21,6 +21,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f4xx_it.h"
+#include "usbd_audio_if.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 /* USER CODE END Includes */
@@ -342,6 +343,7 @@ void TIM5_IRQHandler(void)
 	{
 		processRxAudio();
 	}
+	USBAUDIO_PrepareRxBuffer_FS();
   /* USER CODE END TIM5_IRQn 1 */
 }
 

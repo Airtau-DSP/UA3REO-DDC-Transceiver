@@ -262,7 +262,6 @@ uint8_t  USBD_CAT_TransmitPacket     (USBD_HandleTypeDef *pdev);
 
 uint8_t  USBD_AUDIO_RegisterInterface  (USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops);
 uint8_t  USBD_AUDIO_StartTransmit (USBD_HandleTypeDef *pdev);
-void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev);
 uint8_t  USBD_AUDIO_SetTxBuffer  (USBD_HandleTypeDef *pdev,uint8_t  *pbuff, uint16_t length);
 void  USBD_AUDIO_Sync (USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset);
 /**
