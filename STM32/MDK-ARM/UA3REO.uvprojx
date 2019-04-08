@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx,ARM_MATH_CM4</Define>
               <Undefine></Undefine>
-              <IncludePath>../Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc; ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy; ../Drivers/CMSIS/Device/ST/STM32F4xx/Include; ../Drivers/CMSIS/Include; ..\USBDevice; ..\Src; ..\Src\LCD</IncludePath>
+              <IncludePath>../Inc;    ../Drivers/STM32F4xx_HAL_Driver/Inc;    ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy;    ../Drivers/CMSIS/Device/ST/STM32F4xx/Include;    ../Drivers/CMSIS/Include;    ..\USBDevice;    ..\Src;    ..\Src\LCD</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -818,6 +818,26 @@
           <GroupName>USBDevice</GroupName>
           <Files>
             <File>
+              <FileName>usb_device.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\usb_device.c</FilePath>
+            </File>
+            <File>
+              <FileName>usb_device.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USBDevice\usb_device.h</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_conf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\usbd_conf.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_conf.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USBDevice\usbd_conf.h</FilePath>
+            </File>
+            <File>
               <FileName>usbd_core.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USBDevice\usbd_core.c</FilePath>
@@ -843,6 +863,16 @@
               <FilePath>..\USBDevice\usbd_def.h</FilePath>
             </File>
             <File>
+              <FileName>usbd_desc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\USBDevice\usbd_desc.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_desc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\USBDevice\usbd_desc.h</FilePath>
+            </File>
+            <File>
               <FileName>usbd_ioreq.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\USBDevice\usbd_ioreq.c</FilePath>
@@ -851,36 +881,6 @@
               <FileName>usbd_ioreq.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\USBDevice\usbd_ioreq.h</FilePath>
-            </File>
-            <File>
-              <FileName>usb_device.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USBDevice\usb_device.h</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_conf.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USBDevice\usbd_conf.h</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_desc.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\USBDevice\usbd_desc.h</FilePath>
-            </File>
-            <File>
-              <FileName>usb_device.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USBDevice\usb_device.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_conf.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USBDevice\usbd_conf.c</FilePath>
-            </File>
-            <File>
-              <FileName>usbd_desc.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\USBDevice\usbd_desc.c</FilePath>
             </File>
           </Files>
         </Group>
