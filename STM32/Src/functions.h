@@ -6,6 +6,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include "arm_math.h"
+#include "profiler.h"
 
 #define    DWT_CYCCNT    *(volatile unsigned long *)0xE0001004
 #define    DWT_CONTROL   *(volatile unsigned long *)0xE0001000

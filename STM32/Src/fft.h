@@ -7,8 +7,8 @@
 #include "arm_math.h"
 #include "wm8731.h"
 
-#define FFT_SIZE 512 //указываем размер FFT
-#define FFT_PRINT_SIZE 256 //указываем размер FFT
+#define FFT_SIZE 512 //указываем размер расчитываемого FFT
+#define FFT_PRINT_SIZE 256 //указываем размер выводимого FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
 #define FFT_BOTTOM_OFFSET 190 //start of FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада

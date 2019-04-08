@@ -8,29 +8,19 @@
 #include "wm8731.h"
 #include "settings.h"
 
-uint32_t FFT_buff_index = 0;
-float32_t FFTInput[FFT_SIZE * 2] = { 0 };
-bool NeedFFTInputBuffer = false;
-float32_t FFTOutput[FFT_SIZE] = { 0 };
-float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 };
-
-uint8_t FFT_status;
 const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
 
-uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 };
-
-uint32_t maxIndex = 0; // Индекс элемента массива с максимальной амплитудой в результирующей АЧХ
-float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
-float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
-float32_t maxValueFFT = 0; // Максимальное значение амплитуды в результирующей АЧХ
-float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
-uint16_t height = 0; //высота столбца в выводе FFT
+bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
+uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
+float32_t FFTInput[FFT_SIZE * 2] = { 0 }; //входящий буфер FFT
+float32_t FFTOutput[FFT_SIZE] = { 0 }; //результирующий буфер FFT
+float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
+uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер водопада
 uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
-uint16_t tmp = 0;
-uint8_t fft_compress_rate = FFT_SIZE / FFT_PRINT_SIZE;
-float32_t fft_compress_tmp = 0;
+uint16_t height = 0; //высота столбца в выводе FFT
+float32_t maxValueFFT = 0; //максимальное значение амплитуды в результирующей АЧХ
 
-bool FFT_need_fft = true; //необходимо полдготовить данные для отображения на экран
+bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
 
 void FFT_doFFT(void)
 {
@@ -38,19 +28,34 @@ void FFT_doFFT(void)
 	if (!FFT_need_fft) return;
 	if (NeedFFTInputBuffer) return;
 	
-	for (int i = 0; i < FFT_SIZE; i++) //Hanning window
+	uint32_t maxIndex = 0; // Индекс элемента массива с максимальной амплитудой в результирующей АЧХ
+	float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
+	float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
+	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
+	float32_t hanning_multiplier = 0; //Множитель для вычисления окна Ханнинга к FFT
+	
+	for (uint16_t i = 0; i < FFT_SIZE; i++) //Hanning window
 	{
-		double multiplier = (float32_t)0.5 * ((float32_t)1 - arm_cos_f32(2 * PI*i / FFT_SIZE));
-		FFTInput[i * 2] = multiplier * FFTInput[i * 2];
-		FFTInput[i * 2 + 1] = multiplier * FFTInput[i * 2 + 1];
+		hanning_multiplier = 0.5f * (1.0f - arm_cos_f32(2.0f * PI*i / FFT_SIZE*2));
+		FFTInput[i * 2] = hanning_multiplier * FFTInput[i * 2];
+		FFTInput[i * 2 + 1] = hanning_multiplier * FFTInput[i * 2 + 1];
 	}
 	arm_cfft_f32(S, FFTInput, 0, 1);
 	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
-	//arm_cmplx_mag_squared_f32(FFTInput_A, FFTOutput, FFT_SIZE);
 	
-	//Autocalibrate MIN and MAX on FFT
-	arm_max_f32(FFTOutput, FFT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
-	arm_mean_f32(FFTOutput, FFT_SIZE, &meanValue); //ищем среднее в АЧХ
+	//Уменьшаем расчитанный FFT до видимого
+	uint8_t fft_compress_rate=FFT_SIZE / FFT_PRINT_SIZE;
+	for(uint16_t i=0;i<FFT_PRINT_SIZE;i++)
+	{
+		float32_t fft_compress_tmp = 0;
+		for (uint8_t c = 0; c < fft_compress_rate; c++)
+			fft_compress_tmp += FFTOutput[i*fft_compress_rate + c];
+		FFTOutput[i] = fft_compress_tmp / fft_compress_rate;
+	}
+	
+	//Автокалибровка уровней FFT
+	arm_max_f32(FFTOutput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
+	arm_mean_f32(FFTOutput, FFT_PRINT_SIZE, &meanValue); //ищем среднее в АЧХ
 	diffValue=(maxValue-maxValueFFT)/FFT_STEP_COEFF;
 	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE && diffValue>0) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_FIX) maxValueFFT+=diffValue;
@@ -60,28 +65,14 @@ void FFT_doFFT(void)
 	if((meanValue*4)>maxValueFFT) maxValueFFT=(meanValue*4);
 	maxValueErrors = 0;
 	if (maxValueFFT < FFT_MIN) maxValueFFT = FFT_MIN;
-	
-	//Compress FFT_SIZE to FFT_PRINT_SIZE
-	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
-	{
-		fft_compress_tmp = 0;
-		for (uint8_t c = 0; c < fft_compress_rate; c++)
-			fft_compress_tmp += FFTOutput[n*fft_compress_rate + c];
-		FFTOutput[n] = fft_compress_tmp / fft_compress_rate;
-	}
-	
+
 	//Нормируем АЧХ к единице
-	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
-	{
-		FFTOutput[n] = FFTOutput[n] / maxValueFFT;
-		if (FFTOutput[n] > 1) FFTOutput[n] = 1;
-	}
+	arm_scale_f32(FFTOutput,1.0f/maxValueFFT,FFTOutput,FFT_PRINT_SIZE);
 	
 	//Усреднение значений для последующего вывода (от резких всплесков)
-	for (uint16_t n = 0; n < FFT_PRINT_SIZE; n++)
-	{
-		FFTOutput_mean[n]=(FFTOutput_mean[n]+FFTOutput[n])/2.0f;
-	}
+	arm_add_f32(FFTOutput_mean,FFTOutput,FFTOutput_mean,FFT_PRINT_SIZE);
+	arm_scale_f32(FFTOutput_mean,0.5f,FFTOutput_mean,FFT_PRINT_SIZE);
+
 	NeedFFTInputBuffer = true;
 	FFT_need_fft = false;
 }
@@ -96,6 +87,8 @@ void FFT_printFFT(void)
 	if (LCD_bandMenuOpened) return;
 	LCD_busy = true;
 
+	uint16_t tmp = 0;
+	
 	//смещаем водопад вниз c помощью DMA
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--)
 	{
