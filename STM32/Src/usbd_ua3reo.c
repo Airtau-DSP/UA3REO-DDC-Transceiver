@@ -899,28 +899,28 @@ static uint8_t  USBD_CAT_DataIn (USBD_HandleTypeDef *pdev, uint8_t epnum)
     return USBD_FAIL;
   }
 }
+static uint16_t rx_buffer_head=0;
+static uint16_t rx_buffer_step=0;
 static uint8_t  USBD_AUDIO_DataIn (USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
 	USBD_AUDIO_HandleTypeDef *hcdc_audio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
-	PCD_HandleTypeDef *hpcd_audio = pdev->pUserDataAUDIO;
-
-  if(pdev->pClassDataAUDIO != NULL)
-  {
+	if(rx_buffer_head>=AUDIO_BUFFER_SIZE)
+	{
 		AUDIO_GetRxBuffer_FS(pdev);
-    pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = hcdc_audio->TxLength;
-		USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc_audio->TxBuffer, (uint16_t)hcdc_audio->TxLength);
-    return USBD_OK;
-  }
-  else
-  {
-    return USBD_FAIL;
-  }
+		rx_buffer_head=0;
+	}
+	if((AUDIO_BUFFER_SIZE-rx_buffer_head)>=AUDIO_OUT_PACKET) rx_buffer_step=AUDIO_OUT_PACKET;
+	else rx_buffer_step=(AUDIO_BUFFER_SIZE-rx_buffer_head);
+	pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
+	USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc_audio->TxBuffer+rx_buffer_head, rx_buffer_step);
+	rx_buffer_head+=rx_buffer_step;
+  return USBD_OK;
 }
 static uint8_t  USBD_UA3REO_DataIn (USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
+	if(epnum == AUDIO_EP_IDX) return USBD_AUDIO_DataIn(pdev, epnum);
   if(epnum == DEBUG_EP_IDX) return USBD_DEBUG_DataIn(pdev, epnum);
 	if(epnum == CAT_EP_IDX) return USBD_CAT_DataIn(pdev, epnum);
-	if(epnum == AUDIO_EP_IDX) return USBD_AUDIO_DataIn(pdev, epnum);
 	return USBD_FAIL;
 }
 /**
@@ -1233,8 +1233,7 @@ uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev)
   if(pdev->pClassDataAUDIO != NULL)
   {
 		AUDIO_GetRxBuffer_FS(pdev);
-    pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = hcdc->TxLength;
-		USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc->TxBuffer, (uint16_t)hcdc->TxLength);
+		USBD_AUDIO_DataIn(pdev, AUDIO_EP_IDX);
     return USBD_OK;
   }
   else

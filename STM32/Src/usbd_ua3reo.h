@@ -27,6 +27,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include  "usbd_ioreq.h"
+#include  "audio_processor.h"
 
 /** @addtogroup STM32_USB_DEVICE_LIBRARY
   * @{
@@ -103,6 +104,7 @@
 #define AUDIO_OUT_PACKET                              (uint16_t)(((USBD_AUDIO_FREQ * 2U * 2U) / 1000U))
 //#define AUDIO_OUT_PACKET_NUM                          5U
 //#define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
+#define AUDIO_BUFFER_SIZE															FPGA_AUDIO_BUFFER_SIZE*2
 #define AUDIO_DEFAULT_VOLUME                          70U
 
 #define AUDIO_REQ_GET_CUR                             0x81U

@@ -13,6 +13,7 @@
 #include "agc.h"
 #include "settings.h"
 #include "profiler.h"
+#include "usbd_audio_if.h"
 
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;
@@ -359,6 +360,25 @@ void processRxAudio(void)
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		AUDIOPROC_TXB_samples++;
 	}
+	//Send to USB Audio
+	for(uint16_t i=0;i<(AUDIO_BUFFER_SIZE/2);i++)
+	{
+		if (Processor_AudioBuffer_ReadyBuffer == 0)
+		{
+			if(USB_AUDIO_current_rx_buffer)
+				USB_AUDIO_rx_buffer_a[i]=(int16_t)((int32_t)Processor_AudioBuffer_A[i]);
+			else
+				USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_A[i]);
+		}
+		else
+		{
+			if(USB_AUDIO_current_rx_buffer)
+				USB_AUDIO_rx_buffer_a[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
+			else
+				USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
+		}
+	}
+	USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
 	//
 	Processor_NeedRXBuffer = false;
 }

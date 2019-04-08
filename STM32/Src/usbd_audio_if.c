@@ -13,10 +13,9 @@ static int8_t AUDIO_MuteCtl_FS(uint8_t cmd);
 static int8_t AUDIO_PeriodicTC_FS(uint8_t cmd);
 static int8_t AUDIO_GetState_FS(void);
 
-static uint16_t rx_audio_buffer_a[(AUDIO_OUT_PACKET/2)]={0};
-static uint16_t rx_audio_buffer_b[(AUDIO_OUT_PACKET/2)]={0};
-static bool current_rx_audio_buffer=false; // a-false b-true
-static bool need_rx_audio_buffer=false;
+int16_t USB_AUDIO_rx_buffer_a[(AUDIO_BUFFER_SIZE/2)]={0};
+int16_t USB_AUDIO_rx_buffer_b[(AUDIO_BUFFER_SIZE/2)]={0};
+bool USB_AUDIO_current_rx_buffer=false; // a-false b-true
 
 USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
 {
@@ -44,33 +43,12 @@ static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t option
   return (USBD_OK);
 }
 
-void USBAUDIO_PrepareRxBuffer_FS(void)
-{
-	if(!need_rx_audio_buffer) return;
-	uint16_t dma_index=CODEC_AUDIO_BUFFER_SIZE-__HAL_DMA_GET_COUNTER(hi2s3.hdmarx)/2;
-	if((dma_index%2)==1) dma_index++;
-	for(uint8_t i=0;i<(AUDIO_OUT_PACKET/2);i++)
-	{
-		if(current_rx_audio_buffer)
-			rx_audio_buffer_a[i]=(uint16_t)CODEC_Audio_Buffer_RX[dma_index];
-		else
-			rx_audio_buffer_b[i]=(uint16_t)CODEC_Audio_Buffer_RX[dma_index];
-		if(dma_index==0)
-			dma_index=CODEC_AUDIO_BUFFER_SIZE;
-		else
-			dma_index++;
-	}
-	need_rx_audio_buffer=false;
-}
-
 void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev)
 {
-	current_rx_audio_buffer=!current_rx_audio_buffer;
-	if(current_rx_audio_buffer)
-		USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&rx_audio_buffer_b, AUDIO_OUT_PACKET);
+	if(USB_AUDIO_current_rx_buffer)
+		USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&USB_AUDIO_rx_buffer_b, AUDIO_OUT_PACKET);
 	else
-		USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&rx_audio_buffer_a, AUDIO_OUT_PACKET);
-	need_rx_audio_buffer=true;
+		USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&USB_AUDIO_rx_buffer_a, AUDIO_OUT_PACKET);
 }
 
 /**
