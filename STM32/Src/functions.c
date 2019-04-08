@@ -7,8 +7,8 @@
 #include "arm_math.h"
 #include "fpga.h"
 #include "trx_manager.h"
-#include <usb_device_main.h>
-#include <usbd_cdc.h>
+#include "usbd_debug_if.h"
+#include "usbd_cat_if.h"
 
 void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length)
 {
@@ -57,7 +57,8 @@ void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t inde
 
 void sendToDebug_str(char* data)
 {
-	USBD_CDC_Debug_Transmit_FIFO(ua3reo_dev_debug_key_if, (uint8_t*)data, strlen(data));
+	DEBUG_Transmit_FS((uint8_t*)data, strlen(data));
+	CAT_Transmit_FS((uint8_t*)data, strlen(data));
 	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), 1000);
 }
 

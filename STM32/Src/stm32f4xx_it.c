@@ -63,8 +63,6 @@
 #include "settings.h"
 #include "fpga.h"
 #include "profiler.h"
-#include <usb_device_main.h>
-#include <usbd_cdc.h>
 
 uint32_t ms50_counter = 0;
 uint32_t tim5_counter = 0;
@@ -73,6 +71,7 @@ extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim4;
@@ -301,7 +300,6 @@ void TIM4_IRQHandler(void)
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
-	USBD_CDC_Debug_Transmit_FIFO_Events(ua3reo_dev_debug_key_if);
 	if (FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
 }
@@ -397,7 +395,6 @@ void TIM6_DAC_IRQHandler(void)
 		ms50_counter = 0;
 		
 		#if 0 //DEBUG
-		//USBD_AUDIO_TEST(ua3reo_dev_audio_if);
 		PrintProfilerResult();
 		sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
 		sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000
@@ -438,6 +435,20 @@ void TIM6_DAC_IRQHandler(void)
 	if (TRX_key_serial != TRX_old_key_serial) TRX_key_change();
 	if (TRX_key_hard == HAL_GPIO_ReadPin(KEY_IN_GPIO_Port, KEY_IN_Pin)) TRX_key_change();
   /* USER CODE END TIM6_DAC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles USB On The Go FS global interrupt.
+  */
+void OTG_FS_IRQHandler(void)
+{
+  /* USER CODE BEGIN OTG_FS_IRQn 0 */
+
+  /* USER CODE END OTG_FS_IRQn 0 */
+  HAL_PCD_IRQHandler(&hpcd_USB_OTG_FS);
+  /* USER CODE BEGIN OTG_FS_IRQn 1 */
+
+  /* USER CODE END OTG_FS_IRQn 1 */
 }
 
 /* USER CODE BEGIN 1 */

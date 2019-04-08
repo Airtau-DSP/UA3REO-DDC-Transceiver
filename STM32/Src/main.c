@@ -20,6 +20,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -36,7 +37,7 @@
 #include "audio_processor.h"
 #include "settings.h"
 #include "profiler.h"
-#include "usb_device_main.h"
+#include "usbd_cat_if.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -149,6 +150,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM3_Init();
   MX_IWDG_Init();
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN 2 */
 	
 	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit in RCC_CFGR register! Hence we need to set it manually here!
@@ -159,10 +161,6 @@ int main(void)
 		Line 1294 hpcd->Init.speed = PCD_SPEED_HIGH;
 		Line 1298 hpcd->Init.speed = PCD_SPEED_FULL;
 	*/
-	__HAL_RCC_PWR_CLK_ENABLE();
-  __HAL_RCC_GPIOA_CLK_ENABLE();
-  HAL_USBD_Setup();
-  UsbDevice_Init();
 	HAL_RTC_Init(&hrtc);
 	InitProfiler();
 	sendToDebug_str("\r\n");
@@ -182,6 +180,10 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim4);
 	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
 	sendToDebug_str("UA3REO Started\r\n");
+	
+	char* tmp="TEST";
+	CAT_Transmit_FS((uint8_t*)tmp, strlen(tmp));
+	
 	TRX_inited = true;
   /* USER CODE END 2 */
 
@@ -898,14 +900,6 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pin = GPIO_PIN_8;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-  /*Configure GPIO pins : PA11 PA12 */
-  GPIO_InitStruct.Pin = GPIO_PIN_11|GPIO_PIN_12;
-  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
-  GPIO_InitStruct.Pull = GPIO_NOPULL;
-  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
-  GPIO_InitStruct.Alternate = GPIO_AF10_OTG_FS;
   HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : WM8731_SCK_Pin WM8731_SDA_Pin */
