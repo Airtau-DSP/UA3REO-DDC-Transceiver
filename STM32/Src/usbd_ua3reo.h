@@ -60,7 +60,7 @@
 //#define CAT_CMD_EP                      CAT_CMD_EP_IDX| IN_EP_DIR   
 #define CAT_OUT_EP                      CAT_EP_IDX                  
 #define CAT_IN_EP                       CAT_EP_IDX | IN_EP_DIR      
-//#define AUDIO_OUT_EP                      AUDIO_EP_IDX                  
+#define AUDIO_OUT_EP                      AUDIO_EP_IDX                  
 #define AUDIO_IN_EP                       AUDIO_EP_IDX | IN_EP_DIR     
 
 #ifndef CDC_HS_BINTERVAL
@@ -104,6 +104,12 @@
 #define AUDIO_OUT_PACKET_NUM                          5U
 #define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
 #define AUDIO_DEFAULT_VOLUME                          70U
+
+#define AUDIO_REQ_GET_CUR                             0x81U
+#define AUDIO_REQ_SET_CUR                             0x01U
+#define AUDIO_OUT_STREAMING_CTRL                      0x02U
+#define USB_AUDIO_DESC_SIZ                            0x09U
+#define AUDIO_DESCRIPTOR_TYPE                         0x21U
 
 /** @defgroup USBD_CORE_Exported_TypesDefinitions
   * @{
