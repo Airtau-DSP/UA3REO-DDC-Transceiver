@@ -261,8 +261,10 @@ typedef struct _USBD_HandleTypeDef
   USBD_ClassTypeDef       *pClass;
   void                    *pClassDataDEBUG;
 	void                    *pClassDataCAT;
+	void                    *pClassDataAUDIO;
   void                    *pUserDataDEBUG;
 	void                    *pUserDataCAT;
+	void                    *pUserDataAUDIO;
   void                    *pData;
 } USBD_HandleTypeDef;
 

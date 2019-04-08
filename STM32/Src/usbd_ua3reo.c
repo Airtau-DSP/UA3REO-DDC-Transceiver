@@ -412,13 +412,16 @@ static uint8_t  USBD_UA3REO_Init (USBD_HandleTypeDef *pdev, uint8_t cfgidx)
   uint8_t ret = 0U;
   USBD_DEBUG_HandleTypeDef   *hcdc_debug;
 	USBD_CAT_HandleTypeDef   *hcdc_cat;
+	USBD_AUDIO_HandleTypeDef   *haudio;
 
   /* Open EP IN */
   USBD_LL_OpenEP(pdev, DEBUG_IN_EP, USBD_EP_TYPE_BULK, CDC_DATA_FS_IN_PACKET_SIZE);
 	USBD_LL_OpenEP(pdev, CAT_IN_EP, USBD_EP_TYPE_BULK, CDC_DATA_FS_IN_PACKET_SIZE);
+	USBD_LL_OpenEP(pdev, AUDIO_IN_EP, USBD_EP_TYPE_ISOC, AUDIO_OUT_PACKET);
 
   pdev->ep_in[DEBUG_IN_EP & 0xFU].is_used = 1U;
 	pdev->ep_in[CAT_IN_EP & 0xFU].is_used = 1U;
+	pdev->ep_in[AUDIO_IN_EP & 0xFU].is_used = 1U;
 
   /* Open EP OUT */
   USBD_LL_OpenEP(pdev, DEBUG_OUT_EP, USBD_EP_TYPE_BULK, CDC_DATA_FS_OUT_PACKET_SIZE);
@@ -435,6 +438,7 @@ static uint8_t  USBD_UA3REO_Init (USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 
   pdev->pClassDataDEBUG = USBD_malloc(sizeof (USBD_DEBUG_HandleTypeDef));
 	pdev->pClassDataCAT = USBD_malloc(sizeof (USBD_CAT_HandleTypeDef));
+	pdev->pClassDataAUDIO = malloc(sizeof (USBD_AUDIO_HandleTypeDef));
 
   if(pdev->pClassDataDEBUG == NULL)
   {
@@ -473,6 +477,30 @@ static uint8_t  USBD_UA3REO_Init (USBD_HandleTypeDef *pdev, uint8_t cfgidx)
     USBD_LL_PrepareReceive(pdev, CAT_OUT_EP, hcdc_cat->RxBuffer, CDC_DATA_FS_OUT_PACKET_SIZE);
   }
 	
+	if(pdev->pClassDataAUDIO == NULL)
+  {
+    ret = 1U;
+		return ret;
+  }
+  else
+  {
+    haudio = (USBD_AUDIO_HandleTypeDef*) pdev->pClassDataAUDIO;
+    haudio->alt_setting = 0U;
+    haudio->offset = AUDIO_OFFSET_UNKNOWN;
+    haudio->wr_ptr = 0U;
+    haudio->rd_ptr = 0U;
+    haudio->rd_enable = 0U;
+		
+    // Initialize the Audio output Hardware layer
+    if (((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->Init(USBD_AUDIO_FREQ, AUDIO_DEFAULT_VOLUME, 0U) != 0)
+    {
+      return USBD_FAIL;
+    }
+
+    //Prepare Out endpoint to receive 1st packet
+    //USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, haudio->buffer, AUDIO_OUT_PACKET);
+  }
+
   return ret;
 }
 
@@ -889,6 +917,14 @@ uint8_t  USBD_CAT_RegisterInterface  (USBD_HandleTypeDef   *pdev, USBD_CAT_ItfTy
   }
   return ret;
 }
+uint8_t  USBD_AUDIO_RegisterInterface  (USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops)
+{
+  if(fops != NULL)
+  {
+    pdev->pUserDataAUDIO= fops;
+  }
+  return USBD_OK;
+}
 
 /**
   * @brief  USBD_CDC_SetTxBuffer
@@ -1020,16 +1056,59 @@ uint8_t  USBD_CAT_ReceivePacket(USBD_HandleTypeDef *pdev)
     return USBD_FAIL;
   }
 }
-/**
-  * @}
-  */
 
-/**
-  * @}
-  */
 
-/**
-  * @}
-  */
+void  USBD_AUDIO_Sync (USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset)
+{
+  uint32_t cmd = 0U;
+  USBD_AUDIO_HandleTypeDef   *haudio;
+  haudio = (USBD_AUDIO_HandleTypeDef*) pdev->pClassDataAUDIO;
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
+  haudio->offset =  offset;
+
+  if(haudio->rd_enable == 1U)
+  {
+    haudio->rd_ptr += (uint16_t)(AUDIO_TOTAL_BUF_SIZE / 2U);
+
+    if (haudio->rd_ptr == AUDIO_TOTAL_BUF_SIZE)
+    {
+      /* roll back */
+      haudio->rd_ptr = 0U;
+    }
+  }
+
+  if(haudio->rd_ptr > haudio->wr_ptr)
+  {
+    if((haudio->rd_ptr - haudio->wr_ptr) < AUDIO_OUT_PACKET)
+    {
+      cmd = AUDIO_TOTAL_BUF_SIZE / 2U + 4U;
+    }
+    else
+    {
+      if((haudio->rd_ptr - haudio->wr_ptr) > (AUDIO_TOTAL_BUF_SIZE - AUDIO_OUT_PACKET))
+      {
+        cmd = AUDIO_TOTAL_BUF_SIZE / 2U - 4U;
+      }
+    }
+  }
+  else
+  {
+    if((haudio->wr_ptr - haudio->rd_ptr) < AUDIO_OUT_PACKET)
+    {
+      cmd = AUDIO_TOTAL_BUF_SIZE / 2U - 4U;
+    }
+    else
+    {
+      if((haudio->wr_ptr - haudio->rd_ptr) > (AUDIO_TOTAL_BUF_SIZE - AUDIO_OUT_PACKET))
+      {
+        cmd = AUDIO_TOTAL_BUF_SIZE / 2U + 4U;
+      }
+    }
+  }
+
+  if(haudio->offset == AUDIO_OFFSET_FULL)
+  {
+    ((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->AudioCmd(&haudio->buffer[0],cmd,AUDIO_CMD_PLAY);
+      haudio->offset = AUDIO_OFFSET_NONE;
+  }
+}

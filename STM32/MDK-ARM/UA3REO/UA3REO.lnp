@@ -19,6 +19,7 @@
 "ua3reo\usbd_ua3reo.o"
 "ua3reo\usbd_cat_if.o"
 "ua3reo\usbd_debug_if.o"
+"ua3reo\usbd_audio_if.o"
 "ua3reo\main.o"
 "ua3reo\stm32f4xx_it.o"
 "ua3reo\stm32f4xx_hal_msp.o"

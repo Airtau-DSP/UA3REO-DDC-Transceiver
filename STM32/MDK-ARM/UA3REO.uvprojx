@@ -583,6 +583,16 @@
               <FilePath>..\Src\usbd_debug_if.h</FilePath>
             </File>
             <File>
+              <FileName>usbd_audio_if.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\usbd_audio_if.c</FilePath>
+            </File>
+            <File>
+              <FileName>usbd_audio_if.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\usbd_audio_if.h</FilePath>
+            </File>
+            <File>
               <FileName>main.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/main.c</FilePath>
