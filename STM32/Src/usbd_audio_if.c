@@ -1,5 +1,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_audio_if.h"
+#include "functions.h"
+#include "wm8731.h"
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
@@ -10,7 +12,6 @@ static int8_t AUDIO_VolumeCtl_FS(uint8_t vol);
 static int8_t AUDIO_MuteCtl_FS(uint8_t cmd);
 static int8_t AUDIO_PeriodicTC_FS(uint8_t cmd);
 static int8_t AUDIO_GetState_FS(void);
-
 
 USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
 {
@@ -31,11 +32,11 @@ USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
   * @param  options: Reserved for future use 
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
+
 static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t options)
 {
-  /* USER CODE BEGIN 0 */
+	USBD_AUDIO_StartTransmit(&hUsbDeviceFS);
   return (USBD_OK);
-  /* USER CODE END 0 */
 }
 
 /**
@@ -140,4 +141,3 @@ void HalfTransfer_CallBack_FS(void)
   USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_HALF);
   /* USER CODE END 8 */
 }
-

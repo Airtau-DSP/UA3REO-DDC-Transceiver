@@ -101,8 +101,8 @@
 //AUDIO
 #define USBD_AUDIO_FREQ                               48000U
 #define AUDIO_OUT_PACKET                              (uint16_t)(((USBD_AUDIO_FREQ * 2U * 2U) / 1000U))
-#define AUDIO_OUT_PACKET_NUM                          5U
-#define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
+//#define AUDIO_OUT_PACKET_NUM                          5U
+//#define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
 #define AUDIO_DEFAULT_VOLUME                          70U
 
 #define AUDIO_REQ_GET_CUR                             0x81U
@@ -184,12 +184,15 @@ typedef struct
 typedef struct
 {
   uint32_t                  alt_setting;
-  uint8_t                   buffer[AUDIO_TOTAL_BUF_SIZE];
+  //uint8_t                   buffer[AUDIO_TOTAL_BUF_SIZE];
   AUDIO_OffsetTypeDef       offset;
   uint8_t                    rd_enable;
   uint16_t                   rd_ptr;
   uint16_t                   wr_ptr;
   USBD_AUDIO_ControlTypeDef control;
+	
+	uint8_t  *TxBuffer;
+	uint32_t TxLength;
 }
 USBD_AUDIO_HandleTypeDef;
 
@@ -258,6 +261,9 @@ uint8_t  USBD_CAT_ReceivePacket      (USBD_HandleTypeDef *pdev);
 uint8_t  USBD_CAT_TransmitPacket     (USBD_HandleTypeDef *pdev);
 
 uint8_t  USBD_AUDIO_RegisterInterface  (USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops);
+uint8_t  USBD_AUDIO_StartTransmit (USBD_HandleTypeDef *pdev);
+void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev);
+uint8_t  USBD_AUDIO_SetTxBuffer  (USBD_HandleTypeDef *pdev,uint8_t  *pbuff, uint16_t length);
 void  USBD_AUDIO_Sync (USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset);
 /**
   * @}

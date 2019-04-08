@@ -13,6 +13,7 @@
 #include "agc.h"
 #include "settings.h"
 #include "profiler.h"
+#include "usbd_audio_if.h"
 
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;
@@ -359,6 +360,7 @@ void processRxAudio(void)
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		AUDIOPROC_TXB_samples++;
 	}
+	//
 	Processor_NeedRXBuffer = false;
 }
 

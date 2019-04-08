@@ -12,7 +12,6 @@ extern USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS;
 
 void TransferComplete_CallBack_FS(void);
 void HalfTransfer_CallBack_FS(void);
-
 #ifdef __cplusplus
 }
 #endif
