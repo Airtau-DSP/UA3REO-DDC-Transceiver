@@ -20,7 +20,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "usb_device.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -37,6 +36,7 @@
 #include "audio_processor.h"
 #include "settings.h"
 #include "profiler.h"
+#include "usb_device.h"
 #include "usbd_cat_if.h"
 /* USER CODE END Includes */
 
@@ -74,6 +74,8 @@ TIM_HandleTypeDef htim6;
 
 UART_HandleTypeDef huart1;
 
+//PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
 DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
 DMA_HandleTypeDef hdma_memtomem_dma2_stream7;
@@ -101,6 +103,7 @@ static void MX_RTC_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM3_Init(void);
 static void MX_IWDG_Init(void);
+static void MX_USB_OTG_FS_PCD_Init(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
@@ -149,10 +152,9 @@ int main(void)
   MX_RTC_Init();
   MX_USART1_UART_Init();
   MX_TIM3_Init();
-  MX_IWDG_Init();
-  MX_USB_DEVICE_Init();
+  //MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
-	
+	MX_USB_DEVICE_Init();
 	/* BUG FIX: Enabling Audio Clock Input in CubeMX does not set I2SSRC bit in RCC_CFGR register! Hence we need to set it manually here!
 	  WARNING: A bug fix is also needed in __HAL_RCC_GET_I2S_SOURCE()
 		Line 6131 stm32f4xx_hal_rcc_ex.h -> #define __HAL_RCC_GET_I2S_SOURCE() ((uint32_t)(READ_BIT(RCC->CFGR, RCC_CFGR_I2SSRC)) >> RCC_CFGR_I2SSRC_Pos)
