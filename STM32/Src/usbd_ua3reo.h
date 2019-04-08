@@ -55,7 +55,7 @@
 #define DEBUG_CMD_EP                      DEBUG_CMD_EP_IDX| IN_EP_DIR   
 #define DEBUG_OUT_EP                      DEBUG_EP_IDX                  
 #define DEBUG_IN_EP                       DEBUG_EP_IDX | IN_EP_DIR      
-#define CAT_CMD_EP                      CAT_CMD_EP_IDX| IN_EP_DIR   
+//#define CAT_CMD_EP                      CAT_CMD_EP_IDX| IN_EP_DIR   
 #define CAT_OUT_EP                      CAT_EP_IDX                  
 #define CAT_IN_EP                       CAT_EP_IDX | IN_EP_DIR      
 
@@ -73,6 +73,7 @@
 #define CDC_CMD_PACKET_SIZE                         8U  /* Control Endpoint Packet size */
 
 //#define USB_CDC_CONFIG_DESC_SIZ                     141U
+//#define USB_CDC_CONFIG_DESC_SIZ                     134U
 #define USB_CDC_CONFIG_DESC_SIZ                     127U
 #define CDC_DATA_HS_IN_PACKET_SIZE                  CDC_DATA_HS_MAX_PACKET_SIZE
 #define CDC_DATA_HS_OUT_PACKET_SIZE                 CDC_DATA_HS_MAX_PACKET_SIZE

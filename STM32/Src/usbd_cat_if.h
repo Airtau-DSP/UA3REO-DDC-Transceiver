@@ -10,6 +10,7 @@
 
 extern USBD_CAT_ItfTypeDef USBD_CAT_fops_FS;
 uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len);
+void CAT_Transmit(char* data);
 
 #ifdef __cplusplus
 }

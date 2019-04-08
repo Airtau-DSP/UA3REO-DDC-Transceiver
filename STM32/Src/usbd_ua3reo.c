@@ -72,7 +72,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
 
   /*---------------------------------------------------------------------------*/
 	
-	//DEBUG/PTT PORT
+	//DEBUG/KEY PORT
 	//Interface Association Descriptor:
 	//------------------------------
 	0x08,     //bLength

@@ -1,5 +1,8 @@
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_debug_if.h"
+#include "usbd_cat_if.h"
+#include "trx_manager.h"
+#include "LCD/lcd_driver.h"
 
 #define DEBUG_APP_RX_DATA_SIZE  2048
 #define DEBUG_APP_TX_DATA_SIZE  2048
@@ -58,26 +61,22 @@ static int8_t DEBUG_DeInit_FS(void)
 static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 {
   /* USER CODE BEGIN 5 */
+	
   switch(cmd)
   {
     case CDC_SEND_ENCAPSULATED_COMMAND:
-
     break;
 
     case CDC_GET_ENCAPSULATED_RESPONSE:
-
     break;
 
     case CDC_SET_COMM_FEATURE:
-
     break;
 
     case CDC_GET_COMM_FEATURE:
-
     break;
 
     case CDC_CLEAR_COMM_FEATURE:
-
     break;
 
   /*******************************************************************************/
@@ -98,19 +97,19 @@ static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   /* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
   /*******************************************************************************/
     case CDC_SET_LINE_CODING:
-
     break;
 
     case CDC_GET_LINE_CODING:
-
     break;
 
     case CDC_SET_CONTROL_LINE_STATE:
-
+			if(pbuf[2]==1)
+				TRX_key_serial=true;
+			else 
+				TRX_key_serial=false;
     break;
 
     case CDC_SEND_BREAK:
-
     break;
 
   default:

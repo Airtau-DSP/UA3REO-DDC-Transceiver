@@ -206,7 +206,7 @@ uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len)
   return result;
 }
 
-static void CAT_Transmit(char* data)
+void CAT_Transmit(char* data)
 {
 	CAT_Transmit_FS((uint8_t*)data, strlen(data));
 }
