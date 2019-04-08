@@ -44,20 +44,24 @@
 
 #define DEBUG_INTERFACE_IDX 0x0                            	// Index of DEBUG interface
 #define CAT_INTERFACE_IDX 0x2                            	// Index of CAT interface
+#define AUDIO_INTERFACE_IDX 0x3                            	// Index of AUDIO interface
 
 //#define DEBUG_CMD_EP_IDX                  0x01
 #define DEBUG_EP_IDX                      0x01
 //#define CAT_CMD_EP_IDX                  0x03
 #define CAT_EP_IDX                      0x02
+#define AUDIO_EP_IDX                      0x03
 
 #define IN_EP_DIR						0x80 // Adds a direction bit
 
-#define DEBUG_CMD_EP                      DEBUG_CMD_EP_IDX| IN_EP_DIR   
+//#define DEBUG_CMD_EP                      DEBUG_CMD_EP_IDX| IN_EP_DIR   
 #define DEBUG_OUT_EP                      DEBUG_EP_IDX                  
 #define DEBUG_IN_EP                       DEBUG_EP_IDX | IN_EP_DIR      
 //#define CAT_CMD_EP                      CAT_CMD_EP_IDX| IN_EP_DIR   
 #define CAT_OUT_EP                      CAT_EP_IDX                  
 #define CAT_IN_EP                       CAT_EP_IDX | IN_EP_DIR      
+#define AUDIO_OUT_EP                      AUDIO_EP_IDX                  
+#define AUDIO_IN_EP                       AUDIO_EP_IDX | IN_EP_DIR     
 
 #ifndef CDC_HS_BINTERVAL
   #define CDC_HS_BINTERVAL                          0x10U
@@ -72,9 +76,9 @@
 #define CDC_DATA_FS_MAX_PACKET_SIZE                 64U  /* Endpoint IN & OUT Packet size */
 #define CDC_CMD_PACKET_SIZE                         8U  /* Control Endpoint Packet size */
 
-//#define USB_CDC_CONFIG_DESC_SIZ                     141U
-//#define USB_CDC_CONFIG_DESC_SIZ                     134U
-#define USB_CDC_CONFIG_DESC_SIZ                     127U
+//#define USB_CDC_CONFIG_DESC_SIZ                     127U
+#define USB_CDC_CONFIG_DESC_SIZ                     226U
+
 #define CDC_DATA_HS_IN_PACKET_SIZE                  CDC_DATA_HS_MAX_PACKET_SIZE
 #define CDC_DATA_HS_OUT_PACKET_SIZE                 CDC_DATA_HS_MAX_PACKET_SIZE
 

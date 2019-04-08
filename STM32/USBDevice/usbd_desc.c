@@ -69,7 +69,9 @@
 #define USBD_PID_FS     0xf001
 #define USBD_PRODUCT_STRING_FS     "UA3REO Transceiver"
 #define USBD_CONFIGURATION_STRING_FS     "UA3REO Transceiver Config"
-#define USBD_INTERFACE_STRING_FS     "UA3REO Transceiver Debug/Ptt Port"
+#define USBD_INTERFACE1_STRING_FS     "UA3REO Transceiver Debug/Key Port"
+#define USBD_INTERFACE2_STRING_FS     "UA3REO Transceiver CAT Port"
+#define USBD_INTERFACE3_STRING_FS     "UA3REO Transceiver AUDIO RX"
 
 #define USB_SIZ_BOS_DESC            0x0C
 
@@ -122,7 +124,9 @@ uint8_t * USBD_FS_ManufacturerStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *l
 uint8_t * USBD_FS_ProductStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 uint8_t * USBD_FS_SerialStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 uint8_t * USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
-uint8_t * USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+uint8_t * USBD_FS_Interface1StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+uint8_t * USBD_FS_Interface2StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
+uint8_t * USBD_FS_Interface3StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length);
 
 #ifdef USBD_SUPPORT_USER_STRING_DESC
 uint8_t * USBD_FS_USRStringDesc(USBD_SpeedTypeDef speed, uint8_t idx, uint16_t *length);
@@ -149,7 +153,9 @@ USBD_DescriptorsTypeDef FS_Desc =
 , USBD_FS_ProductStrDescriptor
 , USBD_FS_SerialStrDescriptor
 , USBD_FS_ConfigStrDescriptor
-, USBD_FS_InterfaceStrDescriptor
+, USBD_FS_Interface1StrDescriptor
+, USBD_FS_Interface2StrDescriptor
+, USBD_FS_Interface3StrDescriptor
 #if (USBD_LPM_ENABLED == 1)
 , USBD_FS_USR_BOSDescriptor
 #endif /* (USBD_LPM_ENABLED == 1) */
@@ -353,15 +359,39 @@ uint8_t * USBD_FS_ConfigStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
   * @param  length : Pointer to data length variable
   * @retval Pointer to descriptor buffer
   */
-uint8_t * USBD_FS_InterfaceStrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+uint8_t * USBD_FS_Interface1StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
 {
   if(speed == 0)
   {
-    USBD_GetString((uint8_t *)USBD_INTERFACE_STRING_FS, USBD_StrDesc, length);
+    USBD_GetString((uint8_t *)USBD_INTERFACE1_STRING_FS, USBD_StrDesc, length);
   }
   else
   {
-    USBD_GetString((uint8_t *)USBD_INTERFACE_STRING_FS, USBD_StrDesc, length);
+    USBD_GetString((uint8_t *)USBD_INTERFACE1_STRING_FS, USBD_StrDesc, length);
+  }
+  return USBD_StrDesc;
+}
+uint8_t * USBD_FS_Interface2StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+{
+  if(speed == 0)
+  {
+		USBD_GetString((uint8_t *)USBD_INTERFACE2_STRING_FS, USBD_StrDesc, length);
+  }
+  else
+  {
+		USBD_GetString((uint8_t *)USBD_INTERFACE2_STRING_FS, USBD_StrDesc, length);
+  }
+  return USBD_StrDesc;
+}
+uint8_t * USBD_FS_Interface3StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *length)
+{
+  if(speed == 0)
+  {
+		USBD_GetString((uint8_t *)USBD_INTERFACE3_STRING_FS, USBD_StrDesc, length);
+  }
+  else
+  {
+		USBD_GetString((uint8_t *)USBD_INTERFACE3_STRING_FS, USBD_StrDesc, length);
   }
   return USBD_StrDesc;
 }

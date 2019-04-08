@@ -64,7 +64,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   USB_DESC_TYPE_CONFIGURATION,      /* bDescriptorType: Configuration */
   USB_CDC_CONFIG_DESC_SIZ,                /* wTotalLength:no of returned bytes */
   0x00,
-  0x04,   /* bNumInterfaces: 2 interface */
+  0x06,   /* bNumInterfaces: count interface */
   0x01,   /* bConfigurationValue: Configuration value */
   0x00,   /* iConfiguration: Index of string descriptor describing the configuration */
   0xC0,   /* bmAttributes: self powered */
@@ -82,7 +82,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
 	0x02,     //bFunctionClass      (Communication Device Class)
 	0x02,     //bFunctionSubClass   (Abstract Control Model - ACM)
 	0x01,     //bFunctionProtocol   (ITU-T V.250)
-	0x00,     //iFunction   ""
+	USBD_IDX_INTERFACE1_STR,     //iFunction   ""
 
   /*Interface Descriptor */
   0x09,   /* bLength: Interface Descriptor size */
@@ -95,7 +95,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x02,   /* bInterfaceClass: Communication Interface Class */
   0x02,   /* bInterfaceSubClass: Abstract Control Model */
   0x01,   /* bInterfaceProtocol: Common AT commands */
-  0x00,   /* iInterface: */
+  USBD_IDX_INTERFACE1_STR,   /* iInterface: */
 
   /*Header Functional Descriptor*/
   0x05,   /* bLength: Endpoint Descriptor size */
@@ -145,7 +145,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x0A,   /* bInterfaceClass: CDC */
   0x00,   /* bInterfaceSubClass: */
   0x00,   /* bInterfaceProtocol: */
-  0x00,   /* iInterface: */
+  USBD_IDX_INTERFACE1_STR,   /* iInterface: */
 
   /*Endpoint OUT Descriptor*/
   0x07,   /* bLength: Endpoint Descriptor size */
@@ -175,7 +175,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
 	0x02,     //bFunctionClass      (Communication Device Class)
 	0x02,     //bFunctionSubClass   (Abstract Control Model - ACM)
 	0x01,     //bFunctionProtocol   (ITU-T V.250)
-	0x00,     //iFunction   ""
+	USBD_IDX_INTERFACE2_STR,     //iFunction   ""
 	
 	/*Interface Descriptor */
   0x09,   /* bLength: Interface Descriptor size */
@@ -188,7 +188,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x02,   /* bInterfaceClass: Communication Interface Class */
   0x02,   /* bInterfaceSubClass: Abstract Control Model */
   0x01,   /* bInterfaceProtocol: Common AT commands */
-  0x00,   /* iInterface: */
+  USBD_IDX_INTERFACE2_STR,   /* iInterface: */
 	
 	/*Header Functional Descriptor*/
   0x05,   /* bLength: Endpoint Descriptor size */
@@ -238,7 +238,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x0A,   /* bInterfaceClass: CDC */
   0x00,   /* bInterfaceSubClass: */
   0x00,   /* bInterfaceProtocol: */
-  0x00,   /* iInterface: */
+  USBD_IDX_INTERFACE2_STR,   /* iInterface: */
 	
 	/*Endpoint OUT Descriptor*/
   0x07,   /* bLength: Endpoint Descriptor size */
@@ -257,6 +257,139 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
   HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
   0x01,                               /* bInterval: ignore for Bulk transfer */
+	
+	//AUDIO RX PORT
+	//Interface Association Descriptor:
+	//------------------------------
+	0x08,//     bLength
+	0x0B,//    bDescriptorType
+	0x04,//     bFirstInterface
+	0x02,//     bInterfaceCount
+	0x01,//     bFunctionClass      (Audio Device Class)
+	0x00,//     bFunctionSubClass  
+	0x00,//     bFunctionProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iFunction   ""
+
+	//Interface Descriptor:
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x04,//     bInterfaceNumber
+	0x00,//     bAlternateSetting
+	0x00,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x01,//     bInterfaceSubClass   (Audio Control Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   ""
+
+	//AC Interface Header Descriptor:
+	//------------------------------
+	0x09,//     bLength
+	0x24,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x00,//
+	0x01,// bcdADC
+	0x1E,// wTotalLength   (30 bytes)
+	0x00,// wTotalLength   (30 bytes)
+	0x01,//     bInCollection
+	0x05,//     baInterfaceNr(1)
+
+	//AC Input Terminal Descriptor:
+	//------------------------------
+	0x0C,//    bLength
+	0x24,//     bDescriptorType
+	0x02,//     bDescriptorSubtype
+	0x1E,//    bTerminalID
+	0x10,// wTerminalType   (Radio Receiver)
+	0x07,// wTerminalType   (Radio Receiver)
+	0x00,//     bAssocTerminal
+	0x02,//     bNrChannels   (2 channels)
+	0x03,// wChannelConfig
+	0x00,// wChannelConfig
+	0x00,//    iChannelNames
+	0x00,//     iTerminal
+	 
+	//AC Output Terminal Descriptor:
+	//------------------------------
+	0x09,//     bLength
+	0x24,//     bDescriptorType
+	0x03,//     bDescriptorSubtype
+	0x23,//     bTerminalID
+	0x01,// wTerminalType   (USB Streaming)
+	0x01,// wTerminalType   (USB Streaming)
+	0x00,//     bAssocTerminal
+	0x1E,//    bSourceID
+	0x00,//     iTerminal   "wwww 1"
+
+	//Interface Descriptor:
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x05,//     bInterfaceNumber
+	0x00,//     bAlternateSetting
+	0x00,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   "xxxx 1"
+
+	//Interface Descriptor:
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x05,//     bInterfaceNumber
+	0x01,//     bAlternateSetting
+	0x01,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   "xxxx 1"
+
+	//AS Interface Descriptor:
+	//------------------------------
+	0x07,//     bLength
+	0x24,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x23,//     bTerminalLink
+	0x01,//     bDelay
+	0x01,// wFormatTag   (PCM)
+	0x00,// wFormatTag   (PCM)
+
+	//AS Format Type 1 Descriptor:
+	//------------------------------
+	0x0B,//    bLength
+	0x24,//     bDescriptorType
+	0x02,//     bDescriptorSubtype
+	0x01,//     bFormatType   (FORMAT_TYPE_1)
+	0x02,//     bNrChannels   (2 channels)
+	0x02,//     bSubframeSize
+	0x10,//     bBitResolution   (16 bits per sample)
+	0x01,//     bSamFreqType   (Discrete sampling frequencies)
+	0x80,//         tSamFreq(1)   (48000 Hz)
+	0xBB,//         tSamFreq(1)   (48000 Hz)
+	0x00,//         tSamFreq(1)   (48000 Hz)
+
+	//Endpoint Descriptor (Audio/MIDI 1.0):
+	//------------------------------
+	0x09,//     bLength
+	0x05,//     bDescriptorType
+	AUDIO_IN_EP,//     bEndpointAddress  (IN endpoint 1)
+	0x25,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Implicit)
+	0xC4,// wMaxPacketSize    (1 x 196 bytes)
+	0x00,// wMaxPacketSize    (1 x 196 bytes)
+	0x01,//     bInterval         (1 frames)
+	0x00,//     bRefresh
+	0x00,//     bSynchAddress
+
+	//AS Isochronous Data Endpoint Descriptor:
+	//------------------------------
+	0x07,//     bLength
+	0x25,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x00,//     bmAttributes
+	0x02,//     bLockDelayUnits   (decoded PCM samples)
+	0x00,// wLockDelay
+	0x00,// wLockDelay
 } ;
 
 /**

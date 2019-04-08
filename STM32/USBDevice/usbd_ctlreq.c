@@ -454,8 +454,16 @@ static void USBD_GetDescriptor(USBD_HandleTypeDef *pdev ,
       pbuf = pdev->pDesc->GetConfigurationStrDescriptor(pdev->dev_speed, &len);
       break;
 
-    case USBD_IDX_INTERFACE_STR:
-      pbuf = pdev->pDesc->GetInterfaceStrDescriptor(pdev->dev_speed, &len);
+    case USBD_IDX_INTERFACE1_STR:
+      pbuf = pdev->pDesc->GetInterface1StrDescriptor(pdev->dev_speed, &len);
+      break;
+		
+		case USBD_IDX_INTERFACE2_STR:
+      pbuf = pdev->pDesc->GetInterface2StrDescriptor(pdev->dev_speed, &len);
+      break;
+		
+		case USBD_IDX_INTERFACE3_STR:
+      pbuf = pdev->pDesc->GetInterface3StrDescriptor(pdev->dev_speed, &len);
       break;
 
     default:
