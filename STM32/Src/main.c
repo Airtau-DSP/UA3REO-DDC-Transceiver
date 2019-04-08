@@ -181,9 +181,6 @@ int main(void)
 	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
 	sendToDebug_str("UA3REO Started\r\n");
 	
-	char* tmp="TEST";
-	CAT_Transmit_FS((uint8_t*)tmp, strlen(tmp));
-	
 	TRX_inited = true;
   /* USER CODE END 2 */
 

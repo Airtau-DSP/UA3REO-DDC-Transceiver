@@ -68,7 +68,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x01,   /* bConfigurationValue: Configuration value */
   0x00,   /* iConfiguration: Index of string descriptor describing the configuration */
   0xC0,   /* bmAttributes: self powered */
-  0x32,   /* MaxPower 0 mA */
+  0xFA,   /* MaxPower 500 mA */
 
   /*---------------------------------------------------------------------------*/
 	
@@ -90,7 +90,8 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   /* Interface descriptor type */
   0x00,   /* bInterfaceNumber: Number of Interface */
   0x00,   /* bAlternateSetting: Alternate setting */
-  0x01,   /* bNumEndpoints: One endpoints used */
+  //0x01,   /* bNumEndpoints: One endpoints used */
+	0x00,   /* bNumEndpoints: One endpoints used */
   0x02,   /* bInterfaceClass: Communication Interface Class */
   0x02,   /* bInterfaceSubClass: Abstract Control Model */
   0x01,   /* bInterfaceProtocol: Common AT commands */
@@ -124,13 +125,15 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x01,   /* bSlaveInterface0: Data Class Interface */
 
   /*Endpoint 2 Descriptor*/
-  0x07,                           /* bLength: Endpoint Descriptor size */
-  USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
-  DEBUG_CMD_EP,                     /* bEndpointAddress */
-  0x03,                           /* bmAttributes: Interrupt */
-  LOBYTE(CDC_CMD_PACKET_SIZE),     /* wMaxPacketSize: */
+	/*
+  0x07,                           // bLength: Endpoint Descriptor size 
+  USB_DESC_TYPE_ENDPOINT,   // bDescriptorType: Endpoint 
+  DEBUG_CMD_EP,                     // bEndpointAddress 
+  0x03,                           // bmAttributes: Interrupt 
+  LOBYTE(CDC_CMD_PACKET_SIZE),     // wMaxPacketSize: 
   HIBYTE(CDC_CMD_PACKET_SIZE),
-  CDC_FS_BINTERVAL,                           /* bInterval: */
+  CDC_FS_BINTERVAL,                           // bInterval: 
+	*/
   /*---------------------------------------------------------------------------*/
 
   /*Data class interface descriptor*/
@@ -151,7 +154,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x02,                              /* bmAttributes: Bulk */
   LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
   HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-  0x00,                              /* bInterval: ignore for Bulk transfer */
+  0x01,                              /* bInterval: ignore for Bulk transfer */
 
   /*Endpoint IN Descriptor*/
   0x07,   /* bLength: Endpoint Descriptor size */
@@ -160,7 +163,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x02,                              /* bmAttributes: Bulk */
   LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
   HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-  0x00,                               /* bInterval: ignore for Bulk transfer */
+  0x01,                               /* bInterval: ignore for Bulk transfer */
 
 	//CAT PORT
 	//Interface Association Descriptor:
@@ -180,7 +183,8 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   /* Interface descriptor type */
   0x02,   /* bInterfaceNumber: Number of Interface */
   0x00,   /* bAlternateSetting: Alternate setting */
-  0x01,   /* bNumEndpoints: One endpoints used */
+  //0x01,   /* bNumEndpoints: One endpoints used */
+	0x00,   /* bNumEndpoints: One endpoints used */
   0x02,   /* bInterfaceClass: Communication Interface Class */
   0x02,   /* bInterfaceSubClass: Abstract Control Model */
   0x01,   /* bInterfaceProtocol: Common AT commands */
@@ -214,13 +218,15 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x03,   /* bSlaveInterface0: Data Class Interface */
 	
 	/*Endpoint 2 Descriptor*/
-  0x07,                           /* bLength: Endpoint Descriptor size */
-  USB_DESC_TYPE_ENDPOINT,   /* bDescriptorType: Endpoint */
-  CAT_CMD_EP,                     /* bEndpointAddress */
-  0x03,                           /* bmAttributes: Interrupt */
-  LOBYTE(CDC_CMD_PACKET_SIZE),     /* wMaxPacketSize: */
+	/*
+  0x07,                           // bLength: Endpoint Descriptor size 
+  USB_DESC_TYPE_ENDPOINT,   // bDescriptorType: Endpoint 
+  CAT_CMD_EP,                     // bEndpointAddress 
+  0x03,                           // bmAttributes: Interrupt 
+  LOBYTE(CDC_CMD_PACKET_SIZE),     // wMaxPacketSize: 
   HIBYTE(CDC_CMD_PACKET_SIZE),
-  CDC_FS_BINTERVAL,                           /* bInterval: */
+  CDC_FS_BINTERVAL,                           // bInterval:
+	*/
   /*---------------------------------------------------------------------------*/
 	
 	/*Data class interface descriptor*/
@@ -241,7 +247,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x02,                              /* bmAttributes: Bulk */
   LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
   HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-  0x00,                              /* bInterval: ignore for Bulk transfer */
+  0x01,                              /* bInterval: ignore for Bulk transfer */
 
   /*Endpoint IN Descriptor*/
   0x07,   /* bLength: Endpoint Descriptor size */
@@ -250,7 +256,7 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
   0x02,                              /* bmAttributes: Bulk */
   LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
   HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-  0x00                               /* bInterval: ignore for Bulk transfer */
+  0x01,                               /* bInterval: ignore for Bulk transfer */
 } ;
 
 /**
@@ -289,10 +295,10 @@ static uint8_t  USBD_UA3REO_Init (USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	pdev->ep_out[CAT_OUT_EP & 0xFU].is_used = 1U;
   
   /* Open Command IN EP */
-  USBD_LL_OpenEP(pdev, DEBUG_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
-	USBD_LL_OpenEP(pdev, CAT_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
-  pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 1U;
-	pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 1U;
+  //USBD_LL_OpenEP(pdev, DEBUG_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
+	//USBD_LL_OpenEP(pdev, CAT_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
+  //pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 1U;
+	//pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 1U;
 
   pdev->pClassDataDEBUG = USBD_malloc(sizeof (USBD_DEBUG_HandleTypeDef));
 	pdev->pClassDataCAT = USBD_malloc(sizeof (USBD_CAT_HandleTypeDef));
@@ -361,10 +367,10 @@ static uint8_t  USBD_UA3REO_DeInit (USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	pdev->ep_out[CAT_OUT_EP & 0xFU].is_used = 0U;
 
   /* Close Command IN EP */
-  USBD_LL_CloseEP(pdev, DEBUG_CMD_EP);
-	USBD_LL_CloseEP(pdev, CAT_CMD_EP);
-  pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 0U;
-	pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 0U;
+  //USBD_LL_CloseEP(pdev, DEBUG_CMD_EP);
+	//USBD_LL_CloseEP(pdev, CAT_CMD_EP);
+  //pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 0U;
+	//pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 0U;
 
   /* DeInit  physical Interface components */
   if(pdev->pClassDataDEBUG != NULL)
