@@ -11,9 +11,9 @@ uint8_t DEBUG_UserRxBufferFS[DEBUG_APP_RX_DATA_SIZE];
 uint8_t DEBUG_UserTxBufferFS[DEBUG_APP_TX_DATA_SIZE];
 
 #define DEBUG_TX_FIFO_BUFFER_SIZE 512
-uint8_t debug_tx_fifo[DEBUG_TX_FIFO_BUFFER_SIZE]={0};
-uint16_t debug_tx_fifo_head=0;
-uint16_t debug_tx_fifo_tail=0;
+uint8_t debug_tx_fifo[DEBUG_TX_FIFO_BUFFER_SIZE] = { 0 };
+uint16_t debug_tx_fifo_head = 0;
+uint16_t debug_tx_fifo_tail = 0;
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
@@ -37,12 +37,12 @@ USBD_DEBUG_ItfTypeDef USBD_DEBUG_fops_FS =
   */
 static int8_t DEBUG_Init_FS(void)
 {
-  /* USER CODE BEGIN 3 */
-  /* Set Application Buffers */
-  USBD_DEBUG_SetTxBuffer(&hUsbDeviceFS, DEBUG_UserTxBufferFS, 0);
-  USBD_DEBUG_SetRxBuffer(&hUsbDeviceFS, DEBUG_UserRxBufferFS);
-  return (USBD_OK);
-  /* USER CODE END 3 */
+	/* USER CODE BEGIN 3 */
+	/* Set Application Buffers */
+	USBD_DEBUG_SetTxBuffer(&hUsbDeviceFS, DEBUG_UserTxBufferFS, 0);
+	USBD_DEBUG_SetRxBuffer(&hUsbDeviceFS, DEBUG_UserRxBufferFS);
+	return (USBD_OK);
+	/* USER CODE END 3 */
 }
 
 /**
@@ -51,9 +51,9 @@ static int8_t DEBUG_Init_FS(void)
   */
 static int8_t DEBUG_DeInit_FS(void)
 {
-  /* USER CODE BEGIN 4 */
-  return (USBD_OK);
-  /* USER CODE END 4 */
+	/* USER CODE BEGIN 4 */
+	return (USBD_OK);
+	/* USER CODE END 4 */
 }
 
 /**
@@ -65,64 +65,64 @@ static int8_t DEBUG_DeInit_FS(void)
   */
 static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 {
-  /* USER CODE BEGIN 5 */
-	
-  switch(cmd)
-  {
-    case CDC_SEND_ENCAPSULATED_COMMAND:
-    break;
+	/* USER CODE BEGIN 5 */
 
-    case CDC_GET_ENCAPSULATED_RESPONSE:
-    break;
+	switch (cmd)
+	{
+	case CDC_SEND_ENCAPSULATED_COMMAND:
+		break;
 
-    case CDC_SET_COMM_FEATURE:
-    break;
+	case CDC_GET_ENCAPSULATED_RESPONSE:
+		break;
 
-    case CDC_GET_COMM_FEATURE:
-    break;
+	case CDC_SET_COMM_FEATURE:
+		break;
 
-    case CDC_CLEAR_COMM_FEATURE:
-    break;
+	case CDC_GET_COMM_FEATURE:
+		break;
 
-  /*******************************************************************************/
-  /* Line Coding Structure                                                       */
-  /*-----------------------------------------------------------------------------*/
-  /* Offset | Field       | Size | Value  | Description                          */
-  /* 0      | dwDTERate   |   4  | Number |Data terminal rate, in bits per second*/
-  /* 4      | bCharFormat |   1  | Number | Stop bits                            */
-  /*                                        0 - 1 Stop bit                       */
-  /*                                        1 - 1.5 Stop bits                    */
-  /*                                        2 - 2 Stop bits                      */
-  /* 5      | bParityType |  1   | Number | Parity                               */
-  /*                                        0 - None                             */
-  /*                                        1 - Odd                              */
-  /*                                        2 - Even                             */
-  /*                                        3 - Mark                             */
-  /*                                        4 - Space                            */
-  /* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
-  /*******************************************************************************/
-    case CDC_SET_LINE_CODING:
-    break;
+	case CDC_CLEAR_COMM_FEATURE:
+		break;
 
-    case CDC_GET_LINE_CODING:
-    break;
+		/*******************************************************************************/
+		/* Line Coding Structure                                                       */
+		/*-----------------------------------------------------------------------------*/
+		/* Offset | Field       | Size | Value  | Description                          */
+		/* 0      | dwDTERate   |   4  | Number |Data terminal rate, in bits per second*/
+		/* 4      | bCharFormat |   1  | Number | Stop bits                            */
+		/*                                        0 - 1 Stop bit                       */
+		/*                                        1 - 1.5 Stop bits                    */
+		/*                                        2 - 2 Stop bits                      */
+		/* 5      | bParityType |  1   | Number | Parity                               */
+		/*                                        0 - None                             */
+		/*                                        1 - Odd                              */
+		/*                                        2 - Even                             */
+		/*                                        3 - Mark                             */
+		/*                                        4 - Space                            */
+		/* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
+		/*******************************************************************************/
+	case CDC_SET_LINE_CODING:
+		break;
 
-    case CDC_SET_CONTROL_LINE_STATE:
-			if(pbuf[2]==1)
-				TRX_key_serial=true;
-			else 
-				TRX_key_serial=false;
-    break;
+	case CDC_GET_LINE_CODING:
+		break;
 
-    case CDC_SEND_BREAK:
-    break;
+	case CDC_SET_CONTROL_LINE_STATE:
+		if (pbuf[2] == 1)
+			TRX_key_serial = true;
+		else
+			TRX_key_serial = false;
+		break;
 
-  default:
-    break;
-  }
+	case CDC_SEND_BREAK:
+		break;
 
-  return (USBD_OK);
-  /* USER CODE END 5 */
+	default:
+		break;
+	}
+
+	return (USBD_OK);
+	/* USER CODE END 5 */
 }
 
 /**
@@ -141,11 +141,11 @@ static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   */
 static int8_t DEBUG_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
-  /* USER CODE BEGIN 6 */
-  USBD_DEBUG_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-  USBD_DEBUG_ReceivePacket(&hUsbDeviceFS);
-  return (USBD_OK);
-  /* USER CODE END 6 */
+	/* USER CODE BEGIN 6 */
+	USBD_DEBUG_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+	USBD_DEBUG_ReceivePacket(&hUsbDeviceFS);
+	return (USBD_OK);
+	/* USER CODE END 6 */
 }
 
 /**
@@ -161,55 +161,55 @@ static int8_t DEBUG_Receive_FS(uint8_t* Buf, uint32_t *Len)
   */
 uint8_t DEBUG_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
-  uint8_t result = USBD_OK;
-  /* USER CODE BEGIN 7 */
-  USBD_DEBUG_HandleTypeDef *hcdc = (USBD_DEBUG_HandleTypeDef*)hUsbDeviceFS.pClassDataDEBUG;
-  if (hcdc->TxState != 0){
-    return USBD_BUSY;
-  }
-  USBD_DEBUG_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
-  result = USBD_DEBUG_TransmitPacket(&hUsbDeviceFS);
-  /* USER CODE END 7 */
-  return result;
+	uint8_t result = USBD_OK;
+	/* USER CODE BEGIN 7 */
+	USBD_DEBUG_HandleTypeDef *hcdc = (USBD_DEBUG_HandleTypeDef*)hUsbDeviceFS.pClassDataDEBUG;
+	if (hcdc->TxState != 0) {
+		return USBD_BUSY;
+	}
+	USBD_DEBUG_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
+	result = USBD_DEBUG_TransmitPacket(&hUsbDeviceFS);
+	/* USER CODE END 7 */
+	return result;
 }
 
 void DEBUG_Transmit_FIFO(uint8_t *data, uint16_t length)
 {
-	if(length<=DEBUG_TX_FIFO_BUFFER_SIZE)
-		for(uint16_t i=0;i<length;i++)
+	if (length <= DEBUG_TX_FIFO_BUFFER_SIZE)
+		for (uint16_t i = 0; i < length; i++)
 		{
-			debug_tx_fifo[debug_tx_fifo_head]=data[i];
+			debug_tx_fifo[debug_tx_fifo_head] = data[i];
 			debug_tx_fifo_head++;
-			if(debug_tx_fifo_head>=DEBUG_TX_FIFO_BUFFER_SIZE) debug_tx_fifo_head=0;
+			if (debug_tx_fifo_head >= DEBUG_TX_FIFO_BUFFER_SIZE) debug_tx_fifo_head = 0;
 		}
 }
 
 void DEBUG_Transmit_FIFO_Events(void)
 {
-	if(debug_tx_fifo_head==debug_tx_fifo_tail) return;
+	if (debug_tx_fifo_head == debug_tx_fifo_tail) return;
 	USBD_DEBUG_HandleTypeDef *hcdc = (USBD_DEBUG_HandleTypeDef*)hUsbDeviceFS.pClassDataDEBUG;
 	if (hcdc->TxState != 0) return;
-	
-	uint8_t temp_buff[DEBUG_TX_FIFO_BUFFER_SIZE]={0};
-	uint16_t indx=0;
-	
-	if(debug_tx_fifo_head<debug_tx_fifo_tail)
+
+	uint8_t temp_buff[DEBUG_TX_FIFO_BUFFER_SIZE] = { 0 };
+	uint16_t indx = 0;
+
+	if (debug_tx_fifo_head < debug_tx_fifo_tail)
 	{
-		for(int i=debug_tx_fifo_tail;i<DEBUG_TX_FIFO_BUFFER_SIZE;i++)
+		for (int i = debug_tx_fifo_tail; i < DEBUG_TX_FIFO_BUFFER_SIZE; i++)
 		{
-			temp_buff[indx]=debug_tx_fifo[i];
+			temp_buff[indx] = debug_tx_fifo[i];
 			indx++;
 		}
-		debug_tx_fifo_tail=0;
+		debug_tx_fifo_tail = 0;
 	}
-	else if(debug_tx_fifo_head>debug_tx_fifo_tail)
+	else if (debug_tx_fifo_head > debug_tx_fifo_tail)
 	{
-		for(int i=debug_tx_fifo_tail;i<debug_tx_fifo_head;i++)
+		for (int i = debug_tx_fifo_tail; i < debug_tx_fifo_head; i++)
 		{
-			temp_buff[indx]=debug_tx_fifo[i];
+			temp_buff[indx] = debug_tx_fifo[i];
 			indx++;
 		}
-		debug_tx_fifo_tail=debug_tx_fifo_head;
+		debug_tx_fifo_tail = debug_tx_fifo_head;
 	}
 	DEBUG_Transmit_FS(temp_buff, indx);
 }

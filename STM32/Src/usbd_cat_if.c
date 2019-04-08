@@ -12,8 +12,8 @@
 #define CAT_APP_TX_DATA_SIZE  2048
 
 #define CAT_BUFFER_SIZE 64
-static char cat_buffer[CAT_BUFFER_SIZE]={0};
-static uint8_t cat_buffer_head=0;
+static char cat_buffer[CAT_BUFFER_SIZE] = { 0 };
+static uint8_t cat_buffer_head = 0;
 
 static void ua3reo_dev_cat_parseCommand(char* command);
 static uint8_t getFT450Mode(uint8_t VFO_Mode);
@@ -39,12 +39,12 @@ USBD_CAT_ItfTypeDef USBD_CAT_fops_FS =
 
 static int8_t CAT_Init_FS(void)
 {
-  /* USER CODE BEGIN 3 */
-  /* Set Application Buffers */
-  USBD_CAT_SetTxBuffer(&hUsbDeviceFS, CAT_UserTxBufferFS, 0);
-  USBD_CAT_SetRxBuffer(&hUsbDeviceFS, CAT_UserRxBufferFS);
-  return (USBD_OK);
-  /* USER CODE END 3 */
+	/* USER CODE BEGIN 3 */
+	/* Set Application Buffers */
+	USBD_CAT_SetTxBuffer(&hUsbDeviceFS, CAT_UserTxBufferFS, 0);
+	USBD_CAT_SetRxBuffer(&hUsbDeviceFS, CAT_UserRxBufferFS);
+	return (USBD_OK);
+	/* USER CODE END 3 */
 }
 
 /**
@@ -53,9 +53,9 @@ static int8_t CAT_Init_FS(void)
   */
 static int8_t CAT_DeInit_FS(void)
 {
-  /* USER CODE BEGIN 4 */
-  return (USBD_OK);
-  /* USER CODE END 4 */
+	/* USER CODE BEGIN 4 */
+	return (USBD_OK);
+	/* USER CODE END 4 */
 }
 
 /**
@@ -67,68 +67,68 @@ static int8_t CAT_DeInit_FS(void)
   */
 static int8_t CAT_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 {
-  /* USER CODE BEGIN 5 */
-  switch(cmd)
-  {
-    case CDC_SEND_ENCAPSULATED_COMMAND:
+	/* USER CODE BEGIN 5 */
+	switch (cmd)
+	{
+	case CDC_SEND_ENCAPSULATED_COMMAND:
 
-    break;
+		break;
 
-    case CDC_GET_ENCAPSULATED_RESPONSE:
+	case CDC_GET_ENCAPSULATED_RESPONSE:
 
-    break;
+		break;
 
-    case CDC_SET_COMM_FEATURE:
+	case CDC_SET_COMM_FEATURE:
 
-    break;
+		break;
 
-    case CDC_GET_COMM_FEATURE:
+	case CDC_GET_COMM_FEATURE:
 
-    break;
+		break;
 
-    case CDC_CLEAR_COMM_FEATURE:
+	case CDC_CLEAR_COMM_FEATURE:
 
-    break;
+		break;
 
-  /*******************************************************************************/
-  /* Line Coding Structure                                                       */
-  /*-----------------------------------------------------------------------------*/
-  /* Offset | Field       | Size | Value  | Description                          */
-  /* 0      | dwDTERate   |   4  | Number |Data terminal rate, in bits per second*/
-  /* 4      | bCharFormat |   1  | Number | Stop bits                            */
-  /*                                        0 - 1 Stop bit                       */
-  /*                                        1 - 1.5 Stop bits                    */
-  /*                                        2 - 2 Stop bits                      */
-  /* 5      | bParityType |  1   | Number | Parity                               */
-  /*                                        0 - None                             */
-  /*                                        1 - Odd                              */
-  /*                                        2 - Even                             */
-  /*                                        3 - Mark                             */
-  /*                                        4 - Space                            */
-  /* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
-  /*******************************************************************************/
-    case CDC_SET_LINE_CODING:
+		/*******************************************************************************/
+		/* Line Coding Structure                                                       */
+		/*-----------------------------------------------------------------------------*/
+		/* Offset | Field       | Size | Value  | Description                          */
+		/* 0      | dwDTERate   |   4  | Number |Data terminal rate, in bits per second*/
+		/* 4      | bCharFormat |   1  | Number | Stop bits                            */
+		/*                                        0 - 1 Stop bit                       */
+		/*                                        1 - 1.5 Stop bits                    */
+		/*                                        2 - 2 Stop bits                      */
+		/* 5      | bParityType |  1   | Number | Parity                               */
+		/*                                        0 - None                             */
+		/*                                        1 - Odd                              */
+		/*                                        2 - Even                             */
+		/*                                        3 - Mark                             */
+		/*                                        4 - Space                            */
+		/* 6      | bDataBits  |   1   | Number Data bits (5, 6, 7, 8 or 16).          */
+		/*******************************************************************************/
+	case CDC_SET_LINE_CODING:
 
-    break;
+		break;
 
-    case CDC_GET_LINE_CODING:
+	case CDC_GET_LINE_CODING:
 
-    break;
+		break;
 
-    case CDC_SET_CONTROL_LINE_STATE:
+	case CDC_SET_CONTROL_LINE_STATE:
 
-    break;
+		break;
 
-    case CDC_SEND_BREAK:
+	case CDC_SEND_BREAK:
 
-    break;
+		break;
 
-  default:
-    break;
-  }
+	default:
+		break;
+	}
 
-  return (USBD_OK);
-  /* USER CODE END 5 */
+	return (USBD_OK);
+	/* USER CODE END 5 */
 }
 
 /**
@@ -147,40 +147,40 @@ static int8_t CAT_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   */
 static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
-  /* USER CODE BEGIN 6 */
-  USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-  USBD_CAT_ReceivePacket(&hUsbDeviceFS);
-	char charBuff[CAT_BUFFER_SIZE]={0};
-	strncpy(charBuff,(char*)Buf,Len[0]);
+	/* USER CODE BEGIN 6 */
+	USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+	USBD_CAT_ReceivePacket(&hUsbDeviceFS);
+	char charBuff[CAT_BUFFER_SIZE] = { 0 };
+	strncpy(charBuff, (char*)Buf, Len[0]);
 	//sendToDebug_str(charBuff);
-	if(Len[0]<=CAT_BUFFER_SIZE)
+	if (Len[0] <= CAT_BUFFER_SIZE)
 	{
-		for(uint16_t i=0;i<Len[0];i++)
+		for (uint16_t i = 0; i < Len[0]; i++)
 		{
-			if(charBuff[i]!=0)
+			if (charBuff[i] != 0)
 			{
-				cat_buffer[cat_buffer_head]=charBuff[i];
-				if(cat_buffer[cat_buffer_head]==';')
+				cat_buffer[cat_buffer_head] = charBuff[i];
+				if (cat_buffer[cat_buffer_head] == ';')
 				{
-					char commandLine[CAT_BUFFER_SIZE]={0};
-					memcpy(commandLine,cat_buffer,cat_buffer_head);
+					char commandLine[CAT_BUFFER_SIZE] = { 0 };
+					memcpy(commandLine, cat_buffer, cat_buffer_head);
 					ua3reo_dev_cat_parseCommand(commandLine);
-					cat_buffer_head=0;
-					memset(&cat_buffer,0,CAT_BUFFER_SIZE);
+					cat_buffer_head = 0;
+					memset(&cat_buffer, 0, CAT_BUFFER_SIZE);
 					continue;
 				}
 				cat_buffer_head++;
-				if(cat_buffer_head>=CAT_BUFFER_SIZE)
+				if (cat_buffer_head >= CAT_BUFFER_SIZE)
 				{
-					cat_buffer_head=0;
-					memset(&cat_buffer,0,CAT_BUFFER_SIZE);
+					cat_buffer_head = 0;
+					memset(&cat_buffer, 0, CAT_BUFFER_SIZE);
 				}
 			}
 		}
 	}
-	
-  return (USBD_OK);
-  /* USER CODE END 6 */
+
+	return (USBD_OK);
+	/* USER CODE END 6 */
 }
 
 /**
@@ -196,16 +196,16 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
   */
 uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
-  uint8_t result = USBD_OK;
-  /* USER CODE BEGIN 7 */
-  USBD_CAT_HandleTypeDef *hcdc = (USBD_CAT_HandleTypeDef*)hUsbDeviceFS.pClassDataCAT;
-  if (hcdc->TxState != 0){
-    return USBD_BUSY;
-  }
-  USBD_CAT_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
-  result = USBD_CAT_TransmitPacket(&hUsbDeviceFS);
-  /* USER CODE END 7 */
-  return result;
+	uint8_t result = USBD_OK;
+	/* USER CODE BEGIN 7 */
+	USBD_CAT_HandleTypeDef *hcdc = (USBD_CAT_HandleTypeDef*)hUsbDeviceFS.pClassDataCAT;
+	if (hcdc->TxState != 0) {
+		return USBD_BUSY;
+	}
+	USBD_CAT_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
+	result = USBD_CAT_TransmitPacket(&hUsbDeviceFS);
+	/* USER CODE END 7 */
+	return result;
 }
 
 void CAT_Transmit(char* data)
@@ -216,22 +216,22 @@ void CAT_Transmit(char* data)
 static void ua3reo_dev_cat_parseCommand(char* _command)
 {
 	//sendToDebug_str3("New CAT command: |",_command,"|\r\n");
-	
-	if(strlen(_command)<2) return;
-	char command[3]={0};
+
+	if (strlen(_command) < 2) return;
+	char command[3] = { 0 };
 	strncpy(command, _command, 2);
-	bool has_args=false;	
-	char arguments[32]={0};
+	bool has_args = false;
+	char arguments[32] = { 0 };
 	char ctmp[32];
-	if(strlen(_command)>2)
+	if (strlen(_command) > 2)
 	{
-		strncpy(arguments, _command+2, strlen(_command)-2);
-		has_args=true;
+		strncpy(arguments, _command + 2, strlen(_command) - 2);
+		has_args = true;
 	}
-	
-	if(strcmp(command,"AI")==0) // AUTO INFORMATION
+
+	if (strcmp(command, "AI") == 0) // AUTO INFORMATION
 	{
-		if(!has_args)
+		if (!has_args)
 		{
 			CAT_Transmit("AI0;");
 		}
@@ -241,63 +241,63 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		return;
 	}
-	
-	if(strcmp(command,"ID")==0) // IDENTIFICATION
+
+	if (strcmp(command, "ID") == 0) // IDENTIFICATION
 	{
-		if(!has_args)
+		if (!has_args)
 		{
 			CAT_Transmit("ID0241;");
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"FT")==0) // FUNCTION TX
+	if (strcmp(command, "FT") == 0) // FUNCTION TX
 	{
-		if(!has_args)
+		if (!has_args)
 		{
 			CAT_Transmit("FT0;");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0) {} //SPLIT DONT SUPPOTED
-			else if(strcmp(arguments,"1")==0) {} //SPLIT DONT SUPPOTED
-			else sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			if (strcmp(arguments, "0") == 0) {} //SPLIT DONT SUPPOTED
+			else if (strcmp(arguments, "1") == 0) {} //SPLIT DONT SUPPOTED
+			else sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
-	
-	if(strcmp(command,"VS")==0) // VFO SELECT
+
+	if (strcmp(command, "VS") == 0) // VFO SELECT
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			if(!TRX.current_vfo)
+			if (!TRX.current_vfo)
 				CAT_Transmit("VS0;");
 			else
 				CAT_Transmit("VS1;");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0) TRX.current_vfo = 0;
-			else if(strcmp(arguments,"1")==0) TRX.current_vfo = 1;
+			if (strcmp(arguments, "0") == 0) TRX.current_vfo = 0;
+			else if (strcmp(arguments, "1") == 0) TRX.current_vfo = 1;
 			NeedSaveSettings = true;
 			InitFilters();
 			LCD_redraw();
-			sendToDebug_str3("CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
-	
-	if(strcmp(command,"IF")==0) // INFORMATION
+
+	if (strcmp(command, "IF") == 0) // INFORMATION
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			char answer[30]={0};
+			char answer[30] = { 0 };
 			strcat(answer, "IF001"); //memory channel
-			if(TRX_getFrequency()<10000000) strcat(answer, "0");
+			if (TRX_getFrequency() < 10000000) strcat(answer, "0");
 			sprintf(ctmp, "%d", TRX_getFrequency());
 			strcat(answer, ctmp); //freq
 			strcat(answer, "+0000"); //clirifier offset
@@ -313,18 +313,18 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
-	
-	if(strcmp(command,"FA")==0) // FREQUENCY VFO-A
+
+	if (strcmp(command, "FA") == 0) // FREQUENCY VFO-A
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			char answer[30]={0};
+			char answer[30] = { 0 };
 			strcat(answer, "FA");
-			if(TRX.VFO_A.Freq<10000000) strcat(answer, "0");
+			if (TRX.VFO_A.Freq < 10000000) strcat(answer, "0");
 			sprintf(ctmp, "%d", TRX.VFO_A.Freq);
 			strcat(answer, ctmp); //freq
 			strcat(answer, ";");
@@ -332,22 +332,22 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		else
 		{
-			if(TRX.current_vfo==0)
+			if (TRX.current_vfo == 0)
 				TRX_setFrequency(atoi(arguments));
-			TRX.VFO_A.Freq=atoi(arguments);
+			TRX.VFO_A.Freq = atoi(arguments);
 			LCD_displayFreqInfo();
 			LCD_displayTopButtons(false);
 		}
 		return;
 	}
 
-	if(strcmp(command,"FB")==0) // FREQUENCY VFO-B
+	if (strcmp(command, "FB") == 0) // FREQUENCY VFO-B
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			char answer[30]={0};
+			char answer[30] = { 0 };
 			strcat(answer, "FA");
-			if(TRX.VFO_B.Freq<10000000) strcat(answer, "0");
+			if (TRX.VFO_B.Freq < 10000000) strcat(answer, "0");
 			sprintf(ctmp, "%d", TRX.VFO_B.Freq);
 			strcat(answer, ctmp); //freq
 			strcat(answer, ";");
@@ -355,85 +355,85 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		else
 		{
-			if(TRX.current_vfo==1)
+			if (TRX.current_vfo == 1)
 				TRX_setFrequency(atoi(arguments));
-			TRX.VFO_B.Freq=atoi(arguments);
+			TRX.VFO_B.Freq = atoi(arguments);
 			LCD_displayFreqInfo();
 			LCD_displayTopButtons(false);
 		}
 		return;
 	}
-	
-	if(strcmp(command,"RA")==0) // RF ATTENUATOR
+
+	if (strcmp(command, "RA") == 0) // RF ATTENUATOR
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 				CAT_Transmit("RA00;");
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
-	
-	if(strcmp(command,"PA")==0) // PRE-AMP
+
+	if (strcmp(command, "PA") == 0) // PRE-AMP
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
-				if(TRX.Preamp)
+				if (TRX.Preamp)
 					CAT_Transmit("PA01;");
 				else
 					CAT_Transmit("PA00;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"GT")==0) // AGC FUNCTION
+	if (strcmp(command, "GT") == 0) // AGC FUNCTION
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
-				if(TRX.Agc_speed==0 || !CurrentVFO()->Agc) CAT_Transmit("GT00;");
-				else if(TRX.Agc_speed==1) CAT_Transmit("GT04;");
-				else if(TRX.Agc_speed==2) CAT_Transmit("GT03;");
-				else if(TRX.Agc_speed==3) CAT_Transmit("GT02;");
-				else if(TRX.Agc_speed==4) CAT_Transmit("GT01;");
+				if (TRX.Agc_speed == 0 || !CurrentVFO()->Agc) CAT_Transmit("GT00;");
+				else if (TRX.Agc_speed == 1) CAT_Transmit("GT04;");
+				else if (TRX.Agc_speed == 2) CAT_Transmit("GT03;");
+				else if (TRX.Agc_speed == 3) CAT_Transmit("GT02;");
+				else if (TRX.Agc_speed == 4) CAT_Transmit("GT01;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
-	
-	if(strcmp(command,"MD")==0) // MODE
+
+	if (strcmp(command, "MD") == 0) // MODE
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
-				char answer[30]={0};
+				char answer[30] = { 0 };
 				strcat(answer, "MD0");
 				sprintf(ctmp, "%d", getFT450Mode(TRX_getMode()));
 				strcat(answer, ctmp); //mode
@@ -442,7 +442,7 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 			}
 			else
 			{
-				if(TRX_getMode()!=setFT450Mode(atoi(arguments)))
+				if (TRX_getMode() != setFT450Mode(atoi(arguments)))
 				{
 					TRX_setMode(setFT450Mode(atoi(arguments)));
 					LCD_displayTopButtons(false);
@@ -452,11 +452,11 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		return;
 	}
 
-	if(strcmp(command,"PC")==0) // POWER CONTROL
+	if (strcmp(command, "PC") == 0) // POWER CONTROL
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			char answer[30]={0};
+			char answer[30] = { 0 };
 			strcat(answer, "PC");
 			sprintf(ctmp, "%d", TRX.RF_Power);
 			strcat(answer, ctmp);
@@ -465,20 +465,20 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
-	
-	if(strcmp(command,"SH")==0) // WIDTH
+
+	if (strcmp(command, "SH") == 0) // WIDTH
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
 				CAT_Transmit("SH016;");
 			}
@@ -486,225 +486,225 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 		return;
 	}
 
-	if(strcmp(command,"NB")==0) // NOISE BLANKER
+	if (strcmp(command, "NB") == 0) // NOISE BLANKER
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
 				CAT_Transmit("NB00;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"NR")==0) // NOISE REDUCTION
+	if (strcmp(command, "NR") == 0) // NOISE REDUCTION
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
 				CAT_Transmit("NR00;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"VX")==0) // VOX STATUS
+	if (strcmp(command, "VX") == 0) // VOX STATUS
 	{
-		if(!has_args)
+		if (!has_args)
 		{
 			CAT_Transmit("VX0;");
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"CT")==0) // CTCSS
+	if (strcmp(command, "CT") == 0) // CTCSS
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
 				CAT_Transmit("CT00;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"ML")==0) // MONITOR LEVEL
+	if (strcmp(command, "ML") == 0) // MONITOR LEVEL
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
 				CAT_Transmit("ML00;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"BP")==0) // MANUAL NOTCH
+	if (strcmp(command, "BP") == 0) // MANUAL NOTCH
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"00")==0)
+			if (strcmp(arguments, "00") == 0)
 			{
 				CAT_Transmit("BP00000;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"BI")==0) // BREAK IN
+	if (strcmp(command, "BI") == 0) // BREAK IN
 	{
-		if(!has_args)
+		if (!has_args)
 		{
 			CAT_Transmit("BI0;");
 		}
 		else
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"OS")==0) // OFFSET
+	if (strcmp(command, "OS") == 0) // OFFSET
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
 				CAT_Transmit("OS00;");
 			}
 			else
-				sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+				sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		return;
 	}
 
-	if(strcmp(command,"NA")==0) // NARROW
+	if (strcmp(command, "NA") == 0) // NARROW
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 				CAT_Transmit("NA00;");
 		}
 		return;
 	}
 
-	if(strcmp(command,"SM")==0) // READ S-METER
+	if (strcmp(command, "SM") == 0) // READ S-METER
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			sendToDebug_str3("Unknown CAT arguments: ",_command,"\r\n");
+			sendToDebug_str3("Unknown CAT arguments: ", _command, "\r\n");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 				CAT_Transmit("SM0100;");
 		}
 		return;
 	}
 
-	if(strcmp(command,"TX")==0) // TX SET
+	if (strcmp(command, "TX") == 0) // TX SET
 	{
-		if(!has_args)
+		if (!has_args)
 		{
-			if(TRX_ptt_cat)
+			if (TRX_ptt_cat)
 				CAT_Transmit("TX1;");
-			else if(TRX_ptt_hard)
+			else if (TRX_ptt_hard)
 				CAT_Transmit("TX2;");
 			else
 				CAT_Transmit("TX0;");
 		}
 		else
 		{
-			if(strcmp(arguments,"0")==0)
+			if (strcmp(arguments, "0") == 0)
 			{
-				TRX_ptt_cat=false;
-			}			
-			if(strcmp(arguments,"1")==0)
+				TRX_ptt_cat = false;
+			}
+			if (strcmp(arguments, "1") == 0)
 			{
-				TRX_ptt_cat=true;
+				TRX_ptt_cat = true;
 			}
 		}
 		return;
 	}
-	
-	sendToDebug_str3("Unknown CAT command: ",_command,"\r\n");
+
+	sendToDebug_str3("Unknown CAT command: ", _command, "\r\n");
 	//sendToDebug_str2(command,"|\r\n");
 	//sendToDebug_str2(arguments,"|\r\n");
 }
 
 static uint8_t getFT450Mode(uint8_t VFO_Mode)
 {
-	if(VFO_Mode==TRX_MODE_LSB) return 1;
-	if(VFO_Mode==TRX_MODE_USB) return 2;
-	if(VFO_Mode==TRX_MODE_IQ) return 8;
-	if(VFO_Mode==TRX_MODE_CW_L) return 3;
-	if(VFO_Mode==TRX_MODE_CW_U) return 3;
-	if(VFO_Mode==TRX_MODE_DIGI_L) return 6;
-	if(VFO_Mode==TRX_MODE_DIGI_U) return 9;
-	if(VFO_Mode==TRX_MODE_NO_TX) return 8;
-	if(VFO_Mode==TRX_MODE_NFM) return 4;
-	if(VFO_Mode==TRX_MODE_WFM) return 4;
-	if(VFO_Mode==TRX_MODE_AM) return 5;
-	if(VFO_Mode==TRX_MODE_LOOPBACK) return 8;
+	if (VFO_Mode == TRX_MODE_LSB) return 1;
+	if (VFO_Mode == TRX_MODE_USB) return 2;
+	if (VFO_Mode == TRX_MODE_IQ) return 8;
+	if (VFO_Mode == TRX_MODE_CW_L) return 3;
+	if (VFO_Mode == TRX_MODE_CW_U) return 3;
+	if (VFO_Mode == TRX_MODE_DIGI_L) return 6;
+	if (VFO_Mode == TRX_MODE_DIGI_U) return 9;
+	if (VFO_Mode == TRX_MODE_NO_TX) return 8;
+	if (VFO_Mode == TRX_MODE_NFM) return 4;
+	if (VFO_Mode == TRX_MODE_WFM) return 4;
+	if (VFO_Mode == TRX_MODE_AM) return 5;
+	if (VFO_Mode == TRX_MODE_LOOPBACK) return 8;
 	return 1;
 }
 
 static uint8_t setFT450Mode(uint8_t FT450_Mode)
 {
-	if(FT450_Mode==1) return TRX_MODE_LSB;
-	if(FT450_Mode==2) return TRX_MODE_USB;
-	if(FT450_Mode==8) return TRX_MODE_IQ;
-	if(FT450_Mode==3) return TRX_MODE_CW_L;
-	if(FT450_Mode==6) return TRX_MODE_DIGI_L;
-	if(FT450_Mode==9) return TRX_MODE_DIGI_U;
-	if(FT450_Mode==4) return TRX_MODE_NFM;
-	if(FT450_Mode==5) return TRX_MODE_AM;
+	if (FT450_Mode == 1) return TRX_MODE_LSB;
+	if (FT450_Mode == 2) return TRX_MODE_USB;
+	if (FT450_Mode == 8) return TRX_MODE_IQ;
+	if (FT450_Mode == 3) return TRX_MODE_CW_L;
+	if (FT450_Mode == 6) return TRX_MODE_DIGI_L;
+	if (FT450_Mode == 9) return TRX_MODE_DIGI_U;
+	if (FT450_Mode == 4) return TRX_MODE_NFM;
+	if (FT450_Mode == 5) return TRX_MODE_AM;
 	return TRX_MODE_USB;
 }
 
