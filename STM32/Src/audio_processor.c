@@ -243,6 +243,13 @@ void processRxAudio(void)
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_Q[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 	readHalfFromCircleBuffer32((float32_t *)&FPGA_Audio_Buffer_I[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
 
+	//MIN and MAX for DC Corrector
+	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
+	{
+		if(FPGA_MAX_I_Value<FPGA_Audio_Buffer_I_tmp[i]) FPGA_MAX_I_Value=FPGA_Audio_Buffer_I_tmp[i];
+		if(FPGA_MIN_I_Value>FPGA_Audio_Buffer_I_tmp[i]) FPGA_MIN_I_Value=FPGA_Audio_Buffer_I_tmp[i];
+	}
+	
 	//RF Gain
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);

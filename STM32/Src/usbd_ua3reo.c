@@ -21,6 +21,8 @@ static uint8_t  *USBD_UA3REO_GetFSCfgDesc(uint16_t *length);
 static uint8_t  *USBD_UA3REO_GetOtherSpeedCfgDesc(uint16_t *length);
 uint8_t  *USBD_UA3REO_GetDeviceQualifierDescriptor(uint16_t *length);
 
+uint32_t RX_USB_AUDIO_SAMPLES=0;
+
 /* USB Standard Device Descriptor */
 __ALIGN_BEGIN static uint8_t USBD_UA3REO_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALIGN_END =
 {
@@ -914,6 +916,7 @@ static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 	pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
 	USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc_audio->TxBuffer + rx_buffer_head, rx_buffer_step);
 	rx_buffer_head += rx_buffer_step;
+	RX_USB_AUDIO_SAMPLES += rx_buffer_step/4; //16 bit * 2 channel
 	return USBD_OK;
 }
 static uint8_t  USBD_UA3REO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)

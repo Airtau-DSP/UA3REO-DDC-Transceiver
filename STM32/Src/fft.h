@@ -8,6 +8,7 @@
 #include "wm8731.h"
 
 #define FFT_SIZE 512 //указываем размер расчитываемого FFT
+#define FFT_DOUBLE_SIZE_BUFFER 1024 //Размер буффера для расчёта FFT
 #define FFT_PRINT_SIZE 256 //указываем размер выводимого FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
 #define FFT_BOTTOM_OFFSET 190 //start of FFT
@@ -16,7 +17,7 @@
 #define FFT_STEP_COEFF 10.0f //коэффициент шага автокалибровки сигнала FFT (больше - медленней)
 #define FFT_STEP_FIX 10.0f //шаг снижения коэффициента FFT
 #define FFT_STEP_PRECISION 1.0f //шаг снижения коэффициента FFT (для слабых сигналов)
-#define FFT_MAX_IN_RED_ZONE 8 //максимум красных пиков на водопаде (для автоподстройки)
+#define FFT_MAX_IN_RED_ZONE 6 //максимум красных пиков на водопаде (для автоподстройки)
 #define FFT_MIN_IN_RED_ZONE 1 //минимум красных пиков на водопаде (для автоподстройки)
 #define FFT_HZ_IN_PIXEL (WM8731_SAMPLERATE/FFT_PRINT_SIZE) // герц в одном пикселе
 

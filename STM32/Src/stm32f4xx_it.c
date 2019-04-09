@@ -64,6 +64,7 @@
 #include "fpga.h"
 #include "profiler.h"
 #include "usbd_debug_if.h"
+#include "usbd_ua3reo.h"
 
 uint32_t ms50_counter = 0;
 uint32_t tim5_counter = 0;
@@ -362,10 +363,18 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms50_counter++;
 	
-	float32_t new_dc_offset=(FPGA_MIN_I_Value+FPGA_MAX_I_Value)*32.0f;
-	FPGA_DC_Offset+=(FPGA_DC_Offset+new_dc_offset)/200.0f;
-	FPGA_MIN_I_Value=0;
-	FPGA_MAX_I_Value=0;
+	const float32_t dc_correction_step_fast=1.0f;
+	const float32_t dc_correction_step_slow=0.1f;
+	if(FPGA_MIN_I_Value<0 && FPGA_MAX_I_Value<0)
+		FPGA_DC_Offset+=dc_correction_step_fast;
+	else if(FPGA_MIN_I_Value>0 && FPGA_MAX_I_Value>0)
+		FPGA_DC_Offset-=dc_correction_step_fast;
+	else if(-FPGA_MIN_I_Value>FPGA_MAX_I_Value)
+		FPGA_DC_Offset+=dc_correction_step_slow;
+	else if(-FPGA_MIN_I_Value<FPGA_MAX_I_Value)
+		FPGA_DC_Offset-=dc_correction_step_slow;
+	FPGA_MIN_I_Value=32700;
+	FPGA_MAX_I_Value=-32700;
 	
 	FFT_printFFT();
 	
@@ -402,26 +411,22 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		ms50_counter = 0;
 		
-		#if 0 //DEBUG
-		sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
-		sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000
-		sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(AUDIOPROC_TXA_samples,false); //~187
-		sendToDebug_str("Audioproc cycles B: "); sendToDebug_uint32(AUDIOPROC_TXB_samples,false); //~187
-		sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(cpu_sleep_counter/1000.0f,false);  
-		sendToDebug_str("Audioproc timer counter: "); sendToDebug_uint32(tim5_counter,false); 
-		sendToDebug_str("DC Offset: "); sendToDebug_float32(FPGA_DC_Offset,false); 
-		if(TRX_on_TX())
-		{
-			sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_uint32(FPGA_Buffer_underrun,false); //0
-			sendToDebug_str("TX Autogain: "); sendToDebug_float32(ALC_need_gain,false);
-			sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(ALC_need_gain_new,false);
-			sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(Processor_TX_MAX_amplitude,false);
-		}
-		sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0],false); //first byte of I
-		sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
-		sendToDebug_str("\r\n");
-		#endif
+		//sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
+		//sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000
+		//sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(AUDIOPROC_TXA_samples,false); //~187
+		//sendToDebug_str("Audioproc cycles B: "); sendToDebug_uint32(AUDIOPROC_TXB_samples,false); //~187
+		//sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(cpu_sleep_counter/1000.0f,false);  
+		//sendToDebug_str("Audioproc timer counter: "); sendToDebug_uint32(tim5_counter,false); 
+		//sendToDebug_str("DC Offset: "); sendToDebug_float32(FPGA_DC_Offset,false); 
+		//sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_uint32(FPGA_Buffer_underrun,false); //0
+		//sendToDebug_str("TX Autogain: "); sendToDebug_float32(ALC_need_gain,false);
+		//sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(ALC_need_gain_new,false);
+		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(Processor_TX_MAX_amplitude,false);
+		//sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0],false); //first byte of I
+		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
+		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(RX_USB_AUDIO_SAMPLES,false); //~48000
 		//PrintProfilerResult();
+		//sendToDebug_str("\r\n");
 		
 		tim5_counter = 0;
 		FPGA_samples = 0;
@@ -429,6 +434,7 @@ void TIM6_DAC_IRQHandler(void)
 		AUDIOPROC_TXA_samples = 0;
 		AUDIOPROC_TXB_samples = 0;
 		WM8731_DMA_samples = 0;
+		RX_USB_AUDIO_SAMPLES = 0;
 		cpu_sleep_counter = 0;
 		TRX_Time_InActive++;
 		WM8731_Buffer_underrun = false;

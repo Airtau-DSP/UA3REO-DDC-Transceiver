@@ -12,7 +12,7 @@ const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
 
 bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
 uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
-float32_t FFTInput[FFT_SIZE * 2] = { 0 }; //входящий буфер FFT
+float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = { 0 }; //входящий буфер FFT
 float32_t FFTOutput[FFT_SIZE] = { 0 }; //результирующий буфер FFT
 float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
 uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер водопада

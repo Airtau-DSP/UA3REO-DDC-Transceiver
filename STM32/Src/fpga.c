@@ -8,10 +8,7 @@
 #include "settings.h"
 #include "wm8731.h"
 
-uint16_t FPGA_fpgadata_in_tmp16 = 0;
 int16_t FPGA_fpgadata_out_tmp16 = 0;
-int16_t FPGA_fpgadata_in_inttmp16 = 0;
-float32_t FPGA_fpgadata_iq_corrected = 0;
 uint8_t FPGA_fpgadata_in_tmp8 = 0;
 uint8_t FPGA_fpgadata_out_tmp8 = 0;
 
@@ -299,6 +296,9 @@ void FPGA_fpgadata_getparam(void)
 
 void FPGA_fpgadata_getiq(void)
 {
+	int16_t FPGA_fpgadata_in_tmp16 = 0;
+	float32_t FPGA_fpgadata_iq_corrected = 0;
+	
 	FPGA_samples++;
 	FPGA_fpgadata_in_tmp16 = 0;
 	//STAGE 2
@@ -330,8 +330,7 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in Q
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XF);
-	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
-	FPGA_fpgadata_iq_corrected=(int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
+	FPGA_fpgadata_iq_corrected=FPGA_fpgadata_in_tmp16+FPGA_DC_Offset;
 
 	if(TRX_IQ_swap)
 	{
@@ -376,8 +375,7 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in I
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XF);
-	FPGA_fpgadata_in_inttmp16 = FPGA_fpgadata_in_tmp16;
-	FPGA_fpgadata_iq_corrected=(int16_t)FPGA_fpgadata_in_inttmp16-FPGA_DC_Offset;
+	FPGA_fpgadata_iq_corrected=FPGA_fpgadata_in_tmp16+FPGA_DC_Offset;
 
 	if(TRX_IQ_swap)
 	{
@@ -390,15 +388,13 @@ void FPGA_fpgadata_getiq(void)
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
 	}
 	
-	if(FPGA_MAX_I_Value<FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]) FPGA_MAX_I_Value=FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
-	if(FPGA_MIN_I_Value>FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index]) FPGA_MIN_I_Value=FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index];
 	FPGA_Audio_Buffer_Index++;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE) FPGA_Audio_Buffer_Index = 0;
 	
 	if(NeedFFTInputBuffer)
 	{
 		FFT_buff_index += 2;
-		if (FFT_buff_index == FFT_SIZE * 2)
+		if (FFT_buff_index == FFT_DOUBLE_SIZE_BUFFER)
 		{
 			FFT_buff_index = 0;
 			NeedFFTInputBuffer = false;
@@ -501,12 +497,17 @@ void FPGA_fpgadata_sendiq(void)
 
 inline void FPGA_clockRise(void)
 {
-	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	FPGA_CLK_GPIO_Port->BSRR = FPGA_CLK_Pin;
+	__asm("nop");
+	__asm("nop");
+	__asm("nop");
 }
 
 inline void FPGA_clockFall(void)
 {
-	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
+	FPGA_CLK_GPIO_Port->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 }
 
 inline uint8_t FPGA_readPacket(void)

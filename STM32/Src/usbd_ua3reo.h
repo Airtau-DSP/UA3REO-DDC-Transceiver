@@ -80,6 +80,8 @@ extern "C" {
 #define USB_AUDIO_DESC_SIZ                            0x09U
 #define AUDIO_DESCRIPTOR_TYPE                         0x21U
 
+extern uint32_t RX_USB_AUDIO_SAMPLES;
+
 	typedef struct
 	{
 		uint32_t bitrate;
