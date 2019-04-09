@@ -239,7 +239,7 @@ void LCDDriver_Fill_RectXY(unsigned int x0, unsigned int y0, unsigned int x1, un
 	LCDDriver_SetCursorAreaPosition(x0, y0, x1, y1);
 	
 	uint16_t fill_char=color;
-	if(n>1000)
+	if(n>50)
 	{
 		HAL_DMA_Start(&hdma_memtomem_dma2_stream5, (uint32_t)&fill_char, LCD_FSMC_DATA_ADDR, n/2);
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream5, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);

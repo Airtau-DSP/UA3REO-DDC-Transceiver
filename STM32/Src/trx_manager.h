@@ -45,7 +45,6 @@ extern bool TRX_squelched;
 extern bool TRX_tune;
 extern bool TRX_inited;
 extern int16_t TRX_RX_dBm;
-extern bool TRX_agc_wdsp_action;
 extern bool TRX_ADC_OTR;
 extern bool TRX_DAC_OTR;
 extern char *MODE_DESCR[];

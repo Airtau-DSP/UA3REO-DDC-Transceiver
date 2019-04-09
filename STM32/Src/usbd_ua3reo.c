@@ -1151,13 +1151,6 @@ uint8_t  USBD_CAT_SetTxBuffer(USBD_HandleTypeDef *pdev, uint8_t  *pbuff, uint16_
 	hcdc->TxLength = length;
 	return USBD_OK;
 }
-uint8_t  USBD_AUDIO_SetTxBuffer(USBD_HandleTypeDef *pdev, uint8_t  *pbuff, uint16_t length)
-{
-	USBD_AUDIO_HandleTypeDef   *hcdc = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
-	hcdc->TxBuffer = pbuff;
-	hcdc->TxLength = length;
-	return USBD_OK;
-}
 /**
   * @brief  USBD_CDC_SetRxBuffer
   * @param  pdev: device instance

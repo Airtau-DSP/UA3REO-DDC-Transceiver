@@ -45,10 +45,11 @@ static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t option
 
 void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev)
 {
+	USBD_AUDIO_HandleTypeDef   *hcdc = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (USB_AUDIO_current_rx_buffer)
-		USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&USB_AUDIO_rx_buffer_b, AUDIO_OUT_PACKET);
+		hcdc->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
 	else
-		USBD_AUDIO_SetTxBuffer(pdev, (uint8_t*)&USB_AUDIO_rx_buffer_a, AUDIO_OUT_PACKET);
+		hcdc->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
 }
 
 /**

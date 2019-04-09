@@ -21,6 +21,9 @@ bool LCD_mainMenuOpened = false;
 bool LCD_timeMenuOpened = false;
 bool LCD_systemMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
+uint16_t LCD_last_showed_freq_mhz = 9999;
+uint16_t LCD_last_showed_freq_khz = 9999;
+uint16_t LCD_last_showed_freq_hz = 9999;
 uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
 
 int LCD_last_s_meter = 1;
@@ -32,10 +35,12 @@ uint8_t button_handlers_count = 0;
 uint32_t lastTouchTick = 0;
 
 uint32_t Time;
-uint32_t LAST_Time;
 uint8_t Hours;
+uint8_t Last_showed_Hours;
 uint8_t Minutes;
+uint8_t Last_showed_Minutes;
 uint8_t Seconds;
+uint8_t Last_showed_Seconds;
 uint8_t TimeMenuSelection = 0;
 
 DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
@@ -176,51 +181,60 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 		return;
 	}
 	LCD_busy = true;
+	uint16_t mhz_x_offset=0;
 	LCD_last_showed_freq = TRX_getFrequency();
-
 	if (TRX_getFrequency() >= 100000000)
 	{
 		LCDDriver_Fill_RectWH(0, 87, 5, 35, COLOR_BLACK);
-		LCDDriver_SetCursorPosition(5, 120);
+		mhz_x_offset=5;
 	}
 	else if (TRX_getFrequency() >= 10000000)
 	{
 		LCDDriver_Fill_RectWH(0, 87, 31, 35, COLOR_BLACK);
-		LCDDriver_SetCursorPosition(31, 120);
+		mhz_x_offset=31;
 	}
 	else
 	{
 		LCDDriver_Fill_RectWH(0, 87, 57, 35, COLOR_BLACK);
-		LCDDriver_SetCursorPosition(57, 120);
+		mhz_x_offset=57;
 	}
 
 	//добавляем пробелов для вывода частоты
-	sprintf(LCD_freq_string_hz, "%d", ((uint32_t)TRX_getFrequency() % 1000));
-	sprintf(LCD_freq_string_khz, "%d", ((uint32_t)(TRX_getFrequency() / 1000) % 1000));
-	sprintf(LCD_freq_string_mhz, "%d", ((uint32_t)(TRX_getFrequency() / 1000000) % 1000000));
-
-	if (TRX.LCD_menu_freq_index == MENU_FREQ_MHZ)
-		LCDDriver_printTextFont(LCD_freq_string_mhz, LCDDriver_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
-	else
-		LCDDriver_printTextFont(LCD_freq_string_mhz, LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
-
-	LCDDriver_printTextFont(".", LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
-
+	uint16_t hz=((uint32_t)TRX_getFrequency() % 1000);
+	uint16_t khz=((uint32_t)(TRX_getFrequency() / 1000) % 1000);
+	uint16_t mhz=((uint32_t)(TRX_getFrequency() / 1000000) % 1000000);
+	sprintf(LCD_freq_string_hz, "%d", hz);
+	sprintf(LCD_freq_string_khz, "%d", khz);
+	sprintf(LCD_freq_string_mhz, "%d", mhz);
+	
+	if (LCD_last_showed_freq_mhz!=mhz)
+	{
+		if (TRX.LCD_menu_freq_index == MENU_FREQ_MHZ)
+			LCDDriver_printTextFont(LCD_freq_string_mhz, mhz_x_offset, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+		else
+			LCDDriver_printTextFont(LCD_freq_string_mhz, mhz_x_offset, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+		LCD_last_showed_freq_mhz=mhz;
+	}
+		
 	char buff[50] = "";
-	addSymbols(buff, LCD_freq_string_khz, 3, "0", false);
-	if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ)
-		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
-	else
-		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
-
-	LCDDriver_printTextFont(".", LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
-
-	addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
-	if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ)
-		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
-	else
-		LCDDriver_printTextFont(buff, LCDDriver_GetCurrentXOffset(), 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
-
+	if (LCD_last_showed_freq_khz!=khz)
+	{
+		addSymbols(buff, LCD_freq_string_khz, 3, "0", false);
+		if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ)
+			LCDDriver_printTextFont(buff, 96, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+		else
+			LCDDriver_printTextFont(buff, 96, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+		LCD_last_showed_freq_khz=khz;
+	}
+	if (LCD_last_showed_freq_hz!=hz)
+	{
+		addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
+		if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ)
+			LCDDriver_printTextFont(buff, 187, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+		else
+			LCDDriver_printTextFont(buff, 187, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+		LCD_last_showed_freq_hz=hz;
+	}
 	NeedSaveSettings = true;
 	LCD_UpdateQuery.FreqInfo = false;
 	LCD_busy = false;
@@ -248,6 +262,11 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	int width = 202;
 	LCDDriver_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
 
+	LCDDriver_printTextFont(".", 83, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b); //разделители частоты
+	LCDDriver_printTextFont(".", 174, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+	
+	LCDDriver_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
+	
 	int step = width / 8;
 	LCDDriver_printText("1", 50 + step * 0, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCDDriver_printText("3", 50 + step * 1, 150, COLOR_RED, COLOR_BLACK, 1);
@@ -273,8 +292,8 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	}
 	LCD_busy = true;
 	char ctmp[50];
+	const int width = 200;
 	
-	int width = 200;
 	float32_t TRX_s_meter = (127+TRX_RX_dBm)/6; //127dbm - S0, 6dBm - 1S div
 	if(TRX_s_meter<=9)
 		TRX_s_meter=TRX_s_meter*((width/8)*5/9); //первые 9 баллов по 6 дб
@@ -285,7 +304,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 
 	int s_width = TRX_s_meter;
 	if (LCD_last_s_meter > s_width) s_width = LCD_last_s_meter - ((LCD_last_s_meter - s_width) / 4); //сглаживаем движение с-метра
-	if (LCD_last_s_meter < s_width) s_width = s_width - ((s_width - LCD_last_s_meter) / 2);
+	else if (LCD_last_s_meter < s_width) s_width = s_width - ((s_width - LCD_last_s_meter) / 2);
 	if (LCD_last_s_meter != s_width)
 	{
 		LCDDriver_Fill_RectWH(41 + s_width, 131, width - s_width, 13, COLOR_BLACK);
@@ -296,10 +315,8 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	sprintf(ctmp, "%d", TRX_RX_dBm);
 	LCDDriver_Fill_RectWH(250,130,35,15,COLOR_BLACK);
 	LCDDriver_printTextFont(ctmp,250,143,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
-	LCDDriver_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
 	
 	LCDDriver_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
-	if (TRX_agc_wdsp_action && CurrentVFO()->Agc) LCDDriver_printText("AGC", 300, 210, COLOR_GREEN, COLOR_BLACK, 1);
 	if (TRX_ADC_OTR || TRX_DAC_OTR) LCDDriver_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
@@ -308,20 +325,29 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
 	Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);
 	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
-	if (Time != LAST_Time)
+
+	if (Hours != Last_showed_Hours)
 	{
 		sprintf(ctmp, "%d", Hours);
 		addSymbols(ctmp, ctmp, 2, "0", false);
 		LCDDriver_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
 		LCDDriver_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		Last_showed_Hours = Hours;
+	}
+	if (Minutes != Last_showed_Minutes)
+	{
 		sprintf(ctmp, "%d", Minutes);
 		addSymbols(ctmp, ctmp, 2, "0", false);
 		LCDDriver_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
 		LCDDriver_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		Last_showed_Minutes = Minutes;
+	}
+	if (Seconds != Last_showed_Seconds)
+	{
 		sprintf(ctmp, "%d", Seconds);
 		addSymbols(ctmp, ctmp, 2, "0", false);
 		LCDDriver_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
-		LAST_Time = Time;
+		Last_showed_Seconds = Seconds;
 	}
 	LCD_UpdateQuery.StatusInfoBar = false;
 	LCD_busy = false;
@@ -370,14 +396,20 @@ void LCD_redraw(void) {
 	LCD_UpdateQuery.TopButtons = true;
 	LCD_UpdateQuery.SystemMenu = true;
 	button_handlers_count = 0;
+	LCD_last_s_meter = 0;
 	LCD_last_showed_freq = 0;
+	Last_showed_Hours = 0;
+	Last_showed_Minutes = 0;
+	Last_showed_Seconds = 0;
+	LCD_last_showed_freq_mhz = 9999;
+	LCD_last_showed_freq_khz = 9999;
+	LCD_last_showed_freq_hz = 9999;
 	LCD_doEvents();
 }
 
 void LCD_doEvents(void)
 {
 	if (LCD_busy) return;
-	
 	if(TRX_Time_InActive>TRX.Standby_Time && TRX.Standby_Time>0)
 		LCDDriver_setBrightness(5);
 	else
@@ -1011,6 +1043,9 @@ void LCD_checkTouchPad(void)
 		if (x >= 95 && x <= 170 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		if (x >= 195 && x <= 270 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_HZ;
 		LCD_last_showed_freq = 0;
+		LCD_last_showed_freq_mhz = 9999;
+		LCD_last_showed_freq_khz = 9999;
+		LCD_last_showed_freq_hz = 9999;
 		LCD_displayFreqInfo();
 	}
 }

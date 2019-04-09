@@ -312,13 +312,9 @@ void processRxAudio(void)
 		//AGC
 		if (CurrentVFO()->Agc && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 			RxAgcWdsp(numBlocks*APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
-		else
-			TRX_agc_wdsp_action=0;
 		//
 		memcpy(&FPGA_Audio_Buffer_Q_tmp[0], &FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE * 4); //double channel
 	}
-	else
-		TRX_agc_wdsp_action=0;
 
 	//OUT Volume
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, (float32_t)TRX.Volume / 100.0f, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);

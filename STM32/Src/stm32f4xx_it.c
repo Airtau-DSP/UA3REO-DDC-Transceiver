@@ -68,6 +68,7 @@
 
 uint32_t ms50_counter = 0;
 uint32_t tim5_counter = 0;
+uint32_t eeprom_save_delay = 0;
 
 extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
@@ -376,8 +377,6 @@ void TIM6_DAC_IRQHandler(void)
 	FPGA_MIN_I_Value=32700;
 	FPGA_MAX_I_Value=-32700;
 	
-	FFT_printFFT();
-	
 	if(TRX_Key_Timeout_est>0)
 	{
 		TRX_Key_Timeout_est-=50;
@@ -425,8 +424,8 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0],false); //first byte of I
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
 		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(RX_USB_AUDIO_SAMPLES,false); //~48000
-		//PrintProfilerResult();
 		//sendToDebug_str("\r\n");
+		//PrintProfilerResult();
 		
 		tim5_counter = 0;
 		FPGA_samples = 0;
@@ -441,13 +440,27 @@ void TIM6_DAC_IRQHandler(void)
 		FPGA_Buffer_underrun = false;
 		FPGA_NeedSendParams = true;
 		FPGA_NeedGetParams = true;
-		if (NeedSaveSettings) SaveSettings();
+		if (NeedSaveSettings)
+		{
+			if(eeprom_save_delay<10) //Запись в EEPROM не чаще, чем раз в 10 секунд (против износа)
+			{
+				eeprom_save_delay++;
+			}
+			else
+			{
+				SaveSettings();
+				eeprom_save_delay=0;
+			}
+		}
 	}
-	LCD_doEvents();
+	
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
 	if (TRX_ptt_cat != TRX_old_ptt_cat) TRX_ptt_change();
 	if (TRX_key_serial != TRX_old_key_serial) TRX_key_change();
 	if (TRX_key_hard == HAL_GPIO_ReadPin(KEY_IN_GPIO_Port, KEY_IN_Pin)) TRX_key_change();
+	
+	LCD_doEvents();
+	FFT_printFFT();
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 
