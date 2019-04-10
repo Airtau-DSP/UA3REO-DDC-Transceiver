@@ -85,7 +85,7 @@ void processTxAudio(void)
 		{	
 			//RF PowerControl (Audio Level Control) Compressor
 			Processor_TX_MAX_amplitude=0;
-			if (TRX_tune) ALC_need_gain=1;
+			
 			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 			{
 				arm_abs_f32(&FPGA_Audio_Buffer_I_tmp[i], &ampl_val_i, 1);
@@ -96,12 +96,13 @@ void processTxAudio(void)
 			if(Processor_TX_MAX_amplitude==0.0f) Processor_TX_MAX_amplitude=0.001f;
 			ALC_need_gain_new = selected_rfpower_amplitude / Processor_TX_MAX_amplitude;
 			if(ALC_need_gain_new>ALC_need_gain)
-				ALC_need_gain += TX_AGC_STEPSIZE;
+				ALC_need_gain += (ALC_need_gain+ALC_need_gain_new)/TX_AGC_STEPSIZE;
 			else if(ALC_need_gain_new<ALC_need_gain)
-				ALC_need_gain -= TX_AGC_STEPSIZE;
-			
+				ALC_need_gain = ALC_need_gain_new;
+				
 			if(ALC_need_gain>TX_AGC_MAXGAIN) ALC_need_gain=TX_AGC_MAXGAIN;
 			if(Processor_TX_MAX_amplitude<TX_AGC_NOISEGATE) ALC_need_gain=0.0f;
+			if (TRX_tune) ALC_need_gain=1;
 			
 			arm_scale_f32(FPGA_Audio_Buffer_I_tmp, ALC_need_gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 			arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, ALC_need_gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
@@ -241,11 +242,11 @@ void processRxAudio(void)
 	if (!Processor_NeedRXBuffer) return;
 	AUDIOPROC_samples++;
 	uint16_t FPGA_Audio_Buffer_Index_tmp=FPGA_Audio_Buffer_Index;
-	if((FPGA_Audio_Buffer_Index_tmp%2)==1)
-	{
-		FPGA_Audio_Buffer_Index_tmp++;
-		if (FPGA_Audio_Buffer_Index_tmp >= FPGA_AUDIO_BUFFER_SIZE) FPGA_Audio_Buffer_Index_tmp = 0;
-	}
+	if(FPGA_Audio_Buffer_Index_tmp==0)
+		FPGA_Audio_Buffer_Index_tmp=FPGA_AUDIO_BUFFER_SIZE;
+	else
+		FPGA_Audio_Buffer_Index_tmp--;
+
 	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
 	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
 

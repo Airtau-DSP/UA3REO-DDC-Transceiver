@@ -162,15 +162,7 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 		agc_wdsp.fast_backaverage = agc_wdsp.fast_backmult * agc_wdsp.abs_out_sample + agc_wdsp.onemfast_backmult * agc_wdsp.fast_backaverage;
 		agc_wdsp.hang_backaverage = agc_wdsp.hang_backmult * agc_wdsp.abs_out_sample + agc_wdsp.onemhang_backmult * agc_wdsp.hang_backaverage;
 
-		if (agc_wdsp.hang_backaverage > agc_wdsp.hang_level)
-		{
-			//TRX_agc_wdsp_action = 1;
-		}
-		else
-		{
-			//TRX_agc_wdsp_action = 0;
-		}
-
+		
 		if ((agc_wdsp.abs_out_sample >= agc_wdsp.ring_max) && (agc_wdsp.abs_out_sample > 0.0f))
 		{
 			agc_wdsp.ring_max = 0.0f;
@@ -314,12 +306,6 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 		if (agc_wdsp.volts < agc_wdsp.min_volts)
 		{
 			agc_wdsp.volts = agc_wdsp.min_volts; // no AGC action is taking place
-			//TRX_agc_wdsp_action = 0;
-		}
-		else
-		{
-			// LED indicator for AGC action
-			//TRX_agc_wdsp_action = 1;
 		}
 
 		float32_t vo = log10f_fast(agc_wdsp.inv_max_input * agc_wdsp.volts);
