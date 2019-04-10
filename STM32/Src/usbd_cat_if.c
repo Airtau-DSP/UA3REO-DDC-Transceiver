@@ -149,7 +149,6 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
 	char charBuff[CAT_BUFFER_SIZE] = { 0 };
 	strncpy(charBuff, (char*)Buf, Len[0]);
-	//sendToDebug_str(charBuff);
 	if (Len[0] <= CAT_BUFFER_SIZE)
 	{
 		for (uint16_t i = 0; i < Len[0]; i++)
@@ -159,10 +158,8 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 				cat_buffer[cat_buffer_head] = charBuff[i];
 				if (cat_buffer[cat_buffer_head] == ';')
 				{
-					//char commandLine[CAT_BUFFER_SIZE] = { 0 };
-					//memcpy(commandLine, cat_buffer, cat_buffer_head);
+					memset(&command_to_parse,0,CAT_BUFFER_SIZE);
 					memcpy(command_to_parse, cat_buffer, cat_buffer_head);
-					//ua3reo_dev_cat_parseCommand(commandLine);
 					cat_buffer_head = 0;
 					memset(&cat_buffer, 0, CAT_BUFFER_SIZE);
 					continue;
@@ -176,8 +173,6 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 			}
 		}
 	}
-	USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-	USBD_CAT_ReceivePacket(&hUsbDeviceFS);
 	return (USBD_OK);
 }
 
@@ -195,14 +190,12 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
 	uint8_t result = USBD_OK;
-	/* USER CODE BEGIN 7 */
 	USBD_CAT_HandleTypeDef *hcdc = (USBD_CAT_HandleTypeDef*)hUsbDeviceFS.pClassDataCAT;
 	if (hcdc->TxState != 0) {
 		return USBD_BUSY;
 	}
 	USBD_CAT_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
 	result = USBD_CAT_TransmitPacket(&hUsbDeviceFS);
-	/* USER CODE END 7 */
 	return result;
 }
 
@@ -213,6 +206,9 @@ void CAT_Transmit(char* data)
 
 void ua3reo_dev_cat_parseCommand()
 {
+	USBD_CAT_ReceivePacket(&hUsbDeviceFS); //prepare next command
+	if(command_to_parse[0]==0) return;
+	
 	char _command[CAT_BUFFER_SIZE]={0};
 	memcpy(_command, command_to_parse, CAT_BUFFER_SIZE);
 	memset(&command_to_parse,0,CAT_BUFFER_SIZE);
