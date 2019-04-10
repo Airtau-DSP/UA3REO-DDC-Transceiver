@@ -10,48 +10,24 @@
 #include "usbd_debug_if.h"
 #include "usbd_cat_if.h"
 
-void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length)
+void dma_memcpy32(uint32_t dest, uint32_t src, uint32_t len)
 {
-	uint16_t halflen = length / 2;
-	if (index >= halflen)
-	{
-		memcpy(&dest[0], &source[index - halflen], halflen * 4);
-	}
-	else
-	{
-		uint16_t prev_part = halflen - index;
-		memcpy(&dest[0], &source[length - prev_part], prev_part * 4);
-		memcpy(&dest[prev_part], &source[0], (halflen - prev_part) * 4);
-	}
+	HAL_DMA_Start(&hdma_memtomem_dma2_stream2, src, dest, len);
+	HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream2, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 }
 
-void readHalfFromCircleBufferU16(uint16_t *source, uint16_t *dest, uint16_t index, uint16_t length)
+void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_t index, uint32_t length)
 {
 	uint16_t halflen = length / 2;
 	if (index >= halflen)
 	{
-		memcpy((uint16_t *)&dest[0], (uint16_t *)&source[index - halflen], halflen * 2);
+		dma_memcpy32((uint32_t)&dest[0], (uint32_t)&source[index - halflen], halflen);
 	}
 	else
 	{
 		uint16_t prev_part = halflen - index;
-		memcpy((uint16_t *)&dest[0], (uint16_t *)&source[length - prev_part], prev_part * 2);
-		memcpy((uint16_t *)&dest[prev_part], (uint16_t *)&source[0], (halflen - prev_part) * 2);
-	}
-}
-
-void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t index, uint16_t length)
-{
-	uint16_t halflen = length / 2;
-	if (index >= halflen)
-	{
-		memcpy(&dest[0], &source[index - halflen], halflen * 4);
-	}
-	else
-	{
-		uint16_t prev_part = halflen - index;
-		memcpy(&dest[0], &source[length - prev_part], prev_part * 4);
-		memcpy(&dest[prev_part], &source[0], (halflen - prev_part) * 4);
+		dma_memcpy32((uint32_t)&dest[0], (uint32_t)&source[length - prev_part], prev_part);
+		dma_memcpy32((uint32_t)&dest[prev_part], (uint32_t)&source[0], (halflen - prev_part));
 	}
 }
 

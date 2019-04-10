@@ -16,6 +16,7 @@ static int8_t AUDIO_GetState_FS(void);
 int16_t USB_AUDIO_rx_buffer_a[(AUDIO_BUFFER_SIZE / 2)] = { 0 };
 int16_t USB_AUDIO_rx_buffer_b[(AUDIO_BUFFER_SIZE / 2)] = { 0 };
 bool USB_AUDIO_current_rx_buffer = false; // a-false b-true
+bool USB_AUDIO_need_rx_buffer = false; // a-false b-true
 
 USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
 {
@@ -50,6 +51,8 @@ void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev)
 		hcdc->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
 	else
 		hcdc->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
+	USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
+	USB_AUDIO_need_rx_buffer=true;
 }
 
 /**

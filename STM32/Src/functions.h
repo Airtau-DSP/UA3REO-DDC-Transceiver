@@ -58,8 +58,7 @@ extern void sendToDebug_int32(int32_t data, bool _inline);
 extern void sendToDebug_float32(float32_t data, bool _inline);
 extern void delay_us(uint32_t us);
 extern float log10f_fast(float X);
-extern void readHalfFromCircleBuffer32(float32_t *source, float32_t *dest, uint16_t index, uint16_t length);
-extern void readHalfFromCircleBufferU16(uint16_t *source, uint16_t *dest, uint16_t index, uint16_t length);
-extern void readHalfFromCircleBufferU32(uint32_t *source, uint32_t *dest, uint16_t index, uint16_t length);
+extern void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_t index, uint32_t length);
+extern void dma_memcpy32(uint32_t dest, uint32_t src, uint32_t len);
 
 #endif
