@@ -44,17 +44,6 @@ static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t option
 	return (USBD_OK);
 }
 
-void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev)
-{
-	USBD_AUDIO_HandleTypeDef   *hcdc = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
-	if (USB_AUDIO_current_rx_buffer)
-		hcdc->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
-	else
-		hcdc->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
-	USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
-	USB_AUDIO_need_rx_buffer=true;
-}
-
 /**
   * @brief  De-Initializes the AUDIO media low layer
   * @param  options: Reserved for future use

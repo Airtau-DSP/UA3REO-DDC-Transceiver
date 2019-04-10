@@ -908,13 +908,19 @@ static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 	USBD_AUDIO_HandleTypeDef *hcdc_audio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (rx_buffer_head >= AUDIO_BUFFER_SIZE)
 	{
-		AUDIO_GetRxBuffer_FS(pdev);
+		if (USB_AUDIO_current_rx_buffer)
+			hcdc_audio->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
+		else
+			hcdc_audio->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
+		USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
+		USB_AUDIO_need_rx_buffer=true;
 		rx_buffer_head = 0;
 	}
 	if ((AUDIO_BUFFER_SIZE - rx_buffer_head) >= AUDIO_OUT_PACKET) rx_buffer_step = AUDIO_OUT_PACKET;
 	else rx_buffer_step = (AUDIO_BUFFER_SIZE - rx_buffer_head);
-	pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
-	USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc_audio->TxBuffer + rx_buffer_head, rx_buffer_step);
+	//pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
+	//USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc_audio->TxBuffer + rx_buffer_head, rx_buffer_step);
+	HAL_PCD_EP_Transmit(pdev->pData, AUDIO_IN_EP, hcdc_audio->TxBuffer + rx_buffer_head, rx_buffer_step);
 	rx_buffer_head += rx_buffer_step;
 	RX_USB_AUDIO_SAMPLES += rx_buffer_step/4; //16 bit * 2 channel
 	return USBD_OK;
@@ -1228,7 +1234,6 @@ uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev)
 	USBD_AUDIO_HandleTypeDef   *hcdc = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (pdev->pClassDataAUDIO != NULL)
 	{
-		AUDIO_GetRxBuffer_FS(pdev);
 		USBD_AUDIO_DataIn(pdev, AUDIO_EP_IDX);
 		return USBD_OK;
 	}

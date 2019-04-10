@@ -18,7 +18,6 @@ extern "C" {
 
 	void TransferComplete_CallBack_FS(void);
 	void HalfTransfer_CallBack_FS(void);
-	void AUDIO_GetRxBuffer_FS(USBD_HandleTypeDef *pdev);
 #ifdef __cplusplus
 }
 #endif
