@@ -240,8 +240,14 @@ void processRxAudio(void)
 {
 	if (!Processor_NeedRXBuffer) return;
 	AUDIOPROC_samples++;
-	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
-	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index, FPGA_AUDIO_BUFFER_SIZE);
+	uint16_t FPGA_Audio_Buffer_Index_tmp=FPGA_Audio_Buffer_Index;
+	if((FPGA_Audio_Buffer_Index_tmp%2)==1)
+	{
+		FPGA_Audio_Buffer_Index_tmp++;
+		if (FPGA_Audio_Buffer_Index_tmp >= FPGA_AUDIO_BUFFER_SIZE) FPGA_Audio_Buffer_Index_tmp = 0;
+	}
+	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
+	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
 
 	//MIN and MAX for DC Corrector
 	uint32_t tmp_index=0;
@@ -254,7 +260,7 @@ void processRxAudio(void)
 	//RF Gain
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 	arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
-
+	
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)
 	{
 		//hilbert fir
@@ -316,7 +322,7 @@ void processRxAudio(void)
 		//
 		dma_memcpy32((uint32_t)&FPGA_Audio_Buffer_Q_tmp[0], (uint32_t)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE); //double channel
 	}
-
+	
 	//OUT Volume
 	if (TRX.Mute)
 	{
@@ -348,6 +354,7 @@ void processRxAudio(void)
 		}
 		Processor_AudioBuffer_ReadyBuffer = 0;
 	}
+	
 	//Send to Codec DMA
 	if (WM8731_DMA_state) //complete
 	{
@@ -367,6 +374,7 @@ void processRxAudio(void)
 		//HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream1, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 		AUDIOPROC_TXB_samples++;
 	}
+	
 	//Send to USB Audio
 	if(USB_AUDIO_need_rx_buffer)
 	{
