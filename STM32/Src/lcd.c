@@ -45,6 +45,13 @@ uint8_t TimeMenuSelection = 0;
 
 DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
 
+void LCD_displayFreqInfo(void);
+void LCD_displayTopButtons(bool redraw);
+void LCD_displayMainMenu(void);
+void LCD_displayStatusInfoBar(void);
+void LCD_displayStatusInfoGUI(void);
+void LCD_resetTouchpadPins(void);
+
 void LCD_Init(void)
 {
 	LCDDriver_setBrightness(TRX.LCD_Brightness);

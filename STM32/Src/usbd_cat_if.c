@@ -8,14 +8,14 @@
 #include "fpga.h"
 #include "audio_filters.h"
 
-#define CAT_APP_RX_DATA_SIZE  2048
-#define CAT_APP_TX_DATA_SIZE  2048
+#define CAT_APP_RX_DATA_SIZE  32
+#define CAT_APP_TX_DATA_SIZE  32
 
 #define CAT_BUFFER_SIZE 64
 static char cat_buffer[CAT_BUFFER_SIZE] = { 0 };
 static uint8_t cat_buffer_head = 0;
+static char command_to_parse[CAT_BUFFER_SIZE]={0};
 
-static void ua3reo_dev_cat_parseCommand(char* command);
 static uint8_t getFT450Mode(uint8_t VFO_Mode);
 static uint8_t setFT450Mode(uint8_t FT450_Mode);
 
@@ -147,7 +147,6 @@ static int8_t CAT_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   */
 static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
-	/* USER CODE BEGIN 6 */
 	char charBuff[CAT_BUFFER_SIZE] = { 0 };
 	strncpy(charBuff, (char*)Buf, Len[0]);
 	//sendToDebug_str(charBuff);
@@ -160,9 +159,10 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 				cat_buffer[cat_buffer_head] = charBuff[i];
 				if (cat_buffer[cat_buffer_head] == ';')
 				{
-					char commandLine[CAT_BUFFER_SIZE] = { 0 };
-					memcpy(commandLine, cat_buffer, cat_buffer_head);
-					ua3reo_dev_cat_parseCommand(commandLine);
+					//char commandLine[CAT_BUFFER_SIZE] = { 0 };
+					//memcpy(commandLine, cat_buffer, cat_buffer_head);
+					memcpy(command_to_parse, cat_buffer, cat_buffer_head);
+					//ua3reo_dev_cat_parseCommand(commandLine);
 					cat_buffer_head = 0;
 					memset(&cat_buffer, 0, CAT_BUFFER_SIZE);
 					continue;
@@ -179,7 +179,6 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 	USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
 	USBD_CAT_ReceivePacket(&hUsbDeviceFS);
 	return (USBD_OK);
-	/* USER CODE END 6 */
 }
 
 /**
@@ -212,11 +211,14 @@ void CAT_Transmit(char* data)
 	CAT_Transmit_FS((uint8_t*)data, strlen(data));
 }
 
-static void ua3reo_dev_cat_parseCommand(char* _command)
+void ua3reo_dev_cat_parseCommand()
 {
-	//sendToDebug_str3("New CAT command: |",_command,"|\r\n");
-
+	char _command[CAT_BUFFER_SIZE]={0};
+	memcpy(_command, command_to_parse, CAT_BUFFER_SIZE);
+	memset(&command_to_parse,0,CAT_BUFFER_SIZE);
 	if (strlen(_command) < 2) return;
+	//sendToDebug_str3("New CAT command: |",_command,"|\r\n");
+	
 	char command[3] = { 0 };
 	strncpy(command, _command, 2);
 	bool has_args = false;
@@ -334,8 +336,8 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 			if (TRX.current_vfo == 0)
 				TRX_setFrequency(atoi(arguments));
 			TRX.VFO_A.Freq = atoi(arguments);
-			LCD_displayFreqInfo();
-			LCD_displayTopButtons(false);
+			LCD_UpdateQuery.FreqInfo = true;
+			LCD_UpdateQuery.TopButtons = true;
 		}
 		return;
 	}
@@ -357,8 +359,8 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 			if (TRX.current_vfo == 1)
 				TRX_setFrequency(atoi(arguments));
 			TRX.VFO_B.Freq = atoi(arguments);
-			LCD_displayFreqInfo();
-			LCD_displayTopButtons(false);
+			LCD_UpdateQuery.FreqInfo = true;
+			LCD_UpdateQuery.TopButtons = true;
 		}
 		return;
 	}
@@ -444,7 +446,7 @@ static void ua3reo_dev_cat_parseCommand(char* _command)
 				if (TRX_getMode() != setFT450Mode(atoi(arguments)))
 				{
 					TRX_setMode(setFT450Mode(atoi(arguments)));
-					LCD_displayTopButtons(false);
+					LCD_UpdateQuery.TopButtons = true;
 				}
 			}
 		}

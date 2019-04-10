@@ -114,7 +114,7 @@ void TRX_ptt_change(void)
 		TRX_Time_InActive=0;
 		TRX_ptt_hard = TRX_new_ptt_hard;
 		TRX_ptt_cat=false;
-		LCD_displayStatusInfoGUI();
+		LCD_UpdateQuery.StatusInfoGUI = true;
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();
 	}
@@ -122,7 +122,7 @@ void TRX_ptt_change(void)
 	{
 		TRX_Time_InActive=0;
 		TRX_old_ptt_cat=TRX_ptt_cat;
-		LCD_displayStatusInfoGUI();
+		LCD_UpdateQuery.StatusInfoGUI = true;
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();
 	}
@@ -138,7 +138,7 @@ void TRX_key_change(void)
 		TRX_key_hard=TRX_new_ptt_hard;
 		if(TRX_key_hard==true) TRX_Key_Timeout_est=TRX.Key_timeout;
 		if(TRX.Key_timeout==0) TRX_ptt_cat=TRX_key_hard;
-		LCD_displayStatusInfoGUI();
+		LCD_UpdateQuery.StatusInfoGUI = true;
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();
 	}
@@ -148,7 +148,7 @@ void TRX_key_change(void)
 		TRX_old_key_serial=TRX_key_serial;
 		if(TRX_key_serial==true) TRX_Key_Timeout_est=TRX.Key_timeout;
 		if(TRX.Key_timeout==0) TRX_ptt_cat=TRX_key_serial;
-		LCD_displayStatusInfoGUI();
+		LCD_UpdateQuery.StatusInfoGUI = true;
 		FPGA_NeedSendParams = true;
 		TRX_Restart_Mode();
 	}

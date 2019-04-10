@@ -69,7 +69,7 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 		default:
 			break;
 		}
-		LCD_displayFreqInfo();
+		LCD_UpdateQuery.FreqInfo = true;
 	}
 	if (LCD_mainMenuOpened)
 	{

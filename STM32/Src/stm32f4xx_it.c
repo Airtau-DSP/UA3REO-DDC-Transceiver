@@ -64,6 +64,7 @@
 #include "fpga.h"
 #include "profiler.h"
 #include "usbd_debug_if.h"
+#include "usbd_cat_if.h"
 #include "usbd_ua3reo.h"
 
 uint32_t ms50_counter = 0;
@@ -312,6 +313,7 @@ void TIM4_IRQHandler(void)
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
 	DEBUG_Transmit_FIFO_Events();
+	ua3reo_dev_cat_parseCommand();
 	if (FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
 }
@@ -408,7 +410,7 @@ void TIM6_DAC_IRQHandler(void)
 		TRX_Key_Timeout_est-=50;
 		if(TRX_Key_Timeout_est==0)
 		{
-			LCD_displayStatusInfoGUI();
+			LCD_UpdateQuery.StatusInfoGUI = true;
 			FPGA_NeedSendParams = true;
 			TRX_Restart_Mode();
 		}
