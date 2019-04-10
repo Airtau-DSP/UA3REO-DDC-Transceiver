@@ -148,8 +148,6 @@ static int8_t CAT_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
 	/* USER CODE BEGIN 6 */
-	USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
-	USBD_CAT_ReceivePacket(&hUsbDeviceFS);
 	char charBuff[CAT_BUFFER_SIZE] = { 0 };
 	strncpy(charBuff, (char*)Buf, Len[0]);
 	//sendToDebug_str(charBuff);
@@ -178,7 +176,8 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 			}
 		}
 	}
-
+	USBD_CAT_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
+	USBD_CAT_ReceivePacket(&hUsbDeviceFS);
 	return (USBD_OK);
 	/* USER CODE END 6 */
 }
