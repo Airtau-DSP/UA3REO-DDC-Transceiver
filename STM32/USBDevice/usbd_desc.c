@@ -71,7 +71,7 @@
 #define USBD_CONFIGURATION_STRING_FS     "UA3REO Transceiver Config"
 #define USBD_INTERFACE1_STRING_FS     "UA3REO Transceiver Debug/Key Port"
 #define USBD_INTERFACE2_STRING_FS     "UA3REO Transceiver CAT Port"
-#define USBD_INTERFACE3_STRING_FS     "UA3REO Transceiver AUDIO RX"
+#define USBD_INTERFACE3_STRING_FS     "UA3REO Transceiver AUDIO"
 
 #define USB_SIZ_BOS_DESC            0x0C
 
@@ -395,7 +395,6 @@ uint8_t * USBD_FS_Interface3StrDescriptor(USBD_SpeedTypeDef speed, uint16_t *len
   }
   return USBD_StrDesc;
 }
-
 #if (USBD_LPM_ENABLED == 1)
 /**
   * @brief  Return the BOS descriptor

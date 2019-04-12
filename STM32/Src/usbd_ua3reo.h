@@ -12,7 +12,7 @@ extern "C" {
 
 #define DEBUG_INTERFACE_IDX 0x0                            	// Index of DEBUG interface
 #define CAT_INTERFACE_IDX 0x2                            	// Index of CAT interface
-#define AUDIO_INTERFACE_IDX 0x3                            	// Index of AUDIO interface
+#define AUDIO_INTERFACE_IDX 0x4                            	// Index of AUDIO interface
 
 //#define DEBUG_CMD_EP_IDX                  0x01
 #define DEBUG_EP_IDX                      0x01
@@ -44,8 +44,8 @@ extern "C" {
 #define CDC_DATA_FS_MAX_PACKET_SIZE                 64U  /* Endpoint IN & OUT Packet size */
 #define CDC_CMD_PACKET_SIZE                         8U  /* Control Endpoint Packet size */
 
-//#define USB_CDC_CONFIG_DESC_SIZ                     127U
-#define USB_CDC_CONFIG_DESC_SIZ                     226U
+//#define USB_CDC_CONFIG_DESC_SIZ                     226U
+#define USB_CDC_CONFIG_DESC_SIZ                     300U
 
 #define CDC_DATA_HS_IN_PACKET_SIZE                  CDC_DATA_HS_MAX_PACKET_SIZE
 #define CDC_DATA_HS_OUT_PACKET_SIZE                 CDC_DATA_HS_MAX_PACKET_SIZE
