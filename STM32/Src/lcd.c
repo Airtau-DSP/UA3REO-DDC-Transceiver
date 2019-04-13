@@ -387,7 +387,9 @@ void LCD_displayMainMenu() {
 	printMenuButton(163, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp, true, LCD_Handler_MENU_PREAMP);
 	printMenuButton(242, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 
-	printMenuButton(5, 115, 74, 50, "INPUT", TRX.LineMicIn ? "Line" : "Mic", TRX.LineMicIn, true, LCD_Handler_MENU_LINEMIC);
+	if(TRX.InputType==0) printMenuButton(5, 115, 74, 50, "INPUT", "Mic", true, true, LCD_Handler_MENU_LINEMIC);
+	if(TRX.InputType==1) printMenuButton(5, 115, 74, 50, "INPUT", "Line", true, true, LCD_Handler_MENU_LINEMIC);
+	if(TRX.InputType==2) printMenuButton(5, 115, 74, 50, "INPUT", "USB", true, true, LCD_Handler_MENU_LINEMIC);
 	
 	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
 	LCD_UpdateQuery.MainMenu = false;
@@ -733,7 +735,8 @@ void LCD_Handler_MENU_SYSTEM_MENU(void)
 
 void LCD_Handler_MENU_LINEMIC(void)
 {
-	TRX.LineMicIn = !TRX.LineMicIn;
+	TRX.InputType++;
+	if(TRX.InputType==3) TRX.InputType=0;
 	TRX_Restart_Mode();
 	LCD_UpdateQuery.MainMenu = true;
 	NeedSaveSettings = true;

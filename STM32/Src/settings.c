@@ -41,7 +41,7 @@ void LoadSettings(void)
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;
 		TRX.Volume = 20;
-		TRX.LineMicIn = false; //false - mic ; true - line
+		TRX.InputType = 0; //0 - mic ; 1 - line ; 2 - usb
 		TRX.Mute = false;
 		TRX.Fast = false;
 		TRX.CW_Filter = 500;

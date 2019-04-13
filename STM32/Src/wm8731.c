@@ -103,7 +103,7 @@ void WM8731_TX_mode(void)
 	WM8731_SendI2CCommand(B8(00000100), B8(00000000)); //R2 Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(00000000)); //R3 Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001010), B8(00001111)); //R5 Digital Audio Path Control
-	if (TRX.LineMicIn)
+	if (TRX.InputType==1)
 	{ //line
 		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //R0 Left Line In
 		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //R1 Right Line In 
@@ -139,7 +139,7 @@ void WM8731_TXRX_mode(void) //loopback
 	WM8731_SendI2CCommand(B8(00000100), B8(01111001)); //R2 Left Headphone Out 
 	WM8731_SendI2CCommand(B8(00000110), B8(01111001)); //R3 Right Headphone Out
 	WM8731_SendI2CCommand(B8(00001010), B8(00000111)); //R5 Digital Audio Path Control
-	if (TRX.LineMicIn)
+	if (TRX.InputType==1)
 	{ //line
 		WM8731_SendI2CCommand(B8(00000000), B8(00010111)); //R0 Left Line In
 		WM8731_SendI2CCommand(B8(00000010), B8(00010111)); //R1 Right Line In 

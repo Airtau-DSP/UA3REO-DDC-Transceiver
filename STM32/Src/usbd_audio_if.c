@@ -14,9 +14,13 @@ static int8_t AUDIO_MuteCtl_FS(uint8_t cmd);
 static int8_t AUDIO_PeriodicTC_FS(uint8_t cmd);
 static int8_t AUDIO_GetState_FS(void);
 
-int16_t USB_AUDIO_rx_buffer_a[(AUDIO_BUFFER_SIZE / 2)] = { 0 };
-int16_t USB_AUDIO_rx_buffer_b[(AUDIO_BUFFER_SIZE / 2)] = { 0 };
-int8_t USB_AUDIO_tx_buffer[AUDIO_BUFFER_SIZE] = { 0 };
+int16_t USB_AUDIO_rx_buffer_a[(AUDIO_RX_BUFFER_SIZE / 2)] = { 0 };
+int16_t USB_AUDIO_rx_buffer_b[(AUDIO_RX_BUFFER_SIZE / 2)] = { 0 };
+
+int16_t USB_AUDIO_tx_buffer[(AUDIO_TX_BUFFER_SIZE/2)] = { 0 };
+//on FPGA BUFFER 192*4=768 half words, AUDIO_TX_BUFFER_SIZE  (8 bit) is 3072 bytes and 1536 half words
+
+
 bool USB_AUDIO_current_rx_buffer = false; // a-false b-true
 bool USB_AUDIO_need_rx_buffer = false; // a-false b-true
 
@@ -42,13 +46,18 @@ USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
 
 static int8_t AUDIO_Init_FS(uint32_t options)
 {
-	USBD_AUDIO_HandleTypeDef   *haudio;
-  haudio = (USBD_AUDIO_HandleTypeDef*) hUsbDeviceFS.pClassDataAUDIO;
+	USBD_AUDIO_HandleTypeDef   *haudio = (USBD_AUDIO_HandleTypeDef*) hUsbDeviceFS.pClassDataAUDIO;
 	haudio->TxBuffer=(uint8_t*)&USB_AUDIO_tx_buffer;
 	haudio->TxBufferIndex=0;
 	USBD_AUDIO_StartTransmit(&hUsbDeviceFS);
 	USBD_AUDIO_StartReceive(&hUsbDeviceFS);
 	return (USBD_OK);
+}
+
+int16_t USB_AUDIO_GetTXBufferIndex_FS(void)
+{
+	USBD_AUDIO_HandleTypeDef   *haudio = (USBD_AUDIO_HandleTypeDef*) hUsbDeviceFS.pClassDataAUDIO;
+	return haudio->TxBufferIndex;
 }
 
 /**

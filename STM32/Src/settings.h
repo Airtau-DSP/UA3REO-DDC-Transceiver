@@ -53,7 +53,7 @@ extern struct TRX_SETTINGS {
 	float Touchpad_ay;
 	int16_t Touchpad_by;
 	uint8_t Volume;
-	bool LineMicIn; //false - mic ; true - line
+	uint8_t InputType; //0 - mic ; 1 - line ; 2 - usb
 	bool Mute;
 	bool Fast;
 	uint16_t CW_Filter;

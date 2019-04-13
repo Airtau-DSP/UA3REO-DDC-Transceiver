@@ -472,7 +472,7 @@ void TIM6_DAC_IRQHandler(void)
 		FPGA_NeedGetParams = true;
 		if (NeedSaveSettings)
 		{
-			if(eeprom_save_delay<10) //Запись в EEPROM не чаще, чем раз в 10 секунд (против износа)
+			if(eeprom_save_delay<30) //Запись в EEPROM не чаще, чем раз в 30 секунд (против износа)
 			{
 				eeprom_save_delay++;
 			}
