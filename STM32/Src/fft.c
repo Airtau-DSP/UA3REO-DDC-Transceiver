@@ -19,6 +19,7 @@ uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер вод
 uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
 uint16_t height = 0; //высота столбца в выводе FFT
 float32_t maxValueFFT = 0; //максимальное значение амплитуды в результирующей АЧХ
+uint32_t currentFFTFreq = 0;
 
 bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
 
@@ -88,6 +89,13 @@ void FFT_printFFT(void)
 	LCD_busy = true;
 	
 	uint16_t tmp = 0;
+	
+	//смещаем водопад, если нужно
+	if((CurrentVFO()->Freq - currentFFTFreq) > 0)
+	{
+		FFT_moveWaterfall(CurrentVFO()->Freq - currentFFTFreq);
+		currentFFTFreq = CurrentVFO()->Freq;
+	}
 	
 	//смещаем водопад вниз c помощью DMA
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--)
@@ -167,7 +175,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 	{
 		if (freq_diff > 0) //freq up
 		{
-			for (int16_t x = 0; x <= FFT_PRINT_SIZE; x++)
+			for (int16_t x = 0; x < FFT_PRINT_SIZE; x++)
 			{
 				new_x = x + freq_diff;
 				if (new_x<0 || new_x>=FFT_PRINT_SIZE)
@@ -176,19 +184,21 @@ void FFT_moveWaterfall(int16_t freq_diff)
 					continue;
 				};
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
+				if(y==0) FFTOutput_mean[x]=FFTOutput_mean[new_x];
 			}
 		}
 		else if (freq_diff < 0) // freq down
 		{
-			for (int16_t x = FFT_PRINT_SIZE; x >= 0; x--)
+			for (int16_t x = FFT_PRINT_SIZE-1; x >= 0; x--)
 			{
 				new_x = x + freq_diff;
-				if (new_x<=0 || new_x>FFT_PRINT_SIZE)
+				if (new_x<0 || new_x>=FFT_PRINT_SIZE)
 				{
 					wtf_buffer[y][x] = 0;
 					continue;
 				};
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
+				if(y==0) FFTOutput_mean[x]=FFTOutput_mean[new_x];
 			}
 		}
 	}

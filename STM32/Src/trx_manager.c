@@ -159,8 +159,6 @@ void TRX_setFrequency(int32_t _freq)
 	if (_freq < 1) return;
 	if (_freq >= MAX_FREQ_HZ) _freq = MAX_FREQ_HZ;
 
-	FFT_moveWaterfall(_freq - CurrentVFO()->Freq);
-
 	CurrentVFO()->Freq = _freq;
 	if(getBandFromFreq(_freq)>=0) TRX.saved_freq[getBandFromFreq(_freq)]=_freq;
 	if (TRX.BandMapEnabled)
@@ -194,6 +192,8 @@ void TRX_setFrequency(int32_t _freq)
 		}
 	}
 	FPGA_NeedSendParams = true;
+	FFT_buff_index = 0;
+	NeedFFTInputBuffer = true;
 }
 
 int32_t TRX_getFrequency(void)
