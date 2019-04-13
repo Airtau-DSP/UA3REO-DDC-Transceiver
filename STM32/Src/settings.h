@@ -7,7 +7,7 @@
 #include "arm_math.h"
 #include "bands.h"
 
-#define ADCDAC_CLOCK 50000000 //Частота генератора АЦП/ЦАП
+#define ADCDAC_CLOCK 49152000 //Частота генератора АЦП/ЦАП
 #define MAX_FREQ_HZ 750000000 //Максимальная частота приёма (из даташита АЦП)
 #define ADC_BITS 12 //разрядность АЦП
 #define MAX_TX_AMPLITUDE 28000.0f //Максимальный размах при передаче в ЦАП (32767.0f - лимит)

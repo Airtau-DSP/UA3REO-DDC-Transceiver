@@ -69,7 +69,7 @@
   <parameter name="dpri" value="10" />
   <parameter name="fmod_pipe" value="1" />
   <parameter name="freq_out" value="7.1" />
-  <parameter name="fsamp" value="50.0" />
+  <parameter name="fsamp" value="49.152" />
   <parameter name="hyper_opt_select" value="false" />
   <parameter name="mpr" value="14" />
   <parameter name="numba" value="1" />
