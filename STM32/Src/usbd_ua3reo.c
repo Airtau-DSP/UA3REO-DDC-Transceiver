@@ -408,7 +408,8 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
 		  0x09,//     bLength
 		  0x05,//     bDescriptorType
 		  AUDIO_IN_EP,//     bEndpointAddress  (IN endpoint 1)
-		  0x25,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Implicit)
+		  //0x25,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Implicit)
+			0x0D,//     bmAttributes      (Transfer: Isochronous / Synch: Synchronous / Usage: Data)
 		  //0xC4,// wMaxPacketSize    (1 x 196 bytes)
 		  //0x00,// wMaxPacketSize    (1 x 196 bytes)
 			LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
@@ -1123,7 +1124,6 @@ static uint8_t  USBD_UA3REO_EP0_RxReady(USBD_HandleTypeDef *pdev)
 	{
 		if (haudio->control.unit == AUDIO_OUT_STREAMING_CTRL)
 		{
-			((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->MuteCtl(haudio->control.data[0]);
 			haudio->control.cmd = 0U;
 			haudio->control.len = 0U;
 		}
@@ -1365,64 +1365,6 @@ uint8_t  USBD_CAT_ReceivePacket(USBD_HandleTypeDef *pdev)
 	{
 		return USBD_FAIL;
 	}
-}
-
-
-void  USBD_AUDIO_Sync(USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset)
-{
-	/*
-  uint32_t cmd = 0U;
-  USBD_AUDIO_HandleTypeDef   *haudio;
-  haudio = (USBD_AUDIO_HandleTypeDef*) pdev->pClassDataAUDIO;
-
-  haudio->offset =  offset;
-
-  if(haudio->rd_enable == 1U)
-  {
-	haudio->rd_ptr += (uint16_t)(AUDIO_TOTAL_BUF_SIZE / 2U);
-
-	if (haudio->rd_ptr == AUDIO_TOTAL_BUF_SIZE)
-	{
-	  //roll back
-	  haudio->rd_ptr = 0U;
-	}
-  }
-
-  if(haudio->rd_ptr > haudio->wr_ptr)
-  {
-	if((haudio->rd_ptr - haudio->wr_ptr) < AUDIO_OUT_PACKET)
-	{
-	  cmd = AUDIO_TOTAL_BUF_SIZE / 2U + 4U;
-	}
-	else
-	{
-	  if((haudio->rd_ptr - haudio->wr_ptr) > (AUDIO_TOTAL_BUF_SIZE - AUDIO_OUT_PACKET))
-	  {
-		cmd = AUDIO_TOTAL_BUF_SIZE / 2U - 4U;
-	  }
-	}
-  }
-  else
-  {
-	if((haudio->wr_ptr - haudio->rd_ptr) < AUDIO_OUT_PACKET)
-	{
-	  cmd = AUDIO_TOTAL_BUF_SIZE / 2U - 4U;
-	}
-	else
-	{
-	  if((haudio->wr_ptr - haudio->rd_ptr) > (AUDIO_TOTAL_BUF_SIZE - AUDIO_OUT_PACKET))
-	  {
-		cmd = AUDIO_TOTAL_BUF_SIZE / 2U + 4U;
-	  }
-	}
-  }
-
-  if(haudio->offset == AUDIO_OFFSET_FULL)
-  {
-	//((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->AudioCmd(&haudio->buffer[0],cmd,AUDIO_CMD_PLAY);
-	haudio->offset = AUDIO_OFFSET_NONE;
-  }
-	*/
 }
 
 static void AUDIO_REQ_GetCurrent(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef *req)

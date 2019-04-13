@@ -140,11 +140,6 @@ extern uint32_t TX_USB_AUDIO_SAMPLES;
 	{
 		int8_t(*Init)         (uint32_t options);
 		int8_t(*DeInit)       (uint32_t options);
-		int8_t(*AudioCmd)     (uint8_t* pbuf, uint32_t size, uint8_t cmd);
-		int8_t(*VolumeCtl)    (uint8_t vol);
-		int8_t(*MuteCtl)      (uint8_t cmd);
-		int8_t(*PeriodicTC)   (uint8_t cmd);
-		int8_t(*GetState)     (void);
 	}USBD_AUDIO_ItfTypeDef;
 
 	typedef struct
