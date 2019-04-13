@@ -497,17 +497,17 @@ void FPGA_fpgadata_sendiq(void)
 
 inline void FPGA_clockRise(void)
 {
-	//HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
-	FPGA_CLK_GPIO_Port->BSRR = FPGA_CLK_Pin;
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	/*FPGA_CLK_GPIO_Port->BSRR = FPGA_CLK_Pin;
 	__asm("nop");
 	__asm("nop");
-	__asm("nop");
+	__asm("nop");*/
 }
 
 inline void FPGA_clockFall(void)
 {
-	//HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
-	FPGA_CLK_GPIO_Port->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
+	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
+	//FPGA_CLK_GPIO_Port->BSRR = (uint32_t)FPGA_CLK_Pin << 16U;
 }
 
 inline uint8_t FPGA_readPacket(void)

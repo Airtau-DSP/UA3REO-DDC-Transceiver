@@ -56,12 +56,13 @@ void processTxAudio(void)
 	if(TRX.InputType==2) //USB AUDIO
 	{
 		uint16_t buffer_index=USB_AUDIO_GetTXBufferIndex_FS()/2; //buffer 8bit, data 16 bit
+		if((buffer_index%2)==1) buffer_index--;
 		readHalfFromCircleUSBBuffer((int16_t *)&USB_AUDIO_tx_buffer[0], (int32_t *)&Processor_AudioBuffer_A[0], buffer_index, USB_AUDIO_TX_BUFFER_SIZE/2);
 	}
 	else //AUDIO CODEC AUDIO
 	{
 		uint16_t dma_index=CODEC_AUDIO_BUFFER_SIZE-__HAL_DMA_GET_COUNTER(hi2s3.hdmarx)/2;
-		if((dma_index%2)==1) dma_index++;
+		if((dma_index%2)==1) dma_index--;
 		readHalfFromCircleBuffer32((uint32_t *)&CODEC_Audio_Buffer_TX[0], (uint32_t *)&Processor_AudioBuffer_A[0], dma_index, CODEC_AUDIO_BUFFER_SIZE);
 	}
 
