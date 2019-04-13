@@ -22,6 +22,7 @@ static uint8_t  *USBD_UA3REO_GetOtherSpeedCfgDesc(uint16_t *length);
 uint8_t  *USBD_UA3REO_GetDeviceQualifierDescriptor(uint16_t *length);
 
 uint32_t RX_USB_AUDIO_SAMPLES=0;
+uint32_t TX_USB_AUDIO_SAMPLES=0;
 
 /* USB Standard Device Descriptor */
 __ALIGN_BEGIN static uint8_t USBD_UA3REO_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALIGN_END =
@@ -408,8 +409,10 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
 		  0x05,//     bDescriptorType
 		  AUDIO_IN_EP,//     bEndpointAddress  (IN endpoint 1)
 		  0x25,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Implicit)
-		  0xC4,// wMaxPacketSize    (1 x 196 bytes)
-		  0x00,// wMaxPacketSize    (1 x 196 bytes)
+		  //0xC4,// wMaxPacketSize    (1 x 196 bytes)
+		  //0x00,// wMaxPacketSize    (1 x 196 bytes)
+			LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
+			HIBYTE(AUDIO_OUT_PACKET),
 		  0x01,//     bInterval         (1 frames)
 		  0x00,//     bRefresh
 		  0x00,//     bSynchAddress
@@ -478,8 +481,10 @@ __ALIGN_BEGIN uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ] __ALIGN_END
 			0x05,//     bDescriptorType
 			AUDIO_OUT_EP,//     bEndpointAddress  (OUT endpoint 1)
 			0x05,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Data)
-			0xC0,// wMaxPacketSize    (1 x 192 bytes)
-			0x00,// wMaxPacketSize    (1 x 192 bytes)
+			//0xC0,// wMaxPacketSize    (1 x 192 bytes)
+			//0x00,// wMaxPacketSize    (1 x 192 bytes)
+			LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
+			HIBYTE(AUDIO_OUT_PACKET),
 			0x01,//     bInterval         (1 frames)
 			0x00,//     bRefresh
 			0x00,//     bSynchAddress
@@ -529,15 +534,17 @@ static uint8_t  USBD_UA3REO_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	/* Open EP OUT */
 	USBD_LL_OpenEP(pdev, DEBUG_OUT_EP, USBD_EP_TYPE_BULK, CDC_DATA_FS_OUT_PACKET_SIZE);
 	USBD_LL_OpenEP(pdev, CAT_OUT_EP, USBD_EP_TYPE_BULK, CDC_DATA_FS_OUT_PACKET_SIZE);
+	USBD_LL_OpenEP(pdev, AUDIO_OUT_EP, USBD_EP_TYPE_ISOC, AUDIO_OUT_PACKET);
 
 	pdev->ep_out[DEBUG_OUT_EP & 0xFU].is_used = 1U;
 	pdev->ep_out[CAT_OUT_EP & 0xFU].is_used = 1U;
+	pdev->ep_out[AUDIO_OUT_EP & 0xFU].is_used = 1U;
 
 	/* Open Command IN EP */
 	//USBD_LL_OpenEP(pdev, DEBUG_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
-	  //USBD_LL_OpenEP(pdev, CAT_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
+	//USBD_LL_OpenEP(pdev, CAT_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
 	//pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 1U;
-	  //pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 1U;
+	//pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 1U;
 
 	pdev->pClassDataDEBUG = USBD_malloc(sizeof(USBD_DEBUG_HandleTypeDef));
 	pdev->pClassDataCAT = USBD_malloc(sizeof(USBD_CAT_HandleTypeDef));
@@ -589,21 +596,13 @@ static uint8_t  USBD_UA3REO_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	{
 		haudio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 		haudio->alt_setting = 0U;
-		haudio->offset = AUDIO_OFFSET_UNKNOWN;
-		haudio->wr_ptr = 0U;
-		haudio->rd_ptr = 0U;
-		haudio->rd_enable = 0U;
 
 		// Initialize the Audio output Hardware layer
-		if (((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->Init(USBD_AUDIO_FREQ, AUDIO_DEFAULT_VOLUME, 0U) != 0)
+		if (((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->Init(0U) != 0)
 		{
 			return USBD_FAIL;
 		}
-
-		//Prepare Out endpoint to receive 1st packet
-		//USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, haudio->buffer, AUDIO_OUT_PACKET);
 	}
-
 	return ret;
 }
 
@@ -629,8 +628,10 @@ static uint8_t  USBD_UA3REO_DeInit(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	/* Close EP OUT */
 	USBD_LL_CloseEP(pdev, DEBUG_OUT_EP);
 	USBD_LL_CloseEP(pdev, CAT_OUT_EP);
+	USBD_LL_CloseEP(pdev, AUDIO_OUT_EP);
 	pdev->ep_out[DEBUG_OUT_EP & 0xFU].is_used = 0U;
 	pdev->ep_out[CAT_OUT_EP & 0xFU].is_used = 0U;
+	pdev->ep_out[AUDIO_OUT_EP & 0xFU].is_used = 0U;
 
 	/* Close Command IN EP */
 	//USBD_LL_CloseEP(pdev, DEBUG_CMD_EP);
@@ -941,7 +942,6 @@ static uint8_t  USBD_UA3REO_Setup(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef
 		ret = USBD_AUDIO_Setup(pdev, req);
 	}
 	ret = USBD_CAT_Setup(pdev, req);
-	//sendToDebug_uint8(ret,false);
 	return ret;
 }
 /**
@@ -1011,20 +1011,18 @@ static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 	if (rx_buffer_head >= AUDIO_BUFFER_SIZE)
 	{
 		if (USB_AUDIO_current_rx_buffer)
-			hcdc_audio->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
+			hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
 		else
-			hcdc_audio->TxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
+			hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
 		USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
 		USB_AUDIO_need_rx_buffer=true;
 		rx_buffer_head = 0;
 	}
 	if ((AUDIO_BUFFER_SIZE - rx_buffer_head) >= AUDIO_OUT_PACKET) rx_buffer_step = AUDIO_OUT_PACKET;
 	else rx_buffer_step = (AUDIO_BUFFER_SIZE - rx_buffer_head);
-	//pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
-	//USBD_LL_Transmit(pdev, AUDIO_IN_EP, hcdc_audio->TxBuffer + rx_buffer_head, rx_buffer_step);
-	HAL_PCD_EP_Transmit(pdev->pData, AUDIO_IN_EP, hcdc_audio->TxBuffer + rx_buffer_head, rx_buffer_step);
-	rx_buffer_head += rx_buffer_step;
+	HAL_PCD_EP_Transmit(pdev->pData, AUDIO_IN_EP, hcdc_audio->RxBuffer + rx_buffer_head, rx_buffer_step);
 	RX_USB_AUDIO_SAMPLES += rx_buffer_step/4; //16 bit * 2 channel
+	rx_buffer_head += rx_buffer_step;
 	return USBD_OK;
 }
 static uint8_t  USBD_UA3REO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
@@ -1077,40 +1075,17 @@ static uint8_t  USBD_CAT_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
 }
 static uint8_t  USBD_AUDIO_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
-	/*
   USBD_AUDIO_HandleTypeDef   *haudio;
   haudio = (USBD_AUDIO_HandleTypeDef*) pdev->pClassDataAUDIO;
 
   if (epnum == AUDIO_OUT_EP)
   {
-	// Increment the Buffer pointer or roll it back when all buffers are full
-
-	haudio->wr_ptr += AUDIO_OUT_PACKET;
-
-	if (haudio->wr_ptr == AUDIO_TOTAL_BUF_SIZE)
-	{
-	  // All buffers are full: roll back
-	  haudio->wr_ptr = 0U;
-
-	  if(haudio->offset == AUDIO_OFFSET_UNKNOWN)
-	  {
-		//((USBD_AUDIO_ItfTypeDef *)pdev->pUserDataAUDIO)->AudioCmd(&haudio->buffer[0],AUDIO_TOTAL_BUF_SIZE / 2U,AUDIO_CMD_START);
-		haudio->offset = AUDIO_OFFSET_NONE;
-	  }
+		//sendToDebug_uint8(haudio->TxBuffer[0],false);
+		haudio->TxBufferIndex += AUDIO_OUT_PACKET;
+		if (haudio->TxBufferIndex > (AUDIO_BUFFER_SIZE-AUDIO_OUT_PACKET)) haudio->TxBufferIndex = 0;
 	}
-
-	if(haudio->rd_enable == 0U)
-	{
-	  if (haudio->wr_ptr == (AUDIO_TOTAL_BUF_SIZE / 2U))
-	  {
-		haudio->rd_enable = 1U;
-	  }
-	}
-
-	// Prepare Out endpoint to receive next audio packet
-	//USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, &haudio->buffer[haudio->wr_ptr], AUDIO_OUT_PACKET);
-  }
-	*/
+	USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, &haudio->TxBuffer[haudio->TxBufferIndex], AUDIO_OUT_PACKET);
+	TX_USB_AUDIO_SAMPLES += AUDIO_OUT_PACKET/4; //16 bit * 2 channel
 	return USBD_OK;
 }
 static uint8_t  USBD_UA3REO_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
@@ -1333,10 +1308,23 @@ uint8_t  USBD_CAT_TransmitPacket(USBD_HandleTypeDef *pdev)
 }
 uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev)
 {
-	USBD_AUDIO_HandleTypeDef   *hcdc = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (pdev->pClassDataAUDIO != NULL)
 	{
 		USBD_AUDIO_DataIn(pdev, AUDIO_EP_IDX);
+		return USBD_OK;
+	}
+	else
+	{
+		return USBD_FAIL;
+	}
+}
+uint8_t  USBD_AUDIO_StartReceive(USBD_HandleTypeDef *pdev)
+{
+	USBD_AUDIO_HandleTypeDef   *haudio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
+	if (pdev->pClassDataAUDIO != NULL)
+	{
+		sendToDebug_str("Start Receive USB Audio\r\n");
+		USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, &haudio->TxBuffer[haudio->TxBufferIndex], AUDIO_OUT_PACKET);
 		return USBD_OK;
 	}
 	else

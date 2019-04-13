@@ -15,7 +15,7 @@ extern "C" {
 	extern int16_t USB_AUDIO_rx_buffer_b[(AUDIO_BUFFER_SIZE / 2)];
 	extern bool USB_AUDIO_current_rx_buffer; // a-false b-true
 	extern bool USB_AUDIO_need_rx_buffer; // a-false b-true
-
+		
 	void TransferComplete_CallBack_FS(void);
 	void HalfTransfer_CallBack_FS(void);
 #ifdef __cplusplus

@@ -9,6 +9,7 @@
 #include "fpga.h"
 #include "bands.h"
 #include "audio_filters.h"
+#include "usbd_audio_if.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 

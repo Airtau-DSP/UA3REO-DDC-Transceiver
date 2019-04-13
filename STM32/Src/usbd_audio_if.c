@@ -2,10 +2,11 @@
 #include "usbd_audio_if.h"
 #include "functions.h"
 #include "wm8731.h"
+#include "trx_manager.h"
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
-static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t options);
+static int8_t AUDIO_Init_FS(uint32_t options);
 static int8_t AUDIO_DeInit_FS(uint32_t options);
 static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd);
 static int8_t AUDIO_VolumeCtl_FS(uint8_t vol);
@@ -15,6 +16,7 @@ static int8_t AUDIO_GetState_FS(void);
 
 int16_t USB_AUDIO_rx_buffer_a[(AUDIO_BUFFER_SIZE / 2)] = { 0 };
 int16_t USB_AUDIO_rx_buffer_b[(AUDIO_BUFFER_SIZE / 2)] = { 0 };
+int8_t USB_AUDIO_tx_buffer[AUDIO_BUFFER_SIZE] = { 0 };
 bool USB_AUDIO_current_rx_buffer = false; // a-false b-true
 bool USB_AUDIO_need_rx_buffer = false; // a-false b-true
 
@@ -38,9 +40,14 @@ USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
 
-static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t options)
+static int8_t AUDIO_Init_FS(uint32_t options)
 {
+	USBD_AUDIO_HandleTypeDef   *haudio;
+  haudio = (USBD_AUDIO_HandleTypeDef*) hUsbDeviceFS.pClassDataAUDIO;
+	haudio->TxBuffer=(uint8_t*)&USB_AUDIO_tx_buffer;
+	haudio->TxBufferIndex=0;
 	USBD_AUDIO_StartTransmit(&hUsbDeviceFS);
+	USBD_AUDIO_StartReceive(&hUsbDeviceFS);
 	return (USBD_OK);
 }
 

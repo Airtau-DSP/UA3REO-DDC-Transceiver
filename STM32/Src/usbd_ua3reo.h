@@ -40,8 +40,8 @@ extern "C" {
 #endif /* CDC_FS_BINTERVAL */
 
 /* CDC Endpoints parameters: you can fine tune these values depending on the needed baudrates and performance. */
-#define CDC_DATA_HS_MAX_PACKET_SIZE                 64U  /* Endpoint IN & OUT Packet size */
-#define CDC_DATA_FS_MAX_PACKET_SIZE                 64U  /* Endpoint IN & OUT Packet size */
+#define CDC_DATA_HS_MAX_PACKET_SIZE                 16U  /* Endpoint IN & OUT Packet size */
+#define CDC_DATA_FS_MAX_PACKET_SIZE                 16U  /* Endpoint IN & OUT Packet size */
 #define CDC_CMD_PACKET_SIZE                         8U  /* Control Endpoint Packet size */
 
 //#define USB_CDC_CONFIG_DESC_SIZ                     226U
@@ -68,11 +68,11 @@ extern "C" {
 
 //AUDIO
 #define USBD_AUDIO_FREQ                               48000U
-#define AUDIO_OUT_PACKET                              (uint16_t)(((USBD_AUDIO_FREQ * 2U * 2U) / 1000U))
+//#define AUDIO_OUT_PACKET                              (uint16_t)(((USBD_AUDIO_FREQ * 2U * 2U) / 1000U))
+#define AUDIO_OUT_PACKET                              192U
 //#define AUDIO_OUT_PACKET_NUM                          5U
 //#define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
 #define AUDIO_BUFFER_SIZE															FPGA_AUDIO_BUFFER_SIZE*2
-#define AUDIO_DEFAULT_VOLUME                          70U
 
 #define AUDIO_REQ_GET_CUR                             0x81U
 #define AUDIO_REQ_SET_CUR                             0x01U
@@ -81,6 +81,7 @@ extern "C" {
 #define AUDIO_DESCRIPTOR_TYPE                         0x21U
 
 extern uint32_t RX_USB_AUDIO_SAMPLES;
+extern uint32_t TX_USB_AUDIO_SAMPLES;
 
 	typedef struct
 	{
@@ -136,7 +137,7 @@ extern uint32_t RX_USB_AUDIO_SAMPLES;
 
 	typedef struct
 	{
-		int8_t(*Init)         (uint32_t  AudioFreq, uint32_t Volume, uint32_t options);
+		int8_t(*Init)         (uint32_t options);
 		int8_t(*DeInit)       (uint32_t options);
 		int8_t(*AudioCmd)     (uint8_t* pbuf, uint32_t size, uint8_t cmd);
 		int8_t(*VolumeCtl)    (uint8_t vol);
@@ -148,14 +149,12 @@ extern uint32_t RX_USB_AUDIO_SAMPLES;
 	typedef struct
 	{
 		uint32_t                  alt_setting;
-		//uint8_t                   buffer[AUDIO_TOTAL_BUF_SIZE];
-		AUDIO_OffsetTypeDef       offset;
-		uint8_t                    rd_enable;
-		uint16_t                   rd_ptr;
-		uint16_t                   wr_ptr;
 		USBD_AUDIO_ControlTypeDef control;
 
+		uint8_t  *RxBuffer;
+		
 		uint8_t  *TxBuffer;
+		uint16_t TxBufferIndex;
 	}
 	USBD_AUDIO_HandleTypeDef;
 
@@ -207,6 +206,7 @@ extern uint32_t RX_USB_AUDIO_SAMPLES;
 
 	uint8_t  USBD_AUDIO_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops);
 	uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev);
+	uint8_t  USBD_AUDIO_StartReceive(USBD_HandleTypeDef *pdev);
 	void  USBD_AUDIO_Sync(USBD_HandleTypeDef *pdev, AUDIO_OffsetTypeDef offset);
 	/**
 	  * @}

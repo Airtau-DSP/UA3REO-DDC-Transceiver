@@ -452,6 +452,7 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0],false); //first byte of I
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
 		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(RX_USB_AUDIO_SAMPLES,false); //~48000
+		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(TX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
@@ -462,6 +463,7 @@ void TIM6_DAC_IRQHandler(void)
 		AUDIOPROC_TXB_samples = 0;
 		WM8731_DMA_samples = 0;
 		RX_USB_AUDIO_SAMPLES = 0;
+		TX_USB_AUDIO_SAMPLES = 0;
 		cpu_sleep_counter = 0;
 		TRX_Time_InActive++;
 		WM8731_Buffer_underrun = false;
