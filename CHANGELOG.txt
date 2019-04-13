@@ -13,7 +13,7 @@
 +STM32: Поддержка дисплея ILI9325 | Thx to RA4ASN
 +STM32: Исправление FFT и водопада | Thx to RA4ASN
 +STM32: Поддержка аппаратного CW ключа
-+STM32: Поддержка вывода звука через USB | Thx to Genadi Zawidowski
++STM32: Поддержка TX/RX звука через USB | Thx to Genadi Zawidowski
 +STM32: Большая оптимизация и исправление кода
 
 ----Version 1.4----
