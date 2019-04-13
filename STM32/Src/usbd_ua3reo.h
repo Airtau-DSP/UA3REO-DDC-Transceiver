@@ -72,8 +72,8 @@ extern "C" {
 #define AUDIO_OUT_PACKET                              192U
 //#define AUDIO_OUT_PACKET_NUM                          5U
 //#define AUDIO_TOTAL_BUF_SIZE                          ((uint16_t)(AUDIO_OUT_PACKET * AUDIO_OUT_PACKET_NUM))
-#define AUDIO_RX_BUFFER_SIZE															FPGA_AUDIO_BUFFER_SIZE*2
-#define AUDIO_TX_BUFFER_SIZE															FPGA_AUDIO_BUFFER_SIZE*4
+#define USB_AUDIO_RX_BUFFER_SIZE															FPGA_AUDIO_BUFFER_SIZE*2
+#define USB_AUDIO_TX_BUFFER_SIZE															FPGA_AUDIO_BUFFER_SIZE*4
 
 #define AUDIO_REQ_GET_CUR                             0x81U
 #define AUDIO_REQ_SET_CUR                             0x01U

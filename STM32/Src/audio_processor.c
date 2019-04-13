@@ -56,16 +56,7 @@ void processTxAudio(void)
 	if(TRX.InputType==2) //USB AUDIO
 	{
 		uint16_t buffer_index=USB_AUDIO_GetTXBufferIndex_FS()/2; //buffer 8bit, data 16 bit
-		uint16_t readed_index=0;
-		while(readed_index<AUDIO_TX_BUFFER_SIZE/4) //half of 2*2byte 8bit buffer = 768 half words
-		{
-			Processor_AudioBuffer_A[readed_index]=USB_AUDIO_tx_buffer[buffer_index];
-			readed_index++;
-			if(buffer_index<AUDIO_TX_BUFFER_SIZE/2)
-				buffer_index++;
-			else
-				buffer_index=0;
-		}
+		readHalfFromCircleUSBBuffer((int16_t *)&USB_AUDIO_tx_buffer[0], (int32_t *)&Processor_AudioBuffer_A[0], buffer_index, USB_AUDIO_TX_BUFFER_SIZE/2);
 	}
 	else //AUDIO CODEC AUDIO
 	{
@@ -399,16 +390,16 @@ void processRxAudio(void)
 		if (Processor_AudioBuffer_ReadyBuffer == 0)
 		{
 			if(!USB_AUDIO_current_rx_buffer)
-				for(uint16_t i=0;i<(AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_a[i]=(int16_t)((int32_t)Processor_AudioBuffer_A[i]);
+				for(uint16_t i=0;i<(USB_AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_a[i]=(int16_t)((int32_t)Processor_AudioBuffer_A[i]);
 			else
-				for(uint16_t i=0;i<(AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_A[i]);
+				for(uint16_t i=0;i<(USB_AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_A[i]);
 		}
 		else
 		{
 			if(!USB_AUDIO_current_rx_buffer)
-				for(uint16_t i=0;i<(AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_a[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
+				for(uint16_t i=0;i<(USB_AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_a[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
 			else
-				for(uint16_t i=0;i<(AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
+				for(uint16_t i=0;i<(USB_AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
 		}
 	}
 	//

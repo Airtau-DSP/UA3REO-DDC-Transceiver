@@ -14,10 +14,10 @@ static int8_t AUDIO_MuteCtl_FS(uint8_t cmd);
 static int8_t AUDIO_PeriodicTC_FS(uint8_t cmd);
 static int8_t AUDIO_GetState_FS(void);
 
-int16_t USB_AUDIO_rx_buffer_a[(AUDIO_RX_BUFFER_SIZE / 2)] = { 0 };
-int16_t USB_AUDIO_rx_buffer_b[(AUDIO_RX_BUFFER_SIZE / 2)] = { 0 };
+int16_t USB_AUDIO_rx_buffer_a[(USB_AUDIO_RX_BUFFER_SIZE / 2)] = { 0 };
+int16_t USB_AUDIO_rx_buffer_b[(USB_AUDIO_RX_BUFFER_SIZE / 2)] = { 0 };
 
-int16_t USB_AUDIO_tx_buffer[(AUDIO_TX_BUFFER_SIZE/2)] = { 0 };
+int16_t USB_AUDIO_tx_buffer[(USB_AUDIO_TX_BUFFER_SIZE/2)] = { 0 };
 //on FPGA BUFFER 192*4=768 half words, AUDIO_TX_BUFFER_SIZE  (8 bit) is 3072 bytes and 1536 half words
 
 

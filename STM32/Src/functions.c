@@ -31,6 +31,35 @@ void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_t index
 	}
 }
 
+void readHalfFromCircleUSBBuffer(int16_t *source, int32_t *dest, uint16_t index, uint16_t length)
+{
+	uint16_t halflen = length / 2;
+	uint16_t readed_index=0;
+	uint16_t start_index=0;
+	if(index >= halflen)
+	{
+		for(uint16_t i=(index - halflen);i<index;i++)
+		{
+			dest[readed_index]=source[i];
+			readed_index++;
+		}
+	}
+	else
+	{
+		uint16_t prev_part = halflen - index;
+		for(uint16_t i=(length - prev_part);i<length;i++)
+		{
+			dest[readed_index]=source[i];
+			readed_index++;
+		}
+		for(uint16_t i=0;i<(halflen - prev_part);i++)
+		{
+			dest[readed_index]=source[i];
+			readed_index++;
+		}
+	}
+}
+
 void sendToDebug_str(char* data)
 {
 	DEBUG_Transmit_FIFO((uint8_t*)data, strlen(data));
