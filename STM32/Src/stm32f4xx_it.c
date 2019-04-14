@@ -454,8 +454,8 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
 		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(RX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(TX_USB_AUDIO_SAMPLES,false); //~48000
-		sendToDebug_str("USB Audio SOF samples: "); sendToDebug_uint32(USB_AUDIO_SOF_SAMPLES,false); //~1000
-		sendToDebug_str("USB Audio DEVICE samples: "); sendToDebug_uint32(USB_AUDIO_DEVICE_SAMPLES,false); //~1000
+		//sendToDebug_str("USB Audio SOF samples: "); sendToDebug_uint32(USB_AUDIO_SOF_SAMPLES,false); //~1000
+		//sendToDebug_str("USB Audio DEVICE samples: "); sendToDebug_uint32(USB_AUDIO_DEVICE_SAMPLES,false); //~1000
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
