@@ -26,8 +26,6 @@ static uint16_t rx_buffer_step = 0;
 
 uint32_t RX_USB_AUDIO_SAMPLES=0;
 uint32_t TX_USB_AUDIO_SAMPLES=0;
-uint32_t USB_AUDIO_SOF_SAMPLES=0;
-uint32_t USB_AUDIO_DEVICE_SAMPLES=0;
 
 /* USB Standard Device Descriptor */
 __ALIGN_BEGIN static uint8_t USBD_UA3REO_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALIGN_END =
@@ -1012,15 +1010,6 @@ static uint8_t  USBD_CAT_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 
 static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
-	USB_AUDIO_DEVICE_SAMPLES++;
-	/*
-	if(USB_AUDIO_DEVICE_SAMPLES>USB_AUDIO_SOF_SAMPLES)
-	{
-		pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = 0U;
-		USBD_LL_Transmit(pdev, AUDIO_IN_EP, NULL, 0U);
-		return USBD_OK;
-	}
-	*/
 	//Send audio to Host
 	USBD_AUDIO_HandleTypeDef *hcdc_audio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (rx_buffer_head >= USB_AUDIO_RX_BUFFER_SIZE)
@@ -1416,6 +1405,5 @@ static void AUDIO_REQ_SetCurrent(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef 
 
 static uint8_t USBD_UA3REO_SOF(USBD_HandleTypeDef *pdev)
 {
-	USB_AUDIO_SOF_SAMPLES++;
 	return USBD_OK;
 }

@@ -454,8 +454,6 @@ void TIM6_DAC_IRQHandler(void)
 		float32_t dbg_FPGA_Audio_Buffer_Q_tmp=FPGA_Audio_Buffer_Q_tmp[0];
 		uint32_t dbg_RX_USB_AUDIO_SAMPLES=RX_USB_AUDIO_SAMPLES;
 		uint32_t dbg_TX_USB_AUDIO_SAMPLES=TX_USB_AUDIO_SAMPLES;
-		uint32_t dbg_USB_AUDIO_SOF_SAMPLES=USB_AUDIO_SOF_SAMPLES;
-		uint32_t dbg_USB_AUDIO_DEVICE_SAMPLES=USB_AUDIO_DEVICE_SAMPLES;
 		//sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(dbg_FPGA_samples,false); //~48000
 		//sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(dbg_WM8731_DMA_samples,false); //~48000
 		//sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(dbg_AUDIOPROC_TXA_samples,false); //~187
@@ -468,10 +466,8 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(dbg_Processor_TX_MAX_amplitude,false);
 		//sendToDebug_str("First byte of I: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_I_tmp,false); //first byte of I
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_Q_tmp,false); //first byte of Q
-		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
-		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
-		//sendToDebug_str("USB Audio SOF samples: "); sendToDebug_uint32(dbg_USB_AUDIO_SOF_SAMPLES,true); sendToDebug_str(" "); sendToDebug_uint32(dbg_USB_AUDIO_SOF_SAMPLES*48,false); //~1000
-		//sendToDebug_str("USB Audio DEVICE samples: "); sendToDebug_uint32(dbg_USB_AUDIO_DEVICE_SAMPLES,false); //~1000
+		sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
+		sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
@@ -483,8 +479,6 @@ void TIM6_DAC_IRQHandler(void)
 		WM8731_DMA_samples = 0;
 		RX_USB_AUDIO_SAMPLES = 0;
 		TX_USB_AUDIO_SAMPLES = 0;
-		USB_AUDIO_SOF_SAMPLES = 0;
-		USB_AUDIO_DEVICE_SAMPLES = 0;
 		cpu_sleep_counter = 0;
 		TRX_Time_InActive++;
 		WM8731_Buffer_underrun = false;

@@ -91,8 +91,6 @@ extern "C" {
 
 extern uint32_t RX_USB_AUDIO_SAMPLES;
 extern uint32_t TX_USB_AUDIO_SAMPLES;
-extern uint32_t USB_AUDIO_SOF_SAMPLES;
-extern uint32_t USB_AUDIO_DEVICE_SAMPLES;
 
 	typedef struct
 	{
