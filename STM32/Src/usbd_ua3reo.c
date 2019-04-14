@@ -24,6 +24,7 @@ uint8_t  *USBD_UA3REO_GetDeviceQualifierDescriptor(uint16_t *length);
 static uint16_t rx_buffer_head = 0;
 static uint16_t rx_buffer_step = 0;
 
+bool RX_USB_AUDIO_underrun=false;
 uint32_t RX_USB_AUDIO_SAMPLES=0;
 uint32_t TX_USB_AUDIO_SAMPLES=0;
 
@@ -1014,13 +1015,20 @@ static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 	USBD_AUDIO_HandleTypeDef *hcdc_audio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (rx_buffer_head >= USB_AUDIO_RX_BUFFER_SIZE)
 	{
-		if (USB_AUDIO_current_rx_buffer)
-			hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
+		if(USB_AUDIO_need_rx_buffer==true)
+		{
+			RX_USB_AUDIO_underrun=true;
+		}
 		else
-			hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
-		USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
-		USB_AUDIO_need_rx_buffer=true;
-		rx_buffer_head = 0;
+		{
+			if (USB_AUDIO_current_rx_buffer)
+				hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
+			else
+				hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
+			USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
+			USB_AUDIO_need_rx_buffer=true;
+			rx_buffer_head = 0;
+		}
 	}
 	if ((USB_AUDIO_RX_BUFFER_SIZE - rx_buffer_head) >= AUDIO_OUT_PACKET) rx_buffer_step = AUDIO_OUT_PACKET;
 	else rx_buffer_step = (USB_AUDIO_RX_BUFFER_SIZE - rx_buffer_head);

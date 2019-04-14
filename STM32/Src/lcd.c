@@ -10,6 +10,7 @@
 #include "LCD/fonts.h"
 #include "LCD/xpt2046_spi.h"
 #include "wm8731.h"
+#include "usbd_ua3reo.h"
 
 char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
@@ -325,8 +326,9 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	
 	LCDDriver_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
 	if (TRX_ADC_OTR || TRX_DAC_OTR) LCDDriver_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
-	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
-	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("BUF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("WBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("FBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	if (RX_USB_AUDIO_underrun) LCDDriver_printText("UBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);

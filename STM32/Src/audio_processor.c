@@ -403,6 +403,7 @@ void processRxAudio(void)
 			else
 				for(uint16_t i=0;i<(USB_AUDIO_RX_BUFFER_SIZE/2);i++) USB_AUDIO_rx_buffer_b[i]=(int16_t)((int32_t)Processor_AudioBuffer_B[i]);
 		}
+		USB_AUDIO_need_rx_buffer=false;
 	}
 	//
 	Processor_NeedRXBuffer = false;

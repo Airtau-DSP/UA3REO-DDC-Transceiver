@@ -466,8 +466,8 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(dbg_Processor_TX_MAX_amplitude,false);
 		//sendToDebug_str("First byte of I: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_I_tmp,false); //first byte of I
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_Q_tmp,false); //first byte of Q
-		sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
-		sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
+		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
+		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
@@ -483,6 +483,7 @@ void TIM6_DAC_IRQHandler(void)
 		TRX_Time_InActive++;
 		WM8731_Buffer_underrun = false;
 		FPGA_Buffer_underrun = false;
+		RX_USB_AUDIO_underrun = false;
 		FPGA_NeedSendParams = true;
 		FPGA_NeedGetParams = true;
 		if (NeedSaveSettings)
