@@ -439,23 +439,39 @@ void TIM6_DAC_IRQHandler(void)
 	{
 		ms50_counter = 0;
 		
-		//sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(FPGA_samples,false); //~48000
-		//sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(WM8731_DMA_samples/2,false); //~48000
-		//sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(AUDIOPROC_TXA_samples,false); //~187
-		//sendToDebug_str("Audioproc cycles B: "); sendToDebug_uint32(AUDIOPROC_TXB_samples,false); //~187
-		//sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(cpu_sleep_counter/1000.0f,false);  
-		//sendToDebug_str("Audioproc timer counter: "); sendToDebug_uint32(tim5_counter,false); 
-		//sendToDebug_str("DC Offset: "); sendToDebug_float32(FPGA_DC_Offset,false); 
-		//sendToDebug_str("FPGA Buffer underrun: "); sendToDebug_uint32(FPGA_Buffer_underrun,false); //0
-		//sendToDebug_str("TX Autogain: "); sendToDebug_float32(ALC_need_gain,false);
-		//sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(ALC_need_gain_new,false);
-		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(Processor_TX_MAX_amplitude,false);
-		//sendToDebug_str("First byte of I: "); sendToDebug_float32(FPGA_Audio_Buffer_I_tmp[0],false); //first byte of I
-		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
-		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(RX_USB_AUDIO_SAMPLES,false); //~48000
-		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(TX_USB_AUDIO_SAMPLES,false); //~48000
-		//sendToDebug_str("USB Audio SOF samples: "); sendToDebug_uint32(USB_AUDIO_SOF_SAMPLES,false); //~1000
-		//sendToDebug_str("USB Audio DEVICE samples: "); sendToDebug_uint32(USB_AUDIO_DEVICE_SAMPLES,false); //~1000
+		//Save Debug variables
+		uint32_t dbg_FPGA_samples=FPGA_samples;
+		uint32_t dbg_WM8731_DMA_samples=WM8731_DMA_samples/2;
+		uint32_t dbg_AUDIOPROC_TXA_samples=AUDIOPROC_TXA_samples;
+		uint32_t dbg_AUDIOPROC_TXB_samples=AUDIOPROC_TXB_samples;
+		float32_t dbg_cpu_sleep_counter=cpu_sleep_counter/1000.0f;
+		uint32_t dbg_tim5_counter=tim5_counter;
+		float32_t dbg_FPGA_DC_Offset=FPGA_DC_Offset;
+		float32_t dbg_ALC_need_gain=ALC_need_gain;
+		float32_t dbg_ALC_need_gain_new=ALC_need_gain_new;
+		float32_t dbg_Processor_TX_MAX_amplitude=Processor_TX_MAX_amplitude;
+		float32_t dbg_FPGA_Audio_Buffer_I_tmp=FPGA_Audio_Buffer_I_tmp[0];
+		float32_t dbg_FPGA_Audio_Buffer_Q_tmp=FPGA_Audio_Buffer_Q_tmp[0];
+		uint32_t dbg_RX_USB_AUDIO_SAMPLES=RX_USB_AUDIO_SAMPLES;
+		uint32_t dbg_TX_USB_AUDIO_SAMPLES=TX_USB_AUDIO_SAMPLES;
+		uint32_t dbg_USB_AUDIO_SOF_SAMPLES=USB_AUDIO_SOF_SAMPLES;
+		uint32_t dbg_USB_AUDIO_DEVICE_SAMPLES=USB_AUDIO_DEVICE_SAMPLES;
+		//sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(dbg_FPGA_samples,false); //~48000
+		//sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(dbg_WM8731_DMA_samples,false); //~48000
+		//sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(dbg_AUDIOPROC_TXA_samples,false); //~187
+		//sendToDebug_str("Audioproc cycles B: "); sendToDebug_uint32(dbg_AUDIOPROC_TXB_samples,false); //~187
+		//sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(dbg_cpu_sleep_counter,false);  
+		//sendToDebug_str("Audioproc timer counter: "); sendToDebug_uint32(dbg_tim5_counter,false); 
+		//sendToDebug_str("DC Offset: "); sendToDebug_float32(dbg_FPGA_DC_Offset,false); 
+		//sendToDebug_str("TX Autogain: "); sendToDebug_float32(dbg_ALC_need_gain,false);
+		//sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(dbg_ALC_need_gain_new,false);
+		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(dbg_Processor_TX_MAX_amplitude,false);
+		//sendToDebug_str("First byte of I: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_I_tmp,false); //first byte of I
+		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_Q_tmp,false); //first byte of Q
+		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
+		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
+		//sendToDebug_str("USB Audio SOF samples: "); sendToDebug_uint32(dbg_USB_AUDIO_SOF_SAMPLES,true); sendToDebug_str(" "); sendToDebug_uint32(dbg_USB_AUDIO_SOF_SAMPLES*48,false); //~1000
+		//sendToDebug_str("USB Audio DEVICE samples: "); sendToDebug_uint32(dbg_USB_AUDIO_DEVICE_SAMPLES,false); //~1000
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
