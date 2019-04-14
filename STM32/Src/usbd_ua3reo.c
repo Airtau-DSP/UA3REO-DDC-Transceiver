@@ -21,8 +21,13 @@ static uint8_t  *USBD_UA3REO_GetFSCfgDesc(uint16_t *length);
 static uint8_t  *USBD_UA3REO_GetOtherSpeedCfgDesc(uint16_t *length);
 uint8_t  *USBD_UA3REO_GetDeviceQualifierDescriptor(uint16_t *length);
 
+static uint16_t rx_buffer_head = 0;
+static uint16_t rx_buffer_step = 0;
+
 uint32_t RX_USB_AUDIO_SAMPLES=0;
 uint32_t TX_USB_AUDIO_SAMPLES=0;
+uint32_t USB_AUDIO_SOF_SAMPLES=0;
+uint32_t USB_AUDIO_DEVICE_SAMPLES=0;
 
 /* USB Standard Device Descriptor */
 __ALIGN_BEGIN static uint8_t USBD_UA3REO_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALIGN_END =
@@ -1004,10 +1009,11 @@ static uint8_t  USBD_CAT_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 		return USBD_FAIL;
 	}
 }
-static uint16_t rx_buffer_head = 0;
-static uint16_t rx_buffer_step = 0;
+
 static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
+	USB_AUDIO_DEVICE_SAMPLES++;
+	//Send audio to Host
 	USBD_AUDIO_HandleTypeDef *hcdc_audio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (rx_buffer_head >= USB_AUDIO_RX_BUFFER_SIZE)
 	{
@@ -1021,9 +1027,12 @@ static uint8_t  USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
 	}
 	if ((USB_AUDIO_RX_BUFFER_SIZE - rx_buffer_head) >= AUDIO_OUT_PACKET) rx_buffer_step = AUDIO_OUT_PACKET;
 	else rx_buffer_step = (USB_AUDIO_RX_BUFFER_SIZE - rx_buffer_head);
+	
+	pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
 	HAL_PCD_EP_Transmit(pdev->pData, AUDIO_IN_EP, hcdc_audio->RxBuffer + rx_buffer_head, rx_buffer_step);
 	RX_USB_AUDIO_SAMPLES += rx_buffer_step/4; //16 bit * 2 channel
 	rx_buffer_head += rx_buffer_step;
+	
 	return USBD_OK;
 }
 static uint8_t  USBD_UA3REO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
@@ -1045,8 +1054,7 @@ static uint8_t  USBD_DEBUG_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
 	USBD_DEBUG_HandleTypeDef   *hcdc_debug = (USBD_DEBUG_HandleTypeDef*)pdev->pClassDataDEBUG;
 	/* Get the received data length */
 	hcdc_debug->RxLength = USBD_LL_GetRxDataSize(pdev, epnum);
-	/* USB data will be immediately processed, this allow next USB traffic being
-	NAKed till the end of the application Xfer */
+	/* USB data will be immediately processed, this allow next USB traffic being NAKed till the end of the application Xfer */
 	if (pdev->pClassDataDEBUG != NULL)
 	{
 		((USBD_DEBUG_ItfTypeDef *)pdev->pUserDataDEBUG)->Receive(hcdc_debug->RxBuffer, &hcdc_debug->RxLength);
@@ -1134,11 +1142,6 @@ static uint8_t  USBD_UA3REO_EP0_RxReady(USBD_HandleTypeDef *pdev)
 static uint8_t  USBD_UA3REO_EP0_TxReady(USBD_HandleTypeDef *pdev)
 {
 	/* Only OUT control data are processed */
-	return USBD_OK;
-}
-
-static uint8_t  USBD_UA3REO_SOF(USBD_HandleTypeDef *pdev)
-{
 	return USBD_OK;
 }
 
@@ -1303,7 +1306,7 @@ uint8_t  USBD_CAT_TransmitPacket(USBD_HandleTypeDef *pdev)
 		return USBD_FAIL;
 	}
 }
-uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev)
+uint8_t USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev)
 {
 	if (pdev->pClassDataAUDIO != NULL)
 	{
@@ -1322,6 +1325,7 @@ uint8_t  USBD_AUDIO_StartReceive(USBD_HandleTypeDef *pdev)
 	{
 		sendToDebug_str("Start Receive USB Audio\r\n");
 		USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, haudio->TxBuffer + haudio->TxBufferIndex, AUDIO_OUT_PACKET);
+		USBD_AUDIO_DataIn(pdev, AUDIO_IN_EP);
 		return USBD_OK;
 	}
 	else
@@ -1401,4 +1405,10 @@ static void AUDIO_REQ_SetCurrent(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef 
 		haudio->control.len = (uint8_t)req->wLength; /* Set the request data length */
 		haudio->control.unit = HIBYTE(req->wIndex);  /* Set the request target unit */
 	}
+}
+
+static uint8_t USBD_UA3REO_SOF(USBD_HandleTypeDef *pdev)
+{
+	USB_AUDIO_SOF_SAMPLES++;
+	return USBD_OK;
 }

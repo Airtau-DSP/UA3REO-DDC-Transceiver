@@ -65,6 +65,7 @@
 #include "profiler.h"
 #include "usbd_debug_if.h"
 #include "usbd_cat_if.h"
+#include "usbd_audio_if.h"
 #include "usbd_ua3reo.h"
 
 uint32_t ms50_counter = 0;
@@ -453,6 +454,8 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(FPGA_Audio_Buffer_Q_tmp[0],false); //first byte of Q
 		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(RX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(TX_USB_AUDIO_SAMPLES,false); //~48000
+		sendToDebug_str("USB Audio SOF samples: "); sendToDebug_uint32(USB_AUDIO_SOF_SAMPLES,false); //~1000
+		sendToDebug_str("USB Audio DEVICE samples: "); sendToDebug_uint32(USB_AUDIO_DEVICE_SAMPLES,false); //~1000
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
@@ -464,6 +467,8 @@ void TIM6_DAC_IRQHandler(void)
 		WM8731_DMA_samples = 0;
 		RX_USB_AUDIO_SAMPLES = 0;
 		TX_USB_AUDIO_SAMPLES = 0;
+		USB_AUDIO_SOF_SAMPLES = 0;
+		USB_AUDIO_DEVICE_SAMPLES = 0;
 		cpu_sleep_counter = 0;
 		TRX_Time_InActive++;
 		WM8731_Buffer_underrun = false;
