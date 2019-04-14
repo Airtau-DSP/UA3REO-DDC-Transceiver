@@ -328,7 +328,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	if (TRX_ADC_OTR || TRX_DAC_OTR) LCDDriver_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("WBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("FBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
-	if (RX_USB_AUDIO_underrun) LCDDriver_printText("UBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	//if (RX_USB_AUDIO_underrun) LCDDriver_printText("UBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
 
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
