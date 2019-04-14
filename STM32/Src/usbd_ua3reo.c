@@ -545,12 +545,6 @@ static uint8_t  USBD_UA3REO_Init(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	pdev->ep_out[CAT_OUT_EP & 0xFU].is_used = 1U;
 	pdev->ep_out[AUDIO_OUT_EP & 0xFU].is_used = 1U;
 
-	/* Open Command IN EP */
-	//USBD_LL_OpenEP(pdev, DEBUG_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
-	//USBD_LL_OpenEP(pdev, CAT_CMD_EP, USBD_EP_TYPE_INTR, CDC_CMD_PACKET_SIZE);
-	//pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 1U;
-	//pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 1U;
-
 	pdev->pClassDataDEBUG = USBD_malloc(sizeof(USBD_DEBUG_HandleTypeDef));
 	pdev->pClassDataCAT = USBD_malloc(sizeof(USBD_CAT_HandleTypeDef));
 	pdev->pClassDataAUDIO = malloc(sizeof(USBD_AUDIO_HandleTypeDef));
@@ -637,12 +631,6 @@ static uint8_t  USBD_UA3REO_DeInit(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
 	pdev->ep_out[DEBUG_OUT_EP & 0xFU].is_used = 0U;
 	pdev->ep_out[CAT_OUT_EP & 0xFU].is_used = 0U;
 	pdev->ep_out[AUDIO_OUT_EP & 0xFU].is_used = 0U;
-
-	/* Close Command IN EP */
-	//USBD_LL_CloseEP(pdev, DEBUG_CMD_EP);
-	  //USBD_LL_CloseEP(pdev, CAT_CMD_EP);
-	//pdev->ep_in[DEBUG_CMD_EP & 0xFU].is_used = 0U;
-	  //pdev->ep_in[CAT_CMD_EP & 0xFU].is_used = 0U;
 
 	/* DeInit  physical Interface components */
 	if (pdev->pClassDataDEBUG != NULL)

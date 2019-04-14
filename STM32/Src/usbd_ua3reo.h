@@ -14,30 +14,20 @@ extern "C" {
 #define CAT_INTERFACE_IDX 0x2                            	// Index of CAT interface
 #define AUDIO_INTERFACE_IDX 0x4                            	// Index of AUDIO interface
 
-//#define DEBUG_CMD_EP_IDX                  0x01
 #define DEBUG_EP_IDX                      0x01
-
-//#define CAT_CMD_EP_IDX                  0x03
 #define CAT_EP_IDX                      0x02
-
 #define AUDIO_EP_IDX                      0x03
-#define AUDIO_SYNC_EP_IDX                      0x04
 
 #define IN_EP_DIR						0x80 // Adds a direction bit
 
-//#define DEBUG_CMD_EP                      DEBUG_CMD_EP_IDX| IN_EP_DIR   
 #define DEBUG_OUT_EP                      DEBUG_EP_IDX                  
 #define DEBUG_IN_EP                       DEBUG_EP_IDX | IN_EP_DIR      
 
-//#define CAT_CMD_EP                      CAT_CMD_EP_IDX| IN_EP_DIR   
 #define CAT_OUT_EP                      CAT_EP_IDX                  
 #define CAT_IN_EP                       CAT_EP_IDX | IN_EP_DIR      
 
 #define AUDIO_OUT_EP                      AUDIO_EP_IDX                  
 #define AUDIO_IN_EP                       AUDIO_EP_IDX | IN_EP_DIR     
-
-#define AUDIO_SYNC_OUT_EP                      AUDIO_SYNC_EP_IDX
-#define AUDIO_SYNC_IN_EP                  AUDIO_SYNC_EP_IDX | IN_EP_DIR
 
 #ifndef CDC_HS_BINTERVAL
 #define CDC_HS_BINTERVAL                          0x10U
