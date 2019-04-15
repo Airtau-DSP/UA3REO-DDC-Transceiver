@@ -1,0 +1,25 @@
+STM32F407VET6 https://www.aliexpress.com/item/STM32F4-board-STM32F407VET6-STM32-Cortex-M4-Development-Board-DIY-STM32F407VET6-Learning-Board/32985050870.html
+ST-LINK/V2 https://www.aliexpress.com/item/1pcs-New-ST-LINK-V2-ST-LINK-V2-CN-ST-LINK-STLINK-Emulator-Download-Manager-STM8/32796459383.html
+LCD ILI9341 https://www.aliexpress.com/item/3-2-inch-TFT-LCD-Touch-Screen-Module-Display-Ultra-HD-320X240-ILI9341-for-3-2/32808968215.html
+EP4CE15E22C8N https://www.aliexpress.com/item/fpga-development-board-EP4CE15E22C8N-board-altera-fpga-board-altera-board/32834526999.html
+EP4CE22E22C8N https://www.aliexpress.com/item/Free-shipping-1pcs-lot-EP4CE22E22C8N-EP4CE22E22C8-EP4CE22E22-EP4CE22-QFP-NEW-Original-and-STOCK/32858201209.html
+AD9226 https://www.aliexpress.com/item/AD9226-AD9226A-AD9226AR-AD9226ARSZ/32786725576.html
+DAC904E https://www.aliexpress.com/item/DAC904E-DAC900E-DAC908E-2pcs-lot-SMD/32864490960.html
+WM8731 https://www.aliexpress.com/item/Free-Shipping-1pc-WM8731-module-audio-module-FPGA-audio-circuit-music-player-karaoke-OK/1399542257.html
+ENCODER https://www.aliexpress.com/item/Free-Shipping-1pc-Incremental-rotary-encoder-600-lines/1280677743.html
+ADT1-1 https://www.aliexpress.com/item/New-original-ADT4-6-ADT4-5WT-ADT4-6T-ADT4-6WT-ADT16-1T-ADTL1-12-ADT1-1/32964585712.html
+ADT1-6T https://www.aliexpress.com/item/ADT1-6T-ADT1-6T-SOP6/32598752899.html
+ADT4-6T https://www.aliexpress.com/item/2pcs-100-new-and-orginal-ADT4-6T-ADT4-6T-SMD-6-RF-Transformer-in-stock/32965002647.html
+DF2-DC12V https://www.aliexpress.com/item/DF2-DC12V-12V-DF2-8-pin-12VDC/32854815553.html
+LTC6420IUDC-20 https://www.aliexpress.com/item/LTC6420CUDC-20-LTC6420IUDC-20-Dual-Matched-1-8GHz-Differential-Amplifiers-ADC-Drivers/1000004611186.html
+OPA2674 https://www.aliexpress.com/item/5PCS-OPA2674I-14DR-OPA2674I-OPA2674-SOP-14/32863064043.html
+ST1S10 https://www.aliexpress.com/item/5pcs-ST1S10-ST1S10PHR-sop-8-Chipset-New-original/32895297431.html
+49.152Mhz Generator https://www.aliexpress.com/item/10PCS-5070-4P-OSC-3-3V-5V-6-000MHZ-6M-6MHZ-6-000M-6-000-7/32878185662.html
+MMCX Fem https://www.aliexpress.com/item/5Pcs-MMCX-Female-Jack-Connector-PCB-Mount-With-Solder-Straight-Goldplated-3-Pins-MMCXKE-Connector/32892212454.html
+MMCX Male https://www.aliexpress.com/item/YILIANDUO-10piece-lot-MMCX-Crimp-Plug-Male-Right-Angle-Connector-for-LMR100-RG316-Coaxial-Cable/32946181371.html
+BAP64-03 https://www.aliexpress.com/item/20pcs-lot-BAP64-03-printing-A3-SOD-323-175V-0-1A-SMD-diode-IC-new-original/32963212006.html
+SMD Chip inductor https://www.aliexpress.com/store/group/SMD-Chip-inductor/319544_512811919.html
+PD55008 https://www.aliexpress.com/item/PD55008-PD55008TR-E/32825356810.html
+IDC-34 Wire https://www.aliexpress.com/item/1-Meter-10-12-14-16-20-26-34-40-Pin-Way-Gray-Flat-Cable-1/32865647567.html
+IDC-34 Fem https://www.aliexpress.com/item/10set-FC-6-8-10-14-16-20-26-30-34-40-50P-IDC-2x3-4/32956657279.html
+ICD-34 Male https://www.aliexpress.com/item/10PCS-Pitch-2-54mm-DC3-6-8-10-14-16-20-26-30-34-40-50/32958754686.html
