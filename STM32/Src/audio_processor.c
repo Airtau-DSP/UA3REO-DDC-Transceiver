@@ -159,7 +159,7 @@ void processTxAudio(void)
 				for (size_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 				{
 					float32_t i_am = ((FPGA_Audio_Buffer_I_tmp[i] - FPGA_Audio_Buffer_Q_tmp[i]) + (selected_rfpower_amplitude))/2.0f;
-					float32_t q_am = ((FPGA_Audio_Buffer_Q_tmp[i] - FPGA_Audio_Buffer_I_tmp[i]) + (selected_rfpower_amplitude))/2.0f;
+					float32_t q_am = ((FPGA_Audio_Buffer_Q_tmp[i] - FPGA_Audio_Buffer_I_tmp[i]) - (selected_rfpower_amplitude))/2.0f;
 					FPGA_Audio_Buffer_I_tmp[i] = i_am;
 					FPGA_Audio_Buffer_Q_tmp[i] = q_am;
 				}
