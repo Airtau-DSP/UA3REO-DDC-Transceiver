@@ -108,7 +108,7 @@ void processTxAudio(void)
 			
 		if(ALC_need_gain>TX_AGC_MAXGAIN) ALC_need_gain=TX_AGC_MAXGAIN;
 		if(Processor_TX_MAX_amplitude<TX_AGC_NOISEGATE) ALC_need_gain=0.0f;
-		if ((ALC_need_gain>1.0f) && (TRX_getMode()==TRX_MODE_DIGI_L || TRX_getMode()==TRX_MODE_DIGI_U || TRX_getMode()==TRX_MODE_IQ|| TRX_getMode()==TRX_MODE_LOOPBACK)) ALC_need_gain=1.0f;
+		if ((ALC_need_gain>1.0f) && (TRX_getMode()==TRX_MODE_DIGI_L || TRX_getMode()==TRX_MODE_DIGI_U || TRX_getMode()==TRX_MODE_IQ || TRX_getMode()==TRX_MODE_LOOPBACK)) ALC_need_gain=1.0f;
 		if (TRX_tune) ALC_need_gain=1.0f;
 		
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, ALC_need_gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);

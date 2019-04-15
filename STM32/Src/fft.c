@@ -66,6 +66,7 @@ void FFT_doFFT(void)
 	if((meanValue*4)>maxValueFFT) maxValueFFT=(meanValue*4);
 	maxValueErrors = 0;
 	if (maxValueFFT < FFT_MIN) maxValueFFT = FFT_MIN;
+	if(TRX_getMode()==TRX_MODE_LOOPBACK) maxValueFFT=60000;
 
 	//Нормируем АЧХ к единице
 	arm_scale_f32(FFTOutput,1.0f/maxValueFFT,FFTOutput,FFT_PRINT_SIZE);
