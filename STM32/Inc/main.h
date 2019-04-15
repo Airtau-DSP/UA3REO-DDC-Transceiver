@@ -136,6 +136,12 @@ void Error_Handler(void);
 #define W25Q16_MISO_GPIO_Port GPIOB
 #define W25Q16_MOSI_Pin GPIO_PIN_5
 #define W25Q16_MOSI_GPIO_Port GPIOB
+#define RFUNIT_RCLK_Pin GPIO_PIN_6
+#define RFUNIT_RCLK_GPIO_Port GPIOB
+#define RFUNIT_CLK_Pin GPIO_PIN_7
+#define RFUNIT_CLK_GPIO_Port GPIOB
+#define RFUNIT_DATA_Pin GPIO_PIN_8
+#define RFUNIT_DATA_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
