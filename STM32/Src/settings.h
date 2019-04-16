@@ -46,8 +46,8 @@ extern struct TRX_SETTINGS {
 	bool Agc;
 	bool Preamp;
 	bool Att;
-	bool Notch;
-	bool DNR;
+	uint8_t Notch;
+	uint8_t DNR;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
 	bool BandMapEnabled;

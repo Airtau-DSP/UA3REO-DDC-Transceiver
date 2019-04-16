@@ -75,6 +75,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	LCD_busy=true;
 	if (redraw) LCDDriver_Fill_RectWH(0, 0, 319, 65, COLOR_BLACK);
 	button_handlers_count = 0;
+	char buff[50] = "";
 
 	//вывод диапазонов
 	if (LCD_bandMenuOpened)
@@ -178,7 +179,12 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(265, 108, 55, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Att, LCD_Handler_ATT);
 		printButton(265, 136, 55, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Agc, LCD_Handler_AGC);
 		printButton(265, 164, 55, 23, "NOT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Notch, LCD_Handler_NOTCH);
-		printButton(265, 192, 55, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.DNR, LCD_Handler_DNR);
+		if(TRX.DNR==0) printButton(265, 192, 55, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_DNR);
+		if(TRX.DNR>0)
+		{
+			sprintf(buff, "DNR%d", TRX.DNR);
+			printButton(265, 192, 55, 23, buff, COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, true, LCD_Handler_DNR);
+		}
 	}
 	LCD_busy=false;
 	LCD_UpdateQuery.TopButtons = false;
@@ -724,6 +730,8 @@ void LCD_Handler_NOTCH(void)
 }
 void LCD_Handler_DNR(void)
 {
+	TRX.DNR++;
+	if(TRX.DNR>=6) TRX.DNR=0;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
