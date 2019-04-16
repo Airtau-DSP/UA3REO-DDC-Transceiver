@@ -38,7 +38,7 @@ void LoadSettings(void)
 		TRX.Agc = true;
 		TRX.Att = false;
 		TRX.Notch = 0;
-		TRX.DNR = 0;
+		TRX.DNR = true;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;

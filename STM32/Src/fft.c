@@ -54,6 +54,7 @@ void FFT_doFFT(void)
 			fft_compress_tmp += FFTOutput[i*fft_compress_rate + c];
 		FFTOutput[i] = fft_compress_tmp / fft_compress_rate;
 	}
+	FFTOutput[0]=FFTOutput[1];
 	
 	//Автокалибровка уровней FFT
 	arm_max_f32(FFTOutput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ

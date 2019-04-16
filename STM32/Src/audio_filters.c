@@ -7,6 +7,7 @@
 #include "arm_math.h"
 #include "wm8731.h"
 #include "settings.h"
+#include "noise_reduction.h"
 
 arm_fir_instance_f32    FIR_RX_Hilbert_I;
 arm_fir_instance_f32    FIR_RX_Hilbert_Q;
@@ -282,4 +283,6 @@ void InitFilters(void)
 
 	// Initialize high-pass filter used for the FM noise squelch
 	arm_iir_lattice_init_f32(&IIR_Squelch_HPF, IIR_HPF_SQL_STAGES, (float32_t *)&IIR_HPF_15k0_PKcoeffs, (float32_t *)&IIR_HPF_15k0_PVcoeffs, (float32_t *)&IIR_HPF_SQL_State[0], APROCESSOR_BLOCK_SIZE);
+	
+	InitNoiseReduction();
 }

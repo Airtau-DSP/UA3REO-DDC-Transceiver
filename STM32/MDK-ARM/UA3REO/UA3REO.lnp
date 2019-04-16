@@ -10,6 +10,7 @@
 "ua3reo\fpga.o"
 "ua3reo\functions.o"
 "ua3reo\lcd.o"
+"ua3reo\noise_reduction.o"
 "ua3reo\profiler.o"
 "ua3reo\settings.o"
 "ua3reo\system_menu.o"

@@ -493,6 +493,16 @@
               <FilePath>..\Src\lcd.h</FilePath>
             </File>
             <File>
+              <FileName>noise_reduction.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\noise_reduction.c</FilePath>
+            </File>
+            <File>
+              <FileName>noise_reduction.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\noise_reduction.h</FilePath>
+            </File>
+            <File>
               <FileName>profiler.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\profiler.c</FilePath>

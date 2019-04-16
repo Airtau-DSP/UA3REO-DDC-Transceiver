@@ -14,6 +14,7 @@
 #include "settings.h"
 #include "profiler.h"
 #include "usbd_audio_if.h"
+#include "noise_reduction.h"
 
 uint32_t AUDIOPROC_samples = 0;
 uint32_t AUDIOPROC_TXA_samples = 0;
@@ -323,6 +324,10 @@ void processRxAudio(void)
 	
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)	
 	{
+		//DNR
+		if(TRX.DNR)
+			for (block = 0; block < (FPGA_AUDIO_BUFFER_HALF_SIZE/NOISE_REDUCTION_BLOCK_SIZE); block++)
+				processNoiseReduction((float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*NOISE_REDUCTION_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*NOISE_REDUCTION_BLOCK_SIZE));
 		//AGC
 		if (TRX.Agc && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 			RxAgcWdsp(numBlocks*APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
