@@ -31,6 +31,7 @@ extern bool NeedFFTInputBuffer;
 extern bool FFT_need_fft;
 extern float32_t FFTInput[FFT_SIZE * 2];
 uint16_t getFFTColor(uint8_t height);
+extern void fft_fill_color_scale(void);
 
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream7;

@@ -20,6 +20,7 @@ uint16_t maxValueErrors = 0; //количество превышений сиг�
 uint16_t height = 0; //высота столбца в выводе FFT
 float32_t maxValueFFT = 0; //максимальное значение амплитуды в результирующей АЧХ
 uint32_t currentFFTFreq = 0;
+uint16_t color_scale[FFT_MAX_HEIGHT] = { 0 }; //цветовой градиент по высоте FFT
 
 bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
 
@@ -135,7 +136,8 @@ void FFT_printFFT(void)
 		if(fft_y<(FFT_MAX_HEIGHT-fft_header[fft_x]))
 			LCDDriver_SendData(COLOR_BLACK);
 		else
-			LCDDriver_SendData(wtf_buffer[0][fft_x]);
+			//LCDDriver_SendData(wtf_buffer[0][fft_x]);
+			LCDDriver_SendData(color_scale[fft_y]);
 	}
 	
 	//разделитель и полоса приёма
@@ -205,7 +207,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 	}
 }
 
-uint16_t getFFTColor(uint8_t height)
+uint16_t getFFTColor(uint8_t height) //получение теплоты цвета FFT (от синего к красному)
 {
 	//r g b
 	//0 0 0
@@ -234,4 +236,12 @@ uint16_t getFFTColor(uint8_t height)
 		green = 255 - red;
 	}
 	return rgb888torgb565(red, green, blue);
+}
+
+void fft_fill_color_scale(void) //заполняем градиент цветов FFT при инифиализации
+{
+	for (uint8_t i=0;i<=FFT_MAX_HEIGHT;i++) 
+  {
+		color_scale[i]=getFFTColor(FFT_MAX_HEIGHT-i);
+	}
 }
