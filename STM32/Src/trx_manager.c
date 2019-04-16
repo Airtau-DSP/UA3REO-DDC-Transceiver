@@ -10,7 +10,6 @@
 #include "bands.h"
 #include "audio_filters.h"
 #include "usbd_audio_if.h"
-#include "fft.h"
 
 uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 
@@ -59,7 +58,6 @@ void TRX_Init()
 	TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
 	TRX_Start_RX();
 	TRX_setMode(CurrentVFO()->Mode);
-	fft_fill_color_scale();
 }
 
 void TRX_Restart_Mode()

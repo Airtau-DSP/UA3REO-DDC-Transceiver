@@ -231,9 +231,9 @@ uint16_t getFFTColor(uint8_t height) //получение теплоты цве�
 	}
 	else
 	{
-		red = ((height - 2 * FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
-		blue = 255 - red;
-		green = 255 - red;
+		red = 255;
+		blue = 0;
+		green = 255 - ((height - 2 * FFT_MAX_HEIGHT / 3) * 255 / (FFT_MAX_HEIGHT / 3));
 	}
 	return rgb888torgb565(red, green, blue);
 }

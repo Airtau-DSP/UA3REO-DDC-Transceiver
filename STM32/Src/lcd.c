@@ -60,6 +60,7 @@ void LCD_Init(void)
 	LCDDriver_setRotation(4);
 	LCDDriver_Fill(COLOR_WHITE);
 	Init_XPT2046();
+	fft_fill_color_scale();
 	LCD_redraw();
 }
 
@@ -162,15 +163,22 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	//вывод основных кнопок
 	else
 	{
-		printButton(5, 5, 73, 30, MODE_DESCR[TRX_getMode()], COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MODE);
-		printButton(83, 5, 73, 30, "WIDTH", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_WIDTH);
-		printButton(161, 5, 73, 30, "BAND", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_BAND);
-		printButton(239, 5, 76, 30, "MENU", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MENU);
-		printButton(5, 40, 53, 30, (!TRX.current_vfo) ? "VFOA" : "VFOB", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.current_vfo == true), LCD_Handler_VFO);
-		printButton(63, 40, 53, 30, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Agc == true), LCD_Handler_AGC);
-		printButton(121, 40, 53, 30, "FAST", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Fast == true), LCD_Handler_FAST);
-		printButton(179, 40, 55, 30, "MUTE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Mute == true), LCD_Handler_MUTE);
-		printButton(239, 40, 76, 30, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
+		//верхний список
+		printButton(0, 0, 76, 35, MODE_DESCR[TRX_getMode()], COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MODE);
+		printButton(81, 0, 76, 35, "WIDTH", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_WIDTH);
+		printButton(162, 0, 76, 35, "BAND", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_BAND);
+		printButton(243, 0, 77, 35, "MENU", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MENU);
+		printButton(0, 40, 60, 35, (!TRX.current_vfo) ? "VFOA" : "VFOB", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.current_vfo == true), LCD_Handler_VFO);
+		printButton(65, 40, 60, 35, "A=B", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(130, 40, 60, 35, "FAST", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Fast == true), LCD_Handler_FAST);
+		printButton(195, 40, 60, 35, "MUTE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Mute == true), LCD_Handler_MUTE);
+		printButton(260, 40, 60, 35, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
+		//правый столбец
+		printButton(265, 80, 55, 23, "PRE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Preamp, LCD_Handler_PREAMP);
+		printButton(265, 108, 55, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(265, 136, 55, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Agc == true), LCD_Handler_AGC);
+		printButton(265, 164, 55, 23, "NOT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(265, 192, 55, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
 	}
 	LCD_busy=false;
 	LCD_UpdateQuery.TopButtons = false;
@@ -192,20 +200,12 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	uint16_t mhz_x_offset=0;
 	LCD_last_showed_freq = TRX_getFrequency();
 	if (TRX_getFrequency() >= 100000000)
-	{
-		LCDDriver_Fill_RectWH(0, 87, 5, 35, COLOR_BLACK);
-		mhz_x_offset=5;
-	}
+		mhz_x_offset=0;
 	else if (TRX_getFrequency() >= 10000000)
-	{
-		LCDDriver_Fill_RectWH(0, 87, 31, 35, COLOR_BLACK);
-		mhz_x_offset=31;
-	}
+		mhz_x_offset=26;
 	else
-	{
-		LCDDriver_Fill_RectWH(0, 87, 57, 35, COLOR_BLACK);
-		mhz_x_offset=57;
-	}
+		mhz_x_offset=52;
+	LCDDriver_Fill_RectWH(0, 87, mhz_x_offset, 35, COLOR_BLACK);
 
 	//добавляем пробелов для вывода частоты
 	uint16_t hz=((uint32_t)TRX_getFrequency() % 1000);
@@ -229,18 +229,18 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	{
 		addSymbols(buff, LCD_freq_string_khz, 3, "0", false);
 		if (TRX.LCD_menu_freq_index == MENU_FREQ_KHZ)
-			LCDDriver_printTextFont(buff, 96, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+			LCDDriver_printTextFont(buff, 91, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
 		else
-			LCDDriver_printTextFont(buff, 96, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+			LCDDriver_printTextFont(buff, 91, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 		LCD_last_showed_freq_khz=khz;
 	}
 	if (LCD_last_showed_freq_hz!=hz)
 	{
 		addSymbols(buff, LCD_freq_string_hz, 3, "0", false);
 		if (TRX.LCD_menu_freq_index == MENU_FREQ_HZ)
-			LCDDriver_printTextFont(buff, 187, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
+			LCDDriver_printTextFont(buff, 182, 120, COLOR_BLACK, COLOR_WHITE, FreeSans24pt7b);
 		else
-			LCDDriver_printTextFont(buff, 187, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+			LCDDriver_printTextFont(buff, 182, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 		LCD_last_showed_freq_hz=hz;
 	}
 	NeedSaveSettings = true;
@@ -267,15 +267,14 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	else
 		LCDDriver_printTextFont("RX", 10, 144, COLOR_GREEN, COLOR_BLACK, FreeSans9pt7b);
 
-	int width = 202;
-	LCDDriver_drawRectXY(40, 130, 40 + width, 145, COLOR_RED);
+	LCDDriver_drawRectXY(40, 130, 40 + METER_WIDTH, 145, COLOR_RED);
 
-	LCDDriver_printTextFont(".", 83, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b); //разделители частоты
-	LCDDriver_printTextFont(".", 174, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
+	LCDDriver_printTextFont(".", 78, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b); //разделители частоты
+	LCDDriver_printTextFont(".", 169, 120, COLOR_WHITE, COLOR_BLACK, FreeSans24pt7b);
 	
-	LCDDriver_printText("dBm",290,135,COLOR_GREEN,COLOR_BLACK,1);
+	LCDDriver_printText("dBm",METER_WIDTH + 69,135,COLOR_GREEN,COLOR_BLACK,1);
 	
-	int step = width / 8;
+	uint16_t step = METER_WIDTH / 8;
 	LCDDriver_printText("1", 50 + step * 0, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCDDriver_printText("3", 50 + step * 1, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCDDriver_printText("5", 50 + step * 2, 150, COLOR_RED, COLOR_BLACK, 1);
@@ -300,7 +299,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	}
 	LCD_busy = true;
 	char ctmp[50];
-	const int width = 200;
+	const int width = METER_WIDTH-2;
 	
 	float32_t TRX_s_meter = (127+TRX_RX_dBm)/6; //127dbm - S0, 6dBm - 1S div
 	if(TRX_s_meter<=9)
@@ -321,41 +320,47 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	}
 	
 	sprintf(ctmp, "%d", TRX_RX_dBm);
-	LCDDriver_Fill_RectWH(250,130,35,15,COLOR_BLACK);
-	LCDDriver_printTextFont(ctmp,250,143,COLOR_GREEN,COLOR_BLACK,FreeSans9pt7b);
+	LCDDriver_Fill_RectWH(41 + width + 5,135,23,8,COLOR_BLACK);
+	LCDDriver_printText(ctmp,41 + width + 5,135,COLOR_GREEN,COLOR_BLACK,1);
 	
-	LCDDriver_Fill_RectWH(300, 210, 30, 30, COLOR_BLACK);
-	if (TRX_ADC_OTR || TRX_DAC_OTR) LCDDriver_printText("OVR", 300, 220, COLOR_RED, COLOR_BLACK, 1);
-	if (WM8731_Buffer_underrun && !TRX_on_TX()) LCDDriver_printText("WBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
-	if (FPGA_Buffer_underrun && TRX_on_TX()) LCDDriver_printText("FBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
-	//if (RX_USB_AUDIO_underrun) LCDDriver_printText("UBF", 300, 230, COLOR_RED, COLOR_BLACK, 1);
+	LCDDriver_Fill_RectWH(270, 220, 50, 8, COLOR_BLACK);
+	if (TRX_ADC_OTR || TRX_DAC_OTR) 
+		LCDDriver_printText("OVR", 270, 220, COLOR_RED, COLOR_BLACK, 1);
+	if (WM8731_Buffer_underrun && !TRX_on_TX()) 
+		LCDDriver_printText("WBF", 297, 220, COLOR_RED, COLOR_BLACK, 1);
+	if (FPGA_Buffer_underrun && TRX_on_TX()) 
+		LCDDriver_printText("FBF", 297, 220, COLOR_RED, COLOR_BLACK, 1);
+	if (false & RX_USB_AUDIO_underrun)
+		LCDDriver_printText("UBF", 297, 220, COLOR_RED, COLOR_BLACK, 1);
 
 	Time = RTC->TR;
 	Hours = ((Time >> 20) & 0x03) * 10 + ((Time >> 16) & 0x0f);
 	Minutes = ((Time >> 12) & 0x07) * 10 + ((Time >> 8) & 0x0f);
 	Seconds = ((Time >> 4) & 0x07) * 10 + ((Time >> 0) & 0x0f);
 
+	const uint8_t time_y=230;
+	const uint16_t time_x=268;
 	if (Hours != Last_showed_Hours)
 	{
 		sprintf(ctmp, "%d", Hours);
 		addSymbols(ctmp, ctmp, 2, "0", false);
-		LCDDriver_printText(ctmp, 270, 165, COLOR_WHITE, COLOR_BLACK, 1);
-		LCDDriver_printText(":", 282, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(ctmp, time_x, time_y, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(":", time_x+12, time_y, COLOR_WHITE, COLOR_BLACK, 1);
 		Last_showed_Hours = Hours;
 	}
 	if (Minutes != Last_showed_Minutes)
 	{
 		sprintf(ctmp, "%d", Minutes);
 		addSymbols(ctmp, ctmp, 2, "0", false);
-		LCDDriver_printText(ctmp, 288, 165, COLOR_WHITE, COLOR_BLACK, 1);
-		LCDDriver_printText(":", 300, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(ctmp, time_x+18, time_y, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(":", time_x+30, time_y, COLOR_WHITE, COLOR_BLACK, 1);
 		Last_showed_Minutes = Minutes;
 	}
 	if (Seconds != Last_showed_Seconds)
 	{
 		sprintf(ctmp, "%d", Seconds);
 		addSymbols(ctmp, ctmp, 2, "0", false);
-		LCDDriver_printText(ctmp, 306, 165, COLOR_WHITE, COLOR_BLACK, 1);
+		LCDDriver_printText(ctmp, time_x+36, time_y, COLOR_WHITE, COLOR_BLACK, 1);
 		Last_showed_Seconds = Seconds;
 	}
 	LCD_UpdateQuery.StatusInfoBar = false;
@@ -386,12 +391,11 @@ void LCD_displayMainMenu() {
 	printMenuButton(5, 60, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
 	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
 	printMenuButton(84, 60, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
-	printMenuButton(163, 60, 74, 50, "PREAMP", "RF signal", TRX.Preamp, true, LCD_Handler_MENU_PREAMP);
-	printMenuButton(242, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
+	printMenuButton(163, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
 
-	if(TRX.InputType==0) printMenuButton(5, 115, 74, 50, "INPUT", "Mic", true, true, LCD_Handler_MENU_LINEMIC);
-	if(TRX.InputType==1) printMenuButton(5, 115, 74, 50, "INPUT", "Line", true, true, LCD_Handler_MENU_LINEMIC);
-	if(TRX.InputType==2) printMenuButton(5, 115, 74, 50, "INPUT", "USB", true, true, LCD_Handler_MENU_LINEMIC);
+	if(TRX.InputType==0) printMenuButton(242, 60, 74, 50, "INPUT", "Mic", true, true, LCD_Handler_MENU_LINEMIC);
+	if(TRX.InputType==1) printMenuButton(242, 60, 74, 50, "INPUT", "Line", true, true, LCD_Handler_MENU_LINEMIC);
+	if(TRX.InputType==2) printMenuButton(242, 60, 74, 50, "INPUT", "USB", true, true, LCD_Handler_MENU_LINEMIC);
 	
 	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
 	LCD_UpdateQuery.MainMenu = false;
@@ -446,7 +450,7 @@ void LCD_Handler_TUNE(void)
 	TRX_tune = !TRX_tune;
 	TRX_ptt_hard = TRX_tune;
 	LCD_displayStatusInfoGUI();
-	LCD_displayTopButtons(false);
+	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 	TRX_Restart_Mode();
 }
@@ -454,20 +458,19 @@ void LCD_Handler_TUNE(void)
 void LCD_Handler_MODE(void)
 {
 	LCD_modeMenuOpened = true;
-	LCD_displayTopButtons(true);
+	LCD_UpdateQuery.TopButtons = true;
 }
 
 void LCD_Handler_BAND(void)
 {
 	LCD_bandMenuOpened = true;
-	LCD_displayTopButtons(true);
 	LCD_redraw();
 }
 
 void LCD_Handler_WIDTH(void)
 {
 	LCD_widthMenuOpened = true;
-	LCD_displayTopButtons(true);
+	LCD_UpdateQuery.TopButtons = true;
 }
 
 void LCD_Handler_WIDTH_BACK(void)
@@ -684,17 +687,17 @@ void LCD_Handler_WIDTH_150(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MENU_PREAMP(void)
+void LCD_Handler_PREAMP(void)
 {
 	TRX.Preamp = !TRX.Preamp;
-	LCD_UpdateQuery.MainMenu = true;
+	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
 void LCD_Handler_AGC(void)
 {
 	CurrentVFO()->Agc = !CurrentVFO()->Agc;
-	LCD_displayTopButtons(false);
+	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
@@ -709,14 +712,14 @@ void LCD_Handler_VFO(void)
 void LCD_Handler_MUTE(void)
 {
 	TRX.Mute = !TRX.Mute;
-	LCD_displayTopButtons(false);
+	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
 void LCD_Handler_FAST(void)
 {
 	TRX.Fast = !TRX.Fast;
-	LCD_displayTopButtons(false);
+	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 

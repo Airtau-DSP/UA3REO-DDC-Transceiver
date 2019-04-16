@@ -22,6 +22,8 @@
 #define COLOR_BUTTON_MENU rgb888torgb565(224, 145, 8)
 #define COLOR_BUTTON_TEXT rgb888torgb565(0, 27, 51)
 
+#define METER_WIDTH 172
+
 typedef struct {
 	bool Background;
 	bool MainMenu;
@@ -71,7 +73,7 @@ void LCD_Handler_MODE(void);
 void LCD_Handler_BAND(void);
 void LCD_Handler_WIDTH(void);
 void LCD_Handler_WIDTH_BACK(void);
-void LCD_Handler_MENU_PREAMP(void);
+void LCD_Handler_PREAMP(void);
 void LCD_Handler_VFO(void);
 void LCD_Handler_AGC(void);
 void LCD_Handler_MUTE(void);
