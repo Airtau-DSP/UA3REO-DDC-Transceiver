@@ -408,7 +408,7 @@ void ua3reo_dev_cat_parseCommand()
 		{
 			if (strcmp(arguments, "0") == 0)
 			{
-				if (TRX.Agc_speed == 0 || !CurrentVFO()->Agc) CAT_Transmit("GT00;");
+				if (TRX.Agc_speed == 0 || !TRX.Agc) CAT_Transmit("GT00;");
 				else if (TRX.Agc_speed == 1) CAT_Transmit("GT04;");
 				else if (TRX.Agc_speed == 2) CAT_Transmit("GT03;");
 				else if (TRX.Agc_speed == 3) CAT_Transmit("GT02;");

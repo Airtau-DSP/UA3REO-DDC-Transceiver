@@ -168,17 +168,17 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(81, 0, 76, 35, "WIDTH", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_WIDTH);
 		printButton(162, 0, 76, 35, "BAND", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_BAND);
 		printButton(243, 0, 77, 35, "MENU", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MENU);
-		printButton(0, 40, 60, 35, (!TRX.current_vfo) ? "VFOA" : "VFOB", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.current_vfo == true), LCD_Handler_VFO);
-		printButton(65, 40, 60, 35, "A=B", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(0, 40, 60, 35, (!TRX.current_vfo) ? "VFOA" : "VFOB", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.current_vfo, LCD_Handler_VFO);
+		printButton(65, 40, 60, 35, (!TRX.current_vfo) ? "B=A" : "A=B", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, !TRX.current_vfo, LCD_Handler_AB);
 		printButton(130, 40, 60, 35, "FAST", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Fast == true), LCD_Handler_FAST);
 		printButton(195, 40, 60, 35, "MUTE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Mute == true), LCD_Handler_MUTE);
 		printButton(260, 40, 60, 35, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
 		//правый столбец
 		printButton(265, 80, 55, 23, "PRE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Preamp, LCD_Handler_PREAMP);
-		printButton(265, 108, 55, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
-		printButton(265, 136, 55, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (CurrentVFO()->Agc == true), LCD_Handler_AGC);
-		printButton(265, 164, 55, 23, "NOT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
-		printButton(265, 192, 55, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
+		printButton(265, 108, 55, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Att, LCD_Handler_ATT);
+		printButton(265, 136, 55, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Agc, LCD_Handler_AGC);
+		printButton(265, 164, 55, 23, "NOT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Notch, LCD_Handler_NOTCH);
+		printButton(265, 192, 55, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.DNR, LCD_Handler_DNR);
 	}
 	LCD_busy=false;
 	LCD_UpdateQuery.TopButtons = false;
@@ -694,9 +694,43 @@ void LCD_Handler_PREAMP(void)
 	NeedSaveSettings = true;
 }
 
+void LCD_Handler_AB(void)
+{
+	if(TRX.current_vfo)
+	{
+		TRX.VFO_A.Filter_Width=TRX.VFO_B.Filter_Width;
+		TRX.VFO_A.Freq=TRX.VFO_B.Freq;
+		TRX.VFO_A.Mode=TRX.VFO_B.Mode;
+	}
+	else
+	{
+		TRX.VFO_B.Filter_Width=TRX.VFO_A.Filter_Width;
+		TRX.VFO_B.Freq=TRX.VFO_A.Freq;
+		TRX.VFO_B.Mode=TRX.VFO_A.Mode;
+	}
+	LCD_UpdateQuery.TopButtons = true;
+	NeedSaveSettings = true;
+}
+void LCD_Handler_ATT(void)
+{
+	TRX.Att = !TRX.Att;
+	LCD_UpdateQuery.TopButtons = true;
+	NeedSaveSettings = true;
+}
+void LCD_Handler_NOTCH(void)
+{
+	LCD_UpdateQuery.TopButtons = true;
+	NeedSaveSettings = true;
+}
+void LCD_Handler_DNR(void)
+{
+	LCD_UpdateQuery.TopButtons = true;
+	NeedSaveSettings = true;
+}
+
 void LCD_Handler_AGC(void)
 {
-	CurrentVFO()->Agc = !CurrentVFO()->Agc;
+	TRX.Agc = !TRX.Agc;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }

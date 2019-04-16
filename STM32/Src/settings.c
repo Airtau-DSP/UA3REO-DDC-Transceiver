@@ -24,19 +24,21 @@ void LoadSettings(void)
 {
 	Flash_Read_Data();
 	
-	if (TRX.clean_flash != 150) //code to trace new clean flash
+	if (TRX.clean_flash != 160) //code to trace new clean flash
 	{
-		TRX.clean_flash = 150;
+		TRX.clean_flash = 160;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
-		TRX.VFO_A.Agc = true;
 		TRX.VFO_A.Filter_Width = 2700;
 		TRX.VFO_B.Freq = 14150000;
 		TRX.VFO_B.Mode = TRX_MODE_USB;
-		TRX.VFO_B.Agc = true;
 		TRX.VFO_B.Filter_Width = 2700;
 		TRX.current_vfo = false; // A
 		TRX.Preamp = false;
+		TRX.Agc = true;
+		TRX.Att = false;
+		TRX.Notch = false;
+		TRX.DNR = false;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;

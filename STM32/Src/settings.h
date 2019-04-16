@@ -35,7 +35,6 @@
 typedef struct {
 	uint32_t Freq;
 	uint8_t Mode;
-	bool Agc;
 	uint16_t Filter_Width;
 } VFO;
 
@@ -44,7 +43,11 @@ extern struct TRX_SETTINGS {
 	bool current_vfo; // false - A; true - B
 	VFO VFO_A;
 	VFO VFO_B;
+	bool Agc;
 	bool Preamp;
+	bool Att;
+	bool Notch;
+	bool DNR;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
 	bool BandMapEnabled;

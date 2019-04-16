@@ -324,7 +324,7 @@ void processRxAudio(void)
 	if (TRX_getMode() != TRX_MODE_IQ && TRX_getMode() != TRX_MODE_LOOPBACK)	
 	{
 		//AGC
-		if (CurrentVFO()->Agc && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
+		if (TRX.Agc && TRX_getMode() != TRX_MODE_NFM && TRX_getMode() != TRX_MODE_WFM)
 			RxAgcWdsp(numBlocks*APROCESSOR_BLOCK_SIZE, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
 		//
 		dma_memcpy32((uint32_t)&FPGA_Audio_Buffer_Q_tmp[0], (uint32_t)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE); //double channel

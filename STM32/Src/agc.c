@@ -59,7 +59,7 @@ void SetupAgcWdsp(void)
 	agc_wdsp.hangtime = agc_wdsp_hang_time / 1000.0f;
 
 	//calculate internal parameters
-	if (CurrentVFO()->Agc)
+	if (TRX.Agc)
 	{
 		switch (agc_wdsp_mode)
 		{
