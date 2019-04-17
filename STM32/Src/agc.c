@@ -315,7 +315,7 @@ void RxAgcWdsp(int16_t blockSize, float32_t *agcbuffer1)
 		}
 
 		float32_t mult = (agc_wdsp.out_target - agc_wdsp.slope_constant * vo) / agc_wdsp.volts;
-		if(mult>agc_wdsp_max_gain) mult=agc_wdsp_max_gain;
+		//if(mult>agc_wdsp_max_gain) mult=agc_wdsp_max_gain;
 		agcbuffer1[i] = agc_wdsp.out_sample[0] * mult;
 	}
 
