@@ -38,11 +38,11 @@ uint32_t lastTouchTick = 0;
 
 uint32_t Time;
 uint8_t Hours;
-uint8_t Last_showed_Hours;
+uint8_t Last_showed_Hours = 255;
 uint8_t Minutes;
-uint8_t Last_showed_Minutes;
+uint8_t Last_showed_Minutes = 255;
 uint8_t Seconds;
-uint8_t Last_showed_Seconds;
+uint8_t Last_showed_Seconds = 255;
 uint8_t TimeMenuSelection = 0;
 
 DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
@@ -414,9 +414,9 @@ void LCD_redraw(void) {
 	button_handlers_count = 0;
 	LCD_last_s_meter = 0;
 	LCD_last_showed_freq = 0;
-	Last_showed_Hours = 0;
-	Last_showed_Minutes = 0;
-	Last_showed_Seconds = 0;
+	Last_showed_Hours = 255;
+	Last_showed_Minutes = 255;
+	Last_showed_Seconds = 255;
 	LCD_last_showed_freq_mhz = 9999;
 	LCD_last_showed_freq_khz = 9999;
 	LCD_last_showed_freq_hz = 9999;
