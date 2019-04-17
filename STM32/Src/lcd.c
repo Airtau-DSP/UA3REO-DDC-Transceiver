@@ -733,7 +733,6 @@ void LCD_Handler_DNR(void)
 void LCD_Handler_AGC(void)
 {
 	TRX.Agc = !TRX.Agc;
-	InitNoiseReduction();
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }

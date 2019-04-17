@@ -13,6 +13,7 @@
 #define agc_wdsp_tau_hang_decay 200
 #define agc_wdsp_thresh 60
 #define agc_wdsp_hang_thresh 45
+#define agc_wdsp_max_gain 20.0f
 
 typedef struct
 {

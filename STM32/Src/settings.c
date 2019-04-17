@@ -23,7 +23,6 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	
 	if (TRX.clean_flash != 160) //code to trace new clean flash
 	{
 		TRX.clean_flash = 160;
@@ -38,7 +37,7 @@ void LoadSettings(void)
 		TRX.Agc = true;
 		TRX.Att = false;
 		TRX.Notch = 0;
-		TRX.DNR = true;
+		TRX.DNR = false;
 		TRX.Agc_speed = 2;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;
