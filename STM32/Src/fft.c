@@ -35,13 +35,14 @@ void FFT_doFFT(void)
 	float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
 	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 	float32_t hanning_multiplier = 0; //Множитель для вычисления окна Ханнинга к FFT
-	
+	/*
 	for (uint16_t i = 0; i < FFT_SIZE; i++) //Hanning window
 	{
 		hanning_multiplier = 0.5f * (1.0f - arm_cos_f32(2.0f * PI*i / FFT_SIZE*2));
 		FFTInput[i * 2] = hanning_multiplier * FFTInput[i * 2];
 		FFTInput[i * 2 + 1] = hanning_multiplier * FFTInput[i * 2 + 1];
 	}
+	*/
 	arm_cfft_f32(S, FFTInput, 0, 1);
 	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
 	
@@ -54,7 +55,7 @@ void FFT_doFFT(void)
 			fft_compress_tmp += FFTOutput[i*fft_compress_rate + c];
 		FFTOutput[i] = fft_compress_tmp / fft_compress_rate;
 	}
-	FFTOutput[0]=FFTOutput[1];
+	//FFTOutput[0]=FFTOutput[1];
 	
 	//Автокалибровка уровней FFT
 	arm_max_f32(FFTOutput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
