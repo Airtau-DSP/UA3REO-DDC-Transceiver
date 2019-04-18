@@ -168,27 +168,6 @@ void TRX_setFrequency(int32_t _freq)
 		if (TRX_getMode() != mode_from_bandmap)
 		{
 			TRX_setMode(mode_from_bandmap);
-			switch (mode_from_bandmap)
-			{
-			case TRX_MODE_LSB:
-			case TRX_MODE_USB:
-			case TRX_MODE_DIGI_L:
-			case TRX_MODE_DIGI_U:
-			case TRX_MODE_AM:
-				CurrentVFO()->Filter_Width = TRX.SSB_Filter;
-				break;
-			case TRX_MODE_CW_L:
-			case TRX_MODE_CW_U:
-				CurrentVFO()->Filter_Width = TRX.CW_Filter;
-				break;
-			case TRX_MODE_NFM:
-				CurrentVFO()->Filter_Width = TRX.FM_Filter;
-				break;
-			case TRX_MODE_WFM:
-				CurrentVFO()->Filter_Width = 0;
-				break;
-			}
-			InitFilters();
 			LCD_UpdateQuery.TopButtons = true;
 		}
 	}
@@ -204,15 +183,29 @@ int32_t TRX_getFrequency(void)
 
 void TRX_setMode(uint8_t _mode)
 {
-	if (CurrentVFO()->Mode == TRX_MODE_LOOPBACK || _mode == TRX_MODE_LOOPBACK)
+	CurrentVFO()->Mode = _mode;
+	if (CurrentVFO()->Mode == TRX_MODE_LOOPBACK || _mode == TRX_MODE_LOOPBACK) TRX_Start_Loopback();
+	switch (_mode)
 	{
-		CurrentVFO()->Mode = _mode;
-		TRX_Start_Loopback();
+		case TRX_MODE_LSB:
+		case TRX_MODE_USB:
+		case TRX_MODE_DIGI_L:
+		case TRX_MODE_DIGI_U:
+		case TRX_MODE_AM:
+			CurrentVFO()->Filter_Width = TRX.SSB_Filter;
+			break;
+		case TRX_MODE_CW_L:
+		case TRX_MODE_CW_U:
+			CurrentVFO()->Filter_Width = TRX.CW_Filter;
+			break;
+		case TRX_MODE_NFM:
+			CurrentVFO()->Filter_Width = TRX.FM_Filter;
+			break;
+		case TRX_MODE_WFM:
+			CurrentVFO()->Filter_Width = 0;
+			break;
 	}
-	else
-	{
-		CurrentVFO()->Mode = _mode;
-	}
+	ReinitAudioLPFFilter();
 	NeedSaveSettings = true;
 }
 

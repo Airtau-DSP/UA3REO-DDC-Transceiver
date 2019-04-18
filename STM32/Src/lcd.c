@@ -486,7 +486,7 @@ void LCD_Handler_WIDTH_03(void)
 	TRX.CW_Filter = 300;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_05(void)
@@ -495,7 +495,7 @@ void LCD_Handler_WIDTH_05(void)
 	TRX.CW_Filter = 500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_14(void)
@@ -504,7 +504,7 @@ void LCD_Handler_WIDTH_14(void)
 	TRX.SSB_Filter = 1400;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_16(void)
@@ -513,7 +513,7 @@ void LCD_Handler_WIDTH_16(void)
 	TRX.SSB_Filter = 1600;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_18(void)
@@ -522,7 +522,7 @@ void LCD_Handler_WIDTH_18(void)
 	TRX.SSB_Filter = 1800;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_21(void)
@@ -531,7 +531,7 @@ void LCD_Handler_WIDTH_21(void)
 	TRX.SSB_Filter = 2100;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_23(void)
@@ -540,7 +540,7 @@ void LCD_Handler_WIDTH_23(void)
 	TRX.SSB_Filter = 2300;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_25(void)
@@ -549,7 +549,7 @@ void LCD_Handler_WIDTH_25(void)
 	TRX.SSB_Filter = 2500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_27(void)
@@ -558,7 +558,7 @@ void LCD_Handler_WIDTH_27(void)
 	TRX.SSB_Filter = 2700;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_29(void)
@@ -567,7 +567,7 @@ void LCD_Handler_WIDTH_29(void)
 	TRX.SSB_Filter = 2900;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_30(void)
@@ -576,7 +576,7 @@ void LCD_Handler_WIDTH_30(void)
 	TRX.SSB_Filter = 3000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_32(void)
@@ -585,7 +585,7 @@ void LCD_Handler_WIDTH_32(void)
 	TRX.SSB_Filter = 3200;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_34(void)
@@ -594,7 +594,7 @@ void LCD_Handler_WIDTH_34(void)
 	TRX.SSB_Filter = 3400;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_50(void)
@@ -603,7 +603,7 @@ void LCD_Handler_WIDTH_50(void)
 	TRX.FM_Filter = 5000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_60(void)
@@ -612,7 +612,7 @@ void LCD_Handler_WIDTH_60(void)
 	TRX.FM_Filter = 6000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_70(void)
@@ -621,7 +621,7 @@ void LCD_Handler_WIDTH_70(void)
 	TRX.FM_Filter = 7000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_80(void)
@@ -630,7 +630,7 @@ void LCD_Handler_WIDTH_80(void)
 	TRX.FM_Filter = 8000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_0(void)
@@ -639,7 +639,7 @@ void LCD_Handler_WIDTH_0(void)
 	TRX.FM_Filter = 0;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_85(void)
@@ -648,7 +648,7 @@ void LCD_Handler_WIDTH_85(void)
 	TRX.FM_Filter = 8500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_90(void)
@@ -657,7 +657,7 @@ void LCD_Handler_WIDTH_90(void)
 	TRX.FM_Filter = 9000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_95(void)
@@ -666,7 +666,7 @@ void LCD_Handler_WIDTH_95(void)
 	TRX.FM_Filter = 9500;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_100(void)
@@ -675,7 +675,7 @@ void LCD_Handler_WIDTH_100(void)
 	TRX.FM_Filter = 10000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 void LCD_Handler_WIDTH_150(void)
@@ -684,7 +684,7 @@ void LCD_Handler_WIDTH_150(void)
 	TRX.FM_Filter = 15000;
 	NeedSaveSettings = true;
 	LCD_widthMenuOpened = false;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 
@@ -741,7 +741,7 @@ void LCD_Handler_VFO(void)
 {
 	TRX.current_vfo = !TRX.current_vfo;
 	NeedSaveSettings = true;
-	InitFilters();
+	ReinitAudioLPFFilter();
 	LCD_redraw();
 }
 

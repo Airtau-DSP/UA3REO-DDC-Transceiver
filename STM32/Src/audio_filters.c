@@ -111,7 +111,7 @@ const float32_t IIR_LPF_15k0_PVcoeffs[IIR_LPF_STAGES + 1] = { 0.02611710131,0.14
 const float32_t IIR_HPF_15k0_PKcoeffs[IIR_HPF_SQL_STAGES] = { 0.08584448365242,0.298455698329,0.6057782760185,0.7115173863477,0.7698117813539,0.7879540958152 };
 const float32_t IIR_HPF_15k0_PVcoeffs[IIR_HPF_SQL_STAGES + 1] = { 0.00561889294652,-0.02629790457241,0.0684050306275,-0.1143219836396,0.1169486269215,-0.07287150832503,0.02534743920497 };
 
-void InitFilters(void)
+void InitAudioFilters(void)
 {
 	arm_fir_init_f32(&FIR_RX_Hilbert_I, IQ_RX_HILBERT_TAPS, (float32_t *)&i_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // 0deg Hilbert 3.74 kHz
 	arm_fir_init_f32(&FIR_RX_Hilbert_Q, IQ_RX_HILBERT_TAPS, (float32_t *)&q_rx_3k6_coeffs, (float32_t *)&Fir_Rx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -90deg Hilbert 3.74 kHz
@@ -120,6 +120,15 @@ void InitFilters(void)
 
 	arm_iir_lattice_init_f32(&IIR_HPF, IIR_HPF_STAGES, (float32_t *)&IIR_HPF_150_PKcoeffs, (float32_t *)&IIR_HPF_150_PVcoeffs, (float32_t *)&IIR_HPF_State[0], APROCESSOR_BLOCK_SIZE);
 
+	ReinitAudioLPFFilter();
+	
+	arm_iir_lattice_init_f32(&IIR_Squelch_HPF, IIR_HPF_SQL_STAGES, (float32_t *)&IIR_HPF_15k0_PKcoeffs, (float32_t *)&IIR_HPF_15k0_PVcoeffs, (float32_t *)&IIR_HPF_SQL_State[0], APROCESSOR_BLOCK_SIZE);
+	
+	InitNoiseReduction();
+}
+
+void ReinitAudioLPFFilter(void)
+{
 	if (CurrentVFO()->Filter_Width == 300)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k3_PKcoeffs, (float32_t *)&IIR_LPF_0k3_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
@@ -280,9 +289,4 @@ void InitFilters(void)
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-
-	// Initialize high-pass filter used for the FM noise squelch
-	arm_iir_lattice_init_f32(&IIR_Squelch_HPF, IIR_HPF_SQL_STAGES, (float32_t *)&IIR_HPF_15k0_PKcoeffs, (float32_t *)&IIR_HPF_15k0_PVcoeffs, (float32_t *)&IIR_HPF_SQL_State[0], APROCESSOR_BLOCK_SIZE);
-	
-	InitNoiseReduction();
 }

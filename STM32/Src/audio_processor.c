@@ -51,7 +51,7 @@ static void doRX_COPYCHANNEL(void);
 
 void initAudioProcessor(void)
 {
-	InitFilters();
+	InitAudioFilters();
 	SetupAgcWdsp(); //AGC
 }
 
