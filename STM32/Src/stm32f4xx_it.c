@@ -399,7 +399,7 @@ void TIM6_DAC_IRQHandler(void)
 				dc_correction_state=2;
 		}
 	}
-	if(dc_correction_step>0) sendToDebug_float32(FPGA_MIN_I_Value+FPGA_MAX_I_Value,false);
+	//if(dc_correction_step>0) sendToDebug_float32(FPGA_MIN_I_Value+FPGA_MAX_I_Value,false);
 	
 	FPGA_MIN_I_Value=32700;
 	FPGA_MAX_I_Value=-32700;
