@@ -385,14 +385,12 @@ void TIM6_DAC_IRQHandler(void)
 	else if(-FPGA_MIN_I_Value>FPGA_MAX_I_Value)
 	{
 		if((FPGA_MIN_I_Value+FPGA_MAX_I_Value)>-dc_correction_step) dc_correction_step=0;
-		if((dc_correction_state==2) && (FPGA_MIN_I_Value+FPGA_MAX_I_Value)>-dc_correction_step_fast) dc_correction_step=0;
 		FPGA_DC_Offset+=dc_correction_step;
 		if(dc_correction_state!=2) dc_correction_state=1;
 	}
 	else if(-FPGA_MIN_I_Value<FPGA_MAX_I_Value)
 	{
 		if((FPGA_MIN_I_Value+FPGA_MAX_I_Value)<dc_correction_step) dc_correction_step=0;
-		if((dc_correction_state==2) && (FPGA_MIN_I_Value+FPGA_MAX_I_Value)<dc_correction_step_fast) dc_correction_step=0;
 		FPGA_DC_Offset-=dc_correction_step;
 		if(dc_correction_state!=2)
 		{
@@ -401,7 +399,7 @@ void TIM6_DAC_IRQHandler(void)
 				dc_correction_state=2;
 		}
 	}
-	//if(dc_correction_step>0) sendToDebug_float32(FPGA_MIN_I_Value+FPGA_MAX_I_Value,false);
+	if(dc_correction_step>0) sendToDebug_float32(FPGA_MIN_I_Value+FPGA_MAX_I_Value,false);
 	
 	FPGA_MIN_I_Value=32700;
 	FPGA_MAX_I_Value=-32700;
