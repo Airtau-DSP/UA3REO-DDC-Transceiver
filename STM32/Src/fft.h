@@ -7,7 +7,7 @@
 #include "arm_math.h"
 #include "wm8731.h"
 
-#define FFT_SIZE 512 //указываем размер расчитываемого FFT
+#define FFT_SIZE 256 //указываем размер расчитываемого FFT
 #define FFT_DOUBLE_SIZE_BUFFER (FFT_SIZE*2) //Размер буффера для расчёта FFT
 #define FFT_PRINT_SIZE 256 //указываем размер выводимого FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
@@ -19,7 +19,7 @@
 #define FFT_STEP_PRECISION 1.0f //шаг снижения коэффициента FFT (для слабых сигналов)
 #define FFT_MAX_IN_RED_ZONE 6 //максимум красных пиков на водопаде (для автоподстройки)
 #define FFT_MIN_IN_RED_ZONE 1 //минимум красных пиков на водопаде (для автоподстройки)
-#define FFT_HZ_IN_PIXEL (WM8731_SAMPLERATE/FFT_PRINT_SIZE)// герц в одном пикселе
+#define FFT_HZ_IN_PIXEL (WM8731_SAMPLERATE/FFT_PRINT_SIZE) // герц в одном пикселе
 
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);

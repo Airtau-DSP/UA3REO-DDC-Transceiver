@@ -8,7 +8,7 @@
 #include "wm8731.h"
 #include "settings.h"
 
-const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
+const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len256;
 
 bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
 uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
@@ -47,15 +47,19 @@ void FFT_doFFT(void)
 	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
 	
 	//Уменьшаем расчитанный FFT до видимого
-	uint8_t fft_compress_rate=FFT_SIZE / FFT_PRINT_SIZE;
-	for(uint16_t i=0;i<FFT_PRINT_SIZE;i++)
+	if(FFT_SIZE>FFT_PRINT_SIZE)
 	{
-		float32_t fft_compress_tmp = 0;
-		for (uint8_t c = 0; c < fft_compress_rate; c++)
-			fft_compress_tmp += FFTOutput[i*fft_compress_rate + c];
-		FFTOutput[i] = fft_compress_tmp / fft_compress_rate;
+		uint8_t fft_compress_rate=FFT_SIZE / FFT_PRINT_SIZE;
+		for(uint16_t i=0;i<FFT_PRINT_SIZE;i++)
+		{
+			float32_t fft_compress_tmp = 0;
+			for (uint8_t c = 0; c < fft_compress_rate; c++)
+				fft_compress_tmp += FFTOutput[i*fft_compress_rate + c];
+			FFTOutput[i] = fft_compress_tmp / fft_compress_rate;
+		}
 	}
-	//FFTOutput[0]=FFTOutput[1];
+	
+	FFTOutput[0]=FFTOutput[1];
 	
 	//Автокалибровка уровней FFT
 	arm_max_f32(FFTOutput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
