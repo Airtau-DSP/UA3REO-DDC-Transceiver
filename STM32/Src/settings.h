@@ -12,7 +12,8 @@
 #define ADC_BITS 12 //разрядность АЦП
 #define MAX_TX_AMPLITUDE 31000.0f //Максимальный размах при передаче в ЦАП (32767.0f - лимит)
 #define TUNE_AMPLITUDE MAX_TX_AMPLITUDE/4.0f //Мощность при использовании кнопки TUNE
-#define AGC_CLIP_WARN_THRESHOLD 10000 //Максимальный уровень усиления в AGC
+#define AGC_CLIP_THRESHOLD 14000 //Максимальный уровень усиления в AGC
+#define AGC_OPTIMAL_THRESHOLD 7000 //Рабочий уровень усиления в AGC
 #define TX_AGC_STEPSIZE 500.0f //Время срабатывания компрессора голосового сигнала на передачу (меньше-быстрее)
 #define TX_AGC_MAXGAIN 500.0f //Максимальное усиление микрофона при компрессировании
 #define TX_AGC_NOISEGATE 15.0f //Минимальный уровень сигнала для усиления (ниже - шум, отрезаем)

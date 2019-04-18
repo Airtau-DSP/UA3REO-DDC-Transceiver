@@ -135,8 +135,9 @@ void ENCODER_Rotated(int direction) //энкодер повернули, зде�
 			break;
 		case MENU_MAIN_AGCSPEED:
 			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
+			if (TRX.Agc_speed < 1) TRX.Agc_speed = 1;
 			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
-			SetupAgcWdsp();
+			InitAGC();
 			LCD_UpdateQuery.MainMenu = true;
 			break;
 		default:
