@@ -37,7 +37,7 @@ float32_t ampl_val_i = 0.0f;
 float32_t ampl_val_q = 0.0f;
 float32_t selected_rfpower_amplitude = 0.0f;
 float32_t ALC_need_gain = 1.0f;
-float32_t ALC_need_gain_new = 1.0f;
+float32_t ALC_need_gain_target = 1.0f;
 float32_t fm_sql_avg = 0.0f;
 static float32_t i_prev, q_prev;// used in FM detection and low/high pass processing
 static uint8_t fm_sql_count = 0;// used for squelch processing and debouncing tone detection, respectively
@@ -100,6 +100,7 @@ void processTxAudio(void)
 
 		//RF PowerControl (Audio Level Control) Compressor
 		Processor_TX_MAX_amplitude=0;
+		//ищем максимум в амплитуде
 		for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 		{
 			arm_abs_f32(&FPGA_Audio_Buffer_I_tmp[i], &ampl_val_i, 1);
@@ -108,17 +109,27 @@ void processTxAudio(void)
 			if (ampl_val_q > Processor_TX_MAX_amplitude) Processor_TX_MAX_amplitude=ampl_val_q;
 		}
 		if(Processor_TX_MAX_amplitude==0.0f) Processor_TX_MAX_amplitude=0.001f;
-		ALC_need_gain_new = selected_rfpower_amplitude / Processor_TX_MAX_amplitude;
-		if(ALC_need_gain_new>ALC_need_gain)
-			ALC_need_gain += (ALC_need_gain+ALC_need_gain_new)/TX_AGC_STEPSIZE;
-		else if(ALC_need_gain_new<ALC_need_gain)
-			ALC_need_gain = ALC_need_gain_new;
-			
+		//расчитываем целевое значение усиления
+		ALC_need_gain_target = selected_rfpower_amplitude / Processor_TX_MAX_amplitude;
+		//двигаем усиление на шаг
+		if(ALC_need_gain_target>ALC_need_gain)
+			ALC_need_gain += (ALC_need_gain_target-ALC_need_gain)/TX_AGC_STEPSIZE;
+		else
+			ALC_need_gain -= (ALC_need_gain-ALC_need_gain_target)/TX_AGC_STEPSIZE;
+
+		if(ALC_need_gain_target<ALC_need_gain)
+			ALC_need_gain = ALC_need_gain_target;
+		if(ALC_need_gain<0.0f) ALC_need_gain=0.0f;
+		//перегрузка (клиппинг), резко снижаем усиление
+		if((ALC_need_gain*Processor_TX_MAX_amplitude)>(selected_rfpower_amplitude*1.1f))
+			ALC_need_gain = ALC_need_gain_target;
 		if(ALC_need_gain>TX_AGC_MAXGAIN) ALC_need_gain=TX_AGC_MAXGAIN;
+		//шумовой порог
 		if(Processor_TX_MAX_amplitude<TX_AGC_NOISEGATE) ALC_need_gain=0.0f;
+		//оключаем усиление для некоторых видов мод
 		if ((ALC_need_gain>1.0f) && (TRX_getMode()==TRX_MODE_DIGI_L || TRX_getMode()==TRX_MODE_DIGI_U || TRX_getMode()==TRX_MODE_IQ || TRX_getMode()==TRX_MODE_LOOPBACK)) ALC_need_gain=1.0f;
 		if (TRX_tune) ALC_need_gain=1.0f;
-		
+		//применяем усиление
 		arm_scale_f32(FPGA_Audio_Buffer_I_tmp, ALC_need_gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 		arm_scale_f32(FPGA_Audio_Buffer_Q_tmp, ALC_need_gain, FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);
 		//

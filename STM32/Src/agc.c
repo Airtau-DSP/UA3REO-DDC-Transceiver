@@ -43,9 +43,7 @@ void DoAGC(float32_t *agcBuffer, int16_t blockSize)
 	if(AGC_need_gain<0.0f) AGC_need_gain=0.0f;
 	//перегрузка (клиппинг), резко снижаем усиление
 	if((AGC_need_gain*AGC_RX_MAX_amplitude)>AGC_CLIP_THRESHOLD)
-	{
 		AGC_need_gain = AGC_need_gain_target;
-	}
 	//применяем усиление
 	arm_scale_f32(agcBuffer, AGC_need_gain, agcBuffer, blockSize);
 }
