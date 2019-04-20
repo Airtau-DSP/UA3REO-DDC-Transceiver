@@ -7,7 +7,7 @@
 #include "arm_math.h"
 #include "wm8731.h"
 
-#define FFT_SIZE 256 //указываем размер расчитываемого FFT
+#define FFT_SIZE 512 //указываем размер расчитываемого FFT
 #define FFT_DOUBLE_SIZE_BUFFER (FFT_SIZE*2) //Размер буффера для расчёта FFT
 #define FFT_PRINT_SIZE 256 //указываем размер выводимого FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
@@ -29,7 +29,8 @@ extern uint32_t FFT_buff_index;
 extern bool FFTInputBufferInProgress;
 extern bool NeedFFTInputBuffer;
 extern bool FFT_need_fft;
-extern float32_t FFTInput[FFT_SIZE * 2];
+extern float32_t FFTInput_I[FFT_SIZE];
+extern float32_t FFTInput_Q[FFT_SIZE];
 uint16_t getFFTColor(uint8_t height);
 extern void fft_fill_color_scale(void);
 

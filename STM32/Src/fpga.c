@@ -334,12 +334,12 @@ void FPGA_fpgadata_getiq(void)
 
 	if(TRX_IQ_swap)
 	{
-		if(NeedFFTInputBuffer) FFTInput[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
 	}
 	else
 	{
-		if(NeedFFTInputBuffer) FFTInput[FFT_buff_index + 1] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
 		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
 	}
 
@@ -379,12 +379,12 @@ void FPGA_fpgadata_getiq(void)
 
 	if(TRX_IQ_swap)
 	{
-		if(NeedFFTInputBuffer) FFTInput[FFT_buff_index+1] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
 		FPGA_Audio_Buffer_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
 	}
 	else
 	{
-		if(NeedFFTInputBuffer) FFTInput[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
 		FPGA_Audio_Buffer_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
 	}
 	
@@ -393,8 +393,8 @@ void FPGA_fpgadata_getiq(void)
 	
 	if(NeedFFTInputBuffer)
 	{
-		FFT_buff_index += 2;
-		if (FFT_buff_index == FFT_DOUBLE_SIZE_BUFFER)
+		FFT_buff_index++;
+		if (FFT_buff_index == FFT_SIZE)
 		{
 			FFT_buff_index = 0;
 			NeedFFTInputBuffer = false;

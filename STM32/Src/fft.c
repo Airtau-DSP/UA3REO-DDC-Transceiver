@@ -8,11 +8,18 @@
 #include "wm8731.h"
 #include "settings.h"
 
+#if FFT_SIZE==512
+const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
+#endif
+#if FFT_SIZE==256
 const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len256;
+#endif
 
 bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
 uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
-float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = { 0 }; //входящий буфер FFT
+float32_t FFTInput_I[FFT_SIZE] = { 0 }; //входящий буфер FFT I
+float32_t FFTInput_Q[FFT_SIZE] = { 0 }; //входящий буфер FFT Q
+float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q
 float32_t FFTOutput[FFT_SIZE] = { 0 }; //результирующий буфер FFT
 float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
 uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер водопада
@@ -35,14 +42,22 @@ void FFT_doFFT(void)
 	float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
 	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 	float32_t hanning_multiplier = 0; //Множитель для вычисления окна Ханнинга к FFT
-	/*
-	for (uint16_t i = 0; i < FFT_SIZE; i++) //Hanning window
+	
+	//делаем совмещённый буфер для расчёта
+	for (uint16_t i = 0; i < FFT_SIZE; i++)
+	{
+		FFTInput[i * 2] = FFTInput_I[i];
+		FFTInput[i * 2 + 1] = FFTInput_Q[i];
+	}
+	
+	//Окно Hanning
+	for (uint16_t i = 0; i < FFT_SIZE; i++)
 	{
 		hanning_multiplier = 0.5f * (1.0f - arm_cos_f32(2.0f * PI*i / FFT_SIZE*2));
 		FFTInput[i * 2] = hanning_multiplier * FFTInput[i * 2];
 		FFTInput[i * 2 + 1] = hanning_multiplier * FFTInput[i * 2 + 1];
 	}
-	*/
+	
 	arm_cfft_f32(S, FFTInput, 0, 1);
 	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
 	

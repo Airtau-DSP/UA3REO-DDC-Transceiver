@@ -203,10 +203,10 @@ void processTxAudio(void)
 	{
 		if (NeedFFTInputBuffer)
 		{
-			FFTInput[FFT_buff_index] = FPGA_Audio_Buffer_I_tmp[i];
-			FFTInput[FFT_buff_index+1] = FPGA_Audio_Buffer_Q_tmp[i];
-			FFT_buff_index += 2;
-			if (FFT_buff_index == FFT_SIZE * 2)
+			FFTInput_I[FFT_buff_index] = FPGA_Audio_Buffer_I_tmp[i];
+			FFTInput_Q[FFT_buff_index] = FPGA_Audio_Buffer_Q_tmp[i];
+			FFT_buff_index++;
+			if (FFT_buff_index == FFT_SIZE)
 			{
 				FFT_buff_index = 0;
 				NeedFFTInputBuffer=false;
