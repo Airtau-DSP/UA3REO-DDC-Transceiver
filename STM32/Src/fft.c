@@ -217,7 +217,6 @@ void FFT_doFFT(void)
 		arm_fir_decimate_f32(&DECIMATE_ZOOM_FFT_I, FFTInput_I, FFTInput_I, FFT_SIZE);
     arm_fir_decimate_f32(&DECIMATE_ZOOM_FFT_Q, FFTInput_Q, FFTInput_Q, FFT_SIZE);
 		//Смещаем старые данные в  буфере, т.к. будем их использовать (иначе скорость FFT упадёт, ведь для получения большего разрешения необходимо накапливать больше данных)
-		uint16_t t=0;
 		for (uint16_t i = 0; i < FFT_SIZE; i++)
 		{
 			if(i<(FFT_SIZE-zoomed_width))
@@ -227,9 +226,8 @@ void FFT_doFFT(void)
 			}
 			else //Добавляем новые данные в буфер FFT для расчёта
 			{
-				FFTInput_ZOOMFFT[i*2] = FFTInput_I[t];
-				FFTInput_ZOOMFFT[i*2 + 1] = FFTInput_Q[t];
-				t++;
+				FFTInput_ZOOMFFT[i*2] = FFTInput_I[i-(FFT_SIZE-zoomed_width)];
+				FFTInput_ZOOMFFT[i*2 + 1] = FFTInput_Q[i-(FFT_SIZE-zoomed_width)];
 			}
 			FFTInput[i*2]=FFTInput_ZOOMFFT[i*2];
 			FFTInput[i*2 + 1]=FFTInput_ZOOMFFT[i*2 + 1];
@@ -309,7 +307,7 @@ void FFT_printFFT(void)
 	uint16_t tmp = 0;
 	
 	//смещаем водопад, если нужно
-	if((CurrentVFO()->Freq - currentFFTFreq) > 0)
+	if((CurrentVFO()->Freq - currentFFTFreq) != 0)
 	{
 		FFT_moveWaterfall(CurrentVFO()->Freq - currentFFTFreq);
 		currentFFTFreq = CurrentVFO()->Freq;
@@ -352,7 +350,6 @@ void FFT_printFFT(void)
 		if(fft_y<(FFT_MAX_HEIGHT-fft_header[fft_x]))
 			LCDDriver_SendData(COLOR_BLACK);
 		else
-			//LCDDriver_SendData(wtf_buffer[0][fft_x]);
 			LCDDriver_SendData(color_scale[fft_y]);
 	}
 	
@@ -393,7 +390,6 @@ void FFT_moveWaterfall(int16_t freq_diff)
 {
 	int16_t new_x = 0;
 	freq_diff = (freq_diff / FFT_HZ_IN_PIXEL) * TRX.FFT_Zoom;
-
 	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
 	{
 		if (freq_diff > 0) //freq up
