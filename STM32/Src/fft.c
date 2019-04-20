@@ -229,7 +229,6 @@ void FFT_doFFT(void)
 			{
 				FFTInput_ZOOMFFT[i*2] = FFTInput_I[t];
 				FFTInput_ZOOMFFT[i*2 + 1] = FFTInput_Q[t];
-				if(i==511) sendToDebug_float32(FFTInput_ZOOMFFT[1023],false);
 				t++;
 			}
 			FFTInput[i*2]=FFTInput_ZOOMFFT[i*2];
