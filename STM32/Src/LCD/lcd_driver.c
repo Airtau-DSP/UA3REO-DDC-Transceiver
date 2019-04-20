@@ -373,6 +373,9 @@ void LCDDriver_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t
 void LCDDriver_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
 {
 	int16_t x2 = x + w;
+	if(x2<0) x2=0;
+	if(x2>(LCD_WIDTH-1)) x2=LCD_WIDTH-1;
+	
 	if (x2 < x)
 		LCDDriver_Fill_RectXY(x2, y, x, y, color);
 	else
@@ -382,6 +385,9 @@ void LCDDriver_drawFastHLine(int16_t x, int16_t y, int16_t w, uint16_t color)
 void LCDDriver_drawFastVLine(int16_t x, int16_t y, int16_t h, uint16_t color)
 {
 	int16_t y2 = y + h - 1;
+	if(y2<0) y2=0;
+	if(y2>(LCD_HEIGHT-1)) y2=LCD_HEIGHT-1;
+	
 	if (y2 < y)
 		LCDDriver_Fill_RectXY(x, y2, x, y, color);
 	else

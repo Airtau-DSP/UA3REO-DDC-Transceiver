@@ -23,9 +23,9 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 160) //code to trace new clean flash
+	if (TRX.clean_flash != 161) //code to trace new clean flash
 	{
-		TRX.clean_flash = 160;
+		TRX.clean_flash = 161;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Filter_Width = 2700;
@@ -52,6 +52,7 @@ void LoadSettings(void)
 		TRX.FM_SQL_threshold = 1;
 		TRX.RF_Gain = 50;
 		for(uint8_t i=0;i<BANDS_COUNT;i++) TRX.saved_freq[i]=BANDS[i].startFreq+(BANDS[i].endFreq-BANDS[i].startFreq)/2;
+		TRX.FFT_Zoom=1;
 		//system settings
 		TRX.FFT_Enabled = true;
 		TRX.CW_GENERATOR_SHIFT_HZ=500;

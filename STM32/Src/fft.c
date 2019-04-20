@@ -16,10 +16,13 @@ const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len256;
 #endif
 
 bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
+bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
+
 uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
 float32_t FFTInput_I[FFT_SIZE] = { 0 }; //входящий буфер FFT I
 float32_t FFTInput_Q[FFT_SIZE] = { 0 }; //входящий буфер FFT Q
 float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q
+float32_t FFTInput_ZOOMFFT[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q для обработки ZoomFFT
 float32_t FFTOutput[FFT_SIZE] = { 0 }; //результирующий буфер FFT
 float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
 uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер водопада
@@ -29,11 +32,167 @@ float32_t maxValueFFT = 0; //максимальное значение ампл�
 uint32_t currentFFTFreq = 0;
 uint16_t color_scale[FFT_MAX_HEIGHT] = { 0 }; //цветовой градиент по высоте FFT
 
-bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
+//Дециматор для Zoom FFT
+static arm_fir_decimate_instance_f32	DECIMATE_ZOOM_FFT_I;
+static arm_fir_decimate_instance_f32	DECIMATE_ZOOM_FFT_Q;
+float32_t decimZoomFFTIState[FFT_SIZE + 16];
+float32_t decimZoomFFTQState[FFT_SIZE + 16];
+uint16_t zoomed_width = 0;
+
+//Коэффициенты для ZoomFFT lowpass filtering / дециматора
+static arm_biquad_casd_df1_inst_f32 IIR_biquad_Zoom_FFT_I =
+{
+	.numStages = 4,
+	.pCoeffs = (float32_t *)(float32_t [])
+	{
+		1,0,0,0,0,  1,0,0,0,0
+  },
+  .pState = (float32_t *)(float32_t [])
+	{
+		0,0,0,0,   0,0,0,0,    0,0,0,0,   0,0,0,0
+	}
+};
+static arm_biquad_casd_df1_inst_f32 IIR_biquad_Zoom_FFT_Q =
+{
+	.numStages = 4,
+	.pCoeffs = (float32_t *)(float32_t [])
+	{
+		1,0,0,0,0,  1,0,0,0,0
+  },
+  .pState = (float32_t *)(float32_t [])
+	{
+		0,0,0,0,   0,0,0,0,    0,0,0,0,   0,0,0,0
+	}
+};
+
+static float32_t* mag_coeffs[17] =
+{
+	NULL, // 0
+	NULL, // 1
+	(float32_t*)(const float32_t[]) {
+		// 2x magnify
+		// 12kHz, sample rate 48k, 60dB stopband, elliptic
+		// a1 and coeffs[A2] negated! order: coeffs[B0], coeffs[B1], coeffs[B2], a1, coeffs[A2]
+		// Iowa Hills IIR Filter Designer, DD4WH Aug 16th 2016
+		0.228454526413293696,0.077639329099949764,0.228454526413293696,0.635534925142242080,-0.170083307068779194,
+		0.436788292542003964,0.232307972937606161,0.436788292542003964,0.365885230717786780,-0.471769788739400842,
+		0.535974654742658707,0.557035600464780845,0.535974654742658707,0.125740787233286133,-0.754725697183384336,
+		0.501116342273565607,0.914877831284765408,0.501116342273565607,0.013862536615004284,-0.930973052446900984
+	},
+	NULL, // 3
+	(float32_t*)(const float32_t[])
+	{
+		// 4x magnify
+		// 6kHz, sample rate 48k, 60dB stopband, elliptic
+		// a1 and coeffs[A2] negated! order: coeffs[B0], coeffs[B1], coeffs[B2], a1, coeffs[A2]
+		// Iowa Hills IIR Filter Designer, DD4WH Aug 16th 2016
+		0.182208761527446556,-0.222492493114674145,0.182208761527446556,1.326111070880959810,-0.468036100821178802,
+		0.337123762652097259,-0.366352718812586853,0.337123762652097259,1.337053579516321200,-0.644948386007929031,
+		0.336163175380826074,-0.199246162162897811,0.336163175380826074,1.354952684569386670,-0.828032873168141115,
+		0.178588201750411041,0.207271695028067304,0.178588201750411041,1.386486967455699220,-0.950935065984588657
+	},
+	NULL, // 5
+	NULL, // 6
+	NULL, // 7
+	(float32_t*)(const float32_t[])
+	{
+		// 8x magnify
+		// 3kHz, sample rate 48k, 60dB stopband, elliptic
+		// a1 and coeffs[A2] negated! order: coeffs[B0], coeffs[B1], coeffs[B2], a1, coeffs[A2]
+		// Iowa Hills IIR Filter Designer, DD4WH Aug 16th 2016
+		0.185643392652478922,-0.332064345389014803,0.185643392652478922,1.654637402827731090,-0.693859842743674182,
+		0.327519300813245984,-0.571358085216950418,0.327519300813245984,1.715375037176782860,-0.799055553586324407,
+		0.283656142708241688,-0.441088976843048652,0.283656142708241688,1.778230635987093860,-0.904453944560528522,
+		0.079685368654848945,-0.011231810140649204,0.079685368654848945,1.825046003243238070,-0.973184930412286708
+	},
+	NULL, // 9
+	NULL, // 10
+	NULL, // 11
+	NULL, // 12
+	NULL, // 13
+	NULL, // 14
+	NULL, // 15
+	(float32_t*)(const float32_t[])
+	{
+		// 16x magnify
+		// 1k5, sample rate 48k, 60dB stopband, elliptic
+		// a1 and coeffs[A2] negated! order: coeffs[B0], coeffs[B1], coeffs[B2], a1, coeffs[A2]
+		// Iowa Hills IIR Filter Designer, DD4WH Aug 16th 2016
+		0.194769868656866380,-0.379098413160710079,0.194769868656866380,1.824436402073870810,-0.834877726226893380,
+		0.333973874901496770,-0.646106479315673776,0.333973874901496770,1.871892825636887640,-0.893734096124207178,
+		0.272903880596429671,-0.513507745397738469,0.272903880596429671,1.918161772571113750,-0.950461788366234739,
+		0.053535383722369843,-0.069683422367188122,0.053535383722369843,1.948900719896301760,-0.986288064973853129
+	},
+};
+
+const arm_fir_decimate_instance_f32 FirZoomFFTDecimate[17] =
+{
+	{}, // 0
+	{}, // 1
+	// 48ksps, 12kHz lowpass
+	{
+		.numTaps = 4,
+		.pCoeffs = (float*) (const float[])
+		{475.1179397144384210E-6,0.503905202786044337,0.503905202786044337,475.1179397144384210E-6},
+		.pState = NULL
+	},
+	{}, // 3
+	// 48ksps, 6kHz lowpass
+	{
+		.numTaps = 4,
+		.pCoeffs = (float*) (const float[])
+		{0.198273254218889416,0.298085149879260325,0.298085149879260325,0.198273254218889416},
+		.pState = NULL
+	},
+	{}, // 5
+	{}, // 6
+	{}, // 7
+	// 48ksps, 3kHz lowpass
+	{
+		.numTaps = 4,
+		.pCoeffs = (float*) (const float[])
+		{0.199820836596682871,0.272777397353925699,0.272777397353925699,0.199820836596682871},
+		.pState = NULL
+	},
+	{}, // 9
+	{}, // 10
+	{}, // 11
+	{}, // 12
+	{}, // 13
+	{}, // 14
+	{}, // 15
+	// 48ksps, 1.5kHz lowpass
+	{
+		.numTaps = 4,
+		.pCoeffs = (float*) (const float[])
+		{0.199820836596682871,0.272777397353925699,0.272777397353925699,0.199820836596682871},
+		.pState = NULL
+	},
+};
 
 void FFT_Init(void)
 {
 	fft_fill_color_scale();
+	//ZoomFFT
+	if(TRX.FFT_Zoom>1)
+	{
+		IIR_biquad_Zoom_FFT_I.pCoeffs = mag_coeffs[TRX.FFT_Zoom];
+		IIR_biquad_Zoom_FFT_Q.pCoeffs = mag_coeffs[TRX.FFT_Zoom];
+		arm_fir_decimate_init_f32(&DECIMATE_ZOOM_FFT_I,
+							FirZoomFFTDecimate[TRX.FFT_Zoom].numTaps,
+							TRX.FFT_Zoom,          // Decimation factor
+							FirZoomFFTDecimate[TRX.FFT_Zoom].pCoeffs,
+							decimZoomFFTIState,            // Filter state variables
+							FFT_SIZE);
+
+		arm_fir_decimate_init_f32(&DECIMATE_ZOOM_FFT_Q,
+							FirZoomFFTDecimate[TRX.FFT_Zoom].numTaps,
+							TRX.FFT_Zoom,          // Decimation factor
+							FirZoomFFTDecimate[TRX.FFT_Zoom].pCoeffs,
+							decimZoomFFTQState,            // Filter state variables
+							FFT_SIZE);
+		zoomed_width=FFT_SIZE/TRX.FFT_Zoom;
+	}
 }
 
 void FFT_doFFT(void)
@@ -48,11 +207,43 @@ void FFT_doFFT(void)
 	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 	float32_t hanning_multiplier = 0; //Множитель для вычисления окна Ханнинга к FFT
 	
-	//делаем совмещённый буфер для расчёта
-	for (uint16_t i = 0; i < FFT_SIZE; i++)
+	//ZoomFFT
+	if(TRX.FFT_Zoom>1)
 	{
-		FFTInput[i * 2] = FFTInput_I[i];
-		FFTInput[i * 2 + 1] = FFTInput_Q[i];
+		//Biquad LPF фильтр
+		arm_biquad_cascade_df1_f32 (&IIR_biquad_Zoom_FFT_I, FFTInput_I,FFTInput_I, FFT_SIZE);
+		arm_biquad_cascade_df1_f32 (&IIR_biquad_Zoom_FFT_Q, FFTInput_Q,FFTInput_Q, FFT_SIZE);
+		//Дециматор
+		arm_fir_decimate_f32(&DECIMATE_ZOOM_FFT_I, FFTInput_I, FFTInput_I, FFT_SIZE);
+    arm_fir_decimate_f32(&DECIMATE_ZOOM_FFT_Q, FFTInput_Q, FFTInput_Q, FFT_SIZE);
+		//Смещаем старые данные в  буфере, т.к. будем их использовать (иначе скорость FFT упадёт, ведь для получения большего разрешения необходимо накапливать больше данных)
+		uint16_t t=0;
+		for (uint16_t i = 0; i < FFT_SIZE; i++)
+		{
+			if(i<(FFT_SIZE-zoomed_width))
+			{
+				FFTInput_ZOOMFFT[i*2]=FFTInput_ZOOMFFT[(i+zoomed_width)*2];
+				FFTInput_ZOOMFFT[i*2 + 1]=FFTInput_ZOOMFFT[(i+zoomed_width)*2 + 1];
+			}
+			else //Добавляем новые данные в буфер FFT для расчёта
+			{
+				FFTInput_ZOOMFFT[i*2] = FFTInput_I[t];
+				FFTInput_ZOOMFFT[i*2 + 1] = FFTInput_Q[t];
+				if(i==511) sendToDebug_float32(FFTInput_ZOOMFFT[1023],false);
+				t++;
+			}
+			FFTInput[i*2]=FFTInput_ZOOMFFT[i*2];
+			FFTInput[i*2 + 1]=FFTInput_ZOOMFFT[i*2 + 1];
+		}
+	}
+	else
+	{
+		//делаем совмещённый буфер для расчёта
+		for (uint16_t i = 0; i < FFT_SIZE; i++)
+		{
+			FFTInput[i * 2] = FFTInput_I[i];
+			FFTInput[i * 2 + 1] = FFTInput_Q[i];
+		}
 	}
 	
 	//Окно Hanning
@@ -94,7 +285,7 @@ void FFT_doFFT(void)
 	maxValueErrors = 0;
 	if (maxValueFFT < FFT_MIN) maxValueFFT = FFT_MIN;
 	if(TRX_getMode()==TRX_MODE_LOOPBACK) maxValueFFT=60000;
-
+	
 	//Нормируем АЧХ к единице
 	arm_scale_f32(FFTOutput,1.0f/maxValueFFT,FFTOutput,FFT_PRINT_SIZE);
 	
@@ -169,22 +360,26 @@ void FFT_printFFT(void)
 	//разделитель и полоса приёма
 	LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, -FFT_MAX_HEIGHT, COLOR_GREEN);
 	LCDDriver_drawFastHLine(0, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, FFT_PRINT_SIZE, COLOR_BLACK);
+	uint16_t line_width=0;
+	line_width=CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL*TRX.FFT_Zoom;
 	switch(CurrentVFO()->Mode)
 	{
 		case TRX_MODE_LSB:
 		case TRX_MODE_CW_L:
 		case TRX_MODE_DIGI_L:
-			LCDDriver_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			if(line_width>(FFT_PRINT_SIZE / 2)) line_width=FFT_PRINT_SIZE / 2;
+			LCDDriver_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -line_width, COLOR_GREEN);
 			break;
 		case TRX_MODE_USB:
 		case TRX_MODE_CW_U:
 		case TRX_MODE_DIGI_U:
-			LCDDriver_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			if(line_width>(FFT_PRINT_SIZE / 2)) line_width=FFT_PRINT_SIZE / 2;
+			LCDDriver_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, line_width , COLOR_GREEN);
 			break;
 		case TRX_MODE_NFM:
 		case TRX_MODE_AM:
-			LCDDriver_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
-			LCDDriver_drawFastHLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, -CurrentVFO()->Filter_Width/FFT_HZ_IN_PIXEL, COLOR_GREEN);
+			if(line_width>FFT_PRINT_SIZE) line_width=FFT_PRINT_SIZE;
+			LCDDriver_drawFastHLine((FFT_PRINT_SIZE / 2)-(line_width/2), FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT-2, line_width, COLOR_GREEN);
 			break;
 		default:
 			break;
@@ -198,7 +393,7 @@ void FFT_printFFT(void)
 void FFT_moveWaterfall(int16_t freq_diff)
 {
 	int16_t new_x = 0;
-	freq_diff = freq_diff / FFT_HZ_IN_PIXEL;
+	freq_diff = (freq_diff / FFT_HZ_IN_PIXEL) * TRX.FFT_Zoom;
 
 	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
 	{

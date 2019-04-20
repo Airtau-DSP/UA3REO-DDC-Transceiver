@@ -68,6 +68,7 @@ extern struct TRX_SETTINGS {
 	uint8_t	FM_SQL_threshold;
 	uint8_t	RF_Gain;
 	uint32_t saved_freq[BANDS_COUNT];
+	uint8_t FFT_Zoom;
 	//system settings
 	uint16_t CW_GENERATOR_SHIFT_HZ;
 	uint8_t	ENCODER_SLOW_RATE;

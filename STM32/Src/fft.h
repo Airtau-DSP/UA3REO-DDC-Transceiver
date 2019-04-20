@@ -11,8 +11,8 @@
 #define FFT_DOUBLE_SIZE_BUFFER (FFT_SIZE*2) //Размер буффера для расчёта FFT
 #define FFT_PRINT_SIZE 256 //указываем размер выводимого FFT
 #define FFT_MAX_HEIGHT 30 //указываем максимальную высоту FFT
-#define FFT_BOTTOM_OFFSET 190 //start of FFT
 #define FFT_WTF_HEIGHT 50 //указываем максимальную высоту водопада
+#define FFT_BOTTOM_OFFSET 190 //начало водопада
 #define FFT_MIN 20.0f //MIN порог сигнала FFT
 #define FFT_STEP_COEFF 10.0f //коэффициент шага автокалибровки сигнала FFT (больше - медленней)
 #define FFT_STEP_FIX 10.0f //шаг снижения коэффициента FFT

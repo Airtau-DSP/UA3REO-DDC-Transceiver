@@ -283,6 +283,13 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	LCDDriver_printText("+20", 50 + step * 5, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCDDriver_printText("+40", 50 + step * 6, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCDDriver_printText("+60", 50 + step * 7, 150, COLOR_RED, COLOR_BLACK, 1);
+	
+	if(TRX.FFT_Zoom==1) LCDDriver_printText("48kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	if(TRX.FFT_Zoom==2) LCDDriver_printText("24kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	if(TRX.FFT_Zoom==4) LCDDriver_printText("12kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	if(TRX.FFT_Zoom==8) LCDDriver_printText(" 6kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	if(TRX.FFT_Zoom==16) LCDDriver_printText(" 3kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	
 	LCD_UpdateQuery.StatusInfoGUI = false;
 	LCD_busy = false;
 }
@@ -1092,6 +1099,18 @@ void LCD_checkTouchPad(void)
 		if (x >= 5 && x <= 80 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_MHZ;
 		if (x >= 95 && x <= 170 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		if (x >= 195 && x <= 270 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_HZ;
+		
+		if (x >= 0 && x <= 256 && y >= (FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT) && y <= 240)
+		{
+			if(TRX.FFT_Zoom==1) TRX.FFT_Zoom=2;
+			else if(TRX.FFT_Zoom==2) TRX.FFT_Zoom=4;
+			else if(TRX.FFT_Zoom==4) TRX.FFT_Zoom=8;
+			else if(TRX.FFT_Zoom==8) TRX.FFT_Zoom=16;
+			else TRX.FFT_Zoom=1;
+			FFT_Init();
+			LCD_UpdateQuery.StatusInfoGUI=true;
+		}
+		
 		LCD_last_showed_freq = 0;
 		LCD_last_showed_freq_mhz = 9999;
 		LCD_last_showed_freq_khz = 9999;
