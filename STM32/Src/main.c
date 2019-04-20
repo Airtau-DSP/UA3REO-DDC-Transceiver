@@ -170,6 +170,7 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4); //LCD backlight
 	LoadSettings();
 	LCD_Init();
+	FFT_Init();
 	WM8731_Init();
 	TRX_Init();
 	ENCODER_Init();

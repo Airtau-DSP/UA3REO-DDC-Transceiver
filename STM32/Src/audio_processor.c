@@ -27,7 +27,6 @@ bool Processor_NeedTXBuffer = false;
 float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
-uint16_t block = 0;
 
 float32_t Processor_AVG_amplitude = 0.0f; //средняя амплитуда семплов при прёме
 float32_t Processor_TX_MAX_amplitude = 0.0f; //средняя амплитуда семплов при передаче
@@ -39,8 +38,7 @@ float32_t selected_rfpower_amplitude = 0.0f;
 float32_t ALC_need_gain = 1.0f;
 float32_t ALC_need_gain_target = 1.0f;
 float32_t fm_sql_avg = 0.0f;
-static float32_t i_prev, q_prev;// used in FM detection and low/high pass processing
-static uint8_t fm_sql_count = 0;// used for squelch processing and debouncing tone detection, respectively
+uint16_t block = 0;
 
 static void doRX_HILBERT(void);
 static void doRX_LPF(void);
@@ -91,7 +89,8 @@ void processTxAudio(void)
 	if (TRX_getMode() != TRX_MODE_IQ && !TRX_tune)
 	{
 		//IIR HPF
-		for (block = 0; block < numBlocks; block++) arm_iir_lattice_f32(&IIR_HPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE);
+		for (block = 0; block < numBlocks; block++) 
+			arm_iir_lattice_f32(&IIR_HPF, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE);
 		//IIR LPF
 		if(CurrentVFO()->Filter_Width>0)
 			for (block = 0; block < numBlocks; block++)
@@ -473,6 +472,8 @@ static void DemodulateFM(void)
 	float32_t angle, x, y, a, b;
 	static float lpf_prev, hpf_prev_a, hpf_prev_b;// used in FM detection and low/high pass processing
 	float32_t squelch_buf[FPGA_AUDIO_BUFFER_HALF_SIZE];
+	static float32_t i_prev, q_prev;// used in FM detection and low/high pass processing
+	static uint8_t fm_sql_count = 0;// used for squelch processing and debouncing tone detection, respectively
 
 	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 	{

@@ -6,10 +6,10 @@
 uint8_t systemMenuIndex=1;
 const uint8_t systemMenuIndexCount=9;
 
-char y=5;
-char x1=5;
-char x2=240;
-char i=1;
+const uint8_t x1=5;
+const uint8_t x2=240;
+uint8_t y=5;
+uint8_t i=1;
 
 void drawSystemMenu(bool draw_background)
 {

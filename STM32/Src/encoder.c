@@ -8,8 +8,8 @@
 #include "system_menu.h"
 #include "functions.h"
 
-int ENCODER_ALast = 0;
-int ENCODER_AVal = 0;
+uint8_t ENCODER_ALast = 0;
+uint8_t ENCODER_AVal = 0;
 int32_t ENCODER_slowler = 0;
 
 void ENCODER_Init()

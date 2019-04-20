@@ -31,6 +31,11 @@ uint16_t color_scale[FFT_MAX_HEIGHT] = { 0 }; //цветовой градиен�
 
 bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
 
+void FFT_Init(void)
+{
+	fft_fill_color_scale();
+}
+
 void FFT_doFFT(void)
 {
 	if (!TRX.FFT_Enabled) return;

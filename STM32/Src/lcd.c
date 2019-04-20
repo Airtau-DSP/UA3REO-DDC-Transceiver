@@ -61,7 +61,6 @@ void LCD_Init(void)
 	LCDDriver_setRotation(4);
 	LCDDriver_Fill(COLOR_WHITE);
 	Init_XPT2046();
-	fft_fill_color_scale();
 	LCD_redraw();
 }
 

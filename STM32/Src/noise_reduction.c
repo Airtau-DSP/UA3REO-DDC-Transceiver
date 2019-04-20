@@ -18,8 +18,7 @@ float32_t   							lms2_errsig2[NOISE_REDUCTION_BLOCK_SIZE];
 
 void InitNoiseReduction(void)
 {
-	const float32_t step = 0.000001f;
-	arm_lms_norm_init_f32(&lms2_Norm_instance, NOISE_REDUCTION_TAPS, lms2_normCoeff_f32, lms2_stateF32, step, NOISE_REDUCTION_BLOCK_SIZE);
+	arm_lms_norm_init_f32(&lms2_Norm_instance, NOISE_REDUCTION_TAPS, lms2_normCoeff_f32, lms2_stateF32, NOISE_REDUCTION_STEP, NOISE_REDUCTION_BLOCK_SIZE);
 	arm_fill_f32(0.0f,lms2_reference,NOISE_REDUCTION_REFERENCE_SIZE);
 	arm_fill_f32(0.0f,lms2_normCoeff_f32,NOISE_REDUCTION_TAPS);
 }

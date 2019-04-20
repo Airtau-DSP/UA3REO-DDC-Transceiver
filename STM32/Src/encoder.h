@@ -7,8 +7,6 @@ void ENCODER_Init(void);
 void ENCODER_checkRotate(void);
 void ENCODER_Rotated(int direction);
 
-extern int ENCODER_ALast;
-extern int ENCODER_AVal;
 extern RTC_HandleTypeDef hrtc;
 
 #endif

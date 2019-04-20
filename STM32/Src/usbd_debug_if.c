@@ -6,11 +6,11 @@
 
 #define DEBUG_APP_RX_DATA_SIZE  2048
 #define DEBUG_APP_TX_DATA_SIZE  2048
+#define DEBUG_TX_FIFO_BUFFER_SIZE 512
 
 uint8_t DEBUG_UserRxBufferFS[DEBUG_APP_RX_DATA_SIZE];
 uint8_t DEBUG_UserTxBufferFS[DEBUG_APP_TX_DATA_SIZE];
 
-#define DEBUG_TX_FIFO_BUFFER_SIZE 512
 uint8_t debug_tx_fifo[DEBUG_TX_FIFO_BUFFER_SIZE] = { 0 };
 uint16_t debug_tx_fifo_head = 0;
 uint16_t debug_tx_fifo_tail = 0;

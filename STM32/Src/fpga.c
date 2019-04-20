@@ -8,7 +8,6 @@
 #include "settings.h"
 #include "wm8731.h"
 
-int16_t FPGA_fpgadata_out_tmp16 = 0;
 uint8_t FPGA_fpgadata_in_tmp8 = 0;
 uint8_t FPGA_fpgadata_out_tmp8 = 0;
 
@@ -406,6 +405,8 @@ void FPGA_fpgadata_getiq(void)
 
 void FPGA_fpgadata_sendiq(void)
 {
+	int16_t FPGA_fpgadata_out_tmp16 = 0;
+	
 	FPGA_samples++;
 	//STAGE 2 out Q
 	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_SendBuffer_Q[FPGA_Audio_Buffer_Index];

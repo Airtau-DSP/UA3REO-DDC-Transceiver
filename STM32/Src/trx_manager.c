@@ -11,8 +11,6 @@
 #include "audio_filters.h"
 #include "usbd_audio_if.h"
 
-uint32_t TRX_freq_phrase = 0; //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
-
 bool TRX_ptt_hard = false;
 bool TRX_old_ptt_hard = false;
 bool TRX_ptt_cat = false;
@@ -55,7 +53,6 @@ bool TRX_on_TX(void)
 
 void TRX_Init()
 {
-	TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304; 7.100.000 // 618222-7.075.000 / 09 6e ee  / 9 110 238
 	TRX_Start_RX();
 	TRX_setMode(CurrentVFO()->Mode);
 }
