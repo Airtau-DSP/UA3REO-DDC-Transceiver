@@ -20,6 +20,7 @@
 #define TRX_MODE_LOOPBACK 11
 
 void TRX_Init(void);
+void TRX_RF_UNIT_UpdateState(bool clean);
 void TRX_setFrequency(int32_t _freq);
 int32_t TRX_getFrequency(void);
 void TRX_setMode(uint8_t _mode);

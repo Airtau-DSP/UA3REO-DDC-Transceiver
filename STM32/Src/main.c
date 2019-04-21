@@ -137,7 +137,8 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
-	HAL_Delay(1000);
+	MX_GPIO_Init();
+	TRX_RF_UNIT_UpdateState(true);
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -183,6 +184,7 @@ int main(void)
 	HAL_TIM_Base_Start(&htim4);
 	HAL_TIM_Base_Start_IT(&htim4);
 	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
+	TRX_RF_UNIT_UpdateState(false);
 	sendToDebug_str("UA3REO Started\r\n");
 	
 	TRX_inited = true;

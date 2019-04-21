@@ -44,9 +44,12 @@ extern struct TRX_SETTINGS {
 	bool current_vfo; // false - A; true - B
 	VFO VFO_A;
 	VFO VFO_B;
-	bool Agc;
+	bool AGC;
 	bool Preamp;
-	bool Att;
+	bool ATT;
+	bool LPF;
+	bool BPF;
+	bool TX_Amplifier;
 	uint8_t Notch;
 	bool DNR;
 	uint8_t Agc_speed;

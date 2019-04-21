@@ -175,8 +175,8 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(260, 40, 59, 35, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
 		//правый столбец
 		printButton(265, 80, 54, 23, "PRE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Preamp, LCD_Handler_PREAMP);
-		printButton(265, 108, 54, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Att, LCD_Handler_ATT);
-		printButton(265, 136, 54, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Agc, LCD_Handler_AGC);
+		printButton(265, 108, 54, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.ATT, LCD_Handler_ATT);
+		printButton(265, 136, 54, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.AGC, LCD_Handler_AGC);
 		printButton(265, 164, 54, 23, "NOT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Notch, LCD_Handler_NOTCH);
 		printButton(265, 192, 54, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.DNR, LCD_Handler_DNR);
 	}
@@ -399,10 +399,13 @@ void LCD_displayMainMenu() {
 	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
 	printMenuButton(84, 60, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
 	printMenuButton(163, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
-
 	if(TRX.InputType==0) printMenuButton(242, 60, 74, 50, "INPUT", "Mic", true, true, LCD_Handler_MENU_LINEMIC);
 	if(TRX.InputType==1) printMenuButton(242, 60, 74, 50, "INPUT", "Line", true, true, LCD_Handler_MENU_LINEMIC);
 	if(TRX.InputType==2) printMenuButton(242, 60, 74, 50, "INPUT", "USB", true, true, LCD_Handler_MENU_LINEMIC);
+	
+	printMenuButton(5, 115, 74, 50, "LPF", "Filter", TRX.LPF, true, LCD_Handler_MENU_LPF);
+	printMenuButton(84, 115, 74, 50, "BPF", "Filter", TRX.BPF, true, LCD_Handler_MENU_BPF);
+	printMenuButton(163, 115, 74, 50, "TX", "Amplifier", TRX.TX_Amplifier, true, LCD_Handler_MENU_TXAMPLIFIER);
 	
 	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
 	LCD_UpdateQuery.MainMenu = false;
@@ -720,7 +723,7 @@ void LCD_Handler_AB(void)
 }
 void LCD_Handler_ATT(void)
 {
-	TRX.Att = !TRX.Att;
+	TRX.ATT = !TRX.ATT;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
@@ -738,7 +741,7 @@ void LCD_Handler_DNR(void)
 
 void LCD_Handler_AGC(void)
 {
-	TRX.Agc = !TRX.Agc;
+	TRX.AGC = !TRX.AGC;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
@@ -1020,6 +1023,24 @@ void LCD_Handler_MENU_AGC_S(void)
 	LCD_UpdateQuery.MainMenu = true;
 }
 
+void LCD_Handler_MENU_LPF(void)
+{
+	TRX.LPF=!TRX.LPF;
+	LCD_UpdateQuery.MainMenu = true;
+}
+
+void LCD_Handler_MENU_BPF(void)
+{
+	TRX.BPF=!TRX.BPF;
+	LCD_UpdateQuery.MainMenu = true;
+}
+
+void LCD_Handler_MENU_TXAMPLIFIER(void)
+{
+	TRX.TX_Amplifier=!TRX.TX_Amplifier;
+	LCD_UpdateQuery.MainMenu = true;
+}
+
 void LCD_Handler_SETTIME(void)
 {
 	if (!LCD_timeMenuOpened) LCDDriver_Fill(COLOR_BLACK);
@@ -1091,6 +1112,7 @@ void LCD_checkTouchPad(void)
 		if (button_handlers[i].x1 <= x && button_handlers[i].x2 >= x && button_handlers[i].y1 <= y && button_handlers[i].y2 >= y && button_handlers[i].handler != 0)
 		{
 			button_handlers[i].handler();
+			TRX_RF_UNIT_UpdateState(false);
 			return;
 		}
 

@@ -23,9 +23,9 @@ bool NeedSaveSettings = false;
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 161) //code to trace new clean flash
+	if (TRX.clean_flash != 163) //code to trace new clean flash
 	{
-		TRX.clean_flash = 161;
+		TRX.clean_flash = 163;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Filter_Width = 2700;
@@ -34,8 +34,11 @@ void LoadSettings(void)
 		TRX.VFO_B.Filter_Width = 2700;
 		TRX.current_vfo = false; // A
 		TRX.Preamp = false;
-		TRX.Agc = true;
-		TRX.Att = false;
+		TRX.AGC = true;
+		TRX.ATT = false;
+		TRX.LPF = true;
+		TRX.BPF = true;
+		TRX.TX_Amplifier = true;
 		TRX.Notch = 0;
 		TRX.DNR = false;
 		TRX.Agc_speed = 2;
