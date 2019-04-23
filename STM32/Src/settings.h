@@ -27,6 +27,25 @@
 //#define ILI9325 true //другие комментируем
 #define FSMC_REGISTER_SELECT 18 //из FSMC настроек в STM32Cube (A18, A6, и т.д.)
 
+//Данные по пропускной частоте с BPF фильтров (снимаются с помощью ГКЧ или выставляются по чувствительности)
+//Далее выставляются средние пограничные частоты срабатывания
+#define BPF_0_START 0
+#define BPF_0_END 0
+#define BPF_1_START 1600000
+#define BPF_1_END 2650000
+#define BPF_2_START 2650000
+#define BPF_2_END 4850000
+#define BPF_3_START 4850000
+#define BPF_3_END 7500000
+#define BPF_4_START 7500000
+#define BPF_4_END 12800000
+#define BPF_5_START 12800000
+#define BPF_5_END 17000000
+#define BPF_6_START 17000000
+#define BPF_6_END 34000000
+#define BPF_7_START 34000000
+#define BPF_7_END MAX_FREQ_HZ
+
 #define W25Q16_COMMAND_Write_Enable 0x06
 #define W25Q16_COMMAND_Erase_Chip 0xC7
 #define W25Q16_COMMAND_Sector_Erase 0x20

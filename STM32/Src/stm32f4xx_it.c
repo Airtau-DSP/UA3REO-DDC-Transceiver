@@ -67,6 +67,7 @@
 #include "usbd_cat_if.h"
 #include "usbd_audio_if.h"
 #include "usbd_ua3reo.h"
+#include "trx_manager.h"
 
 uint32_t ms50_counter = 0;
 uint32_t tim5_counter = 0;
@@ -505,6 +506,7 @@ void TIM6_DAC_IRQHandler(void)
 	
 	LCD_doEvents();
 	FFT_printFFT();
+	TRX_RF_UNIT_UpdateState(false);
   /* USER CODE END TIM6_DAC_IRQn 1 */
 }
 
