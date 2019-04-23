@@ -224,7 +224,7 @@ void TRX_RF_UNIT_UpdateState(bool clean) //передаём значения в 
 		{
 			if(registerNumber==0 && TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK && TRX.TX_Amplifier) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //TX_AMP
 			if(registerNumber==1 && TRX.ATT) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //ATT_ON
-			if(registerNumber==2 && !TRX.LPF) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //LPF_OFF
+			if(registerNumber==2 && (!TRX.LPF || TRX_getFrequency()>LPF_END)) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //LPF_OFF
 			if(registerNumber==3 && (!TRX.BPF || TRX_getFrequency()<BPF_1_START)) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_OFF
 			if(registerNumber==4 && TRX.BPF && TRX_getFrequency()>=BPF_0_START && TRX_getFrequency()<BPF_0_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_0
 			if(registerNumber==5 && TRX.BPF && TRX_getFrequency()>=BPF_1_START && TRX_getFrequency()<BPF_1_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_1

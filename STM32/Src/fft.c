@@ -9,10 +9,10 @@
 #include "settings.h"
 
 #if FFT_SIZE==512
-const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len512;
+const static arm_cfft_instance_f32 *FFT_Inst = &arm_cfft_sR_f32_len512;
 #endif
 #if FFT_SIZE==256
-const static arm_cfft_instance_f32 *S = &arm_cfft_sR_f32_len256;
+const static arm_cfft_instance_f32 *FFT_Inst = &arm_cfft_sR_f32_len256;
 #endif
 
 bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
@@ -251,7 +251,7 @@ void FFT_doFFT(void)
 		FFTInput[i * 2 + 1] = hanning_multiplier * FFTInput[i * 2 + 1];
 	}
 	
-	arm_cfft_f32(S, FFTInput, 0, 1);
+	arm_cfft_f32(FFT_Inst, FFTInput, 0, 1);
 	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
 	
 	//Уменьшаем расчитанный FFT до видимого
@@ -316,7 +316,7 @@ void FFT_printFFT(void)
 	//смещаем водопад вниз c помощью DMA
 	for (tmp = FFT_WTF_HEIGHT - 1; tmp > 0; tmp--)
 	{
-		HAL_DMA_Start(&hdma_memtomem_dma2_stream7, (uint32_t)&wtf_buffer[tmp - 1], (uint32_t)&wtf_buffer[tmp], sizeof(wtf_buffer[tmp - 1])/4);
+		HAL_DMA_Start(&hdma_memtomem_dma2_stream7, (uint32_t)&wtf_buffer[tmp - 1], (uint32_t)&wtf_buffer[tmp], FFT_PRINT_SIZE/2);
 		HAL_DMA_PollForTransfer(&hdma_memtomem_dma2_stream7, HAL_DMA_FULL_TRANSFER, HAL_MAX_DELAY);
 	}
 
@@ -411,7 +411,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 			for (int16_t x = FFT_PRINT_SIZE-1; x >= 0; x--)
 			{
 				new_x = x + freq_diff;
-				if (new_x<0 || new_x>=FFT_PRINT_SIZE)
+				if (new_x<0)
 				{
 					wtf_buffer[y][x] = 0;
 					continue;
@@ -454,9 +454,9 @@ uint16_t getFFTColor(uint8_t height) //получение теплоты цве�
 	return rgb888torgb565(red, green, blue);
 }
 
-void fft_fill_color_scale(void) //заполняем градиент цветов FFT при инифиализации
+void fft_fill_color_scale(void) //заполняем градиент цветов FFT при инициализации
 {
-	for (uint8_t i=0;i<=FFT_MAX_HEIGHT;i++) 
+	for (uint8_t i=0;i<FFT_MAX_HEIGHT;i++) 
   {
 		color_scale[i]=getFFTColor(FFT_MAX_HEIGHT-i);
 	}

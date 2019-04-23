@@ -511,7 +511,7 @@ static void DemodulateFM(void)
 
 	// *** Squelch Processing ***
 	//arm_iir_lattice_f32(&IIR_Squelch_HPF, squelch_buf, squelch_buf, FPGA_AUDIO_BUFFER_HALF_SIZE);	// Do IIR high-pass filter on audio so we may detect squelch noise energy
-	fm_sql_avg = ((1 - FM_RX_SQL_SMOOTHING) * fm_sql_avg) + (FM_RX_SQL_SMOOTHING * sqrtf(fabsf(squelch_buf[0])));// IIR filter squelch energy magnitude:  We need look at only one representative sample
+	fm_sql_avg = ((1.0f - FM_RX_SQL_SMOOTHING) * fm_sql_avg) + (FM_RX_SQL_SMOOTHING * sqrtf(fabsf(squelch_buf[0])));// IIR filter squelch energy magnitude:  We need look at only one representative sample
 
 	// Squelch processing
 	// Determine if the (averaged) energy in "ads.fm_sql_avg" is above or below the squelch threshold
@@ -519,7 +519,7 @@ static void DemodulateFM(void)
 	{
 		if (fm_sql_avg > 0.7f)	// limit maximum noise value in averaging to keep it from going out into the weeds under no-signal conditions (higher = noisier)
 			fm_sql_avg = 0.7f;
-		b = fm_sql_avg * 10;// scale noise amplitude to range of squelch setting
+		b = fm_sql_avg * 10.0f;// scale noise amplitude to range of squelch setting
 		// Now evaluate noise power with respect to squelch setting
 		if (!TRX.FM_SQL_threshold)	 	// is squelch set to zero?
 			TRX_squelched = false;		// yes, the we are un-squelched
@@ -530,20 +530,21 @@ static void DemodulateFM(void)
 		}
 		else	 	// is the squelch open (e.g. passing audio)?
 		{
-			if ((10-TRX.FM_SQL_threshold) > FM_SQUELCH_HYSTERESIS)// is setting higher than hysteresis?
+			if ((10.0f-TRX.FM_SQL_threshold) > FM_SQUELCH_HYSTERESIS)// is setting higher than hysteresis?
 			{
 				if (b > (float)((10-TRX.FM_SQL_threshold) + FM_SQUELCH_HYSTERESIS))// yes - is average below threshold minus hysteresis?
 					TRX_squelched = true;	// yes, close the squelch
 			}
 			else	 // setting is lower than hysteresis so we can't use it!
 			{
-				if (b > (10-(float)TRX.FM_SQL_threshold))// yes - is average below threshold?
+				if (b > (10.0f-(float)TRX.FM_SQL_threshold))// yes - is average below threshold?
 					TRX_squelched = true;	// yes, close the squelch
 			}
 		}
 		//
 		fm_sql_count++;// bump count that controls how often the squelch threshold is checked
-		fm_sql_count &= FM_SQUELCH_PROC_DECIMATION;	// enforce the count limit
+		if(fm_sql_count>=FM_SQUELCH_PROC_DECIMATION)
+			fm_sql_count = 0;	// enforce the count limit
 	}
 }
 

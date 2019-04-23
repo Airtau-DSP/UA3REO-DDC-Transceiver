@@ -91,7 +91,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 		printButton(68, 70, 58, 60, "18", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 18), LCD_Handler_BAND_17);
 		printButton(131, 70, 58, 60, "21", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 21), LCD_Handler_BAND_15);
 		printButton(194, 70, 58, 60, "24", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 24), LCD_Handler_BAND_12);
-		printButton(257, 70, 58, 60, "28", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz == 28 && freq_mhz <= 29), LCD_Handler_BAND_10);
+		printButton(257, 70, 58, 60, "28", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 28 && freq_mhz <= 29), LCD_Handler_BAND_10);
 		printButton(5, 135, 58, 60, "FM1", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 65 && freq_mhz < 74), LCD_Handler_BAND_FM1);
 		printButton(68, 135, 58, 60, "FM2", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 87 && freq_mhz < 108), LCD_Handler_BAND_FM2);
 		printButton(131, 135, 58, 60, "VHF", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (freq_mhz >= 144 && freq_mhz < 146), LCD_Handler_BAND_VHF);
@@ -308,13 +308,13 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	char ctmp[50];
 	const int width = METER_WIDTH-2;
 	
-	float32_t TRX_s_meter = (127+TRX_RX_dBm)/6; //127dbm - S0, 6dBm - 1S div
-	if(TRX_s_meter<=9)
-		TRX_s_meter=TRX_s_meter*((width/8)*5/9); //первые 9 баллов по 6 дб
+	float32_t TRX_s_meter = (127.0f+TRX_RX_dBm)/6; //127dbm - S0, 6dBm - 1S div
+	if(TRX_s_meter<=9.0f)
+		TRX_s_meter=TRX_s_meter*((width/8.0f)*5.0f/9.0f); //первые 9 баллов по 6 дб
 	else
-		TRX_s_meter=((width/8)*5)+(TRX_s_meter-9)*((width/8)*3/10); //остальные 3 балла по 10 дб
+		TRX_s_meter=((width/8.0f)*5.0f)+(TRX_s_meter-9.0f)*((width/8.0f)*3.0f/10.0f); //остальные 3 балла по 10 дб
 	if (TRX_s_meter > width) TRX_s_meter = width;
-	if (TRX_s_meter < 0) TRX_s_meter = 0;
+	if (TRX_s_meter < 0.0f) TRX_s_meter = 0.0f;
 
 	int s_width = TRX_s_meter;
 	if (LCD_last_s_meter > s_width) s_width = LCD_last_s_meter - ((LCD_last_s_meter - s_width) / 4); //сглаживаем движение с-метра
@@ -1122,7 +1122,7 @@ void LCD_checkTouchPad(void)
 		if (x >= 95 && x <= 170 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		if (x >= 195 && x <= 270 && y >= 80 && y <= 121) TRX.LCD_menu_freq_index = MENU_FREQ_HZ;
 		
-		if (x >= 0 && x <= 256 && y >= (FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT) && y <= 240)
+		if (x <= 256 && y >= (FFT_BOTTOM_OFFSET-FFT_MAX_HEIGHT) && y <= 240)
 		{
 			if(TRX.FFT_Zoom==1) TRX.FFT_Zoom=2;
 			else if(TRX.FFT_Zoom==2) TRX.FFT_Zoom=4;

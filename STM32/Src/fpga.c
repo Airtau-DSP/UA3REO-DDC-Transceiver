@@ -299,7 +299,6 @@ void FPGA_fpgadata_getiq(void)
 	float32_t FPGA_fpgadata_iq_corrected = 0;
 	
 	FPGA_samples++;
-	FPGA_fpgadata_in_tmp16 = 0;
 	//STAGE 2
 	//clock
 	FPGA_clockRise();

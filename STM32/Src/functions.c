@@ -184,18 +184,6 @@ uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем част
 	return res;
 }
 
-uint32_t hexStringToInt(char* in) //преобразование строки шестнадцатеричного числа в число
-{
-	char* res;
-	strcpy(res, "0");
-	if (strlen(in) % 2)
-	{
-		strcat(res, in);
-		in = res;
-	}
-	return strtol(in, NULL, 16);
-}
-
 void addSymbols(char* dest, char* str, uint8_t length, char* symbol, bool toEnd) //добавляем нули
 {
 	char res[50] = "";

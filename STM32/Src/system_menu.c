@@ -6,10 +6,10 @@
 uint8_t systemMenuIndex=1;
 const uint8_t systemMenuIndexCount=9;
 
-const uint8_t x1=5;
-const uint8_t x2=240;
-uint8_t y=5;
-uint8_t i=1;
+const uint8_t sysmenu_x1=5;
+const uint8_t sysmenu_x2=240;
+uint8_t sysmenu_y=5;
+uint8_t sysmenu_i=1;
 
 void drawSystemMenu(bool draw_background)
 {
@@ -22,8 +22,8 @@ void drawSystemMenu(bool draw_background)
 	if (LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
 	LCD_busy=true;
 	
-	i=1;
-	y=5;
+	sysmenu_i=1;
+	sysmenu_y=5;
 	
 	if(draw_background) LCDDriver_Fill(COLOR_BLACK);
 	drawSystemMenuElement("FFT Enabled", SYSMENU_BOOLEAN, TRX.FFT_Enabled);
@@ -120,14 +120,14 @@ void eventClickSystemMenu(uint16_t x, uint16_t y)
 void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value)
 {
 	char ctmp[50];
-	LCDDriver_Fill_RectXY(1,y,320,y+17,COLOR_BLACK);
-	LCDDriver_printText(title, x1, y, COLOR_WHITE, COLOR_BLACK, 2);
+	LCDDriver_Fill_RectXY(1,sysmenu_y,320,sysmenu_y+17,COLOR_BLACK);
+	LCDDriver_printText(title, sysmenu_x1, sysmenu_y, COLOR_WHITE, COLOR_BLACK, 2);
 	if(type==SYSMENU_INTEGER) sprintf(ctmp, "%d", value);
 	if(type==SYSMENU_BOOLEAN && value==1) sprintf(ctmp, "YES");
 	if(type==SYSMENU_BOOLEAN && value==0) sprintf(ctmp, "NO");
 	if(type==SYSMENU_RUN) sprintf(ctmp, "RUN");
-	LCDDriver_printText(ctmp, x2, y, COLOR_WHITE, COLOR_BLACK, 2);
-	if(systemMenuIndex==i) LCDDriver_drawFastHLine(5,y+17,310,COLOR_WHITE);
-	i++;
-	y+=18;
+	LCDDriver_printText(ctmp, sysmenu_x2, sysmenu_y, COLOR_WHITE, COLOR_BLACK, 2);
+	if(systemMenuIndex==sysmenu_i) LCDDriver_drawFastHLine(5,sysmenu_y+17,310,COLOR_WHITE);
+	sysmenu_i++;
+	sysmenu_y+=18;
 }

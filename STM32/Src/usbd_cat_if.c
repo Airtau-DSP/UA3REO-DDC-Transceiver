@@ -219,7 +219,7 @@ void ua3reo_dev_cat_parseCommand()
 	strncpy(command, _command, 2);
 	bool has_args = false;
 	char arguments[32] = { 0 };
-	char ctmp[32];
+	char ctmp[30] = { 0 };
 	if (strlen(_command) > 2)
 	{
 		strncpy(arguments, _command + 2, strlen(_command) - 2);

@@ -929,12 +929,13 @@ static uint8_t  USBD_UA3REO_Setup(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef
 	{
 		ret = USBD_DEBUG_Setup(pdev, req);
 	}
-	if (((req->bmRequest & USB_REQ_RECIPIENT_MASK) == USB_REQ_RECIPIENT_INTERFACE && req->wIndex == AUDIO_INTERFACE_IDX) ||
+	else if (((req->bmRequest & USB_REQ_RECIPIENT_MASK) == USB_REQ_RECIPIENT_INTERFACE && req->wIndex == AUDIO_INTERFACE_IDX) ||
 		((req->bmRequest & USB_REQ_RECIPIENT_MASK) == USB_REQ_RECIPIENT_ENDPOINT && ((req->wIndex & 0x7F) == AUDIO_EP_IDX)))
 	{
 		ret = USBD_AUDIO_Setup(pdev, req);
 	}
-	ret = USBD_CAT_Setup(pdev, req);
+	else
+        ret = USBD_CAT_Setup(pdev, req);
 	return ret;
 }
 /**
@@ -1368,7 +1369,7 @@ static void AUDIO_REQ_GetCurrent(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef 
 	USBD_AUDIO_HandleTypeDef   *haudio;
 	haudio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 
-	memset(haudio->control.data, 0, 64U);
+	memset(haudio->control.data, 0, sizeof(USBD_AUDIO_ControlTypeDef));
 
 	/* Send the current mute state */
 	USBD_CtlSendData(pdev, haudio->control.data, req->wLength);

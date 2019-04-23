@@ -5,8 +5,8 @@
 #include "../functions.h"
 #include "../settings.h"
 
-float ax, ay;
-int16_t bx, by;
+float touch_ax, touch_ay;
+int16_t touch_bx, touch_by;
 static float axc[2], ayc[2];
 static int16_t bxc[2], byc[2];
 static const int16_t xCenter[] = { 35, LCD_WIDTH - 35, 35, LCD_WIDTH - 35 };
@@ -90,8 +90,8 @@ void Get_Touch_XY(volatile uint16_t *x_kor, volatile uint16_t *y_kor, uint8_t co
 	//иначе производим расчёт используя коэф. полученные при калибровке
 	if (!calibration_flag)
 	{
-		*x_kor = touch_x / ax + bx;
-		*y_kor = touch_y / ay + by;
+		*x_kor = touch_x / touch_ax + touch_bx;
+		*y_kor = touch_y / touch_ay + touch_by;
 	}
 	else
 	{
@@ -104,12 +104,12 @@ void Get_Touch_XY(volatile uint16_t *x_kor, volatile uint16_t *y_kor, uint8_t co
 void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 {
 	char dest[100];
-	ax = _ax;
-	bx = _bx;
-	ay = _ay;
-	by = _by;
+	touch_ax = _ax;
+	touch_bx = _bx;
+	touch_ay = _ay;
+	touch_by = _by;
 
-	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", ax, bx, ay, by);
+	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", touch_ax, touch_bx, touch_ay, touch_by);
 	sendToDebug_str(dest);
 }
 
@@ -230,10 +230,10 @@ void Touch_Calibrate(void)
 	byc[0] = yCenter[0] - yPos[0] / ayc[0];
 
 	// Сохранить коэффициенты
-	float tmp_ax = ax;
-	int16_t tmp_bx = bx;
-	float tmp_ay = ay;
-	int16_t tmp_by = by;
+	float tmp_ax = touch_ax;
+	int16_t tmp_bx = touch_bx;
+	float tmp_ay = touch_ay;
+	int16_t tmp_by = touch_by;
 	Touch_Set_Coef(axc[0], bxc[0], ayc[0], byc[0]);
 	// Сохранить в память
 	LCDDriver_Fill(COLOR_WHITE);
