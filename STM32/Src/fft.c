@@ -287,8 +287,11 @@ void FFT_doFFT(void)
 	arm_scale_f32(FFTOutput,1.0f/maxValueFFT,FFTOutput,FFT_PRINT_SIZE);
 	
 	//Усреднение значений для последующего вывода (от резких всплесков)
-	arm_add_f32(FFTOutput_mean,FFTOutput,FFTOutput_mean,FFT_PRINT_SIZE);
-	arm_scale_f32(FFTOutput_mean,0.5f,FFTOutput_mean,FFT_PRINT_SIZE);
+	for(uint16_t i=0;i<FFT_PRINT_SIZE;i++)
+		if(FFTOutput_mean[i]<FFTOutput[i])
+			FFTOutput_mean[i]+=(FFTOutput[i]-FFTOutput_mean[i])/TRX.FFT_Averaging;
+		else
+			FFTOutput_mean[i]-=(FFTOutput_mean[i]-FFTOutput[i])/TRX.FFT_Averaging;
 
 	NeedFFTInputBuffer = true;
 	FFT_need_fft = false;

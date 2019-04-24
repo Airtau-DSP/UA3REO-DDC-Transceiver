@@ -4,7 +4,7 @@
 #include "LCD/xpt2046_spi.h"
 
 uint8_t systemMenuIndex=1;
-const uint8_t systemMenuIndexCount=9;
+uint8_t systemMenuIndexCount=0;
 
 const uint8_t sysmenu_x1=5;
 const uint8_t sysmenu_x2=240;
@@ -35,6 +35,7 @@ void drawSystemMenu(bool draw_background)
 	drawSystemMenuElement("Time to standby", SYSMENU_INTEGER, TRX.Standby_Time);
 	drawSystemMenuElement("Touchpad beeping", SYSMENU_BOOLEAN, TRX.Beeping);
 	drawSystemMenuElement("CW Key timeout", SYSMENU_INTEGER, TRX.Key_timeout);
+	drawSystemMenuElement("FFT Averaging", SYSMENU_INTEGER, TRX.FFT_Averaging);
 	
 	LCDDriver_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	LCDDriver_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
@@ -89,6 +90,12 @@ void eventRotateSystemMenu(int direction)
 		if(TRX.Key_timeout>0 || direction>0) TRX.Key_timeout+=direction*50;
 		if(TRX.Key_timeout>5000) TRX.Key_timeout=5000;
 	}
+	if(systemMenuIndex==10)
+	{
+		TRX.FFT_Averaging+=direction;
+		if(TRX.FFT_Averaging<1) TRX.FFT_Averaging=1;
+		if(TRX.FFT_Averaging>10) TRX.FFT_Averaging=10;
+	}
 	LCD_UpdateQuery.SystemMenu=true;
 }
 
@@ -128,6 +135,7 @@ void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value)
 	if(type==SYSMENU_RUN) sprintf(ctmp, "RUN");
 	LCDDriver_printText(ctmp, sysmenu_x2, sysmenu_y, COLOR_WHITE, COLOR_BLACK, 2);
 	if(systemMenuIndex==sysmenu_i) LCDDriver_drawFastHLine(5,sysmenu_y+17,310,COLOR_WHITE);
+	systemMenuIndexCount++;
 	sysmenu_i++;
 	sysmenu_y+=18;
 }

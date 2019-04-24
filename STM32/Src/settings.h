@@ -99,6 +99,7 @@ extern struct TRX_SETTINGS {
 	uint8_t Standby_Time;
 	bool Beeping;
 	uint16_t Key_timeout;
+	uint8_t FFT_Averaging;
 } TRX;
 
 extern bool NeedSaveSettings;
