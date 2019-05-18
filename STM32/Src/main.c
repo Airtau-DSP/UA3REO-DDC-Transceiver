@@ -123,6 +123,7 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
   /* USER CODE END 1 */
+  
 
   /* MCU Configuration--------------------------------------------------------*/
 
@@ -1002,8 +1003,17 @@ static void MX_GPIO_Init(void)
 /* FSMC initialization function */
 static void MX_FSMC_Init(void)
 {
-  FSMC_NORSRAM_TimingTypeDef Timing;
-  FSMC_NORSRAM_TimingTypeDef ExtTiming;
+
+  /* USER CODE BEGIN FSMC_Init 0 */
+
+  /* USER CODE END FSMC_Init 0 */
+
+  FSMC_NORSRAM_TimingTypeDef Timing = {0};
+  FSMC_NORSRAM_TimingTypeDef ExtTiming = {0};
+
+  /* USER CODE BEGIN FSMC_Init 1 */
+
+  /* USER CODE END FSMC_Init 1 */
 
   /** Perform the SRAM1 memory initialization sequence
   */
@@ -1046,6 +1056,9 @@ static void MX_FSMC_Init(void)
     Error_Handler( );
   }
 
+  /* USER CODE BEGIN FSMC_Init 2 */
+
+  /* USER CODE END FSMC_Init 2 */
 }
 
 /* USER CODE BEGIN 4 */

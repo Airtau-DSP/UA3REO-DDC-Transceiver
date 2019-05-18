@@ -684,7 +684,7 @@ static void HAL_FSMC_MspInit(void){
   /* USER CODE BEGIN FSMC_MspInit 0 */
 
   /* USER CODE END FSMC_MspInit 0 */
-  GPIO_InitTypeDef GPIO_InitStruct;
+  GPIO_InitTypeDef GPIO_InitStruct ={0};
   if (FSMC_Initialized) {
     return;
   }
