@@ -131,24 +131,8 @@ set_global_assignment -name SAVE_DISK_SPACE OFF
 set_global_assignment -name OCP_HW_EVAL DISABLE
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_CLK
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_SYNC
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_IN[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_IN[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_IN[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_IN[3]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_OUT[0]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_OUT[1]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_OUT[2]
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_OUT[3]
 set_location_assignment PIN_30 -to STM32_CLK
 set_location_assignment PIN_28 -to STM32_SYNC
-set_location_assignment PIN_31 -to STM32_DATA_IN[0]
-set_location_assignment PIN_32 -to STM32_DATA_IN[1]
-set_location_assignment PIN_33 -to STM32_DATA_IN[2]
-set_location_assignment PIN_39 -to STM32_DATA_IN[3]
-set_location_assignment PIN_42 -to STM32_DATA_OUT[0]
-set_location_assignment PIN_43 -to STM32_DATA_OUT[1]
-set_location_assignment PIN_44 -to STM32_DATA_OUT[2]
-set_location_assignment PIN_46 -to STM32_DATA_OUT[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_OTR
 set_location_assignment PIN_120 -to DAC_OUTPUT[0]
 set_location_assignment PIN_121 -to DAC_OUTPUT[1]
@@ -182,6 +166,23 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to AUDIO_48K_CLOCK
 set_global_assignment -name FLOW_ENABLE_POWER_ANALYZER ON
 set_global_assignment -name POWER_DEFAULT_INPUT_IO_TOGGLE_RATE "12.5 %"
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk_sys
+set_location_assignment PIN_42 -to STM32_DATA_BUS[0]
+set_location_assignment PIN_43 -to STM32_DATA_BUS[1]
+set_location_assignment PIN_44 -to STM32_DATA_BUS[2]
+set_location_assignment PIN_46 -to STM32_DATA_BUS[3]
+set_location_assignment PIN_31 -to STM32_DATA_BUS[4]
+set_location_assignment PIN_32 -to STM32_DATA_BUS[5]
+set_location_assignment PIN_33 -to STM32_DATA_BUS[6]
+set_location_assignment PIN_39 -to STM32_DATA_BUS[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS
 set_global_assignment -name VHDL_FILE rx_cic.vhd
 set_global_assignment -name VHDL_FILE tx_ciccomp.vhd
 set_global_assignment -name VHDL_FILE rx_ciccomp.vhd

@@ -98,22 +98,22 @@ GND                          : 27        : gnd    :                   :         
 STM32_SYNC                   : 28        : input  : 3.3-V LVTTL       :         : 2         : Y              
 VCCINT                       : 29        : power  :                   : 1.2V    :           :                
 STM32_CLK                    : 30        : input  : 3.3-V LVTTL       :         : 2         : Y              
-STM32_DATA_IN[0]             : 31        : input  : 3.3-V LVTTL       :         : 2         : Y              
-STM32_DATA_IN[1]             : 32        : input  : 3.3-V LVTTL       :         : 2         : Y              
-STM32_DATA_IN[2]             : 33        : input  : 3.3-V LVTTL       :         : 2         : Y              
+STM32_DATA_BUS[4]            : 31        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+STM32_DATA_BUS[5]            : 32        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
+STM32_DATA_BUS[6]            : 33        : bidir  : 3.3-V LVTTL       :         : 2         : Y              
 VCCINT                       : 34        : power  :                   : 1.2V    :           :                
 VCCA1                        : 35        : power  :                   : 2.5V    :           :                
 GNDA1                        : 36        : gnd    :                   :         :           :                
 VCCD_PLL1                    : 37        : power  :                   : 1.2V    :           :                
 VCCINT                       : 38        : power  :                   : 1.2V    :           :                
-STM32_DATA_IN[3]             : 39        : input  : 3.3-V LVTTL       :         : 3         : Y              
+STM32_DATA_BUS[7]            : 39        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO3                       : 40        : power  :                   : 3.3V    : 3         :                
 GND                          : 41        : gnd    :                   :         :           :                
-STM32_DATA_OUT[0]            : 42        : output : 3.3-V LVTTL       :         : 3         : Y              
-STM32_DATA_OUT[1]            : 43        : output : 3.3-V LVTTL       :         : 3         : Y              
-STM32_DATA_OUT[2]            : 44        : output : 3.3-V LVTTL       :         : 3         : Y              
+STM32_DATA_BUS[0]            : 42        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+STM32_DATA_BUS[1]            : 43        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
+STM32_DATA_BUS[2]            : 44        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
 VCCINT                       : 45        : power  :                   : 1.2V    :           :                
-STM32_DATA_OUT[3]            : 46        : output : 3.3-V LVTTL       :         : 3         : Y              
+STM32_DATA_BUS[3]            : 46        : bidir  : 3.3-V LVTTL       :         : 3         : Y              
 VCCIO3                       : 47        : power  :                   : 3.3V    : 3         :                
 GND                          : 48        : gnd    :                   :         :           :                
 PREAMP                       : 49        : output : 3.3-V LVTTL       :         : 3         : Y              

@@ -4,14 +4,14 @@
 
 `timescale 1 ps / 1 ps
 module DEBUG (
-		input  wire [13:0] probe  // probes.probe
+		input  wire [15:0] probe  // probes.probe
 	);
 
 	altsource_probe_top #(
 		.sld_auto_instance_index ("YES"),
 		.sld_instance_index      (0),
 		.instance_id             ("DBG"),
-		.probe_width             (14),
+		.probe_width             (16),
 		.source_width            (0),
 		.enable_metastability    ("NO")
 	) in_system_sources_probes_0 (
