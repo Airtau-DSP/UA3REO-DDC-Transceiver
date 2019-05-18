@@ -13,6 +13,8 @@ static const int16_t xCenter[] = { 35, LCD_WIDTH - 35, 35, LCD_WIDTH - 35 };
 static const int16_t yCenter[] = { 35, 35, LCD_HEIGHT - 35, LCD_HEIGHT - 35 };
 static int16_t xPos[5], yPos[5];
 
+extern IWDG_HandleTypeDef hiwdg;
+
 void Init_XPT2046()
 {
 	Spi_Master_Transmit(0X80);
@@ -128,7 +130,7 @@ void Touch_Calibrate(void)
 	while (1)
 	{
 		//ждать нажатия
-		while (!isTouch());
+		while (!isTouch()) {HAL_IWDG_Refresh(&hiwdg);}
 		Get_Touch_XY(&x, &y, 100, 1);//производим измерения 100 раз
 		if (x < 4090 && y < 4090)
 		{
@@ -154,7 +156,7 @@ void Touch_Calibrate(void)
 	while (1)
 	{
 		//ждать нажатия
-		while (!isTouch());
+		while (!isTouch()) {HAL_IWDG_Refresh(&hiwdg);}
 		Get_Touch_XY(&x, &y, 100, 1);//производим измерения 100 раз
 		if (x < 4090 && y < 4090)
 		{
@@ -180,7 +182,7 @@ void Touch_Calibrate(void)
 	while (1)
 	{
 		// ждать нажатия
-		while (!isTouch());
+		while (!isTouch()) {HAL_IWDG_Refresh(&hiwdg);}
 		Get_Touch_XY(&x, &y, 100, 1);//производим измерения 100 раз
 		if (x < 4090 && y < 4090)
 		{
@@ -206,7 +208,7 @@ void Touch_Calibrate(void)
 	while (1)
 	{
 		// ждать нажатия
-		while (!isTouch());
+		while (!isTouch()) {HAL_IWDG_Refresh(&hiwdg);}
 		Get_Touch_XY(&x, &y, 100, 1);
 		if (x < 4090 && y < 4090)
 		{
