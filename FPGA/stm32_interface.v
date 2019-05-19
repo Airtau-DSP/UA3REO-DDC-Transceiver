@@ -1,7 +1,9 @@
 module stm32_interface(
 clk_in,
-I,
-Q,
+SPEC_I,
+SPEC_Q,
+VOICE_I,
+VOICE_Q,
 DATA_SYNC,
 ADC_OTR,
 DAC_OTR,
@@ -18,8 +20,10 @@ stage_debug
 );
 
 input clk_in;
-input signed [15:0] I;
-input signed [15:0] Q;
+input signed [15:0] SPEC_I;
+input signed [15:0] SPEC_Q;
+input signed [15:0] VOICE_I;
+input signed [15:0] VOICE_Q;
 input DATA_SYNC;
 input ADC_OTR;
 input DAC_OTR;
@@ -136,11 +140,11 @@ begin
 		TX_Q[15:0]=Q_HOLD[15:0];
 		k=999;
 	end
-	else if (k==400) //RX IQ
+	else if (k==400) //RX IQ SPECTRUM
 	begin
 		DATA_BUS_OE=1;
-		I_HOLD=I; //+'d32767;
-		Q_HOLD=Q; //+'d32767;
+		I_HOLD=SPEC_I;
+		Q_HOLD=SPEC_Q;
 		DATA_BUS_OUT[7:0]=Q_HOLD[15:8];
 		k=401;
 	end
@@ -155,6 +159,28 @@ begin
 		k=403;
 	end
 	else if (k==403)
+	begin
+		DATA_BUS_OUT[7:0]=I_HOLD[7:0];
+		k=404;
+	end
+	else if (k==404) //RX IQ VOICE
+	begin
+		I_HOLD=VOICE_I;
+		Q_HOLD=VOICE_Q;
+		DATA_BUS_OUT[7:0]=Q_HOLD[15:8];
+		k=405;
+	end
+	else if (k==405)
+	begin
+		DATA_BUS_OUT[7:0]=Q_HOLD[7:0];
+		k=406;
+	end
+	else if (k==406)
+	begin
+		DATA_BUS_OUT[7:0]=I_HOLD[15:8];
+		k=407;
+	end
+	else if (k==407)
 	begin
 		DATA_BUS_OUT[7:0]=I_HOLD[7:0];
 		k=999;

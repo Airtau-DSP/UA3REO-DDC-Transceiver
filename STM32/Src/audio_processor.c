@@ -40,7 +40,6 @@ float32_t ALC_need_gain_target = 1.0f;
 float32_t fm_sql_avg = 0.0f;
 uint16_t block = 0;
 
-static void doRX_HILBERT(void);
 static void doRX_LPF(void);
 static void doRX_DNR(void);
 static void doRX_AGC(void);
@@ -271,9 +270,22 @@ void processRxAudio(void)
 	else
 		FPGA_Audio_Buffer_Index_tmp--;
 
-	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
-	readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
-
+	switch (TRX_getMode())
+	{
+		case TRX_MODE_IQ:
+		case TRX_MODE_NFM:
+		case TRX_MODE_WFM:
+		case TRX_MODE_AM:
+		case TRX_MODE_LOOPBACK:
+			readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_SPEC_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
+			readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_SPEC_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
+			break;
+		default:
+			readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_VOICE_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
+			readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_VOICE_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
+			break;
+	}
+	
 	//MIN and MAX for DC Corrector
 	uint32_t tmp_index=0;
 	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
@@ -291,7 +303,6 @@ void processRxAudio(void)
 		case TRX_MODE_LSB:
 		case TRX_MODE_DIGI_L:
 		case TRX_MODE_CW_L:
-			doRX_HILBERT();
 			arm_sub_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // difference of I and Q - LSB
 			doRX_LPF();
 			doRX_SMETER();
@@ -302,7 +313,6 @@ void processRxAudio(void)
 		case TRX_MODE_USB:
 		case TRX_MODE_DIGI_U:
 		case TRX_MODE_CW_U:
-			doRX_HILBERT();
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
 			doRX_LPF();
 			doRX_SMETER();
@@ -409,16 +419,6 @@ void processRxAudio(void)
 	}
 	//
 	Processor_NeedRXBuffer = false;
-}
-
-static void doRX_HILBERT(void)
-{
-	//Hilbert fir
-	for (block = 0; block < numBlocks; block++)
-	{
-		arm_fir_f32(&FIR_RX_Hilbert_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE);
-		arm_fir_f32(&FIR_RX_Hilbert_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0] + (block*APROCESSOR_BLOCK_SIZE), APROCESSOR_BLOCK_SIZE); 
-	}
 }
 
 static void doRX_LPF(void)

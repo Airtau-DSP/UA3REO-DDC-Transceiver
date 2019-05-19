@@ -24,8 +24,10 @@ extern float32_t FPGA_MAX_I_Value;
 extern float32_t FPGA_MIN_I_Value;
 extern float32_t FPGA_DC_Offset;
 
-extern float32_t FPGA_Audio_Buffer_Q[FPGA_AUDIO_BUFFER_SIZE];
-extern float32_t FPGA_Audio_Buffer_I[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_Buffer_SPEC_Q[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_Buffer_SPEC_I[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_Buffer_VOICE_Q[FPGA_AUDIO_BUFFER_SIZE];
+extern float32_t FPGA_Audio_Buffer_VOICE_I[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE];
 extern uint16_t FPGA_Audio_Buffer_Index;

@@ -107,7 +107,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_INPUT[4]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_INPUT[3]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_INPUT[1]
 set_global_assignment -name ENABLE_DRC_SETTINGS OFF
-set_global_assignment -name AUTO_MERGE_PLLS ON
+set_global_assignment -name AUTO_MERGE_PLLS OFF
 set_location_assignment PIN_49 -to PREAMP
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_INPUT[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to ADC_INPUT[0]
@@ -183,6 +183,8 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS
+set_global_assignment -name VERILOG_FILE data_delay.v
+set_global_assignment -name VHDL_FILE rx_hilb.vhd
 set_global_assignment -name VHDL_FILE rx_cic.vhd
 set_global_assignment -name VHDL_FILE tx_ciccomp.vhd
 set_global_assignment -name VHDL_FILE rx_ciccomp.vhd
@@ -190,7 +192,6 @@ set_global_assignment -name VHDL_FILE tx_cic.vhd
 set_global_assignment -name VERILOG_FILE nco_shift.v
 set_global_assignment -name VERILOG_FILE rx_mixer_shift.v
 set_global_assignment -name VERILOG_FILE DAC_corrector.v
-set_global_assignment -name QSYS_FILE DEBUG.qsys
 set_global_assignment -name SOURCE_FILE Debug_Probes.spf
 set_global_assignment -name QSYS_FILE nco.qsys
 set_global_assignment -name SDC_FILE SDC.sdc
@@ -204,4 +205,5 @@ set_global_assignment -name QIP_FILE mux1.qip
 set_global_assignment -name QIP_FILE tx_mixer.qip
 set_global_assignment -name QIP_FILE tx_summator.qip
 set_global_assignment -name VERILOG_FILE DAC_Corrector.v
+set_global_assignment -name QIP_FILE SECOND_PLL.qip
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

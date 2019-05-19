@@ -28,3 +28,8 @@
 { "" "" "" "Verilog HDL assignment warning at shifter_iq_single.v(14): truncated value with size 32 to match size of target (14)" {  } {  } 0 10230 "" 0 0 "Design Software" 0 -1 0 ""}
 { "" "" "" "Verilog HDL assignment warning at tx_ciccomp.v(387): truncated value with size 30 to match size of target (16)" {  } {  } 0 10230 "" 0 0 "Design Software" 0 -1 0 ""}
 { "" "" "" "PLL \"MAIN_PLL:MAIN_PLL\|altpll:altpll_component\|MAIN_PLL_altpll:auto_generated\|pll1\" output port clk\[2\] feeds output pin \"AUDIO_48K_CLOCK~output\" via non-dedicated routing -- jitter performance depends on switching rate of other design elements. Use PLL dedicated clock outputs to ensure jitter performance" {  } {  } 0 15064 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 169177 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 332060 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 171167 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 222013 "" 0 0 "Design Software" 0 -1 0 ""}
+{ "" "" "" "*" {  } {  } 0 10273 "" 0 0 "Design Software" 0 -1 0 ""}
