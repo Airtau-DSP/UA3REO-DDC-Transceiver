@@ -23,7 +23,6 @@ float32_t FFTInput_I[FFT_SIZE] = { 0 }; //входящий буфер FFT I
 float32_t FFTInput_Q[FFT_SIZE] = { 0 }; //входящий буфер FFT Q
 float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q
 float32_t FFTInput_ZOOMFFT[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q для обработки ZoomFFT
-float32_t FFTOutput[FFT_SIZE] = { 0 }; //результирующий буфер FFT
 float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
 uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер водопада
 uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
@@ -229,8 +228,8 @@ void FFT_doFFT(void)
 				FFTInput_ZOOMFFT[i*2] = FFTInput_I[i-(FFT_SIZE-zoomed_width)];
 				FFTInput_ZOOMFFT[i*2 + 1] = FFTInput_Q[i-(FFT_SIZE-zoomed_width)];
 			}
-			FFTInput[i*2]=FFTInput_ZOOMFFT[i*2];
-			FFTInput[i*2 + 1]=FFTInput_ZOOMFFT[i*2 + 1];
+			FFTInput[i * 2] = FFTInput_ZOOMFFT[i * 2];
+			FFTInput[i * 2 + 1] = FFTInput_ZOOMFFT[i * 2 + 1];
 		}
 	}
 	else
@@ -252,7 +251,7 @@ void FFT_doFFT(void)
 	}
 	
 	arm_cfft_f32(FFT_Inst, FFTInput, 0, 1);
-	arm_cmplx_mag_f32(FFTInput, FFTOutput, FFT_SIZE);
+	arm_cmplx_mag_f32(FFTInput, FFTInput, FFT_SIZE);
 	
 	//Уменьшаем расчитанный FFT до видимого
 	if(FFT_SIZE>FFT_PRINT_SIZE)
@@ -262,16 +261,16 @@ void FFT_doFFT(void)
 		{
 			float32_t fft_compress_tmp = 0;
 			for (uint8_t c = 0; c < fft_compress_rate; c++)
-				fft_compress_tmp += FFTOutput[i*fft_compress_rate + c];
-			FFTOutput[i] = fft_compress_tmp / fft_compress_rate;
+				fft_compress_tmp += FFTInput[i*fft_compress_rate + c];
+			FFTInput[i] = fft_compress_tmp / fft_compress_rate;
 		}
 	}
 	
-	FFTOutput[0]=FFTOutput[1];
+	FFTInput[0]=FFTInput[1];
 	
 	//Автокалибровка уровней FFT
-	arm_max_f32(FFTOutput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
-	arm_mean_f32(FFTOutput, FFT_PRINT_SIZE, &meanValue); //ищем среднее в АЧХ
+	arm_max_f32(FFTInput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
+	arm_mean_f32(FFTInput, FFT_PRINT_SIZE, &meanValue); //ищем среднее в АЧХ
 	diffValue=(maxValue-maxValueFFT)/FFT_STEP_COEFF;
 	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE && diffValue>0) maxValueFFT+=diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue<0 && diffValue<-FFT_STEP_FIX) maxValueFFT+=diffValue;
@@ -284,14 +283,14 @@ void FFT_doFFT(void)
 	if(TRX_getMode()==TRX_MODE_LOOPBACK) maxValueFFT=60000;
 	
 	//Нормируем АЧХ к единице
-	arm_scale_f32(FFTOutput,1.0f/maxValueFFT,FFTOutput,FFT_PRINT_SIZE);
+	arm_scale_f32(FFTInput,1.0f/maxValueFFT,FFTInput,FFT_PRINT_SIZE);
 	
 	//Усреднение значений для последующего вывода (от резких всплесков)
 	for(uint16_t i=0;i<FFT_PRINT_SIZE;i++)
-		if(FFTOutput_mean[i]<FFTOutput[i])
-			FFTOutput_mean[i]+=(FFTOutput[i]-FFTOutput_mean[i])/TRX.FFT_Averaging;
+		if(FFTOutput_mean[i]<FFTInput[i])
+			FFTOutput_mean[i]+=(FFTInput[i]-FFTOutput_mean[i])/TRX.FFT_Averaging;
 		else
-			FFTOutput_mean[i]-=(FFTOutput_mean[i]-FFTOutput[i])/TRX.FFT_Averaging;
+			FFTOutput_mean[i]-=(FFTOutput_mean[i]-FFTInput[i])/TRX.FFT_Averaging;
 
 	NeedFFTInputBuffer = true;
 	FFT_need_fft = false;
