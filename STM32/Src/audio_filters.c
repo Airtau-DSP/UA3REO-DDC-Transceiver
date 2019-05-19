@@ -13,7 +13,8 @@ arm_fir_instance_f32    FIR_TX_Hilbert_I;
 arm_fir_instance_f32    FIR_TX_Hilbert_Q;
 arm_iir_lattice_instance_f32 IIR_LPF_I;
 arm_iir_lattice_instance_f32 IIR_LPF_Q;
-arm_iir_lattice_instance_f32 IIR_HPF;
+arm_iir_lattice_instance_f32 IIR_HPF_I;
+arm_iir_lattice_instance_f32 IIR_HPF_Q;
 arm_iir_lattice_instance_f32 IIR_Squelch_HPF;
 
 //states
@@ -21,7 +22,8 @@ float32_t   Fir_Tx_Hilbert_State_I[FIR_TX_HILBERT_STATE_SIZE];
 float32_t   Fir_Tx_Hilbert_State_Q[FIR_TX_HILBERT_STATE_SIZE];
 float32_t		IIR_LPF_I_State[IIR_LPF_Taps_STATE_SIZE];
 float32_t		IIR_LPF_Q_State[IIR_LPF_Taps_STATE_SIZE];
-float32_t		IIR_HPF_State[IIR_HPF_Taps_STATE_SIZE];
+float32_t		IIR_HPF_State_I[IIR_HPF_Taps_STATE_SIZE];
+float32_t		IIR_HPF_State_Q[IIR_HPF_Taps_STATE_SIZE];
 float32_t		IIR_HPF_SQL_State[IIR_HPF_SQL_STATE_SIZE];
 
 //with +/-45 degrees phase added, 48000 sampling frequency Fc=1.50kHz, BW=2.70kHz Kaiser, Beta = 3.650, Raised Cosine 0.910
@@ -107,7 +109,8 @@ void InitAudioFilters(void)
 	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +45 degrees phase added
 	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -45 degrees phase added
 
-	arm_iir_lattice_init_f32(&IIR_HPF, IIR_HPF_STAGES, (float32_t *)&IIR_HPF_150_PKcoeffs, (float32_t *)&IIR_HPF_150_PVcoeffs, (float32_t *)&IIR_HPF_State[0], APROCESSOR_BLOCK_SIZE);
+	arm_iir_lattice_init_f32(&IIR_HPF_I, IIR_HPF_STAGES, (float32_t *)&IIR_HPF_150_PKcoeffs, (float32_t *)&IIR_HPF_150_PVcoeffs, (float32_t *)&IIR_HPF_State_I[0], APROCESSOR_BLOCK_SIZE);
+	arm_iir_lattice_init_f32(&IIR_HPF_Q, IIR_HPF_STAGES, (float32_t *)&IIR_HPF_150_PKcoeffs, (float32_t *)&IIR_HPF_150_PVcoeffs, (float32_t *)&IIR_HPF_State_Q[0], APROCESSOR_BLOCK_SIZE);
 
 	ReinitAudioLPFFilter();
 	

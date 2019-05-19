@@ -23,7 +23,8 @@ extern arm_fir_instance_f32    FIR_TX_Hilbert_I;
 extern arm_fir_instance_f32    FIR_TX_Hilbert_Q;
 extern arm_iir_lattice_instance_f32 IIR_LPF_I;
 extern arm_iir_lattice_instance_f32 IIR_LPF_Q;
-extern arm_iir_lattice_instance_f32 IIR_HPF;
+extern arm_iir_lattice_instance_f32 IIR_HPF_I;
+extern arm_iir_lattice_instance_f32 IIR_HPF_Q;
 extern arm_iir_lattice_instance_f32 IIR_Squelch_HPF;
 
 extern void InitAudioFilters(void);

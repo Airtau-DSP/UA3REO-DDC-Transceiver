@@ -183,6 +183,7 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[2]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[1]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS[0]
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to STM32_DATA_BUS
+set_global_assignment -name VERILOG_FILE SECOND_PLL.v
 set_global_assignment -name VERILOG_FILE data_delay.v
 set_global_assignment -name VHDL_FILE rx_hilb.vhd
 set_global_assignment -name VHDL_FILE rx_cic.vhd
