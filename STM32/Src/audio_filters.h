@@ -28,6 +28,6 @@ extern arm_iir_lattice_instance_f32 IIR_HPF_Q;
 extern arm_iir_lattice_instance_f32 IIR_Squelch_HPF;
 
 extern void InitAudioFilters(void);
-extern void ReinitAudioLPFFilter(void);
+extern void ReinitAudioFilters(void);
 
 #endif

@@ -281,7 +281,7 @@ void ua3reo_dev_cat_parseCommand()
 			if (strcmp(arguments, "0") == 0) TRX.current_vfo = 0;
 			else if (strcmp(arguments, "1") == 0) TRX.current_vfo = 1;
 			NeedSaveSettings = true;
-			ReinitAudioLPFFilter();
+			ReinitAudioFilters();
 			LCD_redraw();
 			sendToDebug_str3("CAT arguments: ", _command, "\r\n");
 		}

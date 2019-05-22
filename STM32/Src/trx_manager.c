@@ -205,7 +205,7 @@ void TRX_setMode(uint8_t _mode)
 			CurrentVFO()->Filter_Width = 0;
 			break;
 	}
-	ReinitAudioLPFFilter();
+	ReinitAudioFilters();
 	NeedSaveSettings = true;
 }
 

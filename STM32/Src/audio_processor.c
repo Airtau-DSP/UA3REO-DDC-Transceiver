@@ -303,8 +303,8 @@ void processRxAudio(void)
 	{
 		case TRX_MODE_LSB:
 		case TRX_MODE_CW_L:
-			doRX_HPF();
 		case TRX_MODE_DIGI_L:
+			doRX_HPF();
 			doRX_LPF();
 			arm_sub_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // difference of I and Q - LSB
 			doRX_SMETER();
@@ -314,8 +314,8 @@ void processRxAudio(void)
 			break;
 		case TRX_MODE_USB:
 		case TRX_MODE_CW_U:
-			doRX_HPF();	
 		case TRX_MODE_DIGI_U:
+			doRX_HPF();	
 			doRX_LPF();
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
 			doRX_SMETER();
