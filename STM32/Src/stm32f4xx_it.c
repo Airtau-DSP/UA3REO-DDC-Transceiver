@@ -467,6 +467,7 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_Q_tmp,false); //first byte of Q
 		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
+		//sendToDebug_str("ADC MAX Amplitude: "); sendToDebug_uint16(TRX_ADC_MAXAMPLITUDE,false);
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		

@@ -48,6 +48,7 @@ extern bool TRX_inited;
 extern int16_t TRX_RX_dBm;
 extern bool TRX_ADC_OTR;
 extern bool TRX_DAC_OTR;
+extern uint16_t TRX_ADC_MAXAMPLITUDE;
 extern char *MODE_DESCR[];
 extern uint8_t TRX_Time_InActive;
 

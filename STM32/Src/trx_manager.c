@@ -28,6 +28,7 @@ bool TRX_inited = false;
 int16_t TRX_RX_dBm = -100;
 bool TRX_ADC_OTR = false;
 bool TRX_DAC_OTR = false;
+uint16_t TRX_ADC_MAXAMPLITUDE = 0;
 uint8_t TRX_Time_InActive = 0; //секунд бездействия, используется для спящего режима
 
 char *MODE_DESCR[] = {

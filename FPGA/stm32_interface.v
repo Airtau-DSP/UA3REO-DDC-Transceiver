@@ -7,6 +7,8 @@ VOICE_Q,
 DATA_SYNC,
 ADC_OTR,
 DAC_OTR,
+ADC_IN,
+adcclk_in,
 
 DATA_BUS,
 freq_out,
@@ -27,6 +29,8 @@ input signed [15:0] VOICE_Q;
 input DATA_SYNC;
 input ADC_OTR;
 input DAC_OTR;
+input signed [11:0] ADC_IN;
+input adcclk_in;
 
 output reg unsigned [21:0] freq_out=620407;
 output reg preamp_enable=0;
@@ -45,6 +49,8 @@ assign DATA_BUS = DATA_BUS_OE ? DATA_BUS_OUT : 8'bZ ;
 reg signed [15:0] k=1;
 reg signed [15:0] I_HOLD;
 reg signed [15:0] Q_HOLD;
+reg signed [11:0] ADC_MAX;
+reg ADC_MAX_RESET;
 
 always @ (posedge clk_in)
 begin
@@ -52,6 +58,7 @@ begin
 	if (DATA_SYNC==1)
 	begin
 		DATA_BUS_OE=0;
+		ADC_MAX_RESET=0;
 		if(DATA_BUS[7:0]=='d1) //GET PARAMS
 		begin
 			k=100;
@@ -112,10 +119,15 @@ begin
 	else if (k==200) //SEND PARAMS
 	begin
 		DATA_BUS_OE=1;
-		DATA_BUS_OUT[3:3]=0;
-		DATA_BUS_OUT[2:2]=0;
+		DATA_BUS_OUT[5:2]=ADC_MAX[11:8];
 		DATA_BUS_OUT[1:1]=DAC_OTR;
 		DATA_BUS_OUT[0:0]=ADC_OTR;
+		k=201;
+	end
+	else if (k==201)
+	begin
+		DATA_BUS_OUT[7:0]=ADC_MAX[7:0];
+		ADC_MAX_RESET=1;
 		k=999;
 	end
 	else if (k==300) //TX IQ
@@ -188,5 +200,20 @@ begin
 	stage_debug=k;
 end
 
+always @ (posedge adcclk_in)
+begin
+	if(ADC_MAX_RESET==1)
+	begin
+		ADC_MAX=0;
+	end
+	if(ADC_MAX<ADC_IN)
+	begin
+		ADC_MAX=ADC_IN;
+	end
+	if(ADC_MAX<-ADC_IN)
+	begin
+		ADC_MAX=-ADC_IN;
+	end
+end
 
 endmodule

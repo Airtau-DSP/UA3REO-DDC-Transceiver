@@ -80,6 +80,20 @@ refer to the applicable agreement for further details.
 		(line (pt 0 144)(pt 16 144)(line_width 1))
 	)
 	(port
+		(pt 0 160)
+		(input)
+		(text "ADC_IN[11..0]" (rect 0 0 60 12)(font "Arial" ))
+		(text "ADC_IN[11..0]" (rect 21 155 81 167)(font "Arial" ))
+		(line (pt 0 160)(pt 16 160)(line_width 3))
+	)
+	(port
+		(pt 0 176)
+		(input)
+		(text "adcclk_in" (rect 0 0 36 12)(font "Arial" ))
+		(text "adcclk_in" (rect 21 171 57 183)(font "Arial" ))
+		(line (pt 0 176)(pt 16 176)(line_width 1))
+	)
+	(port
 		(pt 248 48)
 		(output)
 		(text "freq_out[21..0]" (rect 0 0 57 12)(font "Arial" ))
