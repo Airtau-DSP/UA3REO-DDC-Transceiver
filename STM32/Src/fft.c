@@ -7,6 +7,7 @@
 #include "audio_processor.h"
 #include "wm8731.h"
 #include "settings.h"
+#include "audio_filters.h"
 
 #if FFT_SIZE==512
 const static arm_cfft_instance_f32 *FFT_Inst = &arm_cfft_sR_f32_len512;
@@ -205,6 +206,10 @@ void FFT_doFFT(void)
 	float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
 	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 	float32_t hanning_multiplier = 0; //Множитель для вычисления окна Ханнинга к FFT
+	
+	//Process DC corrector filter
+	dc_filter(FFTInput_I,FFT_SIZE, 4);
+	dc_filter(FFTInput_Q,FFT_SIZE, 5);
 	
 	//ZoomFFT
 	if(TRX.FFT_Zoom>1)

@@ -72,7 +72,6 @@
 uint32_t ms50_counter = 0;
 uint32_t tim5_counter = 0;
 uint32_t eeprom_save_delay = 0;
-uint8_t dc_correction_state = 0;
 
 extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
@@ -370,41 +369,6 @@ void TIM6_DAC_IRQHandler(void)
   /* USER CODE BEGIN TIM6_DAC_IRQn 1 */
 	ms50_counter++;
 	
-	const float32_t dc_correction_step_fast=1.0f;
-	const float32_t dc_correction_step_slow=0.1f;
-	const float32_t dc_correction_step_precision=0.001f;
-	float32_t dc_correction_step = 0;
-	
-	if(dc_correction_state==2) dc_correction_step=dc_correction_step_precision;
-	else if(dc_correction_state==1) dc_correction_step=dc_correction_step_slow;
-	else if(dc_correction_state==0) dc_correction_step=dc_correction_step_fast;
-
-	if(FPGA_MIN_I_Value<0 && FPGA_MAX_I_Value<0)
-		FPGA_DC_Offset+=dc_correction_step;
-	else if(FPGA_MIN_I_Value>0 && FPGA_MAX_I_Value>0)
-		FPGA_DC_Offset-=dc_correction_step;
-	else if(-FPGA_MIN_I_Value>FPGA_MAX_I_Value)
-	{
-		if((FPGA_MIN_I_Value+FPGA_MAX_I_Value)>-dc_correction_step) dc_correction_step=0;
-		FPGA_DC_Offset+=dc_correction_step;
-		if(dc_correction_state!=2) dc_correction_state=1;
-	}
-	else if(-FPGA_MIN_I_Value<FPGA_MAX_I_Value)
-	{
-		if((FPGA_MIN_I_Value+FPGA_MAX_I_Value)<dc_correction_step) dc_correction_step=0;
-		FPGA_DC_Offset-=dc_correction_step;
-		if(dc_correction_state!=2)
-		{
-			dc_correction_state=1;
-			if((FPGA_MIN_I_Value+FPGA_MAX_I_Value)<dc_correction_step_slow)
-				dc_correction_state=2;
-		}
-	}
-	//if(dc_correction_step>0) sendToDebug_float32(FPGA_MIN_I_Value+FPGA_MAX_I_Value,false);
-	
-	FPGA_MIN_I_Value=32700;
-	FPGA_MAX_I_Value=-32700;
-	
 	if(TRX_Key_Timeout_est>0)
 	{
 		TRX_Key_Timeout_est-=50;
@@ -445,7 +409,6 @@ void TIM6_DAC_IRQHandler(void)
 		uint32_t dbg_AUDIOPROC_TXB_samples=AUDIOPROC_TXB_samples;
 		float32_t dbg_cpu_sleep_counter=cpu_sleep_counter/1000.0f;
 		uint32_t dbg_tim5_counter=tim5_counter;
-		float32_t dbg_FPGA_DC_Offset=FPGA_DC_Offset;
 		float32_t dbg_ALC_need_gain=ALC_need_gain;
 		float32_t dbg_ALC_need_gain_new=ALC_need_gain_new;
 		float32_t dbg_Processor_TX_MAX_amplitude=Processor_TX_MAX_amplitude;
@@ -459,7 +422,6 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("Audioproc cycles B: "); sendToDebug_uint32(dbg_AUDIOPROC_TXB_samples,false); //~187
 		//sendToDebug_str("CPU Sleep counter: "); sendToDebug_float32(dbg_cpu_sleep_counter,false);  
 		//sendToDebug_str("Audioproc timer counter: "); sendToDebug_uint32(dbg_tim5_counter,false); 
-		//sendToDebug_str("DC Offset: "); sendToDebug_float32(dbg_FPGA_DC_Offset,false); 
 		//sendToDebug_str("TX Autogain: "); sendToDebug_float32(dbg_ALC_need_gain,false);
 		//sendToDebug_str("TX Autogain Target: "); sendToDebug_float32(dbg_ALC_need_gain_new,false);
 		//sendToDebug_str("Processor TX MAX amplitude: "); sendToDebug_float32(dbg_Processor_TX_MAX_amplitude,false);

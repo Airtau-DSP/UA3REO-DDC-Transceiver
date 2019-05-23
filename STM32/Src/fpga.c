@@ -10,9 +10,6 @@
 
 volatile uint32_t FPGA_samples = 0;
 volatile bool FPGA_busy = false;
-volatile float32_t FPGA_MAX_I_Value = 0;
-volatile float32_t FPGA_MIN_I_Value = 0;
-volatile float32_t FPGA_DC_Offset = 0;
 volatile bool FPGA_NeedSendParams = false;
 volatile bool FPGA_NeedGetParams = false;
 volatile bool FPGA_Buffer_underrun = false;
@@ -198,7 +195,6 @@ void FPGA_fpgadata_getparam(void)
 void FPGA_fpgadata_getiq(void)
 {
 	int16_t FPGA_fpgadata_in_tmp16 = 0;
-	float32_t FPGA_fpgadata_iq_corrected = 0;
 	FPGA_samples++;
 	
 	//STAGE 2
@@ -214,17 +210,16 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in Q
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XFF);
-	FPGA_fpgadata_iq_corrected=FPGA_fpgadata_in_tmp16+FPGA_DC_Offset;
 	
 	if(TRX_IQ_swap)
 	{
-		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
-		FPGA_Audio_Buffer_SPEC_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		FPGA_Audio_Buffer_SPEC_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
 	else
 	{
-		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
-		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
 	
 	//clock
@@ -243,17 +238,16 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in I
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XFF);
-	FPGA_fpgadata_iq_corrected=FPGA_fpgadata_in_tmp16+FPGA_DC_Offset;
 	
 	if(TRX_IQ_swap)
 	{
-		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
-		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
 	else
 	{
-		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_iq_corrected;
-		FPGA_Audio_Buffer_SPEC_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_iq_corrected;
+		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		FPGA_Audio_Buffer_SPEC_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
 	
 	//clock

@@ -20,9 +20,6 @@ void FPGA_clockFall(void);
 volatile extern bool FPGA_busy;
 volatile extern uint32_t FPGA_samples;
 volatile extern bool FPGA_Buffer_underrun;
-volatile extern float32_t FPGA_MAX_I_Value;
-volatile extern float32_t FPGA_MIN_I_Value;
-volatile extern float32_t FPGA_DC_Offset;
 volatile extern bool FPGA_NeedSendParams;
 volatile extern bool FPGA_NeedGetParams;
 

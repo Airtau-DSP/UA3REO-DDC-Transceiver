@@ -29,5 +29,12 @@ extern arm_iir_lattice_instance_f32 IIR_Squelch_HPF;
 
 extern void InitAudioFilters(void);
 extern void ReinitAudioFilters(void);
+extern void dc_filter(float32_t *agcBuffer, int16_t blockSize, uint8_t stateNum);
+
+//сохранение старых значений семплов для DC фильтра. Несколько состояний для разных потребителей
+typedef struct {
+	float32_t x_prev;
+	float32_t y_prev;
+} dc_filter_state_type;
 
 #endif

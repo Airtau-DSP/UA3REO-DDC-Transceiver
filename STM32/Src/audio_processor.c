@@ -83,6 +83,9 @@ void processTxAudio(void)
 		{
 			FPGA_Audio_Buffer_I_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2]);
 			FPGA_Audio_Buffer_Q_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2 + 1]);
+			//Process DC corrector filter
+			dc_filter(FPGA_Audio_Buffer_I_tmp,FPGA_AUDIO_BUFFER_HALF_SIZE, 2);
+			dc_filter(FPGA_Audio_Buffer_Q_tmp,FPGA_AUDIO_BUFFER_HALF_SIZE, 3);
 		}
 	}
 
@@ -287,13 +290,9 @@ void processRxAudio(void)
 			break;
 	}
 	
-	//MIN and MAX for DC Corrector
-	uint32_t tmp_index=0;
-	for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-	{
-		if(FPGA_MAX_I_Value<FPGA_Audio_Buffer_SPEC_I[i]) FPGA_MAX_I_Value=FPGA_Audio_Buffer_SPEC_I[i];
-		if(FPGA_MIN_I_Value>FPGA_Audio_Buffer_SPEC_I[i]) FPGA_MIN_I_Value=FPGA_Audio_Buffer_SPEC_I[i];
-	}
+	//Process DC corrector filter
+	dc_filter(FPGA_Audio_Buffer_I_tmp,FPGA_AUDIO_BUFFER_HALF_SIZE, 0);
+	dc_filter(FPGA_Audio_Buffer_Q_tmp,FPGA_AUDIO_BUFFER_HALF_SIZE, 1);
 	
 	//RF Gain
 	arm_scale_f32(FPGA_Audio_Buffer_I_tmp, TRX.RF_Gain, FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE);

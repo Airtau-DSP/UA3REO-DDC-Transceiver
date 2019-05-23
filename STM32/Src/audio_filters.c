@@ -294,3 +294,30 @@ void ReinitAudioFilters(void)
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
 }
+
+dc_filter_state_type dc_filter_state[6]=
+{
+	{0,0}, //0 RX I
+	{0,0}, //1 RX Q
+	{0,0}, //2 TX I
+	{0,0}, //3 TX Q
+	{0,0}, //4 FFT I
+	{0,0}, //5 FFT Q
+};
+
+void dc_filter(float32_t *agcBuffer, int16_t blockSize, uint8_t stateNum)	//удаляет постоянную составлющую сигнала true - I
+{
+	const float32_t A1=(1.0f-pow(2.0f,(-11.0f))); // (1-2^(-7)) Q32:1.31
+	
+	for(uint16_t i=0;i<blockSize;i++)
+	{
+		float32_t sampleIn = agcBuffer[i];
+		float32_t sampleOut = 0;
+		float32_t delta_x = sampleIn-dc_filter_state[stateNum].x_prev;
+		float32_t a1_y_prev = A1*dc_filter_state[stateNum].y_prev;
+		sampleOut = delta_x+a1_y_prev;
+		dc_filter_state[stateNum].x_prev = sampleIn;
+		dc_filter_state[stateNum].y_prev = sampleOut;
+		agcBuffer[i] = sampleOut;
+	}
+}
