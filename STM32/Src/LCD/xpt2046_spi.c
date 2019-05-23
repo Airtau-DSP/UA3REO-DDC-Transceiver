@@ -85,9 +85,8 @@ void Get_Touch_XY(volatile uint16_t *x_kor, volatile uint16_t *y_kor, uint8_t co
 			touch_x = (touch_x + tmpx) / 2;
 			touch_y = (touch_y + tmpy) / 2;
 		}
-
 	}
-
+	
 	//во время калибровки возращаем вычисленные выше значения, 
 	//иначе производим расчёт используя коэф. полученные при калибровке
 	if (!calibration_flag)
@@ -100,6 +99,8 @@ void Get_Touch_XY(volatile uint16_t *x_kor, volatile uint16_t *y_kor, uint8_t co
 		*x_kor = touch_x;
 		*y_kor = touch_y;
 	}
+	if(*x_kor>10000) *x_kor=0;
+	if(*y_kor>10000) *y_kor=0;
 }
 
 //ф-ция устанавливает калибровочные коэффициенты
