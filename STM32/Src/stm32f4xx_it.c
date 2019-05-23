@@ -431,12 +431,12 @@ void TIM6_DAC_IRQHandler(void)
 		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(ADC_RESISTANCE*0.001)) ; //получаем значение мощности в dBm для сопротивления входа АЦП
 		Processor_RX_Audio_Samples_MAX_value=0;
 		Processor_RX_Audio_Samples_MIN_value=0;
-		//
 	}
 	
 	if (ms50_counter == 20) // every 1 sec
 	{
 		ms50_counter = 0;
+		TRX_DoAutoGain(); //Process AutoGain feature
 		
 		//Save Debug variables
 		uint32_t dbg_FPGA_samples=FPGA_samples;

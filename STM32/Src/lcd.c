@@ -331,7 +331,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	LCDDriver_printText(ctmp,41 + width + 5,135,COLOR_GREEN,COLOR_BLACK,1);
 	
 	LCDDriver_Fill_RectWH(270, 220, 50, 8, COLOR_BLACK);
-	if (TRX_ADC_OTR || TRX_DAC_OTR) 
+	if (TRX_ADC_OTR || TRX_DAC_OTR || TRX_ADC_MAXAMPLITUDE>2000) 
 		LCDDriver_printText("OVR", 270, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_on_TX()) 
 		LCDDriver_printText("WBF", 297, 220, COLOR_RED, COLOR_BLACK, 1);
@@ -406,6 +406,7 @@ void LCD_displayMainMenu() {
 	printMenuButton(5, 115, 74, 50, "LPF", "Filter", TRX.LPF, true, LCD_Handler_MENU_LPF);
 	printMenuButton(84, 115, 74, 50, "BPF", "Filter", TRX.BPF, true, LCD_Handler_MENU_BPF);
 	printMenuButton(163, 115, 74, 50, "TX", "Amplifier", TRX.TX_Amplifier, true, LCD_Handler_MENU_TXAMPLIFIER);
+	printMenuButton(242, 115, 74, 50, "AUTO", "Gain/Filt", TRX.AutoGain, true, LCD_Handler_MENU_AUTOGAIN);
 	
 	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
 	LCD_UpdateQuery.MainMenu = false;
@@ -1039,6 +1040,13 @@ void LCD_Handler_MENU_TXAMPLIFIER(void)
 {
 	TRX.TX_Amplifier=!TRX.TX_Amplifier;
 	LCD_UpdateQuery.MainMenu = true;
+}
+
+void LCD_Handler_MENU_AUTOGAIN(void)
+{
+	TRX.AutoGain=!TRX.AutoGain;
+	LCD_UpdateQuery.MainMenu = true;
+	FPGA_NeedSendParams = true;
 }
 
 void LCD_Handler_SETTIME(void)

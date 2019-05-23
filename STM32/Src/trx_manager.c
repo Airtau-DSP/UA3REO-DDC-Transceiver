@@ -31,6 +31,9 @@ bool TRX_DAC_OTR = false;
 uint16_t TRX_ADC_MAXAMPLITUDE = 0;
 uint8_t TRX_Time_InActive = 0; //секунд бездействия, используется для спящего режима
 
+uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
+uint8_t autogain_stage = 2; //по умолчанию режим с выключенным PREAMP и ATT
+
 char *MODE_DESCR[] = {
 	"LSB",
 	"USB",
@@ -245,4 +248,77 @@ void TRX_RF_UNIT_UpdateState(bool clean) //передаём значения в 
 	}
 	HAL_GPIO_WritePin(RFUNIT_CLK_GPIO_Port, RFUNIT_CLK_Pin, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(RFUNIT_RCLK_GPIO_Port, RFUNIT_RCLK_Pin, GPIO_PIN_SET);
+}
+
+void TRX_DoAutoGain(void)
+{
+	//Process AutoGain feature
+	if(TRX.AutoGain)
+	{
+		if(autogain_wait_reaction>0)
+		{
+			autogain_wait_reaction--;
+		}
+		else 
+		{
+			TRX.LPF=true;
+			TRX.BPF=true;
+			switch(autogain_stage)
+			{
+				case 0: //этап 1 - включаем ДПФ, ЛПФ, Аттенюатор, выключаем предусилитель (-12dB)
+					TRX.Preamp=false;
+					TRX.ATT=true;
+					LCD_UpdateQuery.MainMenu=true;
+					LCD_UpdateQuery.TopButtons=true;
+					autogain_stage++;
+					autogain_wait_reaction=3;
+					//sendToDebug_str("AUTOGAIN LPF+BPF+ATT\r\n");
+					break;
+				case 1: //сменили состояние, обрабатываем результаты
+					if((TRX_ADC_MAXAMPLITUDE*db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) autogain_stage++; //если можем выключить АТТ - переходим на следующий этап (+12dB)
+					break;
+				case 2: //этап 1 - включаем ДПФ, ЛПФ, выключаем Аттенюатор, выключаем предусилитель (+0dB)
+					TRX.Preamp=false;
+					TRX.ATT=false;
+					LCD_UpdateQuery.MainMenu=true;
+					LCD_UpdateQuery.TopButtons=true;
+					autogain_stage++;
+					autogain_wait_reaction=3;
+					//sendToDebug_str("AUTOGAIN LPF+BPF\r\n");
+					break;
+				case 3: //сменили состояние, обрабатываем результаты
+					if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
+					if((TRX_ADC_MAXAMPLITUDE*db2rateV(PREAMP_GAIN_DB)/db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) autogain_stage++; //если можем включить АТТ+PREAMP - переходим на следующий этап (+20dB-12dB)
+					break;
+				case 4: //этап 2 - включаем ДПФ, ЛПФ, Аттенюатор, Предусилитель (+8dB)
+					TRX.Preamp=true;
+					TRX.ATT=true;
+					LCD_UpdateQuery.MainMenu=true;
+					LCD_UpdateQuery.TopButtons=true;
+					autogain_stage++;
+					autogain_wait_reaction=3;
+					//sendToDebug_str("AUTOGAIN LPF+BPF+PREAMP+ATT\r\n");
+					break;
+				case 5: //сменили состояние, обрабатываем результаты
+					if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
+					if((TRX_ADC_MAXAMPLITUDE*db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) autogain_stage++; //если можем выключить АТТ - переходим на следующий этап (+12dB)
+					break;
+				case 6: //этап 3 - включаем ДПФ, ЛПФ, Предусилитель, выключаем Аттенюатор (+20dB)
+					TRX.Preamp=true;
+					TRX.ATT=false;
+					LCD_UpdateQuery.MainMenu=true;
+					LCD_UpdateQuery.TopButtons=true;
+					autogain_stage++;
+					autogain_wait_reaction=3;
+					//sendToDebug_str("AUTOGAIN LPF+BPF+PREAMP\r\n");
+					break;
+				case 7: //сменили состояние, обрабатываем результаты
+					if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
+					break;
+				default:
+					autogain_stage=0;
+					break;
+			}
+		}
+	}
 }

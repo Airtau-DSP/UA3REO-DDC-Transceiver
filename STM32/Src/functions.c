@@ -217,3 +217,8 @@ float log10f_fast(float X) {
 	Y += E;
 	return(Y * 0.3010299956639812f);
 }
+
+float db2rateV(float i) //из децибелл в разы (для напряжения)
+{
+	return pow(10.0f,(i/20.0f));
+}

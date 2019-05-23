@@ -118,6 +118,7 @@ void LCD_Handler_MENU_LINEMIC(void);
 void LCD_Handler_MENU_LPF(void);
 void LCD_Handler_MENU_BPF(void);
 void LCD_Handler_MENU_TXAMPLIFIER(void);
+void LCD_Handler_MENU_AUTOGAIN(void);
 void LCD_Handler_MENU_BACK(void);
 void LCD_Handler_MENU_VOLUME(void);
 void LCD_Handler_MENU_RF_GAIN(void);

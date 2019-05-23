@@ -32,6 +32,7 @@ void TRX_Start_TX(void);
 void TRX_Start_Loopback(void);
 void TRX_Restart_Mode(void);
 bool TRX_on_TX(void);
+void TRX_DoAutoGain(void);
 
 extern bool TRX_ptt_hard;
 extern bool TRX_ptt_cat;

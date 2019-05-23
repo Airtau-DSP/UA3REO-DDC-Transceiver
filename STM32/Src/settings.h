@@ -22,6 +22,9 @@
 #define ADC_RESISTANCE 100 //сопротивление входа АЦП, ом
 #define ADC_RF_TRANS_RATIO 4 //коэффициент трансформации трансформатора :) на входе АЦП
 #define ADC_RF_INPUT_VALUE_CALIBRATION 0.60f //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера (PREAMP включен)
+#define ATT_DB 12 //подавление в аттенюаторе
+#define PREAMP_GAIN_DB 20 //усиление в предусилителе
+#define AUTOGAIN_MAX_AMPLITUDE 1000 //максимальная амлитуда, по достижению которой автокорректировщик входных цепей завершает работу, а при переполнении - снижает усиление
 
 #define ILI9341 true //выбираем используемый дисплей
 //#define ILI9325 true //другие комментируем
@@ -92,6 +95,7 @@ extern struct TRX_SETTINGS {
 	uint8_t	RF_Gain;
 	uint32_t saved_freq[BANDS_COUNT];
 	uint8_t FFT_Zoom;
+	bool AutoGain;
 	//system settings
 	uint16_t CW_GENERATOR_SHIFT_HZ;
 	uint8_t	ENCODER_SLOW_RATE;
