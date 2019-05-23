@@ -44,7 +44,7 @@ void DoAGC(float32_t *agcBuffer, int16_t blockSize)
 		//sendToDebug_str("RX AGC Clip");
 	}
 	//AGC выключен, ничего не усиливаем (требуется для плавного выключения)
-	if(!TRX.AGC)
+	if(!TRX.AGC || TRX_getMode()==TRX_MODE_DIGI_L || TRX_getMode()==TRX_MODE_DIGI_U)
 		AGC_need_gain = 1.0f;
 	//применяем усиление
 	if(AGC_need_gain_old!=AGC_need_gain) //усиление изменилось
