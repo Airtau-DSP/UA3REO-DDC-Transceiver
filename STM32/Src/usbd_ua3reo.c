@@ -24,9 +24,9 @@ uint8_t  *USBD_UA3REO_GetDeviceQualifierDescriptor(uint16_t *length);
 static uint16_t rx_buffer_head = 0;
 static uint16_t rx_buffer_step = 0;
 
-bool RX_USB_AUDIO_underrun=false;
-uint32_t RX_USB_AUDIO_SAMPLES=0;
-uint32_t TX_USB_AUDIO_SAMPLES=0;
+volatile bool RX_USB_AUDIO_underrun=false;
+volatile uint32_t RX_USB_AUDIO_SAMPLES=0;
+volatile uint32_t TX_USB_AUDIO_SAMPLES=0;
 
 /* USB Standard Device Descriptor */
 __ALIGN_BEGIN static uint8_t USBD_UA3REO_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALIGN_END =

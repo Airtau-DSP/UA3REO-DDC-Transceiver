@@ -10,9 +10,10 @@
 int32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 int32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 
-uint32_t WM8731_DMA_samples = 0;
-bool WM8731_DMA_state = true; //true - compleate ; false - half
-bool WM8731_Buffer_underrun = false;
+volatile uint32_t WM8731_DMA_samples = 0;
+volatile bool WM8731_DMA_state = true; //true - compleate ; false - half
+volatile bool WM8731_Buffer_underrun = false;
+
 bool WM8731_Beeping = false;
 
 void WM8731_start_i2s_and_dma(void)

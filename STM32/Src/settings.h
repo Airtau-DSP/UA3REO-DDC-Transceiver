@@ -106,8 +106,9 @@ extern struct TRX_SETTINGS {
 	uint8_t FFT_Averaging;
 } TRX;
 
-extern bool NeedSaveSettings;
+volatile extern bool NeedSaveSettings;
 extern SPI_HandleTypeDef hspi1;
+
 extern void LoadSettings(void);
 extern void SaveSettings(void);
 void Flash_Sector_Erase(void);

@@ -18,7 +18,7 @@ const static arm_cfft_instance_f32 *FFT_Inst = &arm_cfft_sR_f32_len256;
 bool NeedFFTInputBuffer = false; //флаг необходимости заполнения буфера с FPGA
 bool FFT_need_fft = true; //необходимо подготовить данные для отображения на экран
 
-uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
+volatile uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
 float32_t FFTInput_I[FFT_SIZE] = { 0 }; //входящий буфер FFT I
 float32_t FFTInput_Q[FFT_SIZE] = { 0 }; //входящий буфер FFT Q
 float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q

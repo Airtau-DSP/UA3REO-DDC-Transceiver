@@ -13,29 +13,29 @@
 #include "usbd_ua3reo.h"
 #include "noise_reduction.h"
 
+volatile bool LCD_busy = false;
+volatile bool LCD_bandMenuOpened = false;
+volatile DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
+volatile bool LCD_timeMenuOpened = false;
+volatile uint8_t TimeMenuSelection = 0;
+volatile bool LCD_mainMenuOpened = false;
+volatile bool LCD_systemMenuOpened = false;
+volatile bool LCD_modeMenuOpened = false;
+volatile uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
+
 char LCD_freq_string_hz[6];
 char LCD_freq_string_khz[6];
 char LCD_freq_string_mhz[6];
-bool LCD_bandMenuOpened = false;
 bool LCD_widthMenuOpened = false;
-bool LCD_modeMenuOpened = false;
-bool LCD_mainMenuOpened = false;
-bool LCD_timeMenuOpened = false;
-bool LCD_systemMenuOpened = false;
 uint32_t LCD_last_showed_freq = 0;
 uint16_t LCD_last_showed_freq_mhz = 9999;
 uint16_t LCD_last_showed_freq_khz = 9999;
 uint16_t LCD_last_showed_freq_hz = 9999;
-uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
-
 int LCD_last_s_meter = 1;
-bool LCD_busy = false;
 bool LCD_pressed = false;
-
 struct button_handler button_handlers[16];
 uint8_t button_handlers_count = 0;
 uint32_t lastTouchTick = 0;
-
 uint32_t Time;
 uint8_t Hours;
 uint8_t Last_showed_Hours = 255;
@@ -43,9 +43,6 @@ uint8_t Minutes;
 uint8_t Last_showed_Minutes = 255;
 uint8_t Seconds;
 uint8_t Last_showed_Seconds = 255;
-uint8_t TimeMenuSelection = 0;
-
-DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
 
 void LCD_displayFreqInfo(void);
 void LCD_displayTopButtons(bool redraw);

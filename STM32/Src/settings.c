@@ -18,7 +18,7 @@ uint8_t Read_Data = W25Q16_COMMAND_Read_Data;
 uint8_t Address[3] = { 0x00 };
 
 struct TRX_SETTINGS TRX;
-bool NeedSaveSettings = false;
+volatile bool NeedSaveSettings = false;
 
 void LoadSettings(void)
 {

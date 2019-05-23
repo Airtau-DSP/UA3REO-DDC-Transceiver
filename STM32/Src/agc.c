@@ -9,8 +9,6 @@
 float32_t AGC_need_gain = 0.0f;
 float32_t RX_AGC_STEPSIZE_UP=1.0f;
 float32_t RX_AGC_STEPSIZE_DOWN=1.0f;
-float32_t AGC_RX_MAX_amplitude=0;
-uint32_t AGC_RX_MAX_amplitude_index=0;
 float32_t AGC_need_gain_old = 1.0f;
 
 void InitAGC(void)
@@ -22,6 +20,8 @@ void InitAGC(void)
 
 void DoAGC(float32_t *agcBuffer, int16_t blockSize)
 {
+	float32_t AGC_RX_MAX_amplitude=0;
+	uint32_t AGC_RX_MAX_amplitude_index=0;
 	//ищем максимум в амплитуде
 	arm_max_f32(agcBuffer,blockSize,&AGC_RX_MAX_amplitude,&AGC_RX_MAX_amplitude_index);
 	if(AGC_RX_MAX_amplitude==0.0f) AGC_RX_MAX_amplitude=0.001f;

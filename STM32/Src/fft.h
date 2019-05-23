@@ -25,8 +25,7 @@ extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);
 extern void FFT_moveWaterfall(int16_t freq_diff);
 
-extern uint32_t FFT_buff_index;
-extern bool FFTInputBufferInProgress;
+volatile extern uint32_t FFT_buff_index;
 extern bool NeedFFTInputBuffer;
 extern bool FFT_need_fft;
 extern float32_t FFTInput_I[FFT_SIZE];

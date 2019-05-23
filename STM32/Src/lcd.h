@@ -42,6 +42,8 @@ struct button_handler {
 	void(*handler) ();
 };
 
+extern IWDG_HandleTypeDef hiwdg;
+
 extern void LCD_Init(void);
 extern void LCD_doEvents(void);
 extern void LCD_showError(char text[]);
@@ -51,21 +53,15 @@ extern void LCD_checkTouchPad(void);
 void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void(*onclick) ());
 void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void(*onclick) ());
 
-extern uint32_t LCD_last_showed_freq;
-extern uint8_t LCD_menu_main_index;
-extern DEF_LCD_UpdateQuery LCD_UpdateQuery;
-extern bool LCD_mainMenuOpened;
-extern bool LCD_modeMenuOpened;
-extern bool LCD_timeMenuOpened;
-extern bool LCD_systemMenuOpened;
-extern char LCD_freq_string_hz[6];
-extern char LCD_freq_string_khz[6];
-extern char LCD_freq_string_mhz[6];
-extern bool LCD_bandMenuOpened;
-extern int LCD_last_s_meter;
-extern bool LCD_busy;
-extern uint8_t TimeMenuSelection;
-extern IWDG_HandleTypeDef hiwdg;
+volatile extern DEF_LCD_UpdateQuery LCD_UpdateQuery;
+volatile extern bool LCD_busy;
+volatile extern bool LCD_bandMenuOpened;
+volatile extern bool LCD_timeMenuOpened;
+volatile extern bool LCD_modeMenuOpened;
+volatile extern bool LCD_systemMenuOpened;
+volatile extern bool LCD_mainMenuOpened;
+volatile extern uint8_t TimeMenuSelection;
+volatile extern uint8_t LCD_menu_main_index;
 
 //HANDLERS
 void LCD_Handler_TUNE(void);

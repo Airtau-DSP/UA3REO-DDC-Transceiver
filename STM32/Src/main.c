@@ -86,7 +86,7 @@ SRAM_HandleTypeDef hsram1;
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-uint32_t cpu_sleep_counter=0;
+volatile uint32_t cpu_sleep_counter=0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/

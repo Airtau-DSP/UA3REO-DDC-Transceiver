@@ -17,12 +17,14 @@ void FPGA_writePacket(uint8_t packet);
 void FPGA_clockRise(void);
 void FPGA_clockFall(void);
 
-extern bool FPGA_busy;
-extern uint32_t FPGA_samples;
-extern bool FPGA_Buffer_underrun;
-extern float32_t FPGA_MAX_I_Value;
-extern float32_t FPGA_MIN_I_Value;
-extern float32_t FPGA_DC_Offset;
+volatile extern bool FPGA_busy;
+volatile extern uint32_t FPGA_samples;
+volatile extern bool FPGA_Buffer_underrun;
+volatile extern float32_t FPGA_MAX_I_Value;
+volatile extern float32_t FPGA_MIN_I_Value;
+volatile extern float32_t FPGA_DC_Offset;
+volatile extern bool FPGA_NeedSendParams;
+volatile extern bool FPGA_NeedGetParams;
 
 extern float32_t FPGA_Audio_Buffer_SPEC_Q[FPGA_AUDIO_BUFFER_SIZE];
 extern float32_t FPGA_Audio_Buffer_SPEC_I[FPGA_AUDIO_BUFFER_SIZE];
@@ -33,8 +35,6 @@ extern float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE];
 extern uint16_t FPGA_Audio_Buffer_Index;
 extern bool FPGA_Audio_Buffer_State;
 
-extern bool FPGA_NeedSendParams;
-extern bool FPGA_NeedGetParams;
 void FPGA_fpgadata_sendparam(void);
 void FPGA_fpgadata_getparam(void);
 void FPGA_fpgadata_getiq(void);

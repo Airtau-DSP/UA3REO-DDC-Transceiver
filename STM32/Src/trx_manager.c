@@ -11,25 +11,24 @@
 #include "audio_filters.h"
 #include "usbd_audio_if.h"
 
-bool TRX_ptt_hard = false;
-bool TRX_old_ptt_hard = false;
-bool TRX_ptt_cat = false;
-bool TRX_old_ptt_cat = false;
-bool TRX_key_serial = false;
-bool TRX_old_key_serial = false;
-bool TRX_key_hard = false;
-bool TRX_old_key_hard = false;
-uint16_t TRX_Key_Timeout_est = 0;
-
-bool TRX_IQ_swap = false;
-bool TRX_squelched = false;
-bool TRX_tune = false;
-bool TRX_inited = false;
-int16_t TRX_RX_dBm = -100;
-bool TRX_ADC_OTR = false;
-bool TRX_DAC_OTR = false;
-uint16_t TRX_ADC_MAXAMPLITUDE = 0;
-uint8_t TRX_Time_InActive = 0; //секунд бездействия, используется для спящего режима
+volatile bool TRX_ptt_hard = false;
+volatile bool TRX_old_ptt_hard = false;
+volatile bool TRX_ptt_cat = false;
+volatile bool TRX_old_ptt_cat = false;
+volatile bool TRX_key_serial = false;
+volatile bool TRX_old_key_serial = false;
+volatile bool TRX_key_hard = false;
+volatile bool TRX_old_key_hard = false;
+volatile uint16_t TRX_Key_Timeout_est = 0;
+volatile bool TRX_IQ_swap = false;
+volatile bool TRX_squelched = false;
+volatile bool TRX_tune = false;
+volatile bool TRX_inited = false;
+volatile int16_t TRX_RX_dBm = -100;
+volatile bool TRX_ADC_OTR = false;
+volatile bool TRX_DAC_OTR = false;
+volatile uint16_t TRX_ADC_MAXAMPLITUDE = 0;
+volatile uint8_t TRX_Time_InActive = 0; //секунд бездействия, используется для спящего режима
 
 uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
 uint8_t autogain_stage = 2; //по умолчанию режим с выключенным PREAMP и ATT

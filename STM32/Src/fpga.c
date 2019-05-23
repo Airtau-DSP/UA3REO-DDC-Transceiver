@@ -8,32 +8,27 @@
 #include "settings.h"
 #include "wm8731.h"
 
+volatile uint32_t FPGA_samples = 0;
+volatile bool FPGA_busy = false;
+volatile float32_t FPGA_MAX_I_Value = 0;
+volatile float32_t FPGA_MIN_I_Value = 0;
+volatile float32_t FPGA_DC_Offset = 0;
+volatile bool FPGA_NeedSendParams = false;
+volatile bool FPGA_NeedGetParams = false;
+volatile bool FPGA_Buffer_underrun = false;
+
 uint8_t FPGA_fpgadata_in_tmp8 = 0;
 uint8_t FPGA_fpgadata_out_tmp8 = 0;
-
-bool FPGA_busy = false;
 GPIO_InitTypeDef FPGA_GPIO_InitStruct;
 bool FPGA_bus_direction = false; //false - OUT; true - in
-
-uint32_t FPGA_samples = 0;
-
+uint16_t FPGA_Audio_Buffer_Index = 0;
+bool FPGA_Audio_Buffer_State = true; //true - compleate ; false - half
 float32_t FPGA_Audio_Buffer_SPEC_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_SPEC_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_VOICE_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_VOICE_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
-
-float32_t FPGA_MAX_I_Value = 0;
-float32_t FPGA_MIN_I_Value = 0;
-float32_t FPGA_DC_Offset = 0;
-
-uint16_t FPGA_Audio_Buffer_Index = 0;
-bool FPGA_Audio_Buffer_State = true; //true - compleate ; false - half
-
-bool FPGA_NeedSendParams = false;
-bool FPGA_NeedGetParams = false;
-bool FPGA_Buffer_underrun = false;
 
 void FPGA_Init(void)
 {
