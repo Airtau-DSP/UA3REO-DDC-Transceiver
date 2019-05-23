@@ -458,8 +458,7 @@ static void doRX_DNR(void)
 static void doRX_AGC(void)
 {
 	//AGC
-	if(TRX.AGC)
-		DoAGC((float32_t *)&FPGA_Audio_Buffer_I_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE);
+	DoAGC((float32_t *)&FPGA_Audio_Buffer_I_tmp[0],FPGA_AUDIO_BUFFER_HALF_SIZE);
 }
 
 static void doRX_SMETER(void)

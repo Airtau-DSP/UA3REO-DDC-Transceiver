@@ -743,6 +743,7 @@ void LCD_Handler_DNR(void)
 void LCD_Handler_AGC(void)
 {
 	TRX.AGC = !TRX.AGC;
+	InitAGC();
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }

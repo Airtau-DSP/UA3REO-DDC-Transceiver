@@ -11,12 +11,13 @@ float32_t RX_AGC_STEPSIZE_UP=1.0f;
 float32_t RX_AGC_STEPSIZE_DOWN=1.0f;
 float32_t AGC_RX_MAX_amplitude=0;
 uint32_t AGC_RX_MAX_amplitude_index=0;
-	
+float32_t AGC_need_gain_old = 1.0f;
+
 void InitAGC(void)
 {
 	//выше скорость в настройках - выше скорость отработки AGC
-	RX_AGC_STEPSIZE_UP=5000.0f/(float32_t)TRX.Agc_speed;
-	RX_AGC_STEPSIZE_DOWN=50.0f/(float32_t)TRX.Agc_speed;
+	RX_AGC_STEPSIZE_UP=500.0f/(float32_t)TRX.Agc_speed;
+	RX_AGC_STEPSIZE_DOWN=RX_AGC_STEPSIZE_UP/10.0f;
 }
 
 void DoAGC(float32_t *agcBuffer, int16_t blockSize)
@@ -38,7 +39,29 @@ void DoAGC(float32_t *agcBuffer, int16_t blockSize)
 	if(AGC_need_gain<0.0f) AGC_need_gain=0.0f;
 	//перегрузка (клиппинг), резко снижаем усиление
 	if((AGC_need_gain*AGC_RX_MAX_amplitude)>AGC_CLIP_THRESHOLD)
+	{
 		AGC_need_gain = AGC_need_gain_target;
+		//sendToDebug_str("RX AGC Clip");
+	}
+	//AGC выключен, ничего не усиливаем (требуется для плавного выключения)
+	if(!TRX.AGC)
+		AGC_need_gain = 1.0f;
 	//применяем усиление
-	arm_scale_f32(agcBuffer, AGC_need_gain, agcBuffer, blockSize);
+	if(AGC_need_gain_old!=AGC_need_gain) //усиление изменилось
+	{
+		float32_t gainApplyStep=0;
+		if(AGC_need_gain_old>AGC_need_gain)
+			gainApplyStep=-(AGC_need_gain_old-AGC_need_gain)/blockSize;
+		if(AGC_need_gain_old<AGC_need_gain)
+			gainApplyStep=(AGC_need_gain-AGC_need_gain_old)/blockSize;
+		for(uint16_t i=0;i<blockSize;i++)
+		{
+			AGC_need_gain_old+=gainApplyStep;
+			agcBuffer[i]=agcBuffer[i]*AGC_need_gain_old;
+		}
+	}
+	else //усиление не менялось, применяем усиление по всем выборкам
+	{
+		arm_scale_f32(agcBuffer, AGC_need_gain, agcBuffer, blockSize);
+	}
 }

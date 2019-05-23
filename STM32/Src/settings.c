@@ -41,7 +41,7 @@ void LoadSettings(void)
 		TRX.TX_Amplifier = true;
 		TRX.Notch = 0;
 		TRX.DNR = false;
-		TRX.Agc_speed = 2;
+		TRX.Agc_speed = 3;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
 		TRX.BandMapEnabled = true;
 		TRX.Volume = 20;
