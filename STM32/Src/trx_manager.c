@@ -32,7 +32,7 @@ volatile int16_t TRX_ADC_MINAMPLITUDE = 0;
 volatile int16_t TRX_ADC_MAXAMPLITUDE = 0;
 
 uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
-uint8_t autogain_stage = 2; //по умолчанию режим с выключенным PREAMP и ATT
+uint8_t autogain_stage = 0; //этап отработки актокорректировщика усиления
 
 char *MODE_DESCR[] = {
 	"LSB",
@@ -260,70 +260,87 @@ void TRX_DoAutoGain(void)
 	//Process AutoGain feature
 	if(TRX.AutoGain)
 	{
-		if(autogain_wait_reaction>0)
+		TRX.LPF=true;
+		TRX.BPF=true;
+		switch(autogain_stage)
 		{
-			autogain_wait_reaction--;
-		}
-		else 
-		{
-			TRX.LPF=true;
-			TRX.BPF=true;
-			switch(autogain_stage)
-			{
-				case 0: //этап 1 - включаем ДПФ, ЛПФ, Аттенюатор, выключаем предусилитель (-12dB)
-					TRX.Preamp=false;
-					TRX.ATT=true;
-					LCD_UpdateQuery.MainMenu=true;
-					LCD_UpdateQuery.TopButtons=true;
+			case 0: //этап 1 - включаем ДПФ, ЛПФ, Аттенюатор, выключаем предусилитель (-12dB)
+				TRX.Preamp=false;
+				TRX.ATT=true;
+				LCD_UpdateQuery.MainMenu=true;
+				LCD_UpdateQuery.TopButtons=true;
+				autogain_stage++;
+				autogain_wait_reaction=0;
+				//sendToDebug_str("AUTOGAIN LPF+BPF+ATT\r\n");
+				break;
+			case 1: //сменили состояние, обрабатываем результаты
+				if((TRX_ADC_MAXAMPLITUDE*db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) //если можем выключить АТТ - переходим на следующий этап (+12dB)
+					autogain_wait_reaction++; 
+				else
+					autogain_wait_reaction=0;
+				if(autogain_wait_reaction>=AUTOGAIN_CORRECTOR_WAITSTEP)
+				{
 					autogain_stage++;
-					autogain_wait_reaction=3;
-					//sendToDebug_str("AUTOGAIN LPF+BPF+ATT\r\n");
-					break;
-				case 1: //сменили состояние, обрабатываем результаты
-					if((TRX_ADC_MAXAMPLITUDE*db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) autogain_stage++; //если можем выключить АТТ - переходим на следующий этап (+12dB)
-					break;
-				case 2: //этап 1 - включаем ДПФ, ЛПФ, выключаем Аттенюатор, выключаем предусилитель (+0dB)
-					TRX.Preamp=false;
-					TRX.ATT=false;
-					LCD_UpdateQuery.MainMenu=true;
-					LCD_UpdateQuery.TopButtons=true;
+					autogain_wait_reaction=0;
+				}
+				break;
+			case 2: //этап 1 - включаем ДПФ, ЛПФ, выключаем Аттенюатор, выключаем предусилитель (+0dB)
+				TRX.Preamp=false;
+				TRX.ATT=false;
+				LCD_UpdateQuery.MainMenu=true;
+				LCD_UpdateQuery.TopButtons=true;
+				autogain_stage++;
+				autogain_wait_reaction=0;
+				//sendToDebug_str("AUTOGAIN LPF+BPF\r\n");
+				break;
+			case 3: //сменили состояние, обрабатываем результаты
+				if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
+				if((TRX_ADC_MAXAMPLITUDE*db2rateV(PREAMP_GAIN_DB)/db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) //если можем включить АТТ+PREAMP - переходим на следующий этап (+20dB-12dB)
+					autogain_wait_reaction++; 
+				else
+					autogain_wait_reaction=0;
+				if(autogain_wait_reaction>=AUTOGAIN_CORRECTOR_WAITSTEP)
+				{
 					autogain_stage++;
-					autogain_wait_reaction=3;
-					//sendToDebug_str("AUTOGAIN LPF+BPF\r\n");
-					break;
-				case 3: //сменили состояние, обрабатываем результаты
-					if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
-					if((TRX_ADC_MAXAMPLITUDE*db2rateV(PREAMP_GAIN_DB)/db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) autogain_stage++; //если можем включить АТТ+PREAMP - переходим на следующий этап (+20dB-12dB)
-					break;
-				case 4: //этап 2 - включаем ДПФ, ЛПФ, Аттенюатор, Предусилитель (+8dB)
-					TRX.Preamp=true;
-					TRX.ATT=true;
-					LCD_UpdateQuery.MainMenu=true;
-					LCD_UpdateQuery.TopButtons=true;
+					autogain_wait_reaction=0;
+				}
+				break;
+			case 4: //этап 2 - включаем ДПФ, ЛПФ, Аттенюатор, Предусилитель (+8dB)
+				TRX.Preamp=true;
+				TRX.ATT=true;
+				LCD_UpdateQuery.MainMenu=true;
+				LCD_UpdateQuery.TopButtons=true;
+				autogain_stage++;
+				autogain_wait_reaction=0;
+				//sendToDebug_str("AUTOGAIN LPF+BPF+PREAMP+ATT\r\n");
+				break;
+			case 5: //сменили состояние, обрабатываем результаты
+				if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
+				if((TRX_ADC_MAXAMPLITUDE*db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) //если можем выключить АТТ - переходим на следующий этап (+12dB)
+					autogain_wait_reaction++; 
+				else
+					autogain_wait_reaction=0;
+				if(autogain_wait_reaction>=AUTOGAIN_CORRECTOR_WAITSTEP)
+				{
 					autogain_stage++;
-					autogain_wait_reaction=3;
-					//sendToDebug_str("AUTOGAIN LPF+BPF+PREAMP+ATT\r\n");
-					break;
-				case 5: //сменили состояние, обрабатываем результаты
-					if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
-					if((TRX_ADC_MAXAMPLITUDE*db2rateV(ATT_DB))<=AUTOGAIN_MAX_AMPLITUDE) autogain_stage++; //если можем выключить АТТ - переходим на следующий этап (+12dB)
-					break;
-				case 6: //этап 3 - включаем ДПФ, ЛПФ, Предусилитель, выключаем Аттенюатор (+20dB)
-					TRX.Preamp=true;
-					TRX.ATT=false;
-					LCD_UpdateQuery.MainMenu=true;
-					LCD_UpdateQuery.TopButtons=true;
-					autogain_stage++;
-					autogain_wait_reaction=3;
-					//sendToDebug_str("AUTOGAIN LPF+BPF+PREAMP\r\n");
-					break;
-				case 7: //сменили состояние, обрабатываем результаты
-					if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
-					break;
-				default:
-					autogain_stage=0;
-					break;
-			}
+					autogain_wait_reaction=0;
+				}
+				break;
+			case 6: //этап 3 - включаем ДПФ, ЛПФ, Предусилитель, выключаем Аттенюатор (+20dB)
+				TRX.Preamp=true;
+				TRX.ATT=false;
+				LCD_UpdateQuery.MainMenu=true;
+				LCD_UpdateQuery.TopButtons=true;
+				autogain_stage++;
+				autogain_wait_reaction=0;
+				//sendToDebug_str("AUTOGAIN LPF+BPF+PREAMP\r\n");
+				break;
+			case 7: //сменили состояние, обрабатываем результаты
+				if(TRX_ADC_MAXAMPLITUDE>AUTOGAIN_MAX_AMPLITUDE) autogain_stage-=3; //слишком большое усиление, возвращаемся на этап назад
+				break;
+			default:
+				autogain_stage=0;
+				break;
 		}
 	}
 }
