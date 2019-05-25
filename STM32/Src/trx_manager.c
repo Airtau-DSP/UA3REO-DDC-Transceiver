@@ -27,8 +27,9 @@ volatile bool TRX_inited = false;
 volatile int16_t TRX_RX_dBm = -100;
 volatile bool TRX_ADC_OTR = false;
 volatile bool TRX_DAC_OTR = false;
-volatile uint16_t TRX_ADC_MAXAMPLITUDE = 0;
 volatile uint8_t TRX_Time_InActive = 0; //секунд бездействия, используется для спящего режима
+volatile int16_t TRX_ADC_MINAMPLITUDE = 0;
+volatile int16_t TRX_ADC_MAXAMPLITUDE = 0;
 
 uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
 uint8_t autogain_stage = 2; //по умолчанию режим с выключенным PREAMP и ATT
@@ -219,6 +220,7 @@ uint8_t TRX_getMode(void)
 
 void TRX_RF_UNIT_UpdateState(bool clean) //передаём значения в RF-UNIT
 {
+	bool hpf_lock=false;
 	HAL_GPIO_WritePin(RFUNIT_RCLK_GPIO_Port, RFUNIT_RCLK_Pin, GPIO_PIN_RESET); //защёлка
 	for (uint8_t registerNumber = 0; registerNumber < 16; registerNumber++) {
 		HAL_GPIO_WritePin(RFUNIT_CLK_GPIO_Port, RFUNIT_CLK_Pin, GPIO_PIN_RESET); //клок данных
@@ -229,7 +231,11 @@ void TRX_RF_UNIT_UpdateState(bool clean) //передаём значения в 
 			if(registerNumber==1 && TRX.ATT) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //ATT_ON
 			if(registerNumber==2 && (!TRX.LPF || TRX_getFrequency()>LPF_END)) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //LPF_OFF
 			if(registerNumber==3 && (!TRX.BPF || TRX_getFrequency()<BPF_1_START)) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_OFF
-			if(registerNumber==4 && TRX.BPF && TRX_getFrequency()>=BPF_0_START && TRX_getFrequency()<BPF_0_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_0
+			if(registerNumber==4 && TRX.BPF && TRX_getFrequency()>=BPF_0_START && TRX_getFrequency()<BPF_0_END)
+			{
+				HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_0
+				hpf_lock=true; //блокируем HPF для выделенного BPF фильтра УКВ
+			}
 			if(registerNumber==5 && TRX.BPF && TRX_getFrequency()>=BPF_1_START && TRX_getFrequency()<BPF_1_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_1
 			if(registerNumber==6 && TRX.BPF && TRX_getFrequency()>=BPF_2_START && TRX_getFrequency()<BPF_2_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_2
 			if(registerNumber==7 && TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //TX_RX
@@ -237,7 +243,7 @@ void TRX_RF_UNIT_UpdateState(bool clean) //передаём значения в 
 			//if(registerNumber==8) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); // unused
 			//if(registerNumber==9) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); // unused
 			//if(registerNumber==10 && TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //FAN
-			if(registerNumber==11 && TRX.BPF && TRX_getFrequency()>=BPF_7_START && TRX_getFrequency()<BPF_7_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_7
+			if(registerNumber==11 && TRX.BPF && TRX_getFrequency()>=BPF_7_HPF && !hpf_lock) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_7_HPF
 			if(registerNumber==12 && TRX.BPF && TRX_getFrequency()>=BPF_6_START && TRX_getFrequency()<BPF_6_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_6
 			if(registerNumber==13 && TRX.BPF && TRX_getFrequency()>=BPF_5_START && TRX_getFrequency()<BPF_5_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_5
 			if(registerNumber==14 && TRX.BPF && TRX_getFrequency()>=BPF_4_START && TRX_getFrequency()<BPF_4_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_4

@@ -48,7 +48,8 @@ volatile extern bool TRX_inited;
 volatile extern int16_t TRX_RX_dBm;
 volatile extern bool TRX_ADC_OTR;
 volatile extern bool TRX_DAC_OTR;
-volatile extern uint16_t TRX_ADC_MAXAMPLITUDE;
+volatile extern int16_t TRX_ADC_MINAMPLITUDE;
+volatile extern int16_t TRX_ADC_MAXAMPLITUDE;
 volatile extern uint8_t TRX_Time_InActive;
 
 extern char *MODE_DESCR[];

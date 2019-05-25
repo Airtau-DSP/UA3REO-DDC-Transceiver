@@ -170,18 +170,40 @@ void FPGA_fpgadata_sendparam(void)
 
 void FPGA_fpgadata_getparam(void)
 {
-	uint16_t adc_max=0;
+	int16_t adc_min=0;
+	int16_t adc_max=0;
 	//STAGE 2
 	//clock
 	FPGA_clockRise();
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
-	adc_max = (FPGA_fpgadata_in_tmp8 & 0X3C) << 6;
 	TRX_ADC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 0);
 	TRX_DAC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 1);
 	//clock
 	FPGA_clockFall();
+	
 	//STAGE 3
+	//clock
+	FPGA_clockRise();
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	adc_min |= (FPGA_fpgadata_in_tmp8 & 0XF0) << 4;
+	adc_max |= (FPGA_fpgadata_in_tmp8 & 0X0F) << 8;
+	//clock
+	FPGA_clockFall();
+	
+	//STAGE 4
+	//clock
+	FPGA_clockRise();
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	adc_min |= (FPGA_fpgadata_in_tmp8 & 0XFF);
+	TRX_ADC_MINAMPLITUDE = (adc_min<<4);
+	TRX_ADC_MINAMPLITUDE = TRX_ADC_MINAMPLITUDE/16;
+	//clock
+	FPGA_clockFall();
+	
+	//STAGE 5
 	//clock
 	FPGA_clockRise();
 	//in
