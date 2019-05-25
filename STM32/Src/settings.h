@@ -19,9 +19,8 @@
 #define TX_AGC_NOISEGATE 15.0f //Минимальный уровень сигнала для усиления (ниже - шум, отрезаем)
 #define TOUCHPAD_DELAY 200 //Время защиты от анти-дребезга нажания на тачпад
 #define ADC_VREF 1.0f //опорное напряжение АЦП, при подаче на вход которого АЦП отдаёт максимальное значение, вольт
-#define ADC_RESISTANCE 100 //сопротивление входа АЦП, ом
 #define ADC_RF_TRANS_RATIO 4 //коэффициент трансформации трансформатора :) на входе АЦП
-#define ADC_RF_INPUT_VALUE_CALIBRATION 0.60f //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера (PREAMP включен)
+#define ADC_RF_INPUT_VALUE_CALIBRATION 0.2f //коэффициент, на который умножаем данные с АЦП, чтобы получить реальное напряжение, устанавливается при калибровке трансивера по S9 (ATT выключен, PREAMP,LPF,BPF включен)
 #define ATT_DB 12 //подавление в аттенюаторе
 #define PREAMP_GAIN_DB 20 //усиление в предусилителе
 #define AUTOGAIN_MAX_AMPLITUDE 1100 //максимальная амлитуда, по достижению которой автокорректировщик входных цепей завершает работу, а при переполнении - снижает усиление
@@ -33,8 +32,8 @@
 //Данные по пропускной частоте с BPF фильтров (снимаются с помощью ГКЧ или выставляются по чувствительности)
 //Далее выставляются средние пограничные частоты срабатывания
 #define LPF_END 30000000
-#define BPF_0_START 0
-#define BPF_0_END 0
+#define BPF_0_START 132000000
+#define BPF_0_END 165000000
 #define BPF_1_START 1600000
 #define BPF_1_END 2650000
 #define BPF_2_START 2650000
@@ -47,8 +46,7 @@
 #define BPF_5_END 17000000
 #define BPF_6_START 17000000
 #define BPF_6_END 34000000
-#define BPF_7_START 34000000
-#define BPF_7_END MAX_FREQ_HZ
+#define BPF_7_HPF 34000000
 
 #define W25Q16_COMMAND_Write_Enable 0x06
 #define W25Q16_COMMAND_Erase_Chip 0xC7

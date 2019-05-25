@@ -306,10 +306,12 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	const int width = METER_WIDTH-2;
 	
 	float32_t TRX_s_meter = (127.0f+TRX_RX_dBm)/6; //127dbm - S0, 6dBm - 1S div
+	if(TRX_getFrequency()>=144000000)
+		TRX_s_meter = (127.0f+TRX_RX_dBm)/6; //147dbm - S0 для частот выше 144мгц
 	if(TRX_s_meter<=9.0f)
-		TRX_s_meter=TRX_s_meter*((width/8.0f)*5.0f/9.0f); //первые 9 баллов по 6 дб
+		TRX_s_meter=TRX_s_meter*((width/9.0f)*5.0f/9.0f); //первые 9 баллов по 6 дб, первые 5 из 8 рисок (9 участков)
 	else
-		TRX_s_meter=((width/8.0f)*5.0f)+(TRX_s_meter-9.0f)*((width/8.0f)*3.0f/10.0f); //остальные 3 балла по 10 дб
+		TRX_s_meter=((width/9.0f)*5.0f)+(TRX_s_meter-9.0f)*((width/9.0f)*3.0f/10.0f); //остальные 3 балла по 10 дб
 	if (TRX_s_meter > width) TRX_s_meter = width;
 	if (TRX_s_meter < 0.0f) TRX_s_meter = 0.0f;
 
@@ -328,7 +330,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	LCDDriver_printText(ctmp,41 + width + 5,135,COLOR_GREEN,COLOR_BLACK,1);
 	
 	LCDDriver_Fill_RectWH(270, 220, 50, 8, COLOR_BLACK);
-	if (TRX_ADC_OTR || TRX_DAC_OTR || TRX_ADC_MAXAMPLITUDE>2000) 
+	if (TRX_ADC_OTR || TRX_DAC_OTR || TRX_ADC_MAXAMPLITUDE>2000 || TRX_ADC_MINAMPLITUDE<-2000) 
 		LCDDriver_printText("OVR", 270, 220, COLOR_RED, COLOR_BLACK, 1);
 	if (WM8731_Buffer_underrun && !TRX_on_TX()) 
 		LCDDriver_printText("WBF", 297, 220, COLOR_RED, COLOR_BLACK, 1);

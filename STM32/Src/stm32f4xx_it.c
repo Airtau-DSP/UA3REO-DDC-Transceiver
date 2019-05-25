@@ -392,7 +392,7 @@ void TIM6_DAC_IRQHandler(void)
 		float32_t ADC_Vrms_Value=ADC_Vpp_Value*0.3535f; // Получаем действующее (RMS) напряжение на аходе АЦП
 		float32_t ADC_RF_IN_Value=(ADC_Vrms_Value/ADC_RF_TRANS_RATIO)*ADC_RF_INPUT_VALUE_CALIBRATION; //Получаем напряжение на антенном входе с учётом трансформатора и калибровки
 		if(ADC_RF_IN_Value<0.0000001f) ADC_RF_IN_Value=0.0000001f;
-		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(ADC_RESISTANCE*0.001)) ; //получаем значение мощности в dBm для сопротивления входа АЦП
+		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(50*0.001)) ; //получаем значение мощности в dBm для сопротивления 50ом
 		Processor_RX_Audio_Samples_MAX_value=0;
 		Processor_RX_Audio_Samples_MIN_value=0;
 	}
@@ -429,7 +429,8 @@ void TIM6_DAC_IRQHandler(void)
 		//sendToDebug_str("First byte of Q: "); sendToDebug_float32(dbg_FPGA_Audio_Buffer_Q_tmp,false); //first byte of Q
 		//sendToDebug_str("USB Audio RX samples: "); sendToDebug_uint32(dbg_RX_USB_AUDIO_SAMPLES,false); //~48000
 		//sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
-		//sendToDebug_str("ADC MAX Amplitude: "); sendToDebug_uint16(TRX_ADC_MAXAMPLITUDE,false);
+		//sendToDebug_str("ADC MIN Amplitude: "); sendToDebug_int16(TRX_ADC_MINAMPLITUDE,false);
+		//sendToDebug_str("ADC MAX Amplitude: "); sendToDebug_int16(TRX_ADC_MAXAMPLITUDE,false);
 		//sendToDebug_newline();
 		//PrintProfilerResult();
 		
