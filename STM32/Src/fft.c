@@ -34,8 +34,8 @@ static uint16_t color_scale[FFT_MAX_HEIGHT] = { 0 }; //цветовой град
 //Дециматор для Zoom FFT
 static arm_fir_decimate_instance_f32	DECIMATE_ZOOM_FFT_I;
 static arm_fir_decimate_instance_f32	DECIMATE_ZOOM_FFT_Q;
-static float32_t decimZoomFFTIState[FFT_SIZE + 16];
-static float32_t decimZoomFFTQState[FFT_SIZE + 16];
+static float32_t decimZoomFFTIState[FFT_SIZE + 4 - 1];
+static float32_t decimZoomFFTQState[FFT_SIZE + 4 - 1];
 static uint16_t zoomed_width = 0;
 
 static uint16_t getFFTColor(uint8_t height);
