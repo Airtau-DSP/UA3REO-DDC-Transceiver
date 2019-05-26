@@ -10,11 +10,11 @@
 #include "settings.h"
 #include "functions.h"
 
-arm_lms_norm_instance_f32	lms2_Norm_instance;
-float32_t	                lms2_stateF32[NOISE_REDUCTION_TAPS+NOISE_REDUCTION_BLOCK_SIZE];
-float32_t	                lms2_normCoeff_f32[NOISE_REDUCTION_TAPS];
-float32_t	                lms2_reference[NOISE_REDUCTION_REFERENCE_SIZE];
-float32_t   							lms2_errsig2[NOISE_REDUCTION_BLOCK_SIZE];
+static arm_lms_norm_instance_f32	lms2_Norm_instance;
+static float32_t	                lms2_stateF32[NOISE_REDUCTION_TAPS+NOISE_REDUCTION_BLOCK_SIZE];
+static float32_t	                lms2_normCoeff_f32[NOISE_REDUCTION_TAPS];
+static float32_t	                lms2_reference[NOISE_REDUCTION_REFERENCE_SIZE];
+static float32_t   							lms2_errsig2[NOISE_REDUCTION_BLOCK_SIZE];
 
 void InitNoiseReduction(void)
 {

@@ -14,10 +14,10 @@ volatile bool FPGA_NeedSendParams = false;
 volatile bool FPGA_NeedGetParams = false;
 volatile bool FPGA_Buffer_underrun = false;
 
-uint8_t FPGA_fpgadata_in_tmp8 = 0;
-uint8_t FPGA_fpgadata_out_tmp8 = 0;
-GPIO_InitTypeDef FPGA_GPIO_InitStruct;
-bool FPGA_bus_direction = false; //false - OUT; true - in
+static uint8_t FPGA_fpgadata_in_tmp8 = 0;
+static uint8_t FPGA_fpgadata_out_tmp8 = 0;
+static GPIO_InitTypeDef FPGA_GPIO_InitStruct;
+static bool FPGA_bus_direction = false; //false - OUT; true - in
 uint16_t FPGA_Audio_Buffer_Index = 0;
 bool FPGA_Audio_Buffer_State = true; //true - compleate ; false - half
 float32_t FPGA_Audio_Buffer_SPEC_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
@@ -26,6 +26,15 @@ float32_t FPGA_Audio_Buffer_VOICE_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_VOICE_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
+
+static inline uint8_t FPGA_readPacket(void);
+static inline void FPGA_writePacket(uint8_t packet);
+static inline void FPGA_clockFall(void);
+static inline void FPGA_clockRise(void);
+static void FPGA_fpgadata_sendiq(void);
+static void FPGA_fpgadata_getiq(void);
+static void FPGA_fpgadata_getparam(void);
+static void FPGA_fpgadata_sendparam(void);
 
 void FPGA_Init(void)
 {
@@ -119,7 +128,7 @@ void FPGA_fpgadata_iqclock(void)
 	FPGA_busy = false;
 }
 
-void FPGA_fpgadata_sendparam(void)
+static void FPGA_fpgadata_sendparam(void)
 {
 	uint32_t TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq);
 	if (!TRX_on_TX())
@@ -168,7 +177,7 @@ void FPGA_fpgadata_sendparam(void)
 	FPGA_clockFall();
 }
 
-void FPGA_fpgadata_getparam(void)
+static void FPGA_fpgadata_getparam(void)
 {
 	int16_t adc_min=0;
 	int16_t adc_max=0;
@@ -214,7 +223,7 @@ void FPGA_fpgadata_getparam(void)
 	FPGA_clockFall();
 }
 
-void FPGA_fpgadata_getiq(void)
+static void FPGA_fpgadata_getiq(void)
 {
 	int16_t FPGA_fpgadata_in_tmp16 = 0;
 	FPGA_samples++;
@@ -332,7 +341,7 @@ void FPGA_fpgadata_getiq(void)
 	FPGA_clockFall();
 }
 
-void FPGA_fpgadata_sendiq(void)
+static void FPGA_fpgadata_sendiq(void)
 {
 	int16_t FPGA_fpgadata_out_tmp16 = 0;
 	
@@ -397,7 +406,7 @@ void FPGA_fpgadata_sendiq(void)
 	}
 }
 
-void FPGA_setDirectionFast(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
+static void FPGA_setDirectionFast(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
 {
 	uint32_t position;
 	uint32_t ioposition = 0x00U;
@@ -429,31 +438,31 @@ void FPGA_setDirectionFast(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
 	}
 }
 
-void FPGA_setBusInput(void)
+static void FPGA_setBusInput(void)
 {
 	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	FPGA_setDirectionFast(GPIOA, &FPGA_GPIO_InitStruct);
 	FPGA_bus_direction=true;
 }
 
-void FPGA_setBusOutput(void)
+static void FPGA_setBusOutput(void)
 {
 	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	FPGA_setDirectionFast(GPIOA, &FPGA_GPIO_InitStruct);
 	FPGA_bus_direction=false;
 }
 
-inline void FPGA_clockRise(void)
+static inline void FPGA_clockRise(void)
 {
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
 }
 
-inline void FPGA_clockFall(void)
+static inline void FPGA_clockFall(void)
 {
 	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
 }
 
-inline uint8_t FPGA_readPacket(void)
+static inline uint8_t FPGA_readPacket(void)
 {
 	if(!FPGA_bus_direction)
 		FPGA_setBusInput();
@@ -467,7 +476,7 @@ inline uint8_t FPGA_readPacket(void)
 				| (((FPGA_BUS_D7_GPIO_Port->IDR & FPGA_BUS_D7_Pin) == FPGA_BUS_D7_Pin) << 7);
 }
 
-inline void FPGA_writePacket(uint8_t packet)
+static inline void FPGA_writePacket(uint8_t packet)
 {
 	if(FPGA_bus_direction)
 		FPGA_setBusOutput();

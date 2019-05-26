@@ -16,29 +16,29 @@
 #include "usbd_audio_if.h"
 #include "noise_reduction.h"
 
-uint32_t AUDIOPROC_samples = 0;
-uint32_t AUDIOPROC_TXA_samples = 0;
-uint32_t AUDIOPROC_TXB_samples = 0;
+volatile uint32_t AUDIOPROC_samples = 0;
+volatile uint32_t AUDIOPROC_TXA_samples = 0;
+volatile uint32_t AUDIOPROC_TXB_samples = 0;
 int32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 int32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
-uint8_t Processor_AudioBuffer_ReadyBuffer = 0;
-bool Processor_NeedRXBuffer = false;
-bool Processor_NeedTXBuffer = false;
+volatile uint8_t Processor_AudioBuffer_ReadyBuffer = 0;
+volatile bool Processor_NeedRXBuffer = false;
+volatile bool Processor_NeedTXBuffer = false;
 float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
 float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE] = { 0 };
-const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
+volatile float32_t Processor_AVG_amplitude = 0.0f; //средняя амплитуда семплов при прёме
+volatile float32_t Processor_TX_MAX_amplitude = 0.0f; //средняя амплитуда семплов при передаче
+volatile float32_t Processor_RX_Audio_Samples_MAX_value = 0.0f; //максимальное значение семплов
+volatile float32_t Processor_RX_Audio_Samples_MIN_value = 0.0f; //минимальное значение семплов
+volatile float32_t ALC_need_gain = 1.0f;
+volatile float32_t fm_sql_avg = 0.0f;
 
-float32_t Processor_AVG_amplitude = 0.0f; //средняя амплитуда семплов при прёме
-float32_t Processor_TX_MAX_amplitude = 0.0f; //средняя амплитуда семплов при передаче
-float32_t Processor_RX_Audio_Samples_MAX_value = 0.0f; //максимальное значение семплов
-float32_t Processor_RX_Audio_Samples_MIN_value = 0.0f; //минимальное значение семплов
-float32_t ampl_val_i = 0.0f;
-float32_t ampl_val_q = 0.0f;
-float32_t selected_rfpower_amplitude = 0.0f;
-float32_t ALC_need_gain = 1.0f;
-float32_t ALC_need_gain_target = 1.0f;
-float32_t fm_sql_avg = 0.0f;
-uint16_t block = 0;
+static const uint16_t numBlocks = FPGA_AUDIO_BUFFER_HALF_SIZE / APROCESSOR_BLOCK_SIZE;
+static float32_t ampl_val_i = 0.0f;
+static float32_t ampl_val_q = 0.0f;
+static float32_t selected_rfpower_amplitude = 0.0f;
+static float32_t ALC_need_gain_target = 1.0f;
+static uint16_t block = 0;
 
 static void doRX_LPF(void);
 static void doRX_HPF(void);
@@ -46,6 +46,8 @@ static void doRX_DNR(void);
 static void doRX_AGC(void);
 static void doRX_SMETER(void);
 static void doRX_COPYCHANNEL(void);
+static void DemodulateFM(void);
+static void ModulateFM(void);
 
 void initAudioProcessor(void)
 {
@@ -559,7 +561,7 @@ static void DemodulateFM(void)
 	}
 }
 
-static void ModulateFM()
+static void ModulateFM(void)
 {
 	static uint32_t modulation=WM8731_SAMPLERATE;
   static float32_t hpf_prev_a=0;

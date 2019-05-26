@@ -64,7 +64,7 @@ USBD_StatusTypeDef USBD_DeInit(USBD_HandleTypeDef *pdev)
   pdev->dev_state  = USBD_STATE_DEFAULT;
 
   /* Free Class Resources */
-  pdev->pClass->DeInit(pdev, (uint8_t)pdev->dev_config);
+  pdev->pClass->DeInit(pdev);
 
     /* Stop the low level driver  */
   USBD_LL_Stop(pdev);
@@ -126,7 +126,7 @@ USBD_StatusTypeDef  USBD_Start  (USBD_HandleTypeDef *pdev)
 USBD_StatusTypeDef  USBD_Stop   (USBD_HandleTypeDef *pdev)
 {
   /* Free Class Resources */
-  pdev->pClass->DeInit(pdev, (uint8_t)pdev->dev_config);
+  pdev->pClass->DeInit(pdev);
 
   /* Stop the low level driver  */
   USBD_LL_Stop(pdev);
@@ -156,14 +156,14 @@ USBD_StatusTypeDef  USBD_RunTestMode (USBD_HandleTypeDef  *pdev)
 * @retval status
 */
 
-USBD_StatusTypeDef USBD_SetClassConfig(USBD_HandleTypeDef  *pdev, uint8_t cfgidx)
+USBD_StatusTypeDef USBD_SetClassConfig(USBD_HandleTypeDef  *pdev)
 {
   USBD_StatusTypeDef   ret = USBD_FAIL;
 
   if(pdev->pClass != NULL)
   {
     /* Set configuration  and Start the Class*/
-    if(pdev->pClass->Init(pdev, cfgidx) == 0U)
+    if(pdev->pClass->Init(pdev) == 0U)
     {
       ret = USBD_OK;
     }
@@ -179,10 +179,10 @@ USBD_StatusTypeDef USBD_SetClassConfig(USBD_HandleTypeDef  *pdev, uint8_t cfgidx
 * @param  cfgidx: configuration index
 * @retval status: USBD_StatusTypeDef
 */
-USBD_StatusTypeDef USBD_ClrClassConfig(USBD_HandleTypeDef  *pdev, uint8_t cfgidx)
+USBD_StatusTypeDef USBD_ClrClassConfig(USBD_HandleTypeDef  *pdev)
 {
   /* Clear configuration  and De-initialize the Class process*/
-  pdev->pClass->DeInit(pdev, cfgidx);
+  pdev->pClass->DeInit(pdev);
   return USBD_OK;
 }
 
@@ -329,7 +329,7 @@ USBD_StatusTypeDef USBD_LL_DataInStage(USBD_HandleTypeDef *pdev, uint8_t epnum,
           if((pdev->pClass->EP0_TxSent != NULL)&&
              (pdev->dev_state == USBD_STATE_CONFIGURED))
           {
-            pdev->pClass->EP0_TxSent(pdev);
+            pdev->pClass->EP0_TxSent();
           }
           USBD_LL_StallEP(pdev, 0x80U);
           USBD_CtlReceiveStatus(pdev);
@@ -393,7 +393,7 @@ USBD_StatusTypeDef USBD_LL_Reset(USBD_HandleTypeDef  *pdev)
 
   if (pdev->pClassDataDEBUG)
   {
-    pdev->pClass->DeInit(pdev, (uint8_t)pdev->dev_config);
+    pdev->pClass->DeInit(pdev);
   }
 
   return USBD_OK;
@@ -511,7 +511,7 @@ USBD_StatusTypeDef USBD_LL_DevDisconnected(USBD_HandleTypeDef  *pdev)
 {
   /* Free Class Resources */
   pdev->dev_state = USBD_STATE_DEFAULT;
-  pdev->pClass->DeInit(pdev, (uint8_t)pdev->dev_config);
+  pdev->pClass->DeInit(pdev);
 
   return USBD_OK;
 }

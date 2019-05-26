@@ -60,6 +60,6 @@ extern float log10f_fast(float X);
 extern void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_t index, uint32_t length);
 extern void readHalfFromCircleUSBBuffer(int16_t *source, int32_t *dest, uint16_t index, uint16_t length);
 extern void dma_memcpy32(uint32_t dest, uint32_t src, uint32_t len);
-extern float db2rateV(float i);
+extern double db2rateV(double i);
 
 #endif

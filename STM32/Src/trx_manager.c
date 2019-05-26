@@ -12,13 +12,11 @@
 #include "usbd_audio_if.h"
 
 volatile bool TRX_ptt_hard = false;
-volatile bool TRX_old_ptt_hard = false;
 volatile bool TRX_ptt_cat = false;
 volatile bool TRX_old_ptt_cat = false;
 volatile bool TRX_key_serial = false;
 volatile bool TRX_old_key_serial = false;
 volatile bool TRX_key_hard = false;
-volatile bool TRX_old_key_hard = false;
 volatile uint16_t TRX_Key_Timeout_est = 0;
 volatile bool TRX_IQ_swap = false;
 volatile bool TRX_squelched = false;
@@ -31,10 +29,10 @@ volatile uint8_t TRX_Time_InActive = 0; //секунд бездействия, �
 volatile int16_t TRX_ADC_MINAMPLITUDE = 0;
 volatile int16_t TRX_ADC_MAXAMPLITUDE = 0;
 
-uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
-uint8_t autogain_stage = 0; //этап отработки актокорректировщика усиления
+static uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
+static uint8_t autogain_stage = 0; //этап отработки актокорректировщика усиления
 
-char *MODE_DESCR[] = {
+const char *MODE_DESCR[] = {
 	"LSB",
 	"USB",
 	"IQ",
@@ -48,6 +46,10 @@ char *MODE_DESCR[] = {
 	"AM",
 	"LOOP"
 };
+
+static void TRX_Start_RX(void);
+static void TRX_Start_TX(void);
+static void TRX_Start_Loopback(void);
 
 bool TRX_on_TX(void)
 {
@@ -76,7 +78,7 @@ void TRX_Restart_Mode()
 	}
 }
 
-void TRX_Start_RX()
+static void TRX_Start_RX()
 {
 	sendToDebug_str("RX MODE\r\n");
 	TRX_RF_UNIT_UpdateState(false);
@@ -89,7 +91,7 @@ void TRX_Start_RX()
 	WM8731_start_i2s_and_dma();
 }
 
-void TRX_Start_TX()
+static void TRX_Start_TX()
 {
 	sendToDebug_str("TX MODE\r\n");
 	TRX_RF_UNIT_UpdateState(false);
@@ -100,7 +102,7 @@ void TRX_Start_TX()
 	WM8731_start_i2s_and_dma();
 }
 
-void TRX_Start_Loopback()
+static void TRX_Start_Loopback()
 {
 	sendToDebug_str("LOOP MODE\r\n");
 	TRX_RF_UNIT_UpdateState(false);
@@ -180,7 +182,7 @@ void TRX_setFrequency(int32_t _freq)
 	NeedFFTInputBuffer = true;
 }
 
-int32_t TRX_getFrequency(void)
+uint32_t TRX_getFrequency(void)
 {
 	return CurrentVFO()->Freq;
 }

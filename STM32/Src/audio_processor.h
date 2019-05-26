@@ -20,33 +20,31 @@
 
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
-
-extern void processRxAudio(void);
-extern void processTxAudio(void);
-extern void initAudioProcessor(void);
-extern uint32_t AUDIOPROC_samples;
-extern uint32_t AUDIOPROC_TXA_samples;
-extern uint32_t AUDIOPROC_TXB_samples;
-extern int32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
-extern int32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
-extern uint8_t Processor_AudioBuffer_ReadyBuffer;
-extern bool Processor_NeedRXBuffer;
-extern bool Processor_NeedTXBuffer;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream3;
-extern uint16_t fpga_index_copy;
-extern float32_t Processor_AVG_amplitude;
-extern float32_t Processor_TX_MAX_amplitude;
-extern float32_t ALC_need_gain;
-extern float32_t ALC_need_gain_new;
+
+extern void processRxAudio(void);
+extern void processTxAudio(void);
+extern void initAudioProcessor(void);
+
+extern volatile uint32_t AUDIOPROC_samples;
+extern volatile uint32_t AUDIOPROC_TXA_samples;
+extern volatile uint32_t AUDIOPROC_TXB_samples;
+extern int32_t Processor_AudioBuffer_A[FPGA_AUDIO_BUFFER_SIZE];
+extern int32_t Processor_AudioBuffer_B[FPGA_AUDIO_BUFFER_SIZE];
+extern volatile uint8_t Processor_AudioBuffer_ReadyBuffer;
+extern volatile bool Processor_NeedRXBuffer;
+extern volatile bool Processor_NeedTXBuffer;
+extern volatile float32_t Processor_AVG_amplitude;
+extern volatile float32_t Processor_TX_MAX_amplitude;
+extern volatile float32_t ALC_need_gain;
+extern volatile float32_t ALC_need_gain_new;
 extern float32_t FPGA_Audio_Buffer_Q_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
 extern float32_t FPGA_Audio_Buffer_I_tmp[FPGA_AUDIO_BUFFER_HALF_SIZE];
-extern float32_t fm_sql_avg;
-static void DemodulateFM(void);
-static void ModulateFM(void);
-extern float32_t Processor_RX_Audio_Samples_MAX_value;
-extern float32_t Processor_RX_Audio_Samples_MIN_value;
+extern volatile float32_t fm_sql_avg;
+extern volatile float32_t Processor_RX_Audio_Samples_MAX_value;
+extern volatile float32_t Processor_RX_Audio_Samples_MIN_value;
 
 #endif

@@ -15,19 +15,19 @@
 static char cat_buffer[CAT_BUFFER_SIZE] = { 0 };
 static uint8_t cat_buffer_head = 0;
 static char command_to_parse[CAT_BUFFER_SIZE]={0};
-
-static uint8_t getFT450Mode(uint8_t VFO_Mode);
-static uint8_t setFT450Mode(uint8_t FT450_Mode);
-
-uint8_t CAT_UserRxBufferFS[CAT_APP_RX_DATA_SIZE];
-uint8_t CAT_UserTxBufferFS[CAT_APP_TX_DATA_SIZE];
+static uint8_t CAT_UserRxBufferFS[CAT_APP_RX_DATA_SIZE];
+static uint8_t CAT_UserTxBufferFS[CAT_APP_TX_DATA_SIZE];
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
+static uint8_t getFT450Mode(uint8_t VFO_Mode);
+static uint8_t setFT450Mode(uint8_t FT450_Mode);
 static int8_t CAT_Init_FS(void);
 static int8_t CAT_DeInit_FS(void);
-static int8_t CAT_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length);
+static int8_t CAT_Control_FS(uint8_t cmd);
 static int8_t CAT_Receive_FS(uint8_t* pbuf, uint32_t *Len);
+static void CAT_Transmit(char* data);
+static uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len);
 
 USBD_CAT_ItfTypeDef USBD_CAT_fops_FS =
 {
@@ -65,7 +65,7 @@ static int8_t CAT_DeInit_FS(void)
   * @param  length: Number of data to be sent (in bytes)
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t CAT_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
+static int8_t CAT_Control_FS(uint8_t cmd)
 {
 	/* USER CODE BEGIN 5 */
 	switch (cmd)
@@ -187,7 +187,7 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
   * @param  Len: Number of data to be sent (in bytes)
   * @retval USBD_OK if all operations are OK else USBD_FAIL or USBD_BUSY
   */
-uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len)
+static uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len)
 {
 	uint8_t result = USBD_OK;
 	USBD_CAT_HandleTypeDef *hcdc = (USBD_CAT_HandleTypeDef*)hUsbDeviceFS.pClassDataCAT;
@@ -199,12 +199,12 @@ uint8_t CAT_Transmit_FS(uint8_t* Buf, uint16_t Len)
 	return result;
 }
 
-void CAT_Transmit(char* data)
+static void CAT_Transmit(char* data)
 {
 	CAT_Transmit_FS((uint8_t*)data, strlen(data));
 }
 
-void ua3reo_dev_cat_parseCommand()
+void ua3reo_dev_cat_parseCommand(void)
 {
 	USBD_CAT_ReceivePacket(&hUsbDeviceFS); //prepare next command
 	if(command_to_parse[0]==0) return;

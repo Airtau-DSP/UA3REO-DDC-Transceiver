@@ -5,8 +5,8 @@
 #include "../functions.h"
 #include "../settings.h"
 
-float touch_ax, touch_ay;
-int16_t touch_bx, touch_by;
+static float touch_ax, touch_ay;
+static int16_t touch_bx, touch_by;
 static float axc[2], ayc[2];
 static int16_t bxc[2], byc[2];
 static const int16_t xCenter[] = { 35, LCD_WIDTH - 35, 35, LCD_WIDTH - 35 };
@@ -112,7 +112,7 @@ void Touch_Set_Coef(float _ax, int16_t _bx, float _ay, int16_t _by)
 	touch_ay = _ay;
 	touch_by = _by;
 
-	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", touch_ax, touch_bx, touch_ay, touch_by);
+	sprintf(dest, "Set touchpad calibrate: ax = %f  bx = %d  ay = %f  by = %d\r\n", (double)touch_ax, touch_bx, (double)touch_ay, touch_by);
 	sendToDebug_str(dest);
 }
 

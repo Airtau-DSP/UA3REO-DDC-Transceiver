@@ -21,13 +21,11 @@ extern I2S_HandleTypeDef hi2s3;
 extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 
-uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
 extern void WM8731_Init(void);
 extern void WM8731_start_i2s_and_dma(void);
 extern void WM8731_Beep(void);
-void WM8731_TX_mode(void);
-void WM8731_RX_mode(void);
-void WM8731_TXRX_mode(void);
-void I2SEx_Fix(I2S_HandleTypeDef *hi2s);
+extern void WM8731_TX_mode(void);
+extern void WM8731_RX_mode(void);
+extern void WM8731_TXRX_mode(void);
 
 #endif

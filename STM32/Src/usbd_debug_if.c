@@ -8,19 +8,18 @@
 #define DEBUG_APP_TX_DATA_SIZE  2048
 #define DEBUG_TX_FIFO_BUFFER_SIZE 512
 
-uint8_t DEBUG_UserRxBufferFS[DEBUG_APP_RX_DATA_SIZE];
-uint8_t DEBUG_UserTxBufferFS[DEBUG_APP_TX_DATA_SIZE];
-
-uint8_t debug_tx_fifo[DEBUG_TX_FIFO_BUFFER_SIZE] = { 0 };
-uint16_t debug_tx_fifo_head = 0;
-uint16_t debug_tx_fifo_tail = 0;
+static uint8_t DEBUG_UserRxBufferFS[DEBUG_APP_RX_DATA_SIZE];
+static uint8_t DEBUG_UserTxBufferFS[DEBUG_APP_TX_DATA_SIZE];
+static uint8_t debug_tx_fifo[DEBUG_TX_FIFO_BUFFER_SIZE] = { 0 };
+static uint16_t debug_tx_fifo_head = 0;
+static uint16_t debug_tx_fifo_tail = 0;
 
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 static int8_t DEBUG_Init_FS(void);
 static int8_t DEBUG_DeInit_FS(void);
-static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length);
-static int8_t DEBUG_Receive_FS(uint8_t* pbuf, uint32_t *Len);
+static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf);
+static int8_t DEBUG_Receive_FS(uint8_t* pbuf);
 
 USBD_DEBUG_ItfTypeDef USBD_DEBUG_fops_FS =
 {
@@ -63,7 +62,7 @@ static int8_t DEBUG_DeInit_FS(void)
   * @param  length: Number of data to be sent (in bytes)
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
+static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf)
 {
 	/* USER CODE BEGIN 5 */
 
@@ -139,7 +138,7 @@ static int8_t DEBUG_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
   * @param  Len: Number of data received (in bytes)
   * @retval Result of the operation: USBD_OK if all operations are OK else USBD_FAIL
   */
-static int8_t DEBUG_Receive_FS(uint8_t* Buf, uint32_t *Len)
+static int8_t DEBUG_Receive_FS(uint8_t* Buf)
 {
 	/* USER CODE BEGIN 6 */
 	USBD_DEBUG_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);

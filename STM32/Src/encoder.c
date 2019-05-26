@@ -8,9 +8,11 @@
 #include "system_menu.h"
 #include "functions.h"
 
-uint8_t ENCODER_ALast = 0;
-uint8_t ENCODER_AVal = 0;
-int32_t ENCODER_slowler = 0;
+static uint8_t ENCODER_ALast = 0;
+static uint8_t ENCODER_AVal = 0;
+static int32_t ENCODER_slowler = 0;
+
+static void ENCODER_Rotated(int direction);
 
 void ENCODER_Init()
 {
@@ -41,7 +43,7 @@ void ENCODER_checkRotate(void) {
 	}
 }
 
-void ENCODER_Rotated(int direction) //энкодер повернули, здесь обработчик, direction -1 - влево, 1 - вправо
+static void ENCODER_Rotated(int direction) //энкодер повернули, здесь обработчик, direction -1 - влево, 1 - вправо
 {
 	if (LCD_systemMenuOpened && !LCD_timeMenuOpened)
 	{

@@ -3,9 +3,8 @@
 
 #include "stm32f4xx_hal.h"
 
-void ENCODER_Init(void);
-void ENCODER_checkRotate(void);
-void ENCODER_Rotated(int direction);
+extern void ENCODER_Init(void);
+extern void ENCODER_checkRotate(void);
 
 extern RTC_HandleTypeDef hrtc;
 

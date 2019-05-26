@@ -109,10 +109,6 @@ extern SPI_HandleTypeDef hspi1;
 
 extern void LoadSettings(void);
 extern void SaveSettings(void);
-void Flash_Sector_Erase(void);
-void Flash_Erase_Chip(void);
-void Flash_Write_Data(void);
-void Flash_Read_Data(void);
 extern VFO *CurrentVFO(void);
 
 #endif

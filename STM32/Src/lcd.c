@@ -14,42 +14,123 @@
 #include "noise_reduction.h"
 
 volatile bool LCD_busy = false;
-volatile bool LCD_bandMenuOpened = false;
 volatile DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
-volatile bool LCD_timeMenuOpened = false;
 volatile uint8_t TimeMenuSelection = 0;
+volatile bool LCD_timeMenuOpened = false;
 volatile bool LCD_mainMenuOpened = false;
 volatile bool LCD_systemMenuOpened = false;
 volatile bool LCD_modeMenuOpened = false;
+volatile bool LCD_bandMenuOpened = false;
 volatile uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
 
-char LCD_freq_string_hz[6];
-char LCD_freq_string_khz[6];
-char LCD_freq_string_mhz[6];
-bool LCD_widthMenuOpened = false;
-uint32_t LCD_last_showed_freq = 0;
-uint16_t LCD_last_showed_freq_mhz = 9999;
-uint16_t LCD_last_showed_freq_khz = 9999;
-uint16_t LCD_last_showed_freq_hz = 9999;
-int LCD_last_s_meter = 1;
-bool LCD_pressed = false;
-struct button_handler button_handlers[16];
-uint8_t button_handlers_count = 0;
-uint32_t lastTouchTick = 0;
-uint32_t Time;
-uint8_t Hours;
-uint8_t Last_showed_Hours = 255;
-uint8_t Minutes;
-uint8_t Last_showed_Minutes = 255;
-uint8_t Seconds;
-uint8_t Last_showed_Seconds = 255;
+static bool LCD_widthMenuOpened = false;
+static char LCD_freq_string_hz[6];
+static char LCD_freq_string_khz[6];
+static char LCD_freq_string_mhz[6];
+static uint32_t LCD_last_showed_freq = 0;
+static uint16_t LCD_last_showed_freq_mhz = 9999;
+static uint16_t LCD_last_showed_freq_khz = 9999;
+static uint16_t LCD_last_showed_freq_hz = 9999;
+static int LCD_last_s_meter = 1;
+static bool LCD_pressed = false;
+static struct button_handler button_handlers[16];
+static uint8_t button_handlers_count = 0;
+static uint32_t lastTouchTick = 0;
+static uint32_t Time;
+static uint8_t Hours;
+static uint8_t Last_showed_Hours = 255;
+static uint8_t Minutes;
+static uint8_t Last_showed_Minutes = 255;
+static uint8_t Seconds;
+static uint8_t Last_showed_Seconds = 255;
 
-void LCD_displayFreqInfo(void);
-void LCD_displayTopButtons(bool redraw);
-void LCD_displayMainMenu(void);
-void LCD_displayStatusInfoBar(void);
-void LCD_displayStatusInfoGUI(void);
-void LCD_resetTouchpadPins(void);
+static void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void (*onClickHandler) (void));
+static void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void (*onClickHandler) (void));
+static void LCD_displayFreqInfo(void);
+static void LCD_displayTopButtons(bool redraw);
+static void LCD_displayMainMenu(void);
+static void LCD_displayStatusInfoBar(void);
+static void LCD_displayStatusInfoGUI(void);
+
+//BUTTONS HANDLERS
+static void LCD_Handler_TUNE(void);
+static void LCD_Handler_MODE(void);
+static void LCD_Handler_BAND(void);
+static void LCD_Handler_WIDTH(void);
+static void LCD_Handler_WIDTH_BACK(void);
+static void LCD_Handler_PREAMP(void);
+static void LCD_Handler_AB(void);
+static void LCD_Handler_ATT(void);
+static void LCD_Handler_NOTCH(void);
+static void LCD_Handler_DNR(void);
+static void LCD_Handler_VFO(void);
+static void LCD_Handler_AGC(void);
+static void LCD_Handler_MUTE(void);
+static void LCD_Handler_FAST(void);
+static void LCD_Handler_TIMEMENU_NEXT(void);
+static void LCD_Handler_TIMEMENU_BACK(void);
+static void LCD_Handler_MENU(void);
+static void LCD_Handler_BAND_160(void);
+static void LCD_Handler_BAND_80(void);
+static void LCD_Handler_BAND_40(void);
+static void LCD_Handler_BAND_30(void);
+static void LCD_Handler_BAND_20(void);
+static void LCD_Handler_BAND_17(void);
+static void LCD_Handler_BAND_15(void);
+static void LCD_Handler_BAND_12(void);
+static void LCD_Handler_BAND_10(void);
+static void LCD_Handler_BAND_FM1(void);
+static void LCD_Handler_BAND_FM2(void);
+static void LCD_Handler_BAND_VHF(void);
+static void LCD_Handler_BAND_UHF(void);
+static void LCD_Handler_BAND_BACK(void);
+static void LCD_Handler_MODE_LSB(void);
+static void LCD_Handler_MODE_USB(void);
+static void LCD_Handler_MODE_IQ(void);
+static void LCD_Handler_MODE_CW_L(void);
+static void LCD_Handler_MODE_CW_U(void);
+static void LCD_Handler_MODE_BACK(void);
+static void LCD_Handler_MODE_DIGL(void);
+static void LCD_Handler_MODE_DIGU(void);
+static void LCD_Handler_MODE_NFM(void);
+static void LCD_Handler_MODE_WFM(void);
+static void LCD_Handler_MODE_AM(void);
+static void LCD_Handler_MODE_LOOP(void);
+static void LCD_Handler_MENU_MAP(void);
+static void LCD_Handler_MENU_SYSTEM_MENU(void);
+static void LCD_Handler_MENU_LINEMIC(void);
+static void LCD_Handler_MENU_LPF(void);
+static void LCD_Handler_MENU_BPF(void);
+static void LCD_Handler_MENU_TXAMPLIFIER(void);
+static void LCD_Handler_MENU_AUTOGAIN(void);
+static void LCD_Handler_MENU_BACK(void);
+static void LCD_Handler_MENU_VOLUME(void);
+static void LCD_Handler_MENU_RF_GAIN(void);
+static void LCD_Handler_MENU_FM_SQL(void);
+static void LCD_Handler_MENU_RF_POWER(void);
+static void LCD_Handler_MENU_AGC_S(void);
+static void LCD_Handler_WIDTH_0(void);
+static void LCD_Handler_WIDTH_03(void);
+static void LCD_Handler_WIDTH_05(void);
+static void LCD_Handler_WIDTH_14(void);
+static void LCD_Handler_WIDTH_16(void);
+static void LCD_Handler_WIDTH_18(void);
+static void LCD_Handler_WIDTH_21(void);
+static void LCD_Handler_WIDTH_23(void);
+static void LCD_Handler_WIDTH_25(void);
+static void LCD_Handler_WIDTH_27(void);
+static void LCD_Handler_WIDTH_29(void);
+static void LCD_Handler_WIDTH_30(void);
+static void LCD_Handler_WIDTH_32(void);
+static void LCD_Handler_WIDTH_34(void);
+static void LCD_Handler_WIDTH_50(void);
+static void LCD_Handler_WIDTH_60(void);
+static void LCD_Handler_WIDTH_70(void);
+static void LCD_Handler_WIDTH_80(void);
+static void LCD_Handler_WIDTH_90(void);
+static void LCD_Handler_WIDTH_95(void);
+static void LCD_Handler_WIDTH_100(void);
+static void LCD_Handler_WIDTH_150(void);
 
 void LCD_Init(void)
 {
@@ -61,7 +142,7 @@ void LCD_Init(void)
 	LCD_redraw();
 }
 
-void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок
+static void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок
 	if (LCD_mainMenuOpened) return;
 	if (LCD_systemMenuOpened) return;
 	if (LCD_busy)
@@ -99,18 +180,18 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	{
 		LCDDriver_Fill(COLOR_BLACK);
 
-		printButton(5, 5, 58, 60, MODE_DESCR[TRX_MODE_LSB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LSB), LCD_Handler_MODE_LSB);
-		printButton(68, 5, 58, 60, MODE_DESCR[TRX_MODE_USB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_USB), LCD_Handler_MODE_USB);
-		printButton(131, 5, 58, 60, MODE_DESCR[TRX_MODE_IQ], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_IQ), LCD_Handler_MODE_IQ);
-		printButton(194, 5, 58, 60, MODE_DESCR[TRX_MODE_AM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_AM), LCD_Handler_MODE_AM);
+		printButton(5, 5, 58, 60, (char *)MODE_DESCR[TRX_MODE_LSB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LSB), LCD_Handler_MODE_LSB);
+		printButton(68, 5, 58, 60, (char *)MODE_DESCR[TRX_MODE_USB], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_USB), LCD_Handler_MODE_USB);
+		printButton(131, 5, 58, 60, (char *)MODE_DESCR[TRX_MODE_IQ], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_IQ), LCD_Handler_MODE_IQ);
+		printButton(194, 5, 58, 60, (char *)MODE_DESCR[TRX_MODE_AM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_AM), LCD_Handler_MODE_AM);
 		printButton(257, 5, 58, 60, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_MODE_BACK);
-		printButton(5, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_L], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_DIGI_L), LCD_Handler_MODE_DIGL);
-		printButton(68, 70, 58, 60, MODE_DESCR[TRX_MODE_DIGI_U], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_DIGI_U), LCD_Handler_MODE_DIGU);
-		printButton(131, 70, 58, 60, MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
-		printButton(194, 70, 58, 60, MODE_DESCR[TRX_MODE_NFM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_NFM), LCD_Handler_MODE_NFM);
-		printButton(257, 70, 58, 60, MODE_DESCR[TRX_MODE_WFM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_WFM), LCD_Handler_MODE_WFM);
-		printButton(5, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_L], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_CW_L), LCD_Handler_MODE_CW_L);
-		printButton(68, 135, 58, 60, MODE_DESCR[TRX_MODE_CW_U], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_CW_U), LCD_Handler_MODE_CW_U);
+		printButton(5, 70, 58, 60, (char *)MODE_DESCR[TRX_MODE_DIGI_L], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_DIGI_L), LCD_Handler_MODE_DIGL);
+		printButton(68, 70, 58, 60, (char *)MODE_DESCR[TRX_MODE_DIGI_U], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_DIGI_U), LCD_Handler_MODE_DIGU);
+		printButton(131, 70, 58, 60, (char *)MODE_DESCR[TRX_MODE_LOOPBACK], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_LOOPBACK), LCD_Handler_MODE_LOOP);
+		printButton(194, 70, 58, 60, (char *)MODE_DESCR[TRX_MODE_NFM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_NFM), LCD_Handler_MODE_NFM);
+		printButton(257, 70, 58, 60, (char *)MODE_DESCR[TRX_MODE_WFM], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_WFM), LCD_Handler_MODE_WFM);
+		printButton(5, 135, 58, 60, (char *)MODE_DESCR[TRX_MODE_CW_L], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_CW_L), LCD_Handler_MODE_CW_L);
+		printButton(68, 135, 58, 60, (char *)MODE_DESCR[TRX_MODE_CW_U], COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_getMode() == TRX_MODE_CW_U), LCD_Handler_MODE_CW_U);
 		printButton(131, 135, 58, 60, "", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
 		printButton(194, 135, 58, 60, "", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
 		printButton(257, 135, 58, 60, "", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, NULL);
@@ -161,7 +242,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	else
 	{
 		//верхний список
-		printButton(0, 0, 76, 35, MODE_DESCR[TRX_getMode()], COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MODE);
+		printButton(0, 0, 76, 35, (char *)MODE_DESCR[TRX_getMode()], COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MODE);
 		printButton(81, 0, 76, 35, "WIDTH", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_WIDTH);
 		printButton(162, 0, 76, 35, "BAND", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_BAND);
 		printButton(243, 0, 76, 35, "MENU", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, false, LCD_Handler_MENU);
@@ -181,7 +262,7 @@ void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопо
 	LCD_UpdateQuery.TopButtons = false;
 }
 
-void LCD_displayFreqInfo() { //вывод частоты на экран
+static void LCD_displayFreqInfo() { //вывод частоты на экран
 	if (LCD_mainMenuOpened) return;
 	if (LCD_systemMenuOpened) return;
 	if (LCD_bandMenuOpened) return;
@@ -245,7 +326,7 @@ void LCD_displayFreqInfo() { //вывод частоты на экран
 	LCD_busy = false;
 }
 
-void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
+static void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	if (LCD_mainMenuOpened) return;
 	if (LCD_systemMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
@@ -291,7 +372,7 @@ void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	LCD_busy = false;
 }
 
-void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
+static void LCD_displayStatusInfoBar(void) { //S-метра и прочей информации
 	if (LCD_mainMenuOpened) return;
 	if (LCD_systemMenuOpened) return;
 	if (LCD_modeMenuOpened) return;
@@ -373,7 +454,7 @@ void LCD_displayStatusInfoBar(void) { //S-метра и прочей инфор�
 	LCD_busy = false;
 }
 
-void LCD_displayMainMenu() {
+static void LCD_displayMainMenu() {
 	if (!LCD_mainMenuOpened) return;
 	if (LCD_busy)
 	{
@@ -455,7 +536,7 @@ void LCD_doEvents(void)
 	if (LCD_UpdateQuery.SystemMenu) drawSystemMenu(false);
 }
 
-void LCD_Handler_TUNE(void)
+static void LCD_Handler_TUNE(void)
 {
 	TRX_tune = !TRX_tune;
 	TRX_ptt_hard = TRX_tune;
@@ -465,31 +546,31 @@ void LCD_Handler_TUNE(void)
 	TRX_Restart_Mode();
 }
 
-void LCD_Handler_MODE(void)
+static void LCD_Handler_MODE(void)
 {
 	LCD_modeMenuOpened = true;
 	LCD_UpdateQuery.TopButtons = true;
 }
 
-void LCD_Handler_BAND(void)
+static void LCD_Handler_BAND(void)
 {
 	LCD_bandMenuOpened = true;
 	LCD_redraw();
 }
 
-void LCD_Handler_WIDTH(void)
+static void LCD_Handler_WIDTH(void)
 {
 	LCD_widthMenuOpened = true;
 	LCD_UpdateQuery.TopButtons = true;
 }
 
-void LCD_Handler_WIDTH_BACK(void)
+static void LCD_Handler_WIDTH_BACK(void)
 {
 	LCD_widthMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_WIDTH_03(void)
+static void LCD_Handler_WIDTH_03(void)
 {
 	CurrentVFO()->Filter_Width = 300;
 	TRX.CW_Filter = 300;
@@ -498,7 +579,7 @@ void LCD_Handler_WIDTH_03(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_05(void)
+static void LCD_Handler_WIDTH_05(void)
 {
 	CurrentVFO()->Filter_Width = 500;
 	TRX.CW_Filter = 500;
@@ -507,7 +588,7 @@ void LCD_Handler_WIDTH_05(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_14(void)
+static void LCD_Handler_WIDTH_14(void)
 {
 	CurrentVFO()->Filter_Width = 1400;
 	TRX.SSB_Filter = 1400;
@@ -516,7 +597,7 @@ void LCD_Handler_WIDTH_14(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_16(void)
+static void LCD_Handler_WIDTH_16(void)
 {
 	CurrentVFO()->Filter_Width = 1600;
 	TRX.SSB_Filter = 1600;
@@ -525,7 +606,7 @@ void LCD_Handler_WIDTH_16(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_18(void)
+static void LCD_Handler_WIDTH_18(void)
 {
 	CurrentVFO()->Filter_Width = 1800;
 	TRX.SSB_Filter = 1800;
@@ -534,7 +615,7 @@ void LCD_Handler_WIDTH_18(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_21(void)
+static void LCD_Handler_WIDTH_21(void)
 {
 	CurrentVFO()->Filter_Width = 2100;
 	TRX.SSB_Filter = 2100;
@@ -543,7 +624,7 @@ void LCD_Handler_WIDTH_21(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_23(void)
+static void LCD_Handler_WIDTH_23(void)
 {
 	CurrentVFO()->Filter_Width = 2300;
 	TRX.SSB_Filter = 2300;
@@ -552,7 +633,7 @@ void LCD_Handler_WIDTH_23(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_25(void)
+static void LCD_Handler_WIDTH_25(void)
 {
 	CurrentVFO()->Filter_Width = 2500;
 	TRX.SSB_Filter = 2500;
@@ -561,7 +642,7 @@ void LCD_Handler_WIDTH_25(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_27(void)
+static void LCD_Handler_WIDTH_27(void)
 {
 	CurrentVFO()->Filter_Width = 2700;
 	TRX.SSB_Filter = 2700;
@@ -570,7 +651,7 @@ void LCD_Handler_WIDTH_27(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_29(void)
+static void LCD_Handler_WIDTH_29(void)
 {
 	CurrentVFO()->Filter_Width = 2900;
 	TRX.SSB_Filter = 2900;
@@ -579,7 +660,7 @@ void LCD_Handler_WIDTH_29(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_30(void)
+static void LCD_Handler_WIDTH_30(void)
 {
 	CurrentVFO()->Filter_Width = 3000;
 	TRX.SSB_Filter = 3000;
@@ -588,7 +669,7 @@ void LCD_Handler_WIDTH_30(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_32(void)
+static void LCD_Handler_WIDTH_32(void)
 {
 	CurrentVFO()->Filter_Width = 3200;
 	TRX.SSB_Filter = 3200;
@@ -597,7 +678,7 @@ void LCD_Handler_WIDTH_32(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_34(void)
+static void LCD_Handler_WIDTH_34(void)
 {
 	CurrentVFO()->Filter_Width = 3400;
 	TRX.SSB_Filter = 3400;
@@ -606,7 +687,7 @@ void LCD_Handler_WIDTH_34(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_50(void)
+static void LCD_Handler_WIDTH_50(void)
 {
 	CurrentVFO()->Filter_Width = 5000;
 	TRX.FM_Filter = 5000;
@@ -615,7 +696,7 @@ void LCD_Handler_WIDTH_50(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_60(void)
+static void LCD_Handler_WIDTH_60(void)
 {
 	CurrentVFO()->Filter_Width = 6000;
 	TRX.FM_Filter = 6000;
@@ -624,7 +705,7 @@ void LCD_Handler_WIDTH_60(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_70(void)
+static void LCD_Handler_WIDTH_70(void)
 {
 	CurrentVFO()->Filter_Width = 7000;
 	TRX.FM_Filter = 7000;
@@ -633,7 +714,7 @@ void LCD_Handler_WIDTH_70(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_80(void)
+static void LCD_Handler_WIDTH_80(void)
 {
 	CurrentVFO()->Filter_Width = 8000;
 	TRX.FM_Filter = 8000;
@@ -642,7 +723,7 @@ void LCD_Handler_WIDTH_80(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_0(void)
+static void LCD_Handler_WIDTH_0(void)
 {
 	CurrentVFO()->Filter_Width = 0;
 	TRX.FM_Filter = 0;
@@ -651,16 +732,7 @@ void LCD_Handler_WIDTH_0(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_85(void)
-{
-	CurrentVFO()->Filter_Width = 8500;
-	TRX.FM_Filter = 8500;
-	NeedSaveSettings = true;
-	LCD_widthMenuOpened = false;
-	ReinitAudioFilters();
-	LCD_redraw();
-}
-void LCD_Handler_WIDTH_90(void)
+static void LCD_Handler_WIDTH_90(void)
 {
 	CurrentVFO()->Filter_Width = 9000;
 	TRX.FM_Filter = 9000;
@@ -669,7 +741,7 @@ void LCD_Handler_WIDTH_90(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_95(void)
+static void LCD_Handler_WIDTH_95(void)
 {
 	CurrentVFO()->Filter_Width = 9500;
 	TRX.FM_Filter = 9500;
@@ -678,7 +750,7 @@ void LCD_Handler_WIDTH_95(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_100(void)
+static void LCD_Handler_WIDTH_100(void)
 {
 	CurrentVFO()->Filter_Width = 10000;
 	TRX.FM_Filter = 10000;
@@ -687,7 +759,7 @@ void LCD_Handler_WIDTH_100(void)
 	ReinitAudioFilters();
 	LCD_redraw();
 }
-void LCD_Handler_WIDTH_150(void)
+static void LCD_Handler_WIDTH_150(void)
 {
 	CurrentVFO()->Filter_Width = 15000;
 	TRX.FM_Filter = 15000;
@@ -697,14 +769,14 @@ void LCD_Handler_WIDTH_150(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_PREAMP(void)
+static void LCD_Handler_PREAMP(void)
 {
 	TRX.Preamp = !TRX.Preamp;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_AB(void)
+static void LCD_Handler_AB(void)
 {
 	if(TRX.current_vfo)
 	{
@@ -721,25 +793,25 @@ void LCD_Handler_AB(void)
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
-void LCD_Handler_ATT(void)
+static void LCD_Handler_ATT(void)
 {
 	TRX.ATT = !TRX.ATT;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
-void LCD_Handler_NOTCH(void)
+static void LCD_Handler_NOTCH(void)
 {
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
-void LCD_Handler_DNR(void)
+static void LCD_Handler_DNR(void)
 {
 	TRX.DNR=!TRX.DNR;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_AGC(void)
+static void LCD_Handler_AGC(void)
 {
 	TRX.AGC = !TRX.AGC;
 	InitAGC();
@@ -747,7 +819,7 @@ void LCD_Handler_AGC(void)
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_VFO(void)
+static void LCD_Handler_VFO(void)
 {
 	TRX.current_vfo = !TRX.current_vfo;
 	NeedSaveSettings = true;
@@ -755,28 +827,28 @@ void LCD_Handler_VFO(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MUTE(void)
+static void LCD_Handler_MUTE(void)
 {
 	TRX.Mute = !TRX.Mute;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_FAST(void)
+static void LCD_Handler_FAST(void)
 {
 	TRX.Fast = !TRX.Fast;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_MENU_MAP(void)
+static void LCD_Handler_MENU_MAP(void)
 {
 	TRX.BandMapEnabled = !TRX.BandMapEnabled;
 	LCD_UpdateQuery.MainMenu = true;
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_MENU_SYSTEM_MENU(void)
+static void LCD_Handler_MENU_SYSTEM_MENU(void)
 {
 	LCD_systemMenuOpened=true;
 	LCD_UpdateQuery.Background=true;
@@ -784,7 +856,7 @@ void LCD_Handler_MENU_SYSTEM_MENU(void)
 	LCD_doEvents();
 }
 
-void LCD_Handler_MENU_LINEMIC(void)
+static void LCD_Handler_MENU_LINEMIC(void)
 {
 	TRX.InputType++;
 	if(TRX.InputType==3) TRX.InputType=0;
@@ -793,110 +865,110 @@ void LCD_Handler_MENU_LINEMIC(void)
 	NeedSaveSettings = true;
 }
 
-void LCD_Handler_MENU(void)
+static void LCD_Handler_MENU(void)
 {
 	LCD_mainMenuOpened = true;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_160(void)
+static void LCD_Handler_BAND_160(void)
 {
 	TRX_setFrequency(TRX.saved_freq[0]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_80(void)
+static void LCD_Handler_BAND_80(void)
 {
 	TRX_setFrequency(TRX.saved_freq[1]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_40(void)
+static void LCD_Handler_BAND_40(void)
 {
 	TRX_setFrequency(TRX.saved_freq[2]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_30(void)
+static void LCD_Handler_BAND_30(void)
 {
 	TRX_setFrequency(TRX.saved_freq[3]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_BACK(void)
+static void LCD_Handler_BAND_BACK(void)
 {
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_20(void)
+static void LCD_Handler_BAND_20(void)
 {
 	TRX_setFrequency(TRX.saved_freq[4]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_17(void)
+static void LCD_Handler_BAND_17(void)
 {
 	TRX_setFrequency(TRX.saved_freq[5]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_15(void)
+static void LCD_Handler_BAND_15(void)
 {
 	TRX_setFrequency(TRX.saved_freq[6]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_12(void)
+static void LCD_Handler_BAND_12(void)
 {
 	TRX_setFrequency(TRX.saved_freq[7]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_10(void)
+static void LCD_Handler_BAND_10(void)
 {
 	TRX_setFrequency(TRX.saved_freq[8]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_FM1(void)
+static void LCD_Handler_BAND_FM1(void)
 {
 	TRX_setFrequency(TRX.saved_freq[9]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_FM2(void)
+static void LCD_Handler_BAND_FM2(void)
 {
 	TRX_setFrequency(TRX.saved_freq[10]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_VHF(void)
+static void LCD_Handler_BAND_VHF(void)
 {
 	TRX_setFrequency(TRX.saved_freq[11]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_BAND_UHF(void)
+static void LCD_Handler_BAND_UHF(void)
 {
 	TRX_setFrequency(TRX.saved_freq[12]);
 	LCD_bandMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_LSB(void)
+static void LCD_Handler_MODE_LSB(void)
 {
 	TRX_setMode(TRX_MODE_LSB);
 	CurrentVFO()->Filter_Width = TRX.SSB_Filter;
@@ -904,7 +976,7 @@ void LCD_Handler_MODE_LSB(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_USB(void)
+static void LCD_Handler_MODE_USB(void)
 {
 	TRX_setMode(TRX_MODE_USB);
 	CurrentVFO()->Filter_Width = TRX.SSB_Filter;
@@ -912,14 +984,14 @@ void LCD_Handler_MODE_USB(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_IQ(void)
+static void LCD_Handler_MODE_IQ(void)
 {
 	TRX_setMode(TRX_MODE_IQ);
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_CW_L(void)
+static void LCD_Handler_MODE_CW_L(void)
 {
 	TRX_setMode(TRX_MODE_CW_L);
 	CurrentVFO()->Filter_Width = TRX.CW_Filter;
@@ -927,7 +999,7 @@ void LCD_Handler_MODE_CW_L(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_CW_U(void)
+static void LCD_Handler_MODE_CW_U(void)
 {
 	TRX_setMode(TRX_MODE_CW_U);
 	CurrentVFO()->Filter_Width = TRX.CW_Filter;
@@ -935,13 +1007,13 @@ void LCD_Handler_MODE_CW_U(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_BACK(void)
+static void LCD_Handler_MODE_BACK(void)
 {
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_DIGL(void)
+static void LCD_Handler_MODE_DIGL(void)
 {
 	TRX_setMode(TRX_MODE_DIGI_L);
 	CurrentVFO()->Filter_Width = TRX.SSB_Filter;
@@ -949,7 +1021,7 @@ void LCD_Handler_MODE_DIGL(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_DIGU(void)
+static void LCD_Handler_MODE_DIGU(void)
 {
 	TRX_setMode(TRX_MODE_DIGI_U);
 	CurrentVFO()->Filter_Width = TRX.SSB_Filter;
@@ -957,7 +1029,7 @@ void LCD_Handler_MODE_DIGU(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_NFM(void)
+static void LCD_Handler_MODE_NFM(void)
 {
 	TRX_setMode(TRX_MODE_NFM);
 	CurrentVFO()->Filter_Width = TRX.FM_Filter;
@@ -965,7 +1037,7 @@ void LCD_Handler_MODE_NFM(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_WFM(void)
+static void LCD_Handler_MODE_WFM(void)
 {
 	TRX_setMode(TRX_MODE_WFM);
 	CurrentVFO()->Filter_Width = 0;
@@ -973,7 +1045,7 @@ void LCD_Handler_MODE_WFM(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_AM(void)
+static void LCD_Handler_MODE_AM(void)
 {
 	TRX_setMode(TRX_MODE_AM);
 	CurrentVFO()->Filter_Width = TRX.SSB_Filter;
@@ -981,68 +1053,68 @@ void LCD_Handler_MODE_AM(void)
 	LCD_redraw();
 }
 
-void LCD_Handler_MODE_LOOP(void)
+static void LCD_Handler_MODE_LOOP(void)
 {
 	TRX_setMode(TRX_MODE_LOOPBACK);
 	LCD_modeMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_MENU_BACK(void)
+static void LCD_Handler_MENU_BACK(void)
 {
 	LCD_mainMenuOpened = false;
 	LCD_redraw();
 }
 
-void LCD_Handler_MENU_VOLUME(void)
+static void LCD_Handler_MENU_VOLUME(void)
 {
 	LCD_menu_main_index = MENU_MAIN_VOLUME;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_RF_GAIN(void)
+static void LCD_Handler_MENU_RF_GAIN(void)
 {
 	LCD_menu_main_index = MENU_MAIN_RF_GAIN;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_FM_SQL(void)
+static void LCD_Handler_MENU_FM_SQL(void)
 {
 	LCD_menu_main_index = MENU_MAIN_FM_SQL;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_RF_POWER(void)
+static void LCD_Handler_MENU_RF_POWER(void)
 {
 	LCD_menu_main_index = MENU_MAIN_RF_POWER;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_AGC_S(void)
+static void LCD_Handler_MENU_AGC_S(void)
 {
 	LCD_menu_main_index = MENU_MAIN_AGCSPEED;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_LPF(void)
+static void LCD_Handler_MENU_LPF(void)
 {
 	TRX.LPF=!TRX.LPF;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_BPF(void)
+static void LCD_Handler_MENU_BPF(void)
 {
 	TRX.BPF=!TRX.BPF;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_TXAMPLIFIER(void)
+static void LCD_Handler_MENU_TXAMPLIFIER(void)
 {
 	TRX.TX_Amplifier=!TRX.TX_Amplifier;
 	LCD_UpdateQuery.MainMenu = true;
 }
 
-void LCD_Handler_MENU_AUTOGAIN(void)
+static void LCD_Handler_MENU_AUTOGAIN(void)
 {
 	TRX.AutoGain=!TRX.AutoGain;
 	LCD_UpdateQuery.MainMenu = true;
@@ -1071,10 +1143,10 @@ void LCD_Handler_SETTIME(void)
 	addSymbols(ctmp, ctmp, 2, "0", false);
 	LCDDriver_printText(ctmp, 220, 100, COLOR_BUTTON_TEXT, TimeMenuSelection == 2 ? COLOR_WHITE : COLOR_BLACK, 3);
 	printButton(50, 170, 76, 30, ">", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_TIMEMENU_NEXT);
-	printButton(200, 170, 76, 30, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, LCD_Handler_TIMEMENU_BACK);
+	printButton(200, 170, 76, 30, "BACK", COLOR_BUTTON_MENU, COLOR_BUTTON_TEXT, COLOR_BUTTON_MENU, false, &LCD_Handler_TIMEMENU_BACK);
 }
 
-void LCD_Handler_TIMEMENU_NEXT(void)
+static void LCD_Handler_TIMEMENU_NEXT(void)
 {
 	LCDDriver_Fill(COLOR_BLACK);
 	TimeMenuSelection++;
@@ -1082,7 +1154,7 @@ void LCD_Handler_TIMEMENU_NEXT(void)
 	LCD_UpdateQuery.SystemMenu = true;
 }
 
-void LCD_Handler_TIMEMENU_BACK(void)
+static void LCD_Handler_TIMEMENU_BACK(void)
 {
 	LCDDriver_Fill(COLOR_BLACK);
 	LCD_timeMenuOpened = false;
@@ -1117,9 +1189,9 @@ void LCD_checkTouchPad(void)
 	}
 	
 	for (uint8_t i = 0; i < button_handlers_count; i++)
-		if (button_handlers[i].x1 <= x && button_handlers[i].x2 >= x && button_handlers[i].y1 <= y && button_handlers[i].y2 >= y && button_handlers[i].handler != 0)
+		if (button_handlers[i].x1 <= x && button_handlers[i].x2 >= x && button_handlers[i].y1 <= y && button_handlers[i].y2 >= y && button_handlers[i].onClickHandler != 0)
 		{
-			button_handlers[i].handler();
+			button_handlers[i].onClickHandler();
 			TRX_RF_UNIT_UpdateState(false);
 			return;
 		}
@@ -1149,7 +1221,7 @@ void LCD_checkTouchPad(void)
 	}
 }
 
-void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void(*onclick) ())
+static void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text, uint16_t back_color, uint16_t text_color, uint16_t active_color, bool active, void (*onClickHandler) (void))
 {
 	LCDDriver_Fill_RectWH(x, y, width, height, active ? active_color : back_color);
 	uint16_t x1, y1, w, h;
@@ -1159,11 +1231,11 @@ void printButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* 
 	button_handlers[button_handlers_count].x2 = x + width;
 	button_handlers[button_handlers_count].y1 = y;
 	button_handlers[button_handlers_count].y2 = y + height;
-	button_handlers[button_handlers_count].handler = onclick;
+	button_handlers[button_handlers_count].onClickHandler = onClickHandler;
 	button_handlers_count++;
 }
 
-void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void(*onclick) ())
+static void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, char* text1, char* text2, bool active, bool switchable, void (*onClickHandler) (void))
 {
 	uint16_t color = active ? COLOR_BUTTON_MENU : COLOR_BUTTON_ACTIVE;
 	if (!switchable) color = active ? COLOR_BUTTON_MENU : COLOR_BUTTON_INACTIVE;
@@ -1178,7 +1250,7 @@ void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t height, ch
 	button_handlers[button_handlers_count].x2 = x + width;
 	button_handlers[button_handlers_count].y1 = y;
 	button_handlers[button_handlers_count].y2 = y + height;
-	button_handlers[button_handlers_count].handler = onclick;
+	button_handlers[button_handlers_count].onClickHandler = onClickHandler;
 	button_handlers_count++;
 }
 

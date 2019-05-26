@@ -21,29 +21,11 @@
 
 #define I2C_WRITE 0
 #define I2C_READ  1
-#define I2C_DELAY for(int i=0;i<100;i++) { __asm("nop"); };
+#define I2C_DELAY for(int wait_i=0;wait_i<100;wait_i++) { __asm("nop"); };
 
-uint8_t i2c_writeOneByte(uint8_t);
-uint8_t i2c_readOneByte(uint8_t, uint8_t*);
-void i2c_begin(void);
-void i2c_beginTransmission_u8(uint8_t);
-void i2c_beginTransmission_i(int);
-uint8_t i2c_endTransmission(void);
-uint8_t i2c_requestFrom_u8i(uint8_t, int);
-uint8_t i2c_requestFrom_ii(int, int);
-void i2c_write_u8(uint8_t);
-void i2c_write_u8i(uint8_t*, int);
-void i2c_write_i(int);
-void i2c_write_ii(int*, int);
-void i2c_write_c(char*);
-uint8_t i2c_available(void);
-uint8_t i2c_read(void);
-void    i2c_start(void);
-void    i2c_stop(void);
-bool i2c_get_ack(void);
-void    i2c_send_ack(void);
-void    i2c_send_nack(void);
-uint8_t   i2c_shift_in(void);
-void    i2c_shift_out(uint8_t val);
+extern void i2c_begin(void);
+extern void i2c_beginTransmission_u8(uint8_t);
+extern void i2c_write_u8(uint8_t);
+extern uint8_t i2c_endTransmission(void);
 
 #endif

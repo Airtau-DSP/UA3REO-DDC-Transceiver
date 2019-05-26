@@ -279,8 +279,8 @@ static const GFXglyph FreeSans12pt7bGlyphs[] = {
   {  1962,  10,   5,  12,    1,  -10 } }; // 0x7E '~'
 
 static const GFXfont FreeSans12pt7b = {
-  (uint8_t  *)FreeSans12pt7bBitmaps,
-  (GFXglyph *)FreeSans12pt7bGlyphs,
+  (const uint8_t  *)FreeSans12pt7bBitmaps,
+  (const GFXglyph *)FreeSans12pt7bGlyphs,
   0x20, 0x7E, 29 };
 
 static const unsigned char FreeSans18pt7bBitmaps[] = {
@@ -730,8 +730,8 @@ static const GFXglyph FreeSans18pt7bGlyphs[] = {
   {  4145,  15,   7,  18,    1,  -15 } }; // 0x7E '~'
 
 static const GFXfont FreeSans18pt7b = {
-  (uint8_t  *)FreeSans18pt7bBitmaps,
-  (GFXglyph *)FreeSans18pt7bGlyphs,
+  (const uint8_t  *)FreeSans18pt7bBitmaps,
+  (const GFXglyph *)FreeSans18pt7bGlyphs,
   0x20, 0x7E, 42 };
 
 static const uint8_t FreeSans24pt7bBitmaps[] = {
@@ -1462,8 +1462,8 @@ static const GFXglyph FreeSans24pt7bGlyphs[] = {
 };
 
 static const GFXfont FreeSans24pt7b = {
-  (uint8_t  *)FreeSans24pt7bBitmaps,
-  (GFXglyph *)FreeSans24pt7bGlyphs,
+  (const uint8_t  *)FreeSans24pt7bBitmaps,
+  (const GFXglyph *)FreeSans24pt7bGlyphs,
   0x20, 0x7E, 65 };
 
 static const unsigned char FreeSans9pt7bBitmaps[] = {
@@ -1662,8 +1662,8 @@ static const GFXglyph FreeSans9pt7bGlyphs[] = {
   {  1147,   7,   3,   9,    1,   -7 } }; // 0x7E '~'
 
 static const GFXfont FreeSans9pt7b = {
-  (uint8_t  *)FreeSans9pt7bBitmaps,
-  (GFXglyph *)FreeSans9pt7bGlyphs,
+  (const uint8_t  *)FreeSans9pt7bBitmaps,
+  (const GFXglyph *)FreeSans9pt7bGlyphs,
   0x20, 0x7E, 22 };
 
 #endif

@@ -35,7 +35,6 @@ void readHalfFromCircleUSBBuffer(int16_t *source, int32_t *dest, uint16_t index,
 {
 	uint16_t halflen = length / 2;
 	uint16_t readed_index=0;
-	uint16_t start_index=0;
 	if(index >= halflen)
 	{
 		for(uint16_t i=(index - halflen);i<index;i++)
@@ -135,15 +134,15 @@ void sendToDebug_float32(float32_t data, bool _inline)
 {
 	char tmp[50] = "";
 	if(_inline)
-		sprintf(tmp, "%f", data);
+		sprintf(tmp, "%f", (double)data);
 	else
-		sprintf(tmp, "%f\r\n", data);
+		sprintf(tmp, "%f\r\n", (double)data);
 	sendToDebug_str(tmp);
 }
 
 void delay_us(uint32_t us)
 {
-	int32_t us_count_tick = us * (SystemCoreClock / 1000000);
+	unsigned long us_count_tick = us * (SystemCoreClock / 1000000);
 	//разрешаем использовать счётчик
 	SCB_DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	//обнуляем значение счётного регистра
@@ -218,7 +217,7 @@ float log10f_fast(float X) {
 	return(Y * 0.3010299956639812f);
 }
 
-float db2rateV(float i) //из децибелл в разы (для напряжения)
+double db2rateV(double i) //из децибелл в разы (для напряжения)
 {
-	return pow(10.0f,(i/20.0f));
+	return pow(10.0,(i/20.0));
 }

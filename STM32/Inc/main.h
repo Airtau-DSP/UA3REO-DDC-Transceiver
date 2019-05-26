@@ -56,7 +56,35 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+extern I2S_HandleTypeDef hi2s3;
+extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
+extern DMA_HandleTypeDef hdma_spi3_tx;
 
+extern IWDG_HandleTypeDef hiwdg;
+
+extern RTC_HandleTypeDef hrtc;
+
+extern SPI_HandleTypeDef hspi1;
+extern SPI_HandleTypeDef hspi2;
+
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim4;
+extern TIM_HandleTypeDef htim5;
+extern TIM_HandleTypeDef htim6;
+
+extern UART_HandleTypeDef huart1;
+
+extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
+
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream7;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream6;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream5;
+extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
+extern SRAM_HandleTypeDef hsram1;
+
+extern volatile uint32_t cpu_sleep_counter;
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/

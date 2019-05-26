@@ -9,12 +9,14 @@
 
 int32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
 int32_t CODEC_Audio_Buffer_TX[CODEC_AUDIO_BUFFER_SIZE] = { 0 };
-
 volatile uint32_t WM8731_DMA_samples = 0;
 volatile bool WM8731_DMA_state = true; //true - compleate ; false - half
 volatile bool WM8731_Buffer_underrun = false;
 
-bool WM8731_Beeping = false;
+static bool WM8731_Beeping = false;
+
+static uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value);
+static void I2SEx_Fix(I2S_HandleTypeDef *hi2s);
 
 void WM8731_start_i2s_and_dma(void)
 {
@@ -63,7 +65,7 @@ static void UA3REO_I2SEx_TxRxDMACplt(DMA_HandleTypeDef *hdma)
 	HAL_I2SEx_TxRxCpltCallback(hi2s);
 }
 
-void I2SEx_Fix(I2S_HandleTypeDef *hi2s)
+static void I2SEx_Fix(I2S_HandleTypeDef *hi2s)
 {
 	hi2s->hdmarx->XferHalfCpltCallback = NULL;
 	hi2s->hdmatx->XferHalfCpltCallback = UA3REO_I2SEx_TxRxDMAHalfCplt;
@@ -81,7 +83,7 @@ void WM8731_Beep(void)
 	WM8731_Beeping=false;
 }
 
-uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
+static uint8_t WM8731_SendI2CCommand(uint8_t reg, uint8_t value)
 {
 	uint8_t st = 2;
 	uint8_t repeats = 0;

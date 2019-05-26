@@ -22,22 +22,24 @@ bool FFT_need_fft = true; //необходимо подготовить данн
 volatile uint32_t FFT_buff_index = 0; //текущий индекс буфера при его наполнении с FPGA
 float32_t FFTInput_I[FFT_SIZE] = { 0 }; //входящий буфер FFT I
 float32_t FFTInput_Q[FFT_SIZE] = { 0 }; //входящий буфер FFT Q
-float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q
-float32_t FFTInput_ZOOMFFT[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q для обработки ZoomFFT
-float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
-uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { 0 }; //буфер водопада
-uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
-uint16_t height = 0; //высота столбца в выводе FFT
-float32_t maxValueFFT = 0; //максимальное значение амплитуды в результирующей АЧХ
-uint32_t currentFFTFreq = 0;
-uint16_t color_scale[FFT_MAX_HEIGHT] = { 0 }; //цветовой градиент по высоте FFT
+static float32_t FFTInput[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q
+static float32_t FFTInput_ZOOMFFT[FFT_DOUBLE_SIZE_BUFFER] = {0}; //совмещённый буфер FFT I и Q для обработки ZoomFFT
+static float32_t FFTOutput_mean[FFT_PRINT_SIZE] = { 0 }; //усредненный буфер FFT (для вывода)
+static uint16_t wtf_buffer[FFT_WTF_HEIGHT][FFT_PRINT_SIZE] = { {0} }; //буфер водопада
+static uint16_t maxValueErrors = 0; //количество превышений сигнала в FFT
+static float32_t maxValueFFT = 0; //максимальное значение амплитуды в результирующей АЧХ
+static uint32_t currentFFTFreq = 0;
+static uint16_t color_scale[FFT_MAX_HEIGHT] = { 0 }; //цветовой градиент по высоте FFT
 
 //Дециматор для Zoom FFT
 static arm_fir_decimate_instance_f32	DECIMATE_ZOOM_FFT_I;
 static arm_fir_decimate_instance_f32	DECIMATE_ZOOM_FFT_Q;
-float32_t decimZoomFFTIState[FFT_SIZE + 16];
-float32_t decimZoomFFTQState[FFT_SIZE + 16];
-uint16_t zoomed_width = 0;
+static float32_t decimZoomFFTIState[FFT_SIZE + 16];
+static float32_t decimZoomFFTQState[FFT_SIZE + 16];
+static uint16_t zoomed_width = 0;
+
+static uint16_t getFFTColor(uint8_t height);
+static void fft_fill_color_scale(void);
 
 //Коэффициенты для ZoomFFT lowpass filtering / дециматора
 static arm_biquad_casd_df1_inst_f32 IIR_biquad_Zoom_FFT_I =
@@ -65,7 +67,7 @@ static arm_biquad_casd_df1_inst_f32 IIR_biquad_Zoom_FFT_Q =
 	}
 };
 
-static float32_t* mag_coeffs[17] =
+static const float32_t* mag_coeffs[17] =
 {
 	NULL, // 0
 	NULL, // 1
@@ -125,10 +127,10 @@ static float32_t* mag_coeffs[17] =
 	},
 };
 
-const arm_fir_decimate_instance_f32 FirZoomFFTDecimate[17] =
+static const arm_fir_decimate_instance_f32 FirZoomFFTDecimate[17] =
 {
-	{}, // 0
-	{}, // 1
+	{NULL}, // 0
+	{NULL}, // 1
 	// 48ksps, 12kHz lowpass
 	{
 		.numTaps = 4,
@@ -136,7 +138,7 @@ const arm_fir_decimate_instance_f32 FirZoomFFTDecimate[17] =
 		{475.1179397144384210E-6,0.503905202786044337,0.503905202786044337,475.1179397144384210E-6},
 		.pState = NULL
 	},
-	{}, // 3
+	{NULL}, // 3
 	// 48ksps, 6kHz lowpass
 	{
 		.numTaps = 4,
@@ -144,9 +146,9 @@ const arm_fir_decimate_instance_f32 FirZoomFFTDecimate[17] =
 		{0.198273254218889416,0.298085149879260325,0.298085149879260325,0.198273254218889416},
 		.pState = NULL
 	},
-	{}, // 5
-	{}, // 6
-	{}, // 7
+	{NULL}, // 5
+	{NULL}, // 6
+	{NULL}, // 7
 	// 48ksps, 3kHz lowpass
 	{
 		.numTaps = 4,
@@ -154,13 +156,13 @@ const arm_fir_decimate_instance_f32 FirZoomFFTDecimate[17] =
 		{0.199820836596682871,0.272777397353925699,0.272777397353925699,0.199820836596682871},
 		.pState = NULL
 	},
-	{}, // 9
-	{}, // 10
-	{}, // 11
-	{}, // 12
-	{}, // 13
-	{}, // 14
-	{}, // 15
+	{NULL}, // 9
+	{NULL}, // 10
+	{NULL}, // 11
+	{NULL}, // 12
+	{NULL}, // 13
+	{NULL}, // 14
+	{NULL}, // 15
 	// 48ksps, 1.5kHz lowpass
 	{
 		.numTaps = 4,
@@ -311,6 +313,7 @@ void FFT_printFFT(void)
 	if (LCD_bandMenuOpened) return;
 	LCD_busy = true;
 	
+	uint16_t height = 0; //высота столбца в выводе FFT
 	uint16_t tmp = 0;
 	
 	//смещаем водопад, если нужно
@@ -430,7 +433,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 	}
 }
 
-uint16_t getFFTColor(uint8_t height) //получение теплоты цвета FFT (от синего к красному)
+static uint16_t getFFTColor(uint8_t height) //получение теплоты цвета FFT (от синего к красному)
 {
 	//r g b
 	//0 0 0
@@ -461,7 +464,7 @@ uint16_t getFFTColor(uint8_t height) //получение теплоты цве�
 	return rgb888torgb565(red, green, blue);
 }
 
-void fft_fill_color_scale(void) //заполняем градиент цветов FFT при инициализации
+static void fft_fill_color_scale(void) //заполняем градиент цветов FFT при инициализации
 {
 	for (uint8_t i=0;i<FFT_MAX_HEIGHT;i++) 
   {

@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "functions.h"
 
-PROFILE_INFO profiles[PROFILES_COUNT];
+static PROFILE_INFO profiles[PROFILES_COUNT];
 
 void InitProfiler()
 {

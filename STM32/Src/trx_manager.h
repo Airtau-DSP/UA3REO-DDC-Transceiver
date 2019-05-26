@@ -20,20 +20,17 @@
 #define TRX_MODE_AM 10
 #define TRX_MODE_LOOPBACK 11
 
-void TRX_Init(void);
+extern void TRX_Init(void);
 extern void TRX_RF_UNIT_UpdateState(bool clean);
-void TRX_setFrequency(int32_t _freq);
-int32_t TRX_getFrequency(void);
-void TRX_setMode(uint8_t _mode);
-uint8_t TRX_getMode(void);
-void TRX_ptt_change(void);
-void TRX_key_change(void);
-void TRX_Start_RX(void);
-void TRX_Start_TX(void);
-void TRX_Start_Loopback(void);
-void TRX_Restart_Mode(void);
-bool TRX_on_TX(void);
-void TRX_DoAutoGain(void);
+extern void TRX_setFrequency(int32_t _freq);
+extern uint32_t TRX_getFrequency(void);
+extern void TRX_setMode(uint8_t _mode);
+extern uint8_t TRX_getMode(void);
+extern void TRX_ptt_change(void);
+extern void TRX_key_change(void);
+extern bool TRX_on_TX(void);
+extern void TRX_DoAutoGain(void);
+extern void TRX_Restart_Mode(void);
 
 volatile extern bool TRX_ptt_hard;
 volatile extern bool TRX_ptt_cat;
@@ -53,6 +50,6 @@ volatile extern int16_t TRX_ADC_MINAMPLITUDE;
 volatile extern int16_t TRX_ADC_MAXAMPLITUDE;
 volatile extern uint8_t TRX_Time_InActive;
 
-extern char *MODE_DESCR[];
+extern const char *MODE_DESCR[];
 
 #endif

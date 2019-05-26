@@ -6,7 +6,7 @@
 #include "stm32f4xx_hal_rcc.h"
 #include "stm32f4xx_hal_gpio.h"
 
-void JumpToBootloader(void);
-void checkBootloaderButton(void);
+extern void JumpToBootloader(void);
+extern void checkBootloaderButton(void);
 
 #endif

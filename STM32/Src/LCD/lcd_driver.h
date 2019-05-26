@@ -155,11 +155,11 @@ typedef struct {
 
 /// Data stored for FONT AS A WHOLE
 typedef struct {
-	uint8_t  *bitmap;      ///< Glyph bitmaps, concatenated
-	GFXglyph *glyph;       ///< Glyph array
-	uint8_t   first;       ///< ASCII extents (first char)
-	uint8_t   last;        ///< ASCII extents (last char)
-	uint8_t   yAdvance;    ///< Newline distance (y axis)
+	const uint8_t  *bitmap;      ///< Glyph bitmaps, concatenated
+	const GFXglyph *glyph;       ///< Glyph array
+	const uint8_t   first;       ///< ASCII extents (first char)
+	const uint8_t   last;        ///< ASCII extents (last char)
+	const uint8_t   yAdvance;    ///< Newline distance (y axis)
 } GFXfont;
 
 static //Text simple font array (You can your own font)
@@ -463,8 +463,6 @@ void LCDDriver_Fill_RectXY(unsigned int x0, unsigned int y0, unsigned int x1, un
 void LCDDriver_Fill_RectWH(unsigned int x, unsigned int y, unsigned int w, unsigned int h, uint16_t color);
 //8. Circle drawing functions
 void LCDDriver_drawCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
-static void drawCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, uint16_t color);
-static void fillCircleHelper(int16_t x0, int16_t y0, int16_t r, uint8_t cornername, int16_t delta, uint16_t color);
 void LCDDriver_fillCircle(int16_t x0, int16_t y0, int16_t r, uint16_t color);
 //9. Line drawing functions
 void LCDDriver_drawLine(int16_t x0, int16_t y0, int16_t x1, int16_t y1, uint16_t color);
@@ -476,8 +474,10 @@ void LCDDriver_drawTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int1
 void LCDDriver_fillTriangle(int16_t x0, int16_t y0, int16_t x1, int16_t y1, int16_t x2, int16_t y2, uint16_t color);
 //11. Text printing functions
 void LCDDriver_drawChar(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, uint8_t size);
+void LCDDriver_drawCharFont(int16_t x, int16_t y, unsigned char c, uint16_t color, uint16_t bg, GFXfont gfxFont);
 void LCDDriver_printText(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, uint8_t size);
 void LCDDriver_printTextFont(char text[], int16_t x, int16_t y, uint16_t color, uint16_t bg, GFXfont gfxFont);
+void LCDDriver_charBounds(char c, int16_t *x, int16_t *y, int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy, GFXfont gfxFont);
 void LCDDriver_getTextBounds(char text[], int16_t x, int16_t y, uint16_t *x1, uint16_t *y1, uint16_t *w, uint16_t *h, GFXfont gfxFont);
 //12. Image print (RGB 565, 2 bytes per pixel)
 void LCDDriver_printImage(uint16_t x, uint16_t y, uint16_t w, uint16_t h, uint8_t *data, uint32_t size);

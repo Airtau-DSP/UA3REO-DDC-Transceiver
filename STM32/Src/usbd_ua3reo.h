@@ -118,8 +118,8 @@ extern volatile bool RX_USB_AUDIO_underrun;
 	{
 		int8_t(*Init)          (void);
 		int8_t(*DeInit)        (void);
-		int8_t(*Control)       (uint8_t cmd, uint8_t* pbuf, uint16_t length);
-		int8_t(*Receive)       (uint8_t* Buf, uint32_t *Len);
+		int8_t(*Control)       (uint8_t cmd, uint8_t* pbuf);
+		int8_t(*Receive)       (uint8_t* Buf);
 
 	}USBD_DEBUG_ItfTypeDef;
 
@@ -127,7 +127,7 @@ extern volatile bool RX_USB_AUDIO_underrun;
 	{
 		int8_t(*Init)          (void);
 		int8_t(*DeInit)        (void);
-		int8_t(*Control)       (uint8_t cmd, uint8_t* pbuf, uint16_t length);
+		int8_t(*Control)       (uint8_t cmd);
 		int8_t(*Receive)       (uint8_t* Buf, uint32_t *Len);
 
 	}USBD_CAT_ItfTypeDef;
@@ -184,21 +184,21 @@ extern volatile bool RX_USB_AUDIO_underrun;
 	extern USBD_ClassTypeDef  USBD_UA3REO;
 #define USBD_UA3REO_CLASS    &USBD_UA3REO
 
-	uint8_t  USBD_DEBUG_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_DEBUG_ItfTypeDef *fops);
-	uint8_t  USBD_DEBUG_SetTxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff, uint16_t length);
-	uint8_t  USBD_DEBUG_SetRxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff);
-	uint8_t  USBD_DEBUG_ReceivePacket(USBD_HandleTypeDef *pdev);
-	uint8_t  USBD_DEBUG_TransmitPacket(USBD_HandleTypeDef *pdev);
+	extern uint8_t USBD_DEBUG_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_DEBUG_ItfTypeDef *fops);
+	extern uint8_t USBD_DEBUG_SetTxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff, uint16_t length);
+	extern uint8_t USBD_DEBUG_SetRxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff);
+	extern uint8_t USBD_DEBUG_ReceivePacket(USBD_HandleTypeDef *pdev);
+	extern uint8_t USBD_DEBUG_TransmitPacket(USBD_HandleTypeDef *pdev);
+	
+	extern uint8_t USBD_CAT_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_CAT_ItfTypeDef *fops);
+	extern uint8_t USBD_CAT_SetTxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff, uint16_t length);
+	extern uint8_t USBD_CAT_SetRxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff);
+	extern uint8_t USBD_CAT_ReceivePacket(USBD_HandleTypeDef *pdev);
+	extern uint8_t USBD_CAT_TransmitPacket(USBD_HandleTypeDef *pdev);
 
-	uint8_t  USBD_CAT_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_CAT_ItfTypeDef *fops);
-	uint8_t  USBD_CAT_SetTxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff, uint16_t length);
-	uint8_t  USBD_CAT_SetRxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff);
-	uint8_t  USBD_CAT_ReceivePacket(USBD_HandleTypeDef *pdev);
-	uint8_t  USBD_CAT_TransmitPacket(USBD_HandleTypeDef *pdev);
-
-	uint8_t  USBD_AUDIO_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops);
-	uint8_t  USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev);
-	uint8_t  USBD_AUDIO_StartReceive(USBD_HandleTypeDef *pdev);
+	extern uint8_t USBD_AUDIO_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops);
+	extern uint8_t USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev);
+	extern uint8_t USBD_AUDIO_StartReceive(USBD_HandleTypeDef *pdev);
 	
 	/**
 	  * @}

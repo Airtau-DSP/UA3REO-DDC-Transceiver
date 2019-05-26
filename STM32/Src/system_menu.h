@@ -14,6 +14,5 @@ typedef enum
 extern void drawSystemMenu(bool draw_background);
 extern void eventClickSystemMenu(uint16_t x, uint16_t y);
 extern void eventRotateSystemMenu(int direction);
-void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value);
 	
 #endif

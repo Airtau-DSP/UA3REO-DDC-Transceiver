@@ -6,10 +6,10 @@
 #include "settings.h"
 #include "profiler.h"
 
-float32_t AGC_need_gain = 0.0f;
-float32_t RX_AGC_STEPSIZE_UP=1.0f;
-float32_t RX_AGC_STEPSIZE_DOWN=1.0f;
-float32_t AGC_need_gain_old = 1.0f;
+static float32_t AGC_need_gain = 0.0f;
+static float32_t RX_AGC_STEPSIZE_UP=1.0f;
+static float32_t RX_AGC_STEPSIZE_DOWN=1.0f;
+static float32_t AGC_need_gain_old = 1.0f;
 
 void InitAGC(void)
 {

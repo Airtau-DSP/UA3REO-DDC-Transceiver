@@ -69,9 +69,9 @@
 #include "usbd_ua3reo.h"
 #include "trx_manager.h"
 
-uint32_t ms50_counter = 0;
-uint32_t tim5_counter = 0;
-uint32_t eeprom_save_delay = 0;
+static uint32_t ms50_counter = 0;
+static uint32_t tim5_counter = 0;
+static uint32_t eeprom_save_delay = 0;
 
 extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END 0 */
@@ -90,7 +90,6 @@ extern TIM_HandleTypeDef htim5;
 extern TIM_HandleTypeDef htim6;
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 /* USER CODE BEGIN EV */
-extern uint32_t cpu_sleep_counter;
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 /* USER CODE END EV */
 
@@ -388,11 +387,11 @@ void TIM6_DAC_IRQHandler(void)
 		//S-Meter Calculate
 		float32_t Audio_Vpp_value=(Processor_RX_Audio_Samples_MAX_value/(float32_t)TRX.RF_Gain)-(Processor_RX_Audio_Samples_MIN_value/(float32_t)TRX.RF_Gain); //получаем разницу между максимальным и минимальным значением в аудио-семплах
 		for(int i=0;i<(FPGA_BUS_BITS-ADC_BITS);i++) Audio_Vpp_value=Audio_Vpp_value/2; //приводим разрядность аудио к разрядности АЦП
-		float32_t ADC_Vpp_Value=Audio_Vpp_value*ADC_VREF/(pow(2,ADC_BITS)-1); //получаем значение пик-пик напряжения на входе АЦП в вольтах
+		float32_t ADC_Vpp_Value=Audio_Vpp_value*ADC_VREF/((float32_t)pow(2.0,ADC_BITS)-1); //получаем значение пик-пик напряжения на входе АЦП в вольтах
 		float32_t ADC_Vrms_Value=ADC_Vpp_Value*0.3535f; // Получаем действующее (RMS) напряжение на аходе АЦП
 		float32_t ADC_RF_IN_Value=(ADC_Vrms_Value/ADC_RF_TRANS_RATIO)*ADC_RF_INPUT_VALUE_CALIBRATION; //Получаем напряжение на антенном входе с учётом трансформатора и калибровки
 		if(ADC_RF_IN_Value<0.0000001f) ADC_RF_IN_Value=0.0000001f;
-		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(50*0.001)) ; //получаем значение мощности в dBm для сопротивления 50ом
+		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(50.0f*0.001f)) ; //получаем значение мощности в dBm для сопротивления 50ом
 		Processor_RX_Audio_Samples_MAX_value=0;
 		Processor_RX_Audio_Samples_MIN_value=0;
 	}
@@ -403,19 +402,19 @@ void TIM6_DAC_IRQHandler(void)
 		TRX_DoAutoGain(); //Process AutoGain feature
 		
 		//Save Debug variables
-		uint32_t dbg_FPGA_samples=FPGA_samples;
-		uint32_t dbg_WM8731_DMA_samples=WM8731_DMA_samples/2;
-		uint32_t dbg_AUDIOPROC_TXA_samples=AUDIOPROC_TXA_samples;
-		uint32_t dbg_AUDIOPROC_TXB_samples=AUDIOPROC_TXB_samples;
-		float32_t dbg_cpu_sleep_counter=cpu_sleep_counter/1000.0f;
-		uint32_t dbg_tim5_counter=tim5_counter;
-		float32_t dbg_ALC_need_gain=ALC_need_gain;
-		float32_t dbg_ALC_need_gain_new=ALC_need_gain_new;
-		float32_t dbg_Processor_TX_MAX_amplitude=Processor_TX_MAX_amplitude;
-		float32_t dbg_FPGA_Audio_Buffer_I_tmp=FPGA_Audio_Buffer_I_tmp[0];
-		float32_t dbg_FPGA_Audio_Buffer_Q_tmp=FPGA_Audio_Buffer_Q_tmp[0];
-		uint32_t dbg_RX_USB_AUDIO_SAMPLES=RX_USB_AUDIO_SAMPLES;
-		uint32_t dbg_TX_USB_AUDIO_SAMPLES=TX_USB_AUDIO_SAMPLES;
+		//uint32_t dbg_FPGA_samples=FPGA_samples;
+		//uint32_t dbg_WM8731_DMA_samples=WM8731_DMA_samples/2;
+		//uint32_t dbg_AUDIOPROC_TXA_samples=AUDIOPROC_TXA_samples;
+		//uint32_t dbg_AUDIOPROC_TXB_samples=AUDIOPROC_TXB_samples;
+		//float32_t dbg_cpu_sleep_counter=cpu_sleep_counter/1000.0f;
+		//uint32_t dbg_tim5_counter=tim5_counter;
+		//float32_t dbg_ALC_need_gain=ALC_need_gain;
+		//float32_t dbg_ALC_need_gain_new=ALC_need_gain_new;
+		//float32_t dbg_Processor_TX_MAX_amplitude=Processor_TX_MAX_amplitude;
+		//float32_t dbg_FPGA_Audio_Buffer_I_tmp=FPGA_Audio_Buffer_I_tmp[0];
+		//float32_t dbg_FPGA_Audio_Buffer_Q_tmp=FPGA_Audio_Buffer_Q_tmp[0];
+		//uint32_t dbg_RX_USB_AUDIO_SAMPLES=RX_USB_AUDIO_SAMPLES;
+		//uint32_t dbg_TX_USB_AUDIO_SAMPLES=TX_USB_AUDIO_SAMPLES;
 		//sendToDebug_str("FPGA Samples: "); sendToDebug_uint32(dbg_FPGA_samples,false); //~48000
 		//sendToDebug_str("Audio DMA samples: "); sendToDebug_uint32(dbg_WM8731_DMA_samples,false); //~48000
 		//sendToDebug_str("Audioproc cycles A: "); sendToDebug_uint32(dbg_AUDIOPROC_TXA_samples,false); //~187

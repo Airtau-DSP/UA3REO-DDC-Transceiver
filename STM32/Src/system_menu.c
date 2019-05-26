@@ -3,13 +3,15 @@
 #include "settings.h"
 #include "LCD/xpt2046_spi.h"
 
-uint8_t systemMenuIndex=1;
-uint8_t systemMenuIndexCount=0;
+static uint8_t systemMenuIndex=1;
+static uint8_t systemMenuIndexCount=0;
 
-const uint8_t sysmenu_x1=5;
-const uint8_t sysmenu_x2=240;
-uint8_t sysmenu_y=5;
-uint8_t sysmenu_i=1;
+static const uint8_t sysmenu_x1=5;
+static const uint8_t sysmenu_x2=240;
+static uint8_t sysmenu_y=5;
+static uint8_t sysmenu_i=1;
+
+static void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value);
 
 void drawSystemMenu(bool draw_background)
 {
@@ -124,7 +126,7 @@ void eventClickSystemMenu(uint16_t x, uint16_t y)
 	}
 }
 
-void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value)
+static void drawSystemMenuElement(char* title, SystemMenuType type, uint32_t value)
 {
 	char ctmp[50];
 	LCDDriver_Fill_RectXY(1,sysmenu_y,320,sysmenu_y+17,COLOR_BLACK);
