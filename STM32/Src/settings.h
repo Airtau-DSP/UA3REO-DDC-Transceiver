@@ -76,10 +76,6 @@ extern struct TRX_SETTINGS {
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
 	bool BandMapEnabled;
-	float Touchpad_ax;
-	int16_t Touchpad_bx;
-	float Touchpad_ay;
-	int16_t Touchpad_by;
 	uint8_t Volume;
 	uint8_t InputType; //0 - mic ; 1 - line ; 2 - usb
 	bool Mute;
@@ -88,14 +84,23 @@ extern struct TRX_SETTINGS {
 	uint16_t SSB_Filter;
 	uint16_t FM_Filter;
 	uint8_t RF_Power;
-	bool FFT_Enabled;
 	uint8_t	FM_SQL_threshold;
 	uint8_t	RF_Gain;
 	uint32_t saved_freq[BANDS_COUNT];
 	uint8_t FFT_Zoom;
 	bool AutoGain;
 	//system settings
+	bool FFT_Enabled;
 	uint16_t CW_GENERATOR_SHIFT_HZ;
+	bool Calibrated;
+	float32_t Touchpad_x0;
+	float32_t Touchpad_y0;
+	float32_t Touchpad_x1;
+	float32_t Touchpad_y1;
+	float32_t Touchpad_x2;
+	float32_t Touchpad_y2;
+	float32_t Touchpad_x3;
+	float32_t Touchpad_y3;
 	uint8_t	ENCODER_SLOW_RATE;
 	uint8_t LCD_Brightness;
 	uint8_t Standby_Time;

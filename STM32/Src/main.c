@@ -168,6 +168,12 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4); //LCD backlight
 	LoadSettings();
 	LCD_Init();
+	Touch_Set_Coef(TRX.Touchpad_x0, TRX.Touchpad_y0, TRX.Touchpad_x1, TRX.Touchpad_y1, TRX.Touchpad_x2, TRX.Touchpad_y2, TRX.Touchpad_x3, TRX.Touchpad_y3);
+	if(!TRX.Calibrated)
+	{
+		Touch_Calibrate();
+		LCD_Init();
+	}
 	FFT_Init();
 	WM8731_Init();
 	TRX_Init();
@@ -180,7 +186,6 @@ int main(void)
 	HAL_TIM_Base_Start_IT(&htim6);
 	HAL_TIM_Base_Start(&htim4);
 	HAL_TIM_Base_Start_IT(&htim4);
-	Touch_Set_Coef(TRX.Touchpad_ax, TRX.Touchpad_bx, TRX.Touchpad_ay, TRX.Touchpad_by);
 	TRX_RF_UNIT_UpdateState(false);
 	sendToDebug_str("UA3REO Started\r\n");
 	

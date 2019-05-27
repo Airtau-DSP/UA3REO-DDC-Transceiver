@@ -68,6 +68,7 @@
 #include "usbd_audio_if.h"
 #include "usbd_ua3reo.h"
 #include "trx_manager.h"
+#include "LCD/xpt2046_spi.h"
 
 static uint32_t ms50_counter = 0;
 static uint32_t tim5_counter = 0;
@@ -298,7 +299,8 @@ void EXTI9_5_IRQHandler(void)
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_5);
   /* USER CODE BEGIN EXTI9_5_IRQn 1 */
 	TRX_Time_InActive=0;
-	LCD_checkTouchPad();
+	if(!TOUCH_InCalibrate)
+		LCD_checkTouchPad();
   /* USER CODE END EXTI9_5_IRQn 1 */
 }
 

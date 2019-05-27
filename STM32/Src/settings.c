@@ -27,9 +27,9 @@ static void Flash_Read_Data(void);
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 170) //code to trace new clean flash
+	if (TRX.clean_flash != 173) //code to trace new clean flash
 	{
-		TRX.clean_flash = 170;
+		TRX.clean_flash = 173;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Filter_Width = 2700;
@@ -64,10 +64,15 @@ void LoadSettings(void)
 		//system settings
 		TRX.FFT_Enabled = true;
 		TRX.CW_GENERATOR_SHIFT_HZ=500;
-		TRX.Touchpad_ax = 11.096;
-		TRX.Touchpad_bx = -32;
-		TRX.Touchpad_ay = -15.588235;
-		TRX.Touchpad_by = 250;
+		TRX.Calibrated=false;
+		TRX.Touchpad_x0=366.0f;
+		TRX.Touchpad_y0=3061.0f;
+		TRX.Touchpad_x1=3934.0f;
+		TRX.Touchpad_y1=3398.0f;
+		TRX.Touchpad_x2=351.0f;
+		TRX.Touchpad_y2=625.0f;
+		TRX.Touchpad_x3=3914.0f;
+		TRX.Touchpad_y3=378.0f;
 		TRX.ENCODER_SLOW_RATE=35;
 		TRX.LCD_Brightness=100;
 		TRX.Standby_Time=180;
