@@ -7,6 +7,7 @@
 #include "settings.h"
 #include "system_menu.h"
 #include "functions.h"
+#include "audio_filters.h"
 
 static uint8_t ENCODER_ALast = 0;
 static uint8_t ENCODER_AVal = 0;
@@ -52,26 +53,38 @@ static void ENCODER_Rotated(int direction) //энкодер повернули, 
 	}
 	if (!LCD_mainMenuOpened)
 	{
-		switch (TRX.LCD_menu_freq_index) {
-		case MENU_FREQ_HZ:
-			if (TRX.Fast)
-				TRX_setFrequency(TRX_getFrequency() + 100 * direction);
-			else
-				TRX_setFrequency(TRX_getFrequency() + 10 * direction);
-			break;
-		case MENU_FREQ_KHZ:
-			if (TRX.Fast)
-				TRX_setFrequency(TRX_getFrequency() + 10000 * direction);
-			else
-				TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
-			break;
-		case MENU_FREQ_MHZ:
-			TRX_setFrequency(TRX_getFrequency() + 1000000 * direction);
-			break;
-		default:
-			break;
+		if(TRX.NotchFilter && LCD_NotchEdit)
+		{
+			if(TRX.NotchFC > 50 && direction == -1) 
+				TRX.NotchFC-=25;
+			if(TRX.NotchFC < CurrentVFO()->Filter_Width && direction == 1) 
+				TRX.NotchFC += 25;
+			LCD_UpdateQuery.StatusInfoGUI = true;
+			NeedReinitNotch=true;
 		}
-		LCD_UpdateQuery.FreqInfo = true;
+		else
+		{
+			switch (TRX.LCD_menu_freq_index) {
+				case MENU_FREQ_HZ:
+					if (TRX.Fast)
+						TRX_setFrequency(TRX_getFrequency() + 100 * direction);
+					else
+						TRX_setFrequency(TRX_getFrequency() + 10 * direction);
+					break;
+				case MENU_FREQ_KHZ:
+					if (TRX.Fast)
+						TRX_setFrequency(TRX_getFrequency() + 10000 * direction);
+					else
+						TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
+					break;
+				case MENU_FREQ_MHZ:
+					TRX_setFrequency(TRX_getFrequency() + 1000000 * direction);
+					break;
+				default:
+					break;
+			}
+			LCD_UpdateQuery.FreqInfo = true;
+		}
 	}
 	if (LCD_mainMenuOpened)
 	{
@@ -112,38 +125,38 @@ static void ENCODER_Rotated(int direction) //энкодер повернули, 
 			return;
 		}
 		switch (LCD_menu_main_index) {
-		case MENU_MAIN_VOLUME:
-			TRX.Volume = TRX.Volume + direction;
-			if (TRX.Volume < 1) TRX.Volume = 1;
-			if (TRX.Volume > 100) TRX.Volume = 100;
-			LCD_UpdateQuery.MainMenu = true;
-			break;
-		case MENU_MAIN_RF_GAIN:
-			TRX.RF_Gain = TRX.RF_Gain + direction;
-			if (TRX.RF_Gain < 1) TRX.RF_Gain = 1;
-			if (TRX.RF_Gain > 250) TRX.RF_Gain = 250;
-			LCD_UpdateQuery.MainMenu = true;
-			break;
-		case MENU_MAIN_FM_SQL:
-			if (direction > 0 || TRX.FM_SQL_threshold > 0) TRX.FM_SQL_threshold = TRX.FM_SQL_threshold + direction;
-			if (TRX.FM_SQL_threshold > 10) TRX.FM_SQL_threshold = 10;
-			LCD_UpdateQuery.MainMenu = true;
-			break;
-		case MENU_MAIN_RF_POWER:
-			TRX.RF_Power = TRX.RF_Power + direction;
-			if (TRX.RF_Power < 1) TRX.RF_Power = 1;
-			if (TRX.RF_Power > 100) TRX.RF_Power = 100;
-			LCD_UpdateQuery.MainMenu = true;
-			break;
-		case MENU_MAIN_AGCSPEED:
-			if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
-			if (TRX.Agc_speed < 1) TRX.Agc_speed = 1;
-			if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
-			InitAGC();
-			LCD_UpdateQuery.MainMenu = true;
-			break;
-		default:
-			break;
+			case MENU_MAIN_VOLUME:
+				TRX.Volume = TRX.Volume + direction;
+				if (TRX.Volume < 1) TRX.Volume = 1;
+				if (TRX.Volume > 100) TRX.Volume = 100;
+				LCD_UpdateQuery.MainMenu = true;
+				break;
+			case MENU_MAIN_RF_GAIN:
+				TRX.RF_Gain = TRX.RF_Gain + direction;
+				if (TRX.RF_Gain < 1) TRX.RF_Gain = 1;
+				if (TRX.RF_Gain > 250) TRX.RF_Gain = 250;
+				LCD_UpdateQuery.MainMenu = true;
+				break;
+			case MENU_MAIN_FM_SQL:
+				if (direction > 0 || TRX.FM_SQL_threshold > 0) TRX.FM_SQL_threshold = TRX.FM_SQL_threshold + direction;
+				if (TRX.FM_SQL_threshold > 10) TRX.FM_SQL_threshold = 10;
+				LCD_UpdateQuery.MainMenu = true;
+				break;
+			case MENU_MAIN_RF_POWER:
+				TRX.RF_Power = TRX.RF_Power + direction;
+				if (TRX.RF_Power < 1) TRX.RF_Power = 1;
+				if (TRX.RF_Power > 100) TRX.RF_Power = 100;
+				LCD_UpdateQuery.MainMenu = true;
+				break;
+			case MENU_MAIN_AGCSPEED:
+				if (direction > 0 || TRX.Agc_speed > 0) TRX.Agc_speed = TRX.Agc_speed + direction;
+				if (TRX.Agc_speed < 1) TRX.Agc_speed = 1;
+				if (TRX.Agc_speed > 4) TRX.Agc_speed = 4;
+				InitAGC();
+				LCD_UpdateQuery.MainMenu = true;
+				break;
+			default:
+				break;
 		}
 		NeedSaveSettings = true;
 	}

@@ -44,6 +44,7 @@ static void doRX_LPF(void);
 static void doRX_HPF(void);
 static void doRX_DNR(void);
 static void doRX_AGC(void);
+static void doRX_NOTCH(void);
 static void doRX_SMETER(void);
 static void doRX_COPYCHANNEL(void);
 static void DemodulateFM(void);
@@ -308,6 +309,7 @@ void processRxAudio(void)
 		case TRX_MODE_DIGI_L:
 			doRX_LPF();
 			arm_sub_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // difference of I and Q - LSB
+			doRX_NOTCH();
 			doRX_SMETER();
 			doRX_DNR();
 			doRX_AGC();
@@ -319,6 +321,7 @@ void processRxAudio(void)
 		case TRX_MODE_DIGI_U:
 			doRX_LPF();
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);   // sum of I and Q - USB
+			doRX_NOTCH();
 			doRX_SMETER();
 			doRX_DNR();
 			doRX_AGC();
@@ -331,6 +334,7 @@ void processRxAudio(void)
 			arm_add_f32((float32_t *)&FPGA_Audio_Buffer_I_tmp[0], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[0], (float32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_AUDIO_BUFFER_HALF_SIZE);
 			for (int i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
 				arm_sqrt_f32(FPGA_Audio_Buffer_I_tmp[i], &FPGA_Audio_Buffer_I_tmp[i]);
+			doRX_NOTCH();
 			doRX_SMETER();
 			doRX_DNR();	
 			doRX_AGC();
@@ -443,6 +447,15 @@ static void doRX_HPF(void)
 	{
 		arm_iir_lattice_f32(&IIR_HPF_I, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_f32(&IIR_HPF_Q, (float32_t *)&FPGA_Audio_Buffer_Q_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_Q_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE);
+	}
+}
+
+static void doRX_NOTCH(void)
+{
+	if(TRX.NotchFilter)
+	{
+		for (block = 0; block < numBlocks; block++)
+			arm_biquad_cascade_df2T_f32(&NOTCH_FILTER, (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], (float32_t *)&FPGA_Audio_Buffer_I_tmp[block*APROCESSOR_BLOCK_SIZE], APROCESSOR_BLOCK_SIZE);
 	}
 }
 

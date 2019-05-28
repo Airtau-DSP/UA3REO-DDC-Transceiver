@@ -27,9 +27,9 @@ static void Flash_Read_Data(void);
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 173) //code to trace new clean flash
+	if (TRX.clean_flash != 174) //code to trace new clean flash
 	{
-		TRX.clean_flash = 173;
+		TRX.clean_flash = 174;
 		TRX.VFO_A.Freq = 7100000;
 		TRX.VFO_A.Mode = TRX_MODE_LSB;
 		TRX.VFO_A.Filter_Width = 2700;
@@ -43,7 +43,6 @@ void LoadSettings(void)
 		TRX.LPF = true;
 		TRX.BPF = true;
 		TRX.TX_Amplifier = true;
-		TRX.Notch = 0;
 		TRX.DNR = false;
 		TRX.Agc_speed = 3;
 		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
@@ -61,6 +60,8 @@ void LoadSettings(void)
 		for(uint8_t i=0;i<BANDS_COUNT;i++) TRX.saved_freq[i]=BANDS[i].startFreq+(BANDS[i].endFreq-BANDS[i].startFreq)/2;
 		TRX.FFT_Zoom=1;
 		TRX.AutoGain=false;
+		TRX.NotchFilter=false;
+		TRX.NotchFC=1000;
 		//system settings
 		TRX.FFT_Enabled = true;
 		TRX.CW_GENERATOR_SHIFT_HZ=500;

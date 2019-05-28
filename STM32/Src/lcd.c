@@ -22,6 +22,7 @@ volatile bool LCD_systemMenuOpened = false;
 volatile bool LCD_modeMenuOpened = false;
 volatile bool LCD_bandMenuOpened = false;
 volatile uint8_t LCD_menu_main_index = MENU_MAIN_VOLUME;
+volatile bool LCD_NotchEdit = false;
 
 static bool LCD_widthMenuOpened = false;
 static char LCD_freq_string_hz[6];
@@ -252,10 +253,10 @@ static void LCD_displayTopButtons(bool redraw) { //вывод верхних к�
 		printButton(195, 40, 60, 35, "MUTE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX.Mute == true), LCD_Handler_MUTE);
 		printButton(260, 40, 59, 35, "TUNE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, (TRX_tune == true), LCD_Handler_TUNE);
 		//правый столбец
-		printButton(265, 80, 54, 23, "PRE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Preamp, LCD_Handler_PREAMP);
-		printButton(265, 108, 54, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.ATT, LCD_Handler_ATT);
+		printButton(265, 80, 54, 23, "ATT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.ATT, LCD_Handler_ATT);
+		printButton(265, 108, 54, 23, "PRE", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Preamp, LCD_Handler_PREAMP);
 		printButton(265, 136, 54, 23, "AGC", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.AGC, LCD_Handler_AGC);
-		printButton(265, 164, 54, 23, "NOT", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.Notch, LCD_Handler_NOTCH);
+		printButton(265, 164, 54, 23, "NOT", LCD_NotchEdit ? COLOR_BUTTON_MENU : COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, LCD_NotchEdit ? false : TRX.NotchFilter, LCD_Handler_NOTCH);
 		printButton(265, 192, 54, 23, "DNR", COLOR_BUTTON_INACTIVE, COLOR_BUTTON_TEXT, COLOR_BUTTON_ACTIVE, TRX.DNR, LCD_Handler_DNR);
 	}
 	LCD_busy=false;
@@ -362,11 +363,22 @@ static void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 	LCDDriver_printText("+40", 50 + step * 6, 150, COLOR_RED, COLOR_BLACK, 1);
 	LCDDriver_printText("+60", 50 + step * 7, 150, COLOR_RED, COLOR_BLACK, 1);
 	
-	if(TRX.FFT_Zoom==1) LCDDriver_printText("48kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
-	if(TRX.FFT_Zoom==2) LCDDriver_printText("24kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
-	if(TRX.FFT_Zoom==4) LCDDriver_printText("12kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
-	if(TRX.FFT_Zoom==8) LCDDriver_printText(" 6kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
-	if(TRX.FFT_Zoom==16) LCDDriver_printText(" 3kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	if(TRX.NotchFilter)
+	{
+		char buff[10] = "";
+		sprintf(buff, "%dhz", TRX.NotchFC);
+		addSymbols(buff, buff, 7, " ", false);
+		LCDDriver_printText(buff,220,150,COLOR_BLUE,COLOR_BLACK,1);
+	}
+	else
+	{
+		LCDDriver_Fill_RectWH(220,150,40,8,COLOR_BLACK);
+		if(TRX.FFT_Zoom==1) LCDDriver_printText("48kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+		if(TRX.FFT_Zoom==2) LCDDriver_printText("24kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+		if(TRX.FFT_Zoom==4) LCDDriver_printText("12kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+		if(TRX.FFT_Zoom==8) LCDDriver_printText(" 6kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+		if(TRX.FFT_Zoom==16) LCDDriver_printText(" 3kHz",230,150,COLOR_WHITE,COLOR_BLACK,1);
+	}
 	
 	LCD_UpdateQuery.StatusInfoGUI = false;
 	LCD_busy = false;
@@ -801,6 +813,23 @@ static void LCD_Handler_ATT(void)
 }
 static void LCD_Handler_NOTCH(void)
 {
+	if(TRX.NotchFC > CurrentVFO()->Filter_Width)
+				TRX.NotchFC = CurrentVFO()->Filter_Width;
+	if(!TRX.NotchFilter && !LCD_NotchEdit)
+	{
+		TRX.NotchFilter=true;
+		LCD_NotchEdit=true;
+	}
+	else if(TRX.NotchFilter && LCD_NotchEdit)
+	{
+		LCD_NotchEdit=false;
+	}
+	else
+	{
+		TRX.NotchFilter=false;
+	}
+	NeedReinitNotch=true;
+	LCD_UpdateQuery.StatusInfoGUI = true;
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }

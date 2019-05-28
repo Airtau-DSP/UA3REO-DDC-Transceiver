@@ -49,6 +49,7 @@ extern void LCD_doEvents(void);
 extern void LCD_showError(char text[]);
 extern void LCD_redraw(void);
 extern void LCD_checkTouchPad(void);
+extern void LCD_Handler_SETTIME(void);
 
 volatile extern DEF_LCD_UpdateQuery LCD_UpdateQuery;
 volatile extern bool LCD_busy;
@@ -59,6 +60,6 @@ volatile extern bool LCD_systemMenuOpened;
 volatile extern bool LCD_mainMenuOpened;
 volatile extern uint8_t TimeMenuSelection;
 volatile extern uint8_t LCD_menu_main_index;
-extern void LCD_Handler_SETTIME(void);
+volatile extern bool LCD_NotchEdit;
 
 #endif

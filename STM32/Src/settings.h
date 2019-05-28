@@ -71,7 +71,6 @@ extern struct TRX_SETTINGS {
 	bool LPF;
 	bool BPF;
 	bool TX_Amplifier;
-	uint8_t Notch;
 	bool DNR;
 	uint8_t Agc_speed;
 	uint8_t LCD_menu_freq_index;
@@ -89,6 +88,8 @@ extern struct TRX_SETTINGS {
 	uint32_t saved_freq[BANDS_COUNT];
 	uint8_t FFT_Zoom;
 	bool AutoGain;
+	bool NotchFilter;
+	uint16_t NotchFC;
 	//system settings
 	bool FFT_Enabled;
 	uint16_t CW_GENERATOR_SHIFT_HZ;

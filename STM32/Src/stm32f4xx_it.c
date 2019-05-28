@@ -68,6 +68,7 @@
 #include "usbd_audio_if.h"
 #include "usbd_ua3reo.h"
 #include "trx_manager.h"
+#include "audio_filters.h"
 #include "LCD/xpt2046_spi.h"
 
 static uint32_t ms50_counter = 0;
@@ -383,6 +384,9 @@ void TIM6_DAC_IRQHandler(void)
 	
 	if (NeedSaveSettings)
 		FPGA_NeedSendParams = true;
+	
+	if(NeedReinitNotch)
+		InitNotchFilter();
 	
 	if ((ms50_counter % 2) == 0) // every 100ms
 	{

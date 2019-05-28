@@ -38,6 +38,7 @@
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 
 #define	TWOPI		6.28318530717958647692f
+#define SQRT2   1.41421356237f
 
 extern uint8_t FPGA_spi_data;
 extern UART_HandleTypeDef huart1;

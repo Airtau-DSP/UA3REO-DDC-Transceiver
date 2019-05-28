@@ -217,8 +217,8 @@ void FFT_doFFT(void)
 	if(TRX.FFT_Zoom>1)
 	{
 		//Biquad LPF фильтр
-		arm_biquad_cascade_df1_f32 (&IIR_biquad_Zoom_FFT_I, FFTInput_I,FFTInput_I, FFT_SIZE);
-		arm_biquad_cascade_df1_f32 (&IIR_biquad_Zoom_FFT_Q, FFTInput_Q,FFTInput_Q, FFT_SIZE);
+		arm_biquad_cascade_df1_f32 (&IIR_biquad_Zoom_FFT_I, FFTInput_I, FFTInput_I, FFT_SIZE);
+		arm_biquad_cascade_df1_f32 (&IIR_biquad_Zoom_FFT_Q, FFTInput_Q, FFTInput_Q, FFT_SIZE);
 		//Дециматор
 		arm_fir_decimate_f32(&DECIMATE_ZOOM_FFT_I, FFTInput_I, FFTInput_I, FFT_SIZE);
     arm_fir_decimate_f32(&DECIMATE_ZOOM_FFT_Q, FFTInput_Q, FFTInput_Q, FFT_SIZE);
