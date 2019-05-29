@@ -178,7 +178,6 @@ void TRX_setFrequency(int32_t _freq)
 		}
 	}
 	FPGA_NeedSendParams = true;
-	FFT_buff_index = 0;
 	NeedFFTInputBuffer = true;
 }
 
