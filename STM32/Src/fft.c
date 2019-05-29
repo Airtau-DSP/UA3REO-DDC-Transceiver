@@ -406,6 +406,7 @@ void FFT_printFFT(void)
 void FFT_moveWaterfall(int16_t freq_diff)
 {
 	int16_t new_x = 0;
+	int16_t fft_new_x = 0;
 	freq_diff = (freq_diff / FFT_HZ_IN_PIXEL) * TRX.FFT_Zoom;
 	for (uint8_t y = 0; y < FFT_WTF_HEIGHT; y++)
 	{
@@ -414,14 +415,18 @@ void FFT_moveWaterfall(int16_t freq_diff)
 			for (int16_t x = 0; x < FFT_PRINT_SIZE; x++)
 			{
 				new_x = x + freq_diff;
+				if(y==0)
+				{
+					fft_new_x = new_x;
+					if(fft_new_x>=FFT_PRINT_SIZE) fft_new_x-=FFT_PRINT_SIZE;
+					FFTOutput_mean[x]=FFTOutput_mean[fft_new_x];
+				}
 				if (new_x<0 || new_x>=FFT_PRINT_SIZE)
 				{
 					wtf_buffer[y][x] = 0;
-					FFTOutput_mean[x] = 0;
 					continue;
 				};
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
-				if(y==0) FFTOutput_mean[x]=FFTOutput_mean[new_x];
 			}
 		}
 		else if (freq_diff < 0) // freq down
@@ -429,14 +434,18 @@ void FFT_moveWaterfall(int16_t freq_diff)
 			for (int16_t x = FFT_PRINT_SIZE-1; x >= 0; x--)
 			{
 				new_x = x + freq_diff;
+				if(y==0)
+				{
+					fft_new_x = new_x;
+					if(fft_new_x<0) fft_new_x+=FFT_PRINT_SIZE;
+					FFTOutput_mean[x]=FFTOutput_mean[fft_new_x];
+				}
 				if (new_x<0)
 				{
 					wtf_buffer[y][x] = 0;
-					FFTOutput_mean[x] = 0;
 					continue;
 				};
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
-				if(y==0) FFTOutput_mean[x]=FFTOutput_mean[new_x];
 			}
 		}
 	}
