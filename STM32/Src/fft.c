@@ -450,14 +450,18 @@ static uint16_t getFFTColor(uint8_t height) //получение теплоты 
 	uint8_t red = 0;
 	uint8_t green = 0;
 	uint8_t blue = 0;
-
-	if (height < FFT_MAX_HEIGHT / 4)
+	//контраст каждой из 3-х зон, в сумме должна быть единица
+	const float32_t contrast1 = 0.1f;
+	const float32_t contrast2 = 0.4f;
+	const float32_t contrast3 = 0.5f;
+	
+	if (height < FFT_MAX_HEIGHT * contrast1)
 	{
-		blue = (height * 255 / (FFT_MAX_HEIGHT / 4));
+		blue = (height * 255 / (FFT_MAX_HEIGHT * contrast1));
 	}
-	else if (height < 2 * FFT_MAX_HEIGHT / 4)
+	else if (height < FFT_MAX_HEIGHT * (contrast1+contrast2))
 	{
-		green = ((height - FFT_MAX_HEIGHT / 4) * 255 / (FFT_MAX_HEIGHT / 4));
+		green = (height - FFT_MAX_HEIGHT * contrast1) * 255 / ((FFT_MAX_HEIGHT - FFT_MAX_HEIGHT * contrast1) * (contrast1+contrast2));
 		red = green;
 		blue = 255 - green;
 	}
@@ -465,7 +469,7 @@ static uint16_t getFFTColor(uint8_t height) //получение теплоты 
 	{
 		red = 255;
 		blue = 0;
-		green = 255 - ((height - 2 * FFT_MAX_HEIGHT / 4) * 255 / (2 * FFT_MAX_HEIGHT / 4));
+		green = 255 - (height - (FFT_MAX_HEIGHT * (contrast1+contrast2))) * 255 / ((FFT_MAX_HEIGHT - (FFT_MAX_HEIGHT * (contrast1+contrast2))) * (contrast1+contrast2+contrast3));
 	}
 	return rgb888torgb565(red, green, blue);
 }
