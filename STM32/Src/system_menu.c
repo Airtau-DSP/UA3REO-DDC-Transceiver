@@ -1,6 +1,7 @@
 #include "system_menu.h"
 #include "lcd.h"
 #include "settings.h"
+#include "audio_filters.h"
 #include "LCD/xpt2046_spi.h"
 
 static uint8_t systemMenuIndex=1;
@@ -38,6 +39,7 @@ void drawSystemMenu(bool draw_background)
 	drawSystemMenuElement("Touchpad beeping", SYSMENU_BOOLEAN, TRX.Beeping);
 	drawSystemMenuElement("CW Key timeout", SYSMENU_INTEGER, TRX.Key_timeout);
 	drawSystemMenuElement("FFT Averaging", SYSMENU_INTEGER, TRX.FFT_Averaging);
+	drawSystemMenuElement("SSB HPF Lowpass", SYSMENU_INTEGER, TRX.SSB_HPF_pass);
 	
 	LCDDriver_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	LCDDriver_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
@@ -54,49 +56,57 @@ void drawSystemMenu(bool draw_background)
 
 void eventRotateSystemMenu(int direction)
 {
-	if(systemMenuIndex==1) TRX.FFT_Enabled=!TRX.FFT_Enabled;
-	if(systemMenuIndex==2)
+	switch(systemMenuIndex)
 	{
-		TRX.CW_GENERATOR_SHIFT_HZ+=direction*100;
-		if(TRX.CW_GENERATOR_SHIFT_HZ<100) TRX.CW_GENERATOR_SHIFT_HZ=100;
-		if(TRX.CW_GENERATOR_SHIFT_HZ>10000) TRX.CW_GENERATOR_SHIFT_HZ=10000;
-	}
-	if(systemMenuIndex==3)
-	{
-		TRX.LCD_Brightness+=direction;
-		if(TRX.LCD_Brightness<1) TRX.LCD_Brightness=1;
-		if(TRX.LCD_Brightness>100) TRX.LCD_Brightness=100;
-		LCDDriver_setBrightness(TRX.LCD_Brightness);
-	}
-	if(systemMenuIndex==4)
-	{
-		TRX.ENCODER_SLOW_RATE+=direction;
-		if(TRX.ENCODER_SLOW_RATE<1) TRX.ENCODER_SLOW_RATE=1;
-		if(TRX.ENCODER_SLOW_RATE>100) TRX.ENCODER_SLOW_RATE=100;
-	}
-	if(systemMenuIndex==5)
-	{
-		HAL_Delay(500);
-		Touch_Calibrate();
-		LCD_redraw();
-	}
-	if(systemMenuIndex==6) LCD_Handler_SETTIME();
-	if(systemMenuIndex==7)
-	{
-		if(TRX.Standby_Time>0 || direction>0) TRX.Standby_Time+=direction;
-		if(TRX.Standby_Time>250) TRX.Standby_Time=250;
-	}
-	if(systemMenuIndex==8) TRX.Beeping=!TRX.Beeping;
-	if(systemMenuIndex==9)
-	{
-		if(TRX.Key_timeout>0 || direction>0) TRX.Key_timeout+=direction*50;
-		if(TRX.Key_timeout>5000) TRX.Key_timeout=5000;
-	}
-	if(systemMenuIndex==10)
-	{
-		TRX.FFT_Averaging+=direction;
-		if(TRX.FFT_Averaging<1) TRX.FFT_Averaging=1;
-		if(TRX.FFT_Averaging>10) TRX.FFT_Averaging=10;
+		case 1: 
+			TRX.FFT_Enabled=!TRX.FFT_Enabled;
+			break;
+		case 2:
+			TRX.CW_GENERATOR_SHIFT_HZ+=direction*100;
+			if(TRX.CW_GENERATOR_SHIFT_HZ<100) TRX.CW_GENERATOR_SHIFT_HZ=100;
+			if(TRX.CW_GENERATOR_SHIFT_HZ>10000) TRX.CW_GENERATOR_SHIFT_HZ=10000;
+			break;
+		case 3:
+			TRX.LCD_Brightness+=direction;
+			if(TRX.LCD_Brightness<1) TRX.LCD_Brightness=1;
+			if(TRX.LCD_Brightness>100) TRX.LCD_Brightness=100;
+			LCDDriver_setBrightness(TRX.LCD_Brightness);
+			break;
+		case 4:
+			TRX.ENCODER_SLOW_RATE+=direction;
+			if(TRX.ENCODER_SLOW_RATE<1) TRX.ENCODER_SLOW_RATE=1;
+			if(TRX.ENCODER_SLOW_RATE>100) TRX.ENCODER_SLOW_RATE=100;
+			break;
+		case 5:
+			HAL_Delay(500);
+			Touch_Calibrate();
+			LCD_redraw();
+			break;
+		case 6: 
+			LCD_Handler_SETTIME();
+			break;
+		case 7:
+			if(TRX.Standby_Time>0 || direction>0) TRX.Standby_Time+=direction;
+			if(TRX.Standby_Time>250) TRX.Standby_Time=250;
+			break;
+		case 8: 
+			TRX.Beeping=!TRX.Beeping;
+			break;
+		case 9:
+			if(TRX.Key_timeout>0 || direction>0) TRX.Key_timeout+=direction*50;
+			if(TRX.Key_timeout>5000) TRX.Key_timeout=5000;
+			break;
+		case 10:
+			TRX.FFT_Averaging+=direction;
+			if(TRX.FFT_Averaging<1) TRX.FFT_Averaging=1;
+			if(TRX.FFT_Averaging>10) TRX.FFT_Averaging=10;
+			break;
+		case 11:
+			TRX.SSB_HPF_pass+=direction*100;
+			if(TRX.SSB_HPF_pass<100) TRX.SSB_HPF_pass=100;
+			if(TRX.SSB_HPF_pass>500) TRX.SSB_HPF_pass=500;
+			ReinitAudioFilters();
+			break;
 	}
 	LCD_UpdateQuery.SystemMenu=true;
 }

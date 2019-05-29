@@ -108,6 +108,7 @@ extern struct TRX_SETTINGS {
 	bool Beeping;
 	uint16_t Key_timeout;
 	uint8_t FFT_Averaging;
+	uint16_t SSB_HPF_pass;
 } TRX;
 
 volatile extern bool NeedSaveSettings;
