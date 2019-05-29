@@ -213,6 +213,10 @@ void FFT_doFFT(void)
 	dc_filter(FFTInput_I,FFT_SIZE, 4);
 	dc_filter(FFTInput_Q,FFT_SIZE, 5);
 	
+	//Process Notch filter
+	arm_biquad_cascade_df2T_f32(&NOTCH_FILTER_FFT_I, FFTInput_I, FFTInput_I, FFT_SIZE);
+	arm_biquad_cascade_df2T_f32(&NOTCH_FILTER_FFT_Q, FFTInput_Q, FFTInput_Q, FFT_SIZE);
+	
 	//ZoomFFT
 	if(TRX.FFT_Zoom>1)
 	{

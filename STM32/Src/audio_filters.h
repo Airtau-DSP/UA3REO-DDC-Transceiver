@@ -41,6 +41,8 @@ extern arm_iir_lattice_instance_f32 IIR_HPF_I;
 extern arm_iir_lattice_instance_f32 IIR_HPF_Q;
 extern arm_iir_lattice_instance_f32 IIR_Squelch_HPF;
 extern arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER;
+extern arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_I;
+extern arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_Q;
 extern volatile bool NeedReinitNotch;
 	
 extern void InitAudioFilters(void);
