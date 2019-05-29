@@ -414,6 +414,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 				if (new_x<0 || new_x>=FFT_PRINT_SIZE)
 				{
 					wtf_buffer[y][x] = 0;
+					FFTOutput_mean[x] = 0;
 					continue;
 				};
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
@@ -428,6 +429,7 @@ void FFT_moveWaterfall(int16_t freq_diff)
 				if (new_x<0)
 				{
 					wtf_buffer[y][x] = 0;
+					FFTOutput_mean[x] = 0;
 					continue;
 				};
 				wtf_buffer[y][x] = wtf_buffer[y][new_x];
