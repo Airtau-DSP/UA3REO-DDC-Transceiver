@@ -60,12 +60,18 @@ begin
 	begin
 		DATA_BUS_OE=0;
 		ADC_MINMAX_RESET=0;
-		if(DATA_BUS[7:0]=='d1) //GET PARAMS
+		if(DATA_BUS[7:0]=='d0) //BUS TEST
+		begin
+			DATA_BUS_OE=1;
+			k=500;
+		end
+		else if(DATA_BUS[7:0]=='d1) //GET PARAMS
 		begin
 			k=100;
 		end
 		else if(DATA_BUS[7:0]=='d2) //SEND PARAMS
 		begin
+			DATA_BUS_OE=1;
 			k=200;
 		end
 		else if(DATA_BUS[7:0]=='d3) //TX IQ
@@ -74,6 +80,7 @@ begin
 		end
 		else if(DATA_BUS[7:0]=='d4) //RX IQ
 		begin
+			DATA_BUS_OE=1;
 			k=400;
 		end
 		else if(DATA_BUS[7:0]=='d5) //AUDIO PLL ON
@@ -85,10 +92,6 @@ begin
 		begin
 			audio_clk_en=0;
 			k=999;
-		end
-		else if(DATA_BUS[7:0]=='d7) //BUS TEST
-		begin
-			k=700;
 		end
 	end
 	else if (k==100) //GET PARAMS
@@ -123,7 +126,6 @@ begin
 	end
 	else if (k==200) //SEND PARAMS
 	begin
-		DATA_BUS_OE=1;
 		DATA_BUS_OUT[1:1]=DAC_OTR;
 		DATA_BUS_OUT[0:0]=ADC_OTR;
 		k=201;
@@ -169,7 +171,6 @@ begin
 	end
 	else if (k==400) //RX IQ SPECTRUM
 	begin
-		DATA_BUS_OE=1;
 		I_HOLD=SPEC_I;
 		Q_HOLD=SPEC_Q;
 		DATA_BUS_OUT[7:0]=Q_HOLD[15:8];
@@ -212,10 +213,9 @@ begin
 		DATA_BUS_OUT[7:0]=I_HOLD[7:0];
 		k=999;
 	end
-	else if (k==700)
+	else if (k==500)
 	begin
 		Q_HOLD[7:0]=DATA_BUS[7:0];
-		DATA_BUS_OE=1;
 		DATA_BUS_OUT[7:0]=Q_HOLD[7:0];
 		k=999;
 	end

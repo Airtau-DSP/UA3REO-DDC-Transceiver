@@ -52,19 +52,18 @@ void FPGA_Init(void)
 
 static void FPGA_test_bus(void) //проверка шины
 {
+	FPGA_busy = true;
 	for(uint8_t b = 0 ; b < 8 ; b++)
 	{
-		FPGA_busy = true;
 		//STAGE 1
 		//out
-		FPGA_writePacket(7);
+		FPGA_writePacket(0); //PIN test command
 		//clock
 		GPIOC->BSRR = FPGA_SYNC_Pin;
 		FPGA_clockRise();
 		//in
 		//clock
 		GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
-		FPGA_busy = false;
 		
 		//STAGE 2
 		//out
@@ -72,6 +71,8 @@ static void FPGA_test_bus(void) //проверка шины
 		//clock
 		FPGA_clockRise();
 		//in
+		FPGA_readPacket();
+		HAL_Delay(10);
 		if(FPGA_readPacket() != b)
 		{
 			char buff[32] = "";
@@ -81,6 +82,7 @@ static void FPGA_test_bus(void) //проверка шины
 		//clock
 		FPGA_clockFall();
 	}
+	FPGA_busy = false;
 }
 
 void FPGA_start_audio_clock(void) //запуск PLL для I2S и кодека, при включенном тактовом не программируется i2c
