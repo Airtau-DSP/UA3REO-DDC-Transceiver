@@ -16,7 +16,7 @@ static uint8_t Sector_Erase = W25Q16_COMMAND_Sector_Erase;
 static uint8_t Page_Program = W25Q16_COMMAND_Page_Program;
 static uint8_t Read_Data = W25Q16_COMMAND_Read_Data;
 static uint8_t Address[3] = { 0x00 };
-struct TRX_SETTINGS TRX;
+struct TRX_SETTINGS TRX = { 0 };
 
 volatile bool NeedSaveSettings = false;
 
