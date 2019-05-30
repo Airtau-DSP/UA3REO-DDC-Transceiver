@@ -35,6 +35,7 @@ static void FPGA_fpgadata_sendiq(void);
 static void FPGA_fpgadata_getiq(void);
 static void FPGA_fpgadata_getparam(void);
 static void FPGA_fpgadata_sendparam(void);
+static void FPGA_test_bus(void);
 
 void FPGA_Init(void)
 {
@@ -44,7 +45,42 @@ void FPGA_Init(void)
 	FPGA_GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	HAL_GPIO_Init(GPIOA, &FPGA_GPIO_InitStruct);
 
+	FPGA_test_bus();
+	
 	FPGA_start_audio_clock();
+}
+
+static void FPGA_test_bus(void) //проверка шины
+{
+	for(uint8_t b = 0 ; b < 8 ; b++)
+	{
+		FPGA_busy = true;
+		//STAGE 1
+		//out
+		FPGA_writePacket(7);
+		//clock
+		GPIOC->BSRR = FPGA_SYNC_Pin;
+		FPGA_clockRise();
+		//in
+		//clock
+		GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+		FPGA_busy = false;
+		
+		//STAGE 2
+		//out
+		FPGA_writePacket(b);
+		//clock
+		FPGA_clockRise();
+		//in
+		if(FPGA_readPacket() != b)
+		{
+			char buff[32] = "";
+			sprintf(buff, "FPGA BUS Pin%d error", b);
+			LCD_showError(buff, true);
+		}
+		//clock
+		FPGA_clockFall();
+	}
 }
 
 void FPGA_start_audio_clock(void) //запуск PLL для I2S и кодека, при включенном тактовом не программируется i2c

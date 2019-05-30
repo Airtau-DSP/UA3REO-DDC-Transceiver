@@ -64,27 +64,31 @@ begin
 		begin
 			k=100;
 		end
-		if(DATA_BUS[7:0]=='d2) //SEND PARAMS
+		else if(DATA_BUS[7:0]=='d2) //SEND PARAMS
 		begin
 			k=200;
 		end
-		if(DATA_BUS[7:0]=='d3) //TX IQ
+		else if(DATA_BUS[7:0]=='d3) //TX IQ
 		begin
 			k=300;
 		end
-		if(DATA_BUS[7:0]=='d4) //RX IQ
+		else if(DATA_BUS[7:0]=='d4) //RX IQ
 		begin
 			k=400;
 		end
-		if(DATA_BUS[7:0]=='d5) //AUDIO PLL ON
+		else if(DATA_BUS[7:0]=='d5) //AUDIO PLL ON
 		begin
 			audio_clk_en=1;
 			k=999;
 		end
-		if(DATA_BUS[7:0]=='d6) //AUDIO PLL OFF
+		else if(DATA_BUS[7:0]=='d6) //AUDIO PLL OFF
 		begin
 			audio_clk_en=0;
 			k=999;
+		end
+		else if(DATA_BUS[7:0]=='d7) //BUS TEST
+		begin
+			k=700;
 		end
 	end
 	else if (k==100) //GET PARAMS
@@ -206,6 +210,13 @@ begin
 	else if (k==407)
 	begin
 		DATA_BUS_OUT[7:0]=I_HOLD[7:0];
+		k=999;
+	end
+	else if (k==700)
+	begin
+		Q_HOLD[7:0]=DATA_BUS[7:0];
+		DATA_BUS_OE=1;
+		DATA_BUS_OUT[7:0]=Q_HOLD[7:0];
 		k=999;
 	end
 	stage_debug=k;
