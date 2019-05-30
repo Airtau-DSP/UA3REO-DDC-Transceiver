@@ -26,7 +26,7 @@ typedef enum {
 	BIQUAD_peak,
 	BIQUAD_lowShelf,
 	BIQUAD_highShelf
-}  BIQUAD_TYPE; 
+}  BIQUAD_TYPE;
 
 #define FIR_TX_HILBERT_STATE_SIZE (IQ_TX_HILBERT_TAPS + FPGA_AUDIO_BUFFER_HALF_SIZE - 1)
 #define IIR_LPF_Taps_STATE_SIZE (FPGA_AUDIO_BUFFER_SIZE + IIR_LPF_STAGES)
@@ -44,7 +44,7 @@ extern arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER;
 extern arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_I;
 extern arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_Q;
 extern volatile bool NeedReinitNotch;
-	
+
 extern void InitAudioFilters(void);
 extern void ReinitAudioFilters(void);
 extern void InitNotchFilter(void);

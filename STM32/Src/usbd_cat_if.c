@@ -14,7 +14,7 @@
 #define CAT_BUFFER_SIZE 64
 static char cat_buffer[CAT_BUFFER_SIZE] = { 0 };
 static uint8_t cat_buffer_head = 0;
-static char command_to_parse[CAT_BUFFER_SIZE]={0};
+static char command_to_parse[CAT_BUFFER_SIZE] = { 0 };
 static uint8_t CAT_UserRxBufferFS[CAT_APP_RX_DATA_SIZE];
 static uint8_t CAT_UserTxBufferFS[CAT_APP_TX_DATA_SIZE];
 
@@ -158,7 +158,7 @@ static int8_t CAT_Receive_FS(uint8_t* Buf, uint32_t *Len)
 				cat_buffer[cat_buffer_head] = charBuff[i];
 				if (cat_buffer[cat_buffer_head] == ';')
 				{
-					memset(&command_to_parse,0,CAT_BUFFER_SIZE);
+					memset(&command_to_parse, 0, CAT_BUFFER_SIZE);
 					memcpy(command_to_parse, cat_buffer, cat_buffer_head);
 					cat_buffer_head = 0;
 					memset(&cat_buffer, 0, CAT_BUFFER_SIZE);
@@ -207,14 +207,14 @@ static void CAT_Transmit(char* data)
 void ua3reo_dev_cat_parseCommand(void)
 {
 	USBD_CAT_ReceivePacket(&hUsbDeviceFS); //prepare next command
-	if(command_to_parse[0]==0) return;
-	
-	char _command[CAT_BUFFER_SIZE]={0};
+	if (command_to_parse[0] == 0) return;
+
+	char _command[CAT_BUFFER_SIZE] = { 0 };
 	memcpy(_command, command_to_parse, CAT_BUFFER_SIZE);
-	memset(&command_to_parse,0,CAT_BUFFER_SIZE);
+	memset(&command_to_parse, 0, CAT_BUFFER_SIZE);
 	if (strlen(_command) < 2) return;
 	//sendToDebug_str3("New CAT command: |",_command,"|\r\n");
-	
+
 	char command[3] = { 0 };
 	strncpy(command, _command, 2);
 	bool has_args = false;

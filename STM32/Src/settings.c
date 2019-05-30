@@ -57,30 +57,30 @@ void LoadSettings(void)
 		TRX.RF_Power = 20;
 		TRX.FM_SQL_threshold = 1;
 		TRX.RF_Gain = 50;
-		for(uint8_t i=0;i<BANDS_COUNT;i++) TRX.saved_freq[i]=BANDS[i].startFreq+(BANDS[i].endFreq-BANDS[i].startFreq)/2;
-		TRX.FFT_Zoom=1;
-		TRX.AutoGain=false;
-		TRX.NotchFilter=false;
-		TRX.NotchFC=1000;
+		for (uint8_t i = 0; i < BANDS_COUNT; i++) TRX.saved_freq[i] = BANDS[i].startFreq + (BANDS[i].endFreq - BANDS[i].startFreq) / 2;
+		TRX.FFT_Zoom = 1;
+		TRX.AutoGain = false;
+		TRX.NotchFilter = false;
+		TRX.NotchFC = 1000;
 		//system settings
 		TRX.FFT_Enabled = true;
-		TRX.CW_GENERATOR_SHIFT_HZ=500;
-		TRX.Calibrated=false;
-		TRX.Touchpad_x0=366.0f;
-		TRX.Touchpad_y0=3061.0f;
-		TRX.Touchpad_x1=3934.0f;
-		TRX.Touchpad_y1=3398.0f;
-		TRX.Touchpad_x2=351.0f;
-		TRX.Touchpad_y2=625.0f;
-		TRX.Touchpad_x3=3914.0f;
-		TRX.Touchpad_y3=378.0f;
-		TRX.ENCODER_SLOW_RATE=35;
-		TRX.LCD_Brightness=100;
-		TRX.Standby_Time=180;
-		TRX.Beeping=true;
-		TRX.Key_timeout=1000;
-		TRX.FFT_Averaging=4;
-		TRX.SSB_HPF_pass=300;
+		TRX.CW_GENERATOR_SHIFT_HZ = 500;
+		TRX.Calibrated = false;
+		TRX.Touchpad_x0 = 366.0f;
+		TRX.Touchpad_y0 = 3061.0f;
+		TRX.Touchpad_x1 = 3934.0f;
+		TRX.Touchpad_y1 = 3398.0f;
+		TRX.Touchpad_x2 = 351.0f;
+		TRX.Touchpad_y2 = 625.0f;
+		TRX.Touchpad_x3 = 3914.0f;
+		TRX.Touchpad_y3 = 378.0f;
+		TRX.ENCODER_SLOW_RATE = 35;
+		TRX.LCD_Brightness = 100;
+		TRX.Standby_Time = 180;
+		TRX.Beeping = true;
+		TRX.Key_timeout = 1000;
+		TRX.FFT_Averaging = 4;
+		TRX.SSB_HPF_pass = 300;
 	}
 }
 

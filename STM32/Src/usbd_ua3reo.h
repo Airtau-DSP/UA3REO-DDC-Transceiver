@@ -76,9 +76,9 @@ extern "C" {
 #define USB_AUDIO_DESC_SIZ                            0x09U
 #define AUDIO_DESCRIPTOR_TYPE                         0x21U
 
-extern volatile uint32_t RX_USB_AUDIO_SAMPLES;
-extern volatile uint32_t TX_USB_AUDIO_SAMPLES;
-extern volatile bool RX_USB_AUDIO_underrun;
+	extern volatile uint32_t RX_USB_AUDIO_SAMPLES;
+	extern volatile uint32_t TX_USB_AUDIO_SAMPLES;
+	extern volatile bool RX_USB_AUDIO_underrun;
 
 	typedef struct
 	{
@@ -144,7 +144,7 @@ extern volatile bool RX_USB_AUDIO_underrun;
 		USBD_AUDIO_ControlTypeDef control;
 
 		uint8_t  *RxBuffer;
-		
+
 		uint8_t  *TxBuffer;
 		uint16_t TxBufferIndex;
 	}
@@ -189,7 +189,7 @@ extern volatile bool RX_USB_AUDIO_underrun;
 	extern uint8_t USBD_DEBUG_SetRxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff);
 	extern uint8_t USBD_DEBUG_ReceivePacket(USBD_HandleTypeDef *pdev);
 	extern uint8_t USBD_DEBUG_TransmitPacket(USBD_HandleTypeDef *pdev);
-	
+
 	extern uint8_t USBD_CAT_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_CAT_ItfTypeDef *fops);
 	extern uint8_t USBD_CAT_SetTxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff, uint16_t length);
 	extern uint8_t USBD_CAT_SetRxBuffer(USBD_HandleTypeDef   *pdev, uint8_t  *pbuff);
@@ -199,7 +199,7 @@ extern volatile bool RX_USB_AUDIO_underrun;
 	extern uint8_t USBD_AUDIO_RegisterInterface(USBD_HandleTypeDef   *pdev, USBD_AUDIO_ItfTypeDef *fops);
 	extern uint8_t USBD_AUDIO_StartTransmit(USBD_HandleTypeDef *pdev);
 	extern uint8_t USBD_AUDIO_StartReceive(USBD_HandleTypeDef *pdev);
-	
+
 	/**
 	  * @}
 	  */

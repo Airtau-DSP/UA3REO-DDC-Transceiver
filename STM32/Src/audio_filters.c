@@ -29,13 +29,13 @@ static float32_t		IIR_HPF_SQL_State[IIR_HPF_SQL_STATE_SIZE];
 
 //notch filter
 volatile bool NeedReinitNotch = false;
-static float32_t NOTCH_Coeffs[NOTCH_COEFF_IN_STAGE*NOTCH_STAGES] = {0};
-static float32_t NOTCH_State[2*NOTCH_STAGES];
-static float32_t NOTCH_State_FFT_I[2*NOTCH_STAGES];
-static float32_t NOTCH_State_FFT_Q[2*NOTCH_STAGES];
-arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER = {NOTCH_STAGES, NOTCH_State, NOTCH_Coeffs};
-arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_I = {NOTCH_STAGES, NOTCH_State_FFT_I, NOTCH_Coeffs};
-arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_Q = {NOTCH_STAGES, NOTCH_State_FFT_Q, NOTCH_Coeffs};
+static float32_t NOTCH_Coeffs[NOTCH_COEFF_IN_STAGE*NOTCH_STAGES] = { 0 };
+static float32_t NOTCH_State[2 * NOTCH_STAGES];
+static float32_t NOTCH_State_FFT_I[2 * NOTCH_STAGES];
+static float32_t NOTCH_State_FFT_Q[2 * NOTCH_STAGES];
+arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER = { NOTCH_STAGES, NOTCH_State, NOTCH_Coeffs };
+arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_I = { NOTCH_STAGES, NOTCH_State_FFT_I, NOTCH_Coeffs };
+arm_biquad_cascade_df2T_instance_f32 NOTCH_FILTER_FFT_Q = { NOTCH_STAGES, NOTCH_State_FFT_Q, NOTCH_Coeffs };
 
 //with +/-45 degrees phase added, 48000 sampling frequency Fc=1.50kHz, BW=2.70kHz Kaiser, Beta = 3.650, Raised Cosine 0.910
 static const float32_t i_tx_coeffs[IQ_TX_HILBERT_TAPS] = { -0.000015911433738947,-0.000019959728028938,-0.000023891471599754,-0.000027119763124069,-0.000029087039705292,-0.000029431397715954,-0.000028148219961633,-0.000025702247123746,-0.000023048146401552,-0.000021532467002145,-0.000022675017711946,-0.000027858477628481,-0.000037984418906156,-0.000053173935947263,-0.000072594827015540,-0.000094480871554435,-0.000116372847662635,-0.000135561336982947,-0.000149658359810178,-0.000157181343994879,-0.000158011427902595,-0.000153597634188139,-0.000146821594676398,-0.000141508706977174,-0.000141657313079918,-0.000150538332814799,-0.000169872539761493,-0.000199303342326905,-0.000236339821701096,-0.000276850226155669,-0.000316055860965538,-0.000349836665758744,-0.000376046667777827,-0.000395483070998372,-0.000412180921252682,-0.000432823344456314,-0.000465251321301123,-0.000516291531622259,-0.000589344418113810,-0.000682329334357383,-0.000786618128311585,-0.000887471604155052,-0.000966224936321975,-0.001004084647738534,-0.000986971617519555,-0.000910465431454767,-0.000783674244635495,-0.000630853460997997,-0.000489869695624849,-0.000407142410379079,-0.000429421385599579,-0.000593545407736026,-0.000916011846980452,-0.001384598358663629,-0.001954277926711752,-0.002549184202610570,-0.003071435226054831,-0.003416332297185353,-0.003492031457300130,-0.003240513223388775,-0.002655839887826624,-0.001795531271501309,-0.000781549566761797,0.000211143419483594,0.000978377875720550,0.001320403087257693,0.001080515967568864,0.000182121345956079,-0.001343074868529297,-0.003342478753804935,-0.005550446581697207,-0.007618265957299014,-0.009164142003551838,-0.009837061742258062,-0.009385008993095094,-0.007715887072085315,-0.004939218878809190,-0.001378502462245723,0.002452076537338900,0.005907488065309155,0.008302997095508243,0.009025375745234239,0.007648260210940124,0.004033210841998318,-0.001601654938770521,-0.008660246045580289,-0.016203010335164171,-0.023038057426319945,-0.027860750884303231,-0.029425395934213904,-0.026726377512887117,-0.019162929429234910,-0.006662334542242190,0.010259113968032065,0.030510126124987710,0.052515877605683242,0.074378297568183149,0.094086304242110563,0.109749301278724468,0.119823145137080742,0.123298109645664233,0.119823145137071957,0.109749301278707773,0.094086304242087637,0.074378297568156199,0.052515877605654772,0.030510126124960246,0.010259113968007870,-0.006662334542261386,-0.019162929429248053,-0.026726377512893910,-0.029425395934214775,-0.027860750884299197,-0.023038057426312451,-0.016203010335154873,-0.008660246045570802,-0.001601654938762230,0.004033210842004407,0.007648260210943465,0.009025375745234765,0.008302997095506299,0.005907488065305405,0.002452076537334174,-0.001378502462250567,-0.004939218878813399,-0.007715887072088339,-0.009385008993096640,-0.009837061742258109,-0.009164142003550596,-0.007618265957296863,-0.005550446581694617,-0.003342478753802375,-0.001343074868527162,0.000182121345957515,0.001080515967569481,0.001320403087257519,0.000978377875719736,0.000211143419482372,-0.000781549566763161,-0.001795531271502565,-0.002655839887827574,-0.003240513223389301,-0.003492031457300196,-0.003416332297185003,-0.003071435226054171,-0.002549184202609736,-0.001954277926710889,-0.001384598358662863,-0.000916011846979873,-0.000593545407735683,-0.000429421385599475,-0.000407142410379183,-0.000489869695625105,-0.000630853460998336,-0.000783674244635851,-0.000910465431455086,-0.000986971617519803,-0.001004084647738694,-0.000966224936322048,-0.000887471604155053,-0.000786618128311534,-0.000682329334357303,-0.000589344418113718,-0.000516291531622168,-0.000465251321301040,-0.000432823344456239,-0.000412180921252613,-0.000395483070998306,-0.000376046667777760,-0.000349836665758677,-0.000316055860965474,-0.000276850226155611,-0.000236339821701050,-0.000199303342326874,-0.000169872539761481,-0.000150538332814806,-0.000141657313079940,-0.000141508706977206,-0.000146821594676434,-0.000153597634188172,-0.000158011427902620,-0.000157181343994892,-0.000149658359810178,-0.000135561336982934,-0.000116372847662614,-0.000094480871554409,-0.000072594827015514,-0.000053173935947240,-0.000037984418906137,-0.000027858477628469,-0.000022675017711940,-0.000021532467002142,-0.000023048146401550,-0.000025702247123743,-0.000028148219961627,-0.000029431397715943,-0.000029087039705276,-0.000027119763124050,-0.000023891471599733,-0.000019959728028917,-0.000015911433738929 };
@@ -44,10 +44,10 @@ static const float32_t q_tx_coeffs[IQ_TX_HILBERT_TAPS] = { -0.000055876484573473
 //IIR RX/TX SSB IIR Elliptic highpass Fs=48000 Fpass=XXXhz Apass=1 Astop=80 // coefficients in reverse order than that spit out by MATLAB
 static const float32_t IIR_HPF_60_PKcoeffs[IIR_HPF_STAGES] = { 0.9691740274,-0.9997529387,0.999966979,-0.9999590516,0.999997735,-0.9999679327 };
 static const float32_t IIR_HPF_60_PVcoeffs[IIR_HPF_STAGES + 1] = { 0.8773648143,-0.0276359152,-0.0005834085168,9.069859175e-08,1.623245716e-08,-7.620570841e-13,-1.918465387e-13 };
-static const float32_t IIR_HPF_100_PKcoeffs[IIR_HPF_STAGES] = {0.9491563439,-0.9993139505,0.9999083281,-0.9998857975,0.9999939799,-0.9999111295};
-static const float32_t IIR_HPF_100_PVcoeffs[IIR_HPF_STAGES + 1] = {0.8681833744,-0.04575190321,-0.001578482217,6.878647127e-07,1.238133507e-07,-1.505462421e-11,-3.778866109e-12};
-static const float32_t IIR_HPF_200_PKcoeffs[IIR_HPF_STAGES] = {0.9009265304,-0.99725914,0.9996330142,-0.9995433688,0.9999758601,-0.9996444583};
-static const float32_t IIR_HPF_200_PVcoeffs[IIR_HPF_STAGES + 1] = {0.8455024958,-0.0899220854,-0.005902330391,1.05346553e-05,1.920175919e-06,-9.432925552e-10,-2.360984741e-10};
+static const float32_t IIR_HPF_100_PKcoeffs[IIR_HPF_STAGES] = { 0.9491563439,-0.9993139505,0.9999083281,-0.9998857975,0.9999939799,-0.9999111295 };
+static const float32_t IIR_HPF_100_PVcoeffs[IIR_HPF_STAGES + 1] = { 0.8681833744,-0.04575190321,-0.001578482217,6.878647127e-07,1.238133507e-07,-1.505462421e-11,-3.778866109e-12 };
+static const float32_t IIR_HPF_200_PKcoeffs[IIR_HPF_STAGES] = { 0.9009265304,-0.99725914,0.9996330142,-0.9995433688,0.9999758601,-0.9996444583 };
+static const float32_t IIR_HPF_200_PVcoeffs[IIR_HPF_STAGES + 1] = { 0.8455024958,-0.0899220854,-0.005902330391,1.05346553e-05,1.920175919e-06,-9.432925552e-10,-2.360984741e-10 };
 static const float32_t IIR_HPF_300_PKcoeffs[IIR_HPF_STAGES] = { 0.8552021384,-0.993845582,0.9991737008,-0.9989722967,0.9999456406,-0.9992000461 };
 static const float32_t IIR_HPF_300_PVcoeffs[IIR_HPF_STAGES + 1] = { 0.8232211471,-0.1324324012,-0.01238537673,5.100381532e-05,9.391594176e-06,-1.043583087e-08,-2.603121718e-09 };
 static const float32_t IIR_HPF_400_PKcoeffs[IIR_HPF_STAGES] = { 0.8118764162,-0.9890897274,0.9985294938,-0.9981723428,0.9999033809,-0.9985778928 };
@@ -131,9 +131,9 @@ void InitAudioFilters(void)
 {
 	arm_fir_init_f32(&FIR_TX_Hilbert_I, IQ_TX_HILBERT_TAPS, (float32_t *)&i_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_I[0], APROCESSOR_BLOCK_SIZE); // +45 degrees phase added
 	arm_fir_init_f32(&FIR_TX_Hilbert_Q, IQ_TX_HILBERT_TAPS, (float32_t *)&q_tx_coeffs, (float32_t *)&Fir_Tx_Hilbert_State_Q[0], APROCESSOR_BLOCK_SIZE); // -45 degrees phase added
-	
+
 	arm_iir_lattice_init_f32(&IIR_Squelch_HPF, IIR_HPF_SQL_STAGES, (float32_t *)&IIR_HPF_15k0_PKcoeffs, (float32_t *)&IIR_HPF_15k0_PVcoeffs, (float32_t *)&IIR_HPF_SQL_State[0], APROCESSOR_BLOCK_SIZE);
-	
+
 	InitNoiseReduction();
 	InitNotchFilter();
 }
@@ -151,159 +151,159 @@ void ReinitAudioFilters(void)
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k5_PKcoeffs, (float32_t *)&IIR_LPF_0k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_CW_STAGES, (float32_t *)&IIR_LPF_0k5_PKcoeffs, (float32_t *)&IIR_LPF_0k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 1400) 
+	if (CurrentVFO()->Filter_Width == 1400)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k4_PKcoeffs, (float32_t *)&IIR_LPF_1k4_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k4_PKcoeffs, (float32_t *)&IIR_LPF_1k4_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 1600) 
+	if (CurrentVFO()->Filter_Width == 1600)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k6_PKcoeffs, (float32_t *)&IIR_LPF_1k6_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k6_PKcoeffs, (float32_t *)&IIR_LPF_1k6_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 1800) 
+	if (CurrentVFO()->Filter_Width == 1800)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k8_PKcoeffs, (float32_t *)&IIR_LPF_1k8_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_1k8_PKcoeffs, (float32_t *)&IIR_LPF_1k8_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 2100) 
+	if (CurrentVFO()->Filter_Width == 2100)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k1_PKcoeffs, (float32_t *)&IIR_LPF_2k1_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k1_PKcoeffs, (float32_t *)&IIR_LPF_2k1_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 2300) 
+	if (CurrentVFO()->Filter_Width == 2300)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k3_PKcoeffs, (float32_t *)&IIR_LPF_2k3_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k3_PKcoeffs, (float32_t *)&IIR_LPF_2k3_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 2500) 
+	if (CurrentVFO()->Filter_Width == 2500)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k5_PKcoeffs, (float32_t *)&IIR_LPF_2k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k5_PKcoeffs, (float32_t *)&IIR_LPF_2k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 2700) 
+	if (CurrentVFO()->Filter_Width == 2700)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k7_PKcoeffs, (float32_t *)&IIR_LPF_2k7_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k7_PKcoeffs, (float32_t *)&IIR_LPF_2k7_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 2900) 
+	if (CurrentVFO()->Filter_Width == 2900)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k9_PKcoeffs, (float32_t *)&IIR_LPF_2k9_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_2k9_PKcoeffs, (float32_t *)&IIR_LPF_2k9_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 3000) 
+	if (CurrentVFO()->Filter_Width == 3000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k0_PKcoeffs, (float32_t *)&IIR_LPF_3k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k0_PKcoeffs, (float32_t *)&IIR_LPF_3k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 3200) 
+	if (CurrentVFO()->Filter_Width == 3200)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k2_PKcoeffs, (float32_t *)&IIR_LPF_3k2_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k2_PKcoeffs, (float32_t *)&IIR_LPF_3k2_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 3400) 
+	if (CurrentVFO()->Filter_Width == 3400)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k4_PKcoeffs, (float32_t *)&IIR_LPF_3k4_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k4_PKcoeffs, (float32_t *)&IIR_LPF_3k4_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 3600) 
+	if (CurrentVFO()->Filter_Width == 3600)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k6_PKcoeffs, (float32_t *)&IIR_LPF_3k6_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k6_PKcoeffs, (float32_t *)&IIR_LPF_3k6_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 3800) 
+	if (CurrentVFO()->Filter_Width == 3800)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k8_PKcoeffs, (float32_t *)&IIR_LPF_3k8_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_3k8_PKcoeffs, (float32_t *)&IIR_LPF_3k8_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 4000) 
+	if (CurrentVFO()->Filter_Width == 4000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k0_PKcoeffs, (float32_t *)&IIR_LPF_4k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k0_PKcoeffs, (float32_t *)&IIR_LPF_4k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 4200) 
+	if (CurrentVFO()->Filter_Width == 4200)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k2_PKcoeffs, (float32_t *)&IIR_LPF_4k2_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k2_PKcoeffs, (float32_t *)&IIR_LPF_4k2_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 4400) 
+	if (CurrentVFO()->Filter_Width == 4400)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k4_PKcoeffs, (float32_t *)&IIR_LPF_4k4_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k4_PKcoeffs, (float32_t *)&IIR_LPF_4k4_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 4600) 
+	if (CurrentVFO()->Filter_Width == 4600)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k6_PKcoeffs, (float32_t *)&IIR_LPF_4k6_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k6_PKcoeffs, (float32_t *)&IIR_LPF_4k6_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 4800) 
+	if (CurrentVFO()->Filter_Width == 4800)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k8_PKcoeffs, (float32_t *)&IIR_LPF_4k8_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_4k8_PKcoeffs, (float32_t *)&IIR_LPF_4k8_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 5000) 
+	if (CurrentVFO()->Filter_Width == 5000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k0_PKcoeffs, (float32_t *)&IIR_LPF_5k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k0_PKcoeffs, (float32_t *)&IIR_LPF_5k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 5500) 
+	if (CurrentVFO()->Filter_Width == 5500)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k5_PKcoeffs, (float32_t *)&IIR_LPF_5k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_5k5_PKcoeffs, (float32_t *)&IIR_LPF_5k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 6000) 
+	if (CurrentVFO()->Filter_Width == 6000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k0_PKcoeffs, (float32_t *)&IIR_LPF_6k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k0_PKcoeffs, (float32_t *)&IIR_LPF_6k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 6500) 
+	if (CurrentVFO()->Filter_Width == 6500)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k5_PKcoeffs, (float32_t *)&IIR_LPF_6k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_6k5_PKcoeffs, (float32_t *)&IIR_LPF_6k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 7000) 
+	if (CurrentVFO()->Filter_Width == 7000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k0_PKcoeffs, (float32_t *)&IIR_LPF_7k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k0_PKcoeffs, (float32_t *)&IIR_LPF_7k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 7500) 
+	if (CurrentVFO()->Filter_Width == 7500)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k5_PKcoeffs, (float32_t *)&IIR_LPF_7k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_7k5_PKcoeffs, (float32_t *)&IIR_LPF_7k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 8000) 
+	if (CurrentVFO()->Filter_Width == 8000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k0_PKcoeffs, (float32_t *)&IIR_LPF_8k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k0_PKcoeffs, (float32_t *)&IIR_LPF_8k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 8500) 
+	if (CurrentVFO()->Filter_Width == 8500)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k5_PKcoeffs, (float32_t *)&IIR_LPF_8k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_8k5_PKcoeffs, (float32_t *)&IIR_LPF_8k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 9000) 
+	if (CurrentVFO()->Filter_Width == 9000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k0_PKcoeffs, (float32_t *)&IIR_LPF_9k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k0_PKcoeffs, (float32_t *)&IIR_LPF_9k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 9500) 
+	if (CurrentVFO()->Filter_Width == 9500)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k5_PKcoeffs, (float32_t *)&IIR_LPF_9k5_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_9k5_PKcoeffs, (float32_t *)&IIR_LPF_9k5_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 10000) 
+	if (CurrentVFO()->Filter_Width == 10000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_10k0_PKcoeffs, (float32_t *)&IIR_LPF_10k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_10k0_PKcoeffs, (float32_t *)&IIR_LPF_10k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	if (CurrentVFO()->Filter_Width == 15000) 
+	if (CurrentVFO()->Filter_Width == 15000)
 	{
 		arm_iir_lattice_init_f32(&IIR_LPF_I, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_I_State[0], APROCESSOR_BLOCK_SIZE);
 		arm_iir_lattice_init_f32(&IIR_LPF_Q, IIR_LPF_STAGES, (float32_t *)&IIR_LPF_15k0_PKcoeffs, (float32_t *)&IIR_LPF_15k0_PVcoeffs, (float32_t *)&IIR_LPF_Q_State[0], APROCESSOR_BLOCK_SIZE);
 	}
-	
+
 	//HPF
-	if(TRX_getMode()==TRX_MODE_USB || TRX_getMode()==TRX_MODE_LSB)
+	if (TRX_getMode() == TRX_MODE_USB || TRX_getMode() == TRX_MODE_LSB)
 	{
 		if (TRX.SSB_HPF_pass == 100)
 		{
@@ -340,12 +340,12 @@ void ReinitAudioFilters(void)
 
 void InitNotchFilter(void)
 {
-	NeedReinitNotch=false;
+	NeedReinitNotch = false;
 	calcBiquad(BIQUAD_notch, TRX.NotchFC, WM8731_SAMPLERATE, 0.5f, 0);
 	//arm_biquad_cascade_df2T_init_f32(&NOTCH_FILTER, NOTCH_STAGES, NOTCH_Coeffs, NOTCH_State);
 }
 
-static dc_filter_state_type dc_filter_state[6]=
+static dc_filter_state_type dc_filter_state[6] =
 {
 	{0,0}, //0 RX I
 	{0,0}, //1 RX Q
@@ -357,15 +357,15 @@ static dc_filter_state_type dc_filter_state[6]=
 
 void dc_filter(float32_t *agcBuffer, int16_t blockSize, uint8_t stateNum)	//удаляет постоянную составлющую сигнала true - I
 {
-	const float32_t A1=(1.0-pow(2.0,(-11.0))); // (1-2^(-7)) Q32:1.31
-	
-	for(uint16_t i=0;i<blockSize;i++)
+	const float32_t A1 = (1.0 - pow(2.0, (-11.0))); // (1-2^(-7)) Q32:1.31
+
+	for (uint16_t i = 0; i < blockSize; i++)
 	{
 		float32_t sampleIn = agcBuffer[i];
 		float32_t sampleOut = 0;
-		float32_t delta_x = sampleIn-dc_filter_state[stateNum].x_prev;
-		float32_t a1_y_prev = A1*dc_filter_state[stateNum].y_prev;
-		sampleOut = delta_x+a1_y_prev;
+		float32_t delta_x = sampleIn - dc_filter_state[stateNum].x_prev;
+		float32_t a1_y_prev = A1 * dc_filter_state[stateNum].y_prev;
+		sampleOut = delta_x + a1_y_prev;
 		dc_filter_state[stateNum].x_prev = sampleIn;
 		dc_filter_state[stateNum].y_prev = sampleOut;
 		agcBuffer[i] = sampleOut;
@@ -374,125 +374,125 @@ void dc_filter(float32_t *agcBuffer, int16_t blockSize, uint8_t stateNum)	//уд
 
 static void calcBiquad(BIQUAD_TYPE type, uint32_t Fc, uint32_t Fs, float32_t Q, float32_t peakGain)
 {
-	float32_t a0,a1,a2,b1,b2,norm;
+	float32_t a0, a1, a2, b1, b2, norm;
 	float32_t ymin, ymax, minVal, maxVal;
-	
+
 	float32_t V = pow(10.0, fabs(peakGain) / 20.0);
 	float32_t K = tan(PI * Fc / Fs);
 	switch (type) {
-		case BIQUAD_onepolelp:
-			b1 = exp(-2.0 * PI * (Fc / Fs));
-      a0 = 1.0 - b1;
-      b1 = -b1;
-			a1 = a2 = b2 = 0.0;
-			break;
-            
-		case BIQUAD_onepolehp:
-			b1 = -exp(-2.0 * PI * (0.5 - Fc / Fs));
-      a0 = 1.0 + b1;
-      b1 = -b1;
-			a1 = a2 = b2 = 0.0;
-			break;
-            
-		case BIQUAD_lowpass:
-			norm = 1.0 / (1.0 + K / Q + K * K);
-			a0 = K * K * norm;
-			a1 = 2.0 * a0;
-			a2 = a0;
-			b1 = 2.0 * (K * K - 1.0) * norm;
-			b2 = (1.0 - K / Q + K * K) * norm;
-			break;
-		
-		case BIQUAD_highpass:
-			norm = 1.0 / (1.0 + K / Q + K * K);
-			a0 = 1.0 * norm;
-			a1 = -2.0 * a0;
-			a2 = a0;
-			b1 = 2.0 * (K * K - 1.0) * norm;
-			b2 = (1.0 - K / Q + K * K) * norm;
-			break;
-		
-		case BIQUAD_bandpass:
-			norm = 1.0 / (1.0 + K / Q + K * K);
-			a0 = K / Q * norm;
-			a1 = 0.0;
-			a2 = -a0;
-			b1 = 2.0 * (K * K - 1.0) * norm;
-			b2 = (1.0 - K / Q + K * K) * norm;
-			break;
-		
-		case BIQUAD_notch:
-			norm = 1.0 / (1.0 + K / Q + K * K);
-			a0 = (1.0 + K * K) * norm;
+	case BIQUAD_onepolelp:
+		b1 = exp(-2.0 * PI * (Fc / Fs));
+		a0 = 1.0 - b1;
+		b1 = -b1;
+		a1 = a2 = b2 = 0.0;
+		break;
+
+	case BIQUAD_onepolehp:
+		b1 = -exp(-2.0 * PI * (0.5 - Fc / Fs));
+		a0 = 1.0 + b1;
+		b1 = -b1;
+		a1 = a2 = b2 = 0.0;
+		break;
+
+	case BIQUAD_lowpass:
+		norm = 1.0 / (1.0 + K / Q + K * K);
+		a0 = K * K * norm;
+		a1 = 2.0 * a0;
+		a2 = a0;
+		b1 = 2.0 * (K * K - 1.0) * norm;
+		b2 = (1.0 - K / Q + K * K) * norm;
+		break;
+
+	case BIQUAD_highpass:
+		norm = 1.0 / (1.0 + K / Q + K * K);
+		a0 = 1.0 * norm;
+		a1 = -2.0 * a0;
+		a2 = a0;
+		b1 = 2.0 * (K * K - 1.0) * norm;
+		b2 = (1.0 - K / Q + K * K) * norm;
+		break;
+
+	case BIQUAD_bandpass:
+		norm = 1.0 / (1.0 + K / Q + K * K);
+		a0 = K / Q * norm;
+		a1 = 0.0;
+		a2 = -a0;
+		b1 = 2.0 * (K * K - 1.0) * norm;
+		b2 = (1.0 - K / Q + K * K) * norm;
+		break;
+
+	case BIQUAD_notch:
+		norm = 1.0 / (1.0 + K / Q + K * K);
+		a0 = (1.0 + K * K) * norm;
+		a1 = 2.0 * (K * K - 1.0) * norm;
+		a2 = a0;
+		b1 = a1;
+		b2 = (1.0 - K / Q + K * K) * norm;
+		break;
+
+	case BIQUAD_peak:
+		if (peakGain >= 0.0) {
+			norm = 1.0 / (1.0 + 1.0 / Q * K + K * K);
+			a0 = (1.0 + V / Q * K + K * K) * norm;
 			a1 = 2.0 * (K * K - 1.0) * norm;
-			a2 = a0;
+			a2 = (1.0 - V / Q * K + K * K) * norm;
 			b1 = a1;
-			b2 = (1.0 - K / Q + K * K) * norm;
-			break;
-		
-		case BIQUAD_peak:
-			if (peakGain >= 0.0) {
-				norm = 1.0 / (1.0 + 1.0/Q * K + K * K);
-				a0 = (1.0 + V/Q * K + K * K) * norm;
-				a1 = 2.0 * (K * K - 1.0) * norm;
-				a2 = (1.0 - V/Q * K + K * K) * norm;
-				b1 = a1;
-				b2 = (1.0 - 1.0/Q * K + K * K) * norm;
-			}
-			else {	
-				norm = 1.0 / (1.0 + V/Q * K + K * K);
-				a0 = (1.0 + 1.0/Q * K + K * K) * norm;
-				a1 = 2.0 * (K * K - 1.0) * norm;
-				a2 = (1.0 - 1.0/Q * K + K * K) * norm;
-				b1 = a1;
-				b2 = (1.0 - V/Q * K + K * K) * norm;
-			}
-			break;
-		case BIQUAD_lowShelf:
-			if (peakGain >= 0.0) {
-				norm = 1.0 / (1.0 + SQRT2 * K + K * K);
-				a0 = (1.0 + sqrt(2.0*V) * K + V * K * K) * norm;
-				a1 = 2.0 * (V * K * K - 1.0) * norm;
-				a2 = (1.0 - sqrt(2.0*V) * K + V * K * K) * norm;
-				b1 = 2.0 * (K * K - 1.0) * norm;
-				b2 = (1.0 - SQRT2 * K + K * K) * norm;
-			}
-			else {	
-				norm = 1.0 / (1.0 + sqrt(2.0*V) * K + V * K * K);
-				a0 = (1.0 + SQRT2 * K + K * K) * norm;
-				a1 = 2.0 * (K * K - 1.0) * norm;
-				a2 = (1.0 - SQRT2 * K + K * K) * norm;
-				b1 = 2.0 * (V * K * K - 1.0) * norm;
-				b2 = (1.0 - sqrt(2.0*V) * K + V * K * K) * norm;
-			}
-			break;
-		case BIQUAD_highShelf:
-            if (peakGain >= 0.0) {
-                norm = 1.0 / (1.0 + SQRT2 * K + K * K);
-                a0 = (V + sqrt(2.0*V) * K + K * K) * norm;
-                a1 = 2.0 * (K * K - V) * norm;
-                a2 = (V - sqrt(2.0*V) * K + K * K) * norm;
-                b1 = 2.0 * (K * K - 1.0) * norm;
-                b2 = (1.0 - SQRT2 * K + K * K) * norm;
-            }
-            else {	
-                norm = 1.0 / (V + sqrt(2.0*V) * K + K * K);
-                a0 = (1.0 + SQRT2 * K + K * K) * norm;
-                a1 = 2.0 * (K * K - 1.0) * norm;
-                a2 = (1.0 - SQRT2 * K + K * K) * norm;
-                b1 = 2.0 * (K * K - V) * norm;
-                b2 = (V - sqrt(2.0*V) * K + K * K) * norm;
-			}
-			break;
+			b2 = (1.0 - 1.0 / Q * K + K * K) * norm;
+		}
+		else {
+			norm = 1.0 / (1.0 + V / Q * K + K * K);
+			a0 = (1.0 + 1.0 / Q * K + K * K) * norm;
+			a1 = 2.0 * (K * K - 1.0) * norm;
+			a2 = (1.0 - 1.0 / Q * K + K * K) * norm;
+			b1 = a1;
+			b2 = (1.0 - V / Q * K + K * K) * norm;
+		}
+		break;
+	case BIQUAD_lowShelf:
+		if (peakGain >= 0.0) {
+			norm = 1.0 / (1.0 + SQRT2 * K + K * K);
+			a0 = (1.0 + sqrt(2.0*V) * K + V * K * K) * norm;
+			a1 = 2.0 * (V * K * K - 1.0) * norm;
+			a2 = (1.0 - sqrt(2.0*V) * K + V * K * K) * norm;
+			b1 = 2.0 * (K * K - 1.0) * norm;
+			b2 = (1.0 - SQRT2 * K + K * K) * norm;
+		}
+		else {
+			norm = 1.0 / (1.0 + sqrt(2.0*V) * K + V * K * K);
+			a0 = (1.0 + SQRT2 * K + K * K) * norm;
+			a1 = 2.0 * (K * K - 1.0) * norm;
+			a2 = (1.0 - SQRT2 * K + K * K) * norm;
+			b1 = 2.0 * (V * K * K - 1.0) * norm;
+			b2 = (1.0 - sqrt(2.0*V) * K + V * K * K) * norm;
+		}
+		break;
+	case BIQUAD_highShelf:
+		if (peakGain >= 0.0) {
+			norm = 1.0 / (1.0 + SQRT2 * K + K * K);
+			a0 = (V + sqrt(2.0*V) * K + K * K) * norm;
+			a1 = 2.0 * (K * K - V) * norm;
+			a2 = (V - sqrt(2.0*V) * K + K * K) * norm;
+			b1 = 2.0 * (K * K - 1.0) * norm;
+			b2 = (1.0 - SQRT2 * K + K * K) * norm;
+		}
+		else {
+			norm = 1.0 / (V + sqrt(2.0*V) * K + K * K);
+			a0 = (1.0 + SQRT2 * K + K * K) * norm;
+			a1 = 2.0 * (K * K - 1.0) * norm;
+			a2 = (1.0 - SQRT2 * K + K * K) * norm;
+			b1 = 2.0 * (K * K - V) * norm;
+			b2 = (V - sqrt(2.0*V) * K + K * K) * norm;
+		}
+		break;
 	}
 
 	//save coefficients
-	NOTCH_Coeffs[0]=a0;
-	NOTCH_Coeffs[1]=a1;
-	NOTCH_Coeffs[2]=a2;
-	NOTCH_Coeffs[3]=-b1;
-	NOTCH_Coeffs[4]=-b2;
-	
+	NOTCH_Coeffs[0] = a0;
+	NOTCH_Coeffs[1] = a1;
+	NOTCH_Coeffs[2] = a2;
+	NOTCH_Coeffs[3] = -b1;
+	NOTCH_Coeffs[4] = -b2;
+
 	// list coefficients
 	//sendToDebug_float32(a0,false);
 	//sendToDebug_float32(a1,false);

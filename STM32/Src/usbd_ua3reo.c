@@ -23,9 +23,9 @@ static const uint8_t  *USBD_UA3REO_GetDeviceQualifierDescriptor(uint16_t *length
 static uint16_t rx_buffer_head = 0;
 static uint16_t rx_buffer_step = 0;
 
-volatile bool RX_USB_AUDIO_underrun=false;
-volatile uint32_t RX_USB_AUDIO_SAMPLES=0;
-volatile uint32_t TX_USB_AUDIO_SAMPLES=0;
+volatile bool RX_USB_AUDIO_underrun = false;
+volatile uint32_t RX_USB_AUDIO_SAMPLES = 0;
+volatile uint32_t TX_USB_AUDIO_SAMPLES = 0;
 
 /* USB Standard Device Descriptor */
 __ALIGN_BEGIN static const uint8_t USBD_UA3REO_DeviceQualifierDesc[USB_LEN_DEV_QUALIFIER_DESC] __ALIGN_END =
@@ -68,26 +68,25 @@ __ALIGN_BEGIN static const uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ
 	0x09,   /* bLength: Configuration Descriptor size */
 	USB_DESC_TYPE_CONFIGURATION,      /* bDescriptorType: Configuration */
 	(USB_CDC_CONFIG_DESC_SIZ & 0xFF),                /* wTotalLength:no of returned bytes */
-	USB_CDC_CONFIG_DESC_SIZ>>8,
+	USB_CDC_CONFIG_DESC_SIZ >> 8,
 	0x07,   /* bNumInterfaces: count interface */
 	0x01,   /* bConfigurationValue: Configuration value */
 	0x00,   /* iConfiguration: Index of string descriptor describing the configuration */
 	0xC0,   /* bmAttributes: self powered */
 	0xFA,   /* MaxPower 500 mA */
 
-	/*---------------------------------------------------------------------------*/
-
-	  //DEBUG/KEY PORT
-	  //Interface Association Descriptor:
-	  //------------------------------
-	  0x08,     //bLength
-	  0x0B,     //bDescriptorType
-	  0x00,     //bFirstInterface
-	  0x02,     //bInterfaceCount
-	  0x02,     //bFunctionClass      (Communication Device Class)
-	  0x02,     //bFunctionSubClass   (Abstract Control Model - ACM)
-	  0x01,     //bFunctionProtocol   (ITU-T V.250)
-	  USBD_IDX_INTERFACE1_STR,     //iFunction   ""
+	//---------------------------------------------------------------------------
+	//DEBUG/KEY PORT
+	//Interface Association Descriptor:
+	//------------------------------
+	0x08,     //bLength
+	0x0B,     //bDescriptorType
+	0x00,     //bFirstInterface
+	0x02,     //bInterfaceCount
+	0x02,     //bFunctionClass      (Communication Device Class)
+	0x02,     //bFunctionSubClass   (Abstract Control Model - ACM)
+	0x01,     //bFunctionProtocol   (ITU-T V.250)
+	USBD_IDX_INTERFACE1_STR,     //iFunction   ""
 
 	/*Interface Descriptor */
 	0x09,   /* bLength: Interface Descriptor size */
@@ -95,8 +94,7 @@ __ALIGN_BEGIN static const uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ
 	/* Interface descriptor type */
 	0x00,   /* bInterfaceNumber: Number of Interface */
 	0x00,   /* bAlternateSetting: Alternate setting */
-	//0x01,   /* bNumEndpoints: One endpoints used */
-	  0x00,   /* bNumEndpoints: One endpoints used */
+	0x00,   /* bNumEndpoints: One endpoints used */
 	0x02,   /* bInterfaceClass: Communication Interface Class */
 	0x02,   /* bInterfaceSubClass: Abstract Control Model */
 	0x01,   /* bInterfaceProtocol: Common AT commands */
@@ -129,379 +127,354 @@ __ALIGN_BEGIN static const uint8_t USBD_UA3REO_CfgFSDesc[USB_CDC_CONFIG_DESC_SIZ
 	0x00,   /* bMasterInterface: Communication class interface */
 	0x01,   /* bSlaveInterface0: Data Class Interface */
 
-	/*Endpoint 2 Descriptor*/
-	  /*
-	0x07,                           // bLength: Endpoint Descriptor size
-	USB_DESC_TYPE_ENDPOINT,   // bDescriptorType: Endpoint
-	DEBUG_CMD_EP,                     // bEndpointAddress
-	0x03,                           // bmAttributes: Interrupt
-	LOBYTE(CDC_CMD_PACKET_SIZE),     // wMaxPacketSize:
-	HIBYTE(CDC_CMD_PACKET_SIZE),
-	CDC_FS_BINTERVAL,                           // bInterval:
-	  */
-	  /*---------------------------------------------------------------------------*/
 
-	  /*Data class interface descriptor*/
-	  0x09,   /* bLength: Endpoint Descriptor size */
-	  USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: */
-	  0x01,   /* bInterfaceNumber: Number of Interface */
-	  0x00,   /* bAlternateSetting: Alternate setting */
-	  0x02,   /* bNumEndpoints: Two endpoints used */
-	  0x0A,   /* bInterfaceClass: CDC */
-	  0x00,   /* bInterfaceSubClass: */
-	  0x00,   /* bInterfaceProtocol: */
-	  USBD_IDX_INTERFACE1_STR,   /* iInterface: */
+	//---------------------------------------------------------------------------
 
-	  /*Endpoint OUT Descriptor*/
-	  0x07,   /* bLength: Endpoint Descriptor size */
-	  USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
-	  DEBUG_OUT_EP,                        /* bEndpointAddress */
-	  0x02,                              /* bmAttributes: Bulk */
-	  LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
-	  HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-	  0x01,                              /* bInterval: ignore for Bulk transfer */
+	/*Data class interface descriptor*/
+	0x09,   /* bLength: Endpoint Descriptor size */
+	USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: */
+	0x01,   /* bInterfaceNumber: Number of Interface */
+	0x00,   /* bAlternateSetting: Alternate setting */
+	0x02,   /* bNumEndpoints: Two endpoints used */
+	0x0A,   /* bInterfaceClass: CDC */
+	0x00,   /* bInterfaceSubClass: */
+	0x00,   /* bInterfaceProtocol: */
+	USBD_IDX_INTERFACE1_STR,   /* iInterface: */
 
-	  /*Endpoint IN Descriptor*/
-	  0x07,   /* bLength: Endpoint Descriptor size */
-	  USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
-	  DEBUG_IN_EP,                         /* bEndpointAddress */
-	  0x02,                              /* bmAttributes: Bulk */
-	  LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
-	  HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-	  0x01,                               /* bInterval: ignore for Bulk transfer */
+	/*Endpoint OUT Descriptor*/
+	0x07,   /* bLength: Endpoint Descriptor size */
+	USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
+	DEBUG_OUT_EP,                        /* bEndpointAddress */
+	0x02,                              /* bmAttributes: Bulk */
+	LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
+	HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
+	0x01,                              /* bInterval: ignore for Bulk transfer */
 
-		/*---------------------------------------------------------------------------*/
-		
-		//CAT PORT
-		//Interface Association Descriptor:
-		//------------------------------
-		0x08,     //bLength
-		0x0B,     //bDescriptorType
-		0x02,     //bFirstInterface
-		0x02,     //bInterfaceCount
-		0x02,     //bFunctionClass      (Communication Device Class)
-		0x02,     //bFunctionSubClass   (Abstract Control Model - ACM)
-		0x01,     //bFunctionProtocol   (ITU-T V.250)
-		USBD_IDX_INTERFACE2_STR,     //iFunction   ""
+	/*Endpoint IN Descriptor*/
+	0x07,   /* bLength: Endpoint Descriptor size */
+	USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
+	DEBUG_IN_EP,                         /* bEndpointAddress */
+	0x02,                              /* bmAttributes: Bulk */
+	LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
+	HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
+	0x01,                               /* bInterval: ignore for Bulk transfer */
 
-		/*Interface Descriptor */
-	  0x09,   /* bLength: Interface Descriptor size */
-	  USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: Interface */
-	  /* Interface descriptor type */
-	  0x02,   /* bInterfaceNumber: Number of Interface */
-	  0x00,   /* bAlternateSetting: Alternate setting */
-	  //0x01,   /* bNumEndpoints: One endpoints used */
-		0x00,   /* bNumEndpoints: One endpoints used */
-	  0x02,   /* bInterfaceClass: Communication Interface Class */
-	  0x02,   /* bInterfaceSubClass: Abstract Control Model */
-	  0x01,   /* bInterfaceProtocol: Common AT commands */
-	  USBD_IDX_INTERFACE2_STR,   /* iInterface: */
+	//---------------------------------------------------------------------------
 
-		/*Header Functional Descriptor*/
-	  0x05,   /* bLength: Endpoint Descriptor size */
-	  0x24,   /* bDescriptorType: CS_INTERFACE */
-	  0x00,   /* bDescriptorSubtype: Header Func Desc */
-	  0x10,   /* bcdCDC: spec release number */
-	  0x01,
+	//CAT PORT
+	//Interface Association Descriptor:
+	//------------------------------
+	0x08,     //bLength
+	0x0B,     //bDescriptorType
+	0x02,     //bFirstInterface
+	0x02,     //bInterfaceCount
+	0x02,     //bFunctionClass      (Communication Device Class)
+	0x02,     //bFunctionSubClass   (Abstract Control Model - ACM)
+	0x01,     //bFunctionProtocol   (ITU-T V.250)
+	USBD_IDX_INTERFACE2_STR,     //iFunction   ""
 
-	  /*Call Management Functional Descriptor*/
-	  0x05,   /* bFunctionLength */
-	  0x24,   /* bDescriptorType: CS_INTERFACE */
-	  0x01,   /* bDescriptorSubtype: Call Management Func Desc */
-	  0x00,   /* bmCapabilities: D0+D1 */
-	  0x03,   /* bDataInterface: 1 */
+	/*Interface Descriptor */
+	0x09,   /* bLength: Interface Descriptor size */
+	USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: Interface */
+	/* Interface descriptor type */
+	0x02,   /* bInterfaceNumber: Number of Interface */
+	0x00,   /* bAlternateSetting: Alternate setting */
+	0x00,   /* bNumEndpoints: One endpoints used */
+	0x02,   /* bInterfaceClass: Communication Interface Class */
+	0x02,   /* bInterfaceSubClass: Abstract Control Model */
+	0x01,   /* bInterfaceProtocol: Common AT commands */
+	USBD_IDX_INTERFACE2_STR,   /* iInterface: */
 
-	  /*ACM Functional Descriptor*/
-	  0x04,   /* bFunctionLength */
-	  0x24,   /* bDescriptorType: CS_INTERFACE */
-	  0x02,   /* bDescriptorSubtype: Abstract Control Management desc */
-	  0x02,   /* bmCapabilities */
+	/*Header Functional Descriptor*/
+	0x05,   /* bLength: Endpoint Descriptor size */
+	0x24,   /* bDescriptorType: CS_INTERFACE */
+	0x00,   /* bDescriptorSubtype: Header Func Desc */
+	0x10,   /* bcdCDC: spec release number */
+	0x01,
 
-	  /*Union Functional Descriptor*/
-	  0x05,   /* bFunctionLength */
-	  0x24,   /* bDescriptorType: CS_INTERFACE */
-	  0x06,   /* bDescriptorSubtype: Union func desc */
-	  0x02,   /* bMasterInterface: Communication class interface */
-	  0x03,   /* bSlaveInterface0: Data Class Interface */
+	/*Call Management Functional Descriptor*/
+	0x05,   /* bFunctionLength */
+	0x24,   /* bDescriptorType: CS_INTERFACE */
+	0x01,   /* bDescriptorSubtype: Call Management Func Desc */
+	0x00,   /* bmCapabilities: D0+D1 */
+	0x03,   /* bDataInterface: 1 */
 
-		/*Endpoint 2 Descriptor*/
-		/*
-	  0x07,                           // bLength: Endpoint Descriptor size
-	  USB_DESC_TYPE_ENDPOINT,   // bDescriptorType: Endpoint
-	  CAT_CMD_EP,                     // bEndpointAddress
-	  0x03,                           // bmAttributes: Interrupt
-	  LOBYTE(CDC_CMD_PACKET_SIZE),     // wMaxPacketSize:
-	  HIBYTE(CDC_CMD_PACKET_SIZE),
-	  CDC_FS_BINTERVAL,                           // bInterval:
-		*/
-		/*---------------------------------------------------------------------------*/
+	/*ACM Functional Descriptor*/
+	0x04,   /* bFunctionLength */
+	0x24,   /* bDescriptorType: CS_INTERFACE */
+	0x02,   /* bDescriptorSubtype: Abstract Control Management desc */
+	0x02,   /* bmCapabilities */
 
-		  /*Data class interface descriptor*/
-		0x09,   /* bLength: Endpoint Descriptor size */
-		USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: */
-		0x03,   /* bInterfaceNumber: Number of Interface */
-		0x00,   /* bAlternateSetting: Alternate setting */
-		0x02,   /* bNumEndpoints: Two endpoints used */
-		0x0A,   /* bInterfaceClass: CDC */
-		0x00,   /* bInterfaceSubClass: */
-		0x00,   /* bInterfaceProtocol: */
-		USBD_IDX_INTERFACE2_STR,   /* iInterface: */
+	/*Union Functional Descriptor*/
+	0x05,   /* bFunctionLength */
+	0x24,   /* bDescriptorType: CS_INTERFACE */
+	0x06,   /* bDescriptorSubtype: Union func desc */
+	0x02,   /* bMasterInterface: Communication class interface */
+	0x03,   /* bSlaveInterface0: Data Class Interface */
 
-		  /*Endpoint OUT Descriptor*/
-		0x07,   /* bLength: Endpoint Descriptor size */
-		USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
-		CAT_OUT_EP,                        /* bEndpointAddress */
-		0x02,                              /* bmAttributes: Bulk */
-		LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
-		HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-		0x01,                              /* bInterval: ignore for Bulk transfer */
+	//---------------------------------------------------------------------------
 
-		/*Endpoint IN Descriptor*/
-		0x07,   /* bLength: Endpoint Descriptor size */
-		USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
-		CAT_IN_EP,                         /* bEndpointAddress */
-		0x02,                              /* bmAttributes: Bulk */
-		LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
-		HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
-		0x01,                               /* bInterval: ignore for Bulk transfer */
+	/*Data class interface descriptor*/
+	0x09,   /* bLength: Endpoint Descriptor size */
+	USB_DESC_TYPE_INTERFACE,  /* bDescriptorType: */
+	0x03,   /* bInterfaceNumber: Number of Interface */
+	0x00,   /* bAlternateSetting: Alternate setting */
+	0x02,   /* bNumEndpoints: Two endpoints used */
+	0x0A,   /* bInterfaceClass: CDC */
+	0x00,   /* bInterfaceSubClass: */
+	0x00,   /* bInterfaceProtocol: */
+	USBD_IDX_INTERFACE2_STR,   /* iInterface: */
 
-		/*---------------------------------------------------------------------------*/
+	/*Endpoint OUT Descriptor*/
+	0x07,   /* bLength: Endpoint Descriptor size */
+	USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
+	CAT_OUT_EP,                        /* bEndpointAddress */
+	0x02,                              /* bmAttributes: Bulk */
+	LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
+	HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
+	0x01,                              /* bInterval: ignore for Bulk transfer */
 
-		  //AUDIO RX PORT
-		  //Interface Association Descriptor:
-		  //------------------------------
-		  0x08,//     bLength
-		  0x0B,//    bDescriptorType
-		  0x04,//     bFirstInterface
-		  0x03,//     bInterfaceCount
-		  0x01,//     bFunctionClass      (Audio Device Class)
-		  0x00,//     bFunctionSubClass  
-		  0x00,//     bFunctionProtocol  
-		  USBD_IDX_INTERFACE3_STR,//     iFunction   "UA3REO Transceiver AUDIO RX"
+	/*Endpoint IN Descriptor*/
+	0x07,   /* bLength: Endpoint Descriptor size */
+	USB_DESC_TYPE_ENDPOINT,      /* bDescriptorType: Endpoint */
+	CAT_IN_EP,                         /* bEndpointAddress */
+	0x02,                              /* bmAttributes: Bulk */
+	LOBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),  /* wMaxPacketSize: */
+	HIBYTE(CDC_DATA_FS_MAX_PACKET_SIZE),
+	0x01,                               /* bInterval: ignore for Bulk transfer */
 
-		  //Interface Descriptor (Control):
-		  //------------------------------
-		  0x09,//     bLength
-		  0x04,//     bDescriptorType
-		  0x04,//     bInterfaceNumber
-		  0x00,//     bAlternateSetting
-		  0x00,//     bNumEndPoints
-		  0x01,//     bInterfaceClass      (Audio Device Class)
-		  0x01,//     bInterfaceSubClass   (Audio Control Interface)
-		  0x00,//     bInterfaceProtocol  
-		  USBD_IDX_INTERFACE3_STR,//     iInterface   ""
+	//---------------------------------------------------------------------------
 
-		  //AC Interface Header Descriptor (Control):
-		  //------------------------------
-		  0x0A,//     bLength
-		  0x24,//     bDescriptorType
-		  0x01,//     bDescriptorSubtype
-		  0x00,//
-		  0x01,// bcdADC
-			0x34,// wTotalLength   (52 bytes)
-		  0x00,// wTotalLength
-		  0x02,//     bInCollection
-		  0x05,//     baInterfaceNr(1)
-			0x06,//     baInterfaceNr(2)
+	//AUDIO RX PORT
+	//Interface Association Descriptor:
+	//------------------------------
+	0x08,//     bLength
+	0x0B,//    bDescriptorType
+	0x04,//     bFirstInterface
+	0x03,//     bInterfaceCount
+	0x01,//     bFunctionClass      (Audio Device Class)
+	0x00,//     bFunctionSubClass  
+	0x00,//     bFunctionProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iFunction   "UA3REO Transceiver AUDIO RX"
 
-		  //AC Input Terminal Descriptor (Microphone):
-		  //------------------------------
-		  0x0C,//    bLength
-		  0x24,//     bDescriptorType
-		  0x02,//     bDescriptorSubtype
-		  0x1E,//    bTerminalID
-		  0x10,// wTerminalType   (Radio Receiver)
-		  0x07,// wTerminalType   (Radio Receiver)
-		  0x00,//     bAssocTerminal
-		  0x02,//     bNrChannels   (2 channels)
-		  0x03,// wChannelConfig
-		  0x00,// wChannelConfig
-		  0x00,//    iChannelNames
-		  0x00,//     iTerminal
+	//Interface Descriptor (Control):
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x04,//     bInterfaceNumber
+	0x00,//     bAlternateSetting
+	0x00,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x01,//     bInterfaceSubClass   (Audio Control Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   ""
 
-		  //AC Output Terminal Descriptor (Microphone):
-		  //------------------------------
-		  0x09,//     bLength
-		  0x24,//     bDescriptorType
-		  0x03,//     bDescriptorSubtype
-		  0x23,//     bTerminalID
-		  0x01,// wTerminalType   (USB Streaming)
-		  0x01,// wTerminalType   (USB Streaming)
-		  0x00,//     bAssocTerminal
-		  0x1E,//    bSourceID
-		  0x00,//     iTerminal   "wwww 1"
+	//AC Interface Header Descriptor (Control):
+	//------------------------------
+	0x0A,//     bLength
+	0x24,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x00,//
+	0x01,// bcdADC
+		0x34,// wTotalLength   (52 bytes)
+	0x00,// wTotalLength
+	0x02,//     bInCollection
+	0x05,//     baInterfaceNr(1)
+		0x06,//     baInterfaceNr(2)
 
-			//AC Input Terminal Descriptor (Speaker):
-			//------------------------------
-			0x0C,//    bLength
-			0x24,//     bDescriptorType
-			0x02,//     bDescriptorSubtype
-			0x0C,//    bTerminalID
-			0x01,// wTerminalType   (USB Streaming)
-			0x01,// wTerminalType   (USB Streaming)
-			0x00,//     bAssocTerminal
-			0x02,//     bNrChannels   (2 channels)
-			0x03,// wChannelConfig
-			0x00,// wChannelConfig
-			0x1B,//    iChannelNames
-			0x00,//    iTerminal   "eeee 3"
-			 
-			//AC Output Terminal Descriptor (Speaker):
-			//------------------------------
-			0x09,//     bLength
-			0x24,//     bDescriptorType
-			0x03,//     bDescriptorSubtype
-			0x11,//     bTerminalID
-			0x11,// wTerminalType   (Radio Transmitter)
-			0x07,// wTerminalType   (Radio Transmitter)
-			0x00,//     bAssocTerminal
-			0x0C,//    bSourceID
-			0x00,//     iTerminal
+	//AC Input Terminal Descriptor (Microphone):
+	//------------------------------
+	0x0C,//    bLength
+	0x24,//     bDescriptorType
+	0x02,//     bDescriptorSubtype
+	0x1E,//    bTerminalID
+	0x10,// wTerminalType   (Radio Receiver)
+	0x07,// wTerminalType   (Radio Receiver)
+	0x00,//     bAssocTerminal
+	0x02,//     bNrChannels   (2 channels)
+	0x03,// wChannelConfig
+	0x00,// wChannelConfig
+	0x00,//    iChannelNames
+	0x00,//     iTerminal
 
-		  //Interface Descriptor (Microphone):
-		  //------------------------------
-		  0x09,//     bLength
-		  0x04,//     bDescriptorType
-		  0x05,//     bInterfaceNumber
-		  0x00,//     bAlternateSetting
-		  0x00,//     bNumEndPoints
-		  0x01,//     bInterfaceClass      (Audio Device Class)
-		  0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
-		  0x00,//     bInterfaceProtocol  
-		  USBD_IDX_INTERFACE3_STR,//     iInterface   "xxxx 1"
+	//AC Output Terminal Descriptor (Microphone):
+	//------------------------------
+	0x09,//     bLength
+	0x24,//     bDescriptorType
+	0x03,//     bDescriptorSubtype
+	0x23,//     bTerminalID
+	0x01,// wTerminalType   (USB Streaming)
+	0x01,// wTerminalType   (USB Streaming)
+	0x00,//     bAssocTerminal
+	0x1E,//    bSourceID
+	0x00,//     iTerminal   "wwww 1"
 
-		  //Interface Descriptor (Microphone):
-		  //------------------------------
-		  0x09,//     bLength
-		  0x04,//     bDescriptorType
-		  0x05,//     bInterfaceNumber
-		  0x01,//     bAlternateSetting
-		  0x01,//     bNumEndPoints
-		  0x01,//     bInterfaceClass      (Audio Device Class)
-		  0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
-		  0x00,//     bInterfaceProtocol  
-		  USBD_IDX_INTERFACE3_STR,//     iInterface   "xxxx 1"
+	//AC Input Terminal Descriptor (Speaker):
+	//------------------------------
+	0x0C,//    bLength
+	0x24,//     bDescriptorType
+	0x02,//     bDescriptorSubtype
+	0x0C,//    bTerminalID
+	0x01,// wTerminalType   (USB Streaming)
+	0x01,// wTerminalType   (USB Streaming)
+	0x00,//     bAssocTerminal
+	0x02,//     bNrChannels   (2 channels)
+	0x03,// wChannelConfig
+	0x00,// wChannelConfig
+	0x1B,//    iChannelNames
+	0x00,//    iTerminal   "eeee 3"
 
-		  //AS Interface Descriptor (Microphone):
-		  //------------------------------
-		  0x07,//     bLength
-		  0x24,//     bDescriptorType
-		  0x01,//     bDescriptorSubtype
-		  0x23,//     bTerminalLink
-		  0x01,//     bDelay
-		  0x01,// wFormatTag   (PCM)
-		  0x00,// wFormatTag   (PCM)
+	//AC Output Terminal Descriptor (Speaker):
+	//------------------------------
+	0x09,//     bLength
+	0x24,//     bDescriptorType
+	0x03,//     bDescriptorSubtype
+	0x11,//     bTerminalID
+	0x11,// wTerminalType   (Radio Transmitter)
+	0x07,// wTerminalType   (Radio Transmitter)
+	0x00,//     bAssocTerminal
+	0x0C,//    bSourceID
+	0x00,//     iTerminal
 
-		  //AS Format Type 1 Descriptor (Microphone):
-		  //------------------------------
-		  0x0B,//    bLength
-		  0x24,//     bDescriptorType
-		  0x02,//     bDescriptorSubtype
-		  0x01,//     bFormatType   (FORMAT_TYPE_1)
-		  0x02,//     bNrChannels   (2 channels)
-		  0x02,//     bSubframeSize
-		  0x10,//     bBitResolution   (16 bits per sample)
-		  0x01,//     bSamFreqType   (Discrete sampling frequencies)
-		  0x80,//         tSamFreq(1)   (48000 Hz)
-		  0xBB,//         tSamFreq(1)   (48000 Hz)
-		  0x00,//         tSamFreq(1)   (48000 Hz)
+	//Interface Descriptor (Microphone):
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x05,//     bInterfaceNumber
+	0x00,//     bAlternateSetting
+	0x00,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   "xxxx 1"
 
-		  //Endpoint Descriptor (Audio/MIDI 1.0) (Microphone):
-		  //------------------------------
-		  0x09,//     bLength
-		  0x05,//     bDescriptorType
-		  AUDIO_IN_EP,//     bEndpointAddress  (IN endpoint 1)
-		  //0x25,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Implicit)
-			0x0D,//     bmAttributes      (Transfer: Isochronous / Synch: Synchronous / Usage: Data)
-		  //0xC4,// wMaxPacketSize    (1 x 196 bytes)
-		  //0x00,// wMaxPacketSize    (1 x 196 bytes)
-			LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
-			HIBYTE(AUDIO_OUT_PACKET),
-		  0x01,//     bInterval         (1 frames)
-		  0x00,//     bRefresh
-		  0x00,//     bSynchAddress
+	//Interface Descriptor (Microphone):
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x05,//     bInterfaceNumber
+	0x01,//     bAlternateSetting
+	0x01,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   "xxxx 1"
 
-		  //AS Isochronous Data Endpoint Descriptor (Microphone):
-		  //------------------------------
-		  0x07,//     bLength
-		  0x25,//     bDescriptorType
-		  0x01,//     bDescriptorSubtype
-		  0x00,//     bmAttributes
-		  0x02,//     bLockDelayUnits   (decoded PCM samples)
-		  0x00,// wLockDelay
-		  0x00,// wLockDelay
-			
-			//Interface Descriptor (Speaker):
-			//------------------------------
-			0x09,//     bLength
-			0x04,//     bDescriptorType
-			0x06,//     bInterfaceNumber
-			0x00,//     bAlternateSetting
-			0x00,//     bNumEndPoints
-			0x01,//     bInterfaceClass      (Audio Device Class)
-			0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
-			0x00,//     bInterfaceProtocol  
-			USBD_IDX_INTERFACE3_STR,//     iInterface   "yyyy 3"
-			 
-			//Interface Descriptor (Speaker):
-			//------------------------------
-			0x09,//     bLength
-			0x04,//     bDescriptorType
-			0x06,//     bInterfaceNumber
-			0x01,//     bAlternateSetting
-			0x01,//     bNumEndPoints
-			0x01,//     bInterfaceClass      (Audio Device Class)
-			0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
-			0x00,//     bInterfaceProtocol  
-			USBD_IDX_INTERFACE3_STR,//    iInterface   "zzzz 3"
-			 
-			//AS Interface Descriptor (Speaker):
-			//------------------------------
-			0x07,//     bLength
-			0x24,//     bDescriptorType
-			0x01,//     bDescriptorSubtype
-			0x0C,//    bTerminalLink
-			0x01,//     bDelay
-			0x01,// wFormatTag   (PCM)
-			0x00,// wFormatTag   (PCM)
-			 
-			//AS Format Type 1 Descriptor (Speaker):
-			//------------------------------
-			0x0B,//    bLength
-			0x24,//     bDescriptorType
-			0x02,//     bDescriptorSubtype
-			0x01,//     bFormatType   (FORMAT_TYPE_1)
-			0x02,//     bNrChannels   (2 channels)
-			0x02,//     bSubframeSize
-			0x10,//     bBitResolution   (16 bits per sample)
-			0x01,//     bSamFreqType   (Discrete sampling frequencies)
-			0x80,//         tSamFreq(1)   (48000 Hz)
-			0xBB,//         tSamFreq(1)   (48000 Hz)
-			0x00,//         tSamFreq(1)   (48000 Hz)
-			 
-			//Endpoint Descriptor (Audio/MIDI 1.0) (Speaker):
-			//------------------------------
-			0x09,//     bLength
-			0x05,//     bDescriptorType
-			AUDIO_OUT_EP,//     bEndpointAddress  (OUT endpoint 1)
-			0x05,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Data)
-			//0xC0,// wMaxPacketSize    (1 x 192 bytes)
-			//0x00,// wMaxPacketSize    (1 x 192 bytes)
-			LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
-			HIBYTE(AUDIO_OUT_PACKET),
-			0x01,//     bInterval         (1 frames)
-			0x00,//     bRefresh
-			0x00,//     bSynchAddress
-			 
-			//AS Isochronous Data Endpoint Descriptor (Speaker):
-			//------------------------------
-			0x07,//     bLength
-			0x25,//     bDescriptorType
-			0x01,//     bDescriptorSubtype
-			0x00,//     bmAttributes
-			0x00,//     bLockDelayUnits   (undefined)
-			0x00,// wLockDelay
-			0x00,// wLockDelay
+	//AS Interface Descriptor (Microphone):
+	//------------------------------
+	0x07,//     bLength
+	0x24,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x23,//     bTerminalLink
+	0x01,//     bDelay
+	0x01,// wFormatTag   (PCM)
+	0x00,// wFormatTag   (PCM)
+
+	//AS Format Type 1 Descriptor (Microphone):
+	//------------------------------
+	0x0B,//    bLength
+	0x24,//     bDescriptorType
+	0x02,//     bDescriptorSubtype
+	0x01,//     bFormatType   (FORMAT_TYPE_1)
+	0x02,//     bNrChannels   (2 channels)
+	0x02,//     bSubframeSize
+	0x10,//     bBitResolution   (16 bits per sample)
+	0x01,//     bSamFreqType   (Discrete sampling frequencies)
+	0x80,//         tSamFreq(1)   (48000 Hz)
+	0xBB,//         tSamFreq(1)   (48000 Hz)
+	0x00,//         tSamFreq(1)   (48000 Hz)
+
+	//Endpoint Descriptor (Audio/MIDI 1.0) (Microphone):
+	//------------------------------
+	0x09,//     bLength
+	0x05,//     bDescriptorType
+	AUDIO_IN_EP,//     bEndpointAddress  (IN endpoint 1)
+	0x0D,//     bmAttributes      (Transfer: Isochronous / Synch: Synchronous / Usage: Data)
+	LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
+	HIBYTE(AUDIO_OUT_PACKET),
+	0x01,//     bInterval         (1 frames)
+	0x00,//     bRefresh
+	0x00,//     bSynchAddress
+
+	//AS Isochronous Data Endpoint Descriptor (Microphone):
+	//------------------------------
+	0x07,//     bLength
+	0x25,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x00,//     bmAttributes
+	0x02,//     bLockDelayUnits   (decoded PCM samples)
+	0x00,// wLockDelay
+	0x00,// wLockDelay
+
+	//Interface Descriptor (Speaker):
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x06,//     bInterfaceNumber
+	0x00,//     bAlternateSetting
+	0x00,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//     iInterface   "yyyy 3"
+
+	//Interface Descriptor (Speaker):
+	//------------------------------
+	0x09,//     bLength
+	0x04,//     bDescriptorType
+	0x06,//     bInterfaceNumber
+	0x01,//     bAlternateSetting
+	0x01,//     bNumEndPoints
+	0x01,//     bInterfaceClass      (Audio Device Class)
+	0x02,//     bInterfaceSubClass   (Audio Streaming Interface)
+	0x00,//     bInterfaceProtocol  
+	USBD_IDX_INTERFACE3_STR,//    iInterface   "zzzz 3"
+
+	//AS Interface Descriptor (Speaker):
+	//------------------------------
+	0x07,//     bLength
+	0x24,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x0C,//    bTerminalLink
+	0x01,//     bDelay
+	0x01,// wFormatTag   (PCM)
+	0x00,// wFormatTag   (PCM)
+
+	//AS Format Type 1 Descriptor (Speaker):
+	//------------------------------
+	0x0B,//    bLength
+	0x24,//     bDescriptorType
+	0x02,//     bDescriptorSubtype
+	0x01,//     bFormatType   (FORMAT_TYPE_1)
+	0x02,//     bNrChannels   (2 channels)
+	0x02,//     bSubframeSize
+	0x10,//     bBitResolution   (16 bits per sample)
+	0x01,//     bSamFreqType   (Discrete sampling frequencies)
+	0x80,//         tSamFreq(1)   (48000 Hz)
+	0xBB,//         tSamFreq(1)   (48000 Hz)
+	0x00,//         tSamFreq(1)   (48000 Hz)
+
+	//Endpoint Descriptor (Audio/MIDI 1.0) (Speaker):
+	//------------------------------
+	0x09,//     bLength
+	0x05,//     bDescriptorType
+	AUDIO_OUT_EP,//     bEndpointAddress  (OUT endpoint 1)
+	0x05,//     bmAttributes      (Transfer: Isochronous / Synch: Asynchronous / Usage: Data)
+	LOBYTE(AUDIO_OUT_PACKET),  /* wMaxPacketSize: */
+	HIBYTE(AUDIO_OUT_PACKET),
+	0x01,//     bInterval         (1 frames)
+	0x00,//     bRefresh
+	0x00,//     bSynchAddress
+
+	//AS Isochronous Data Endpoint Descriptor (Speaker):
+	//------------------------------
+	0x07,//     bLength
+	0x25,//     bDescriptorType
+	0x01,//     bDescriptorSubtype
+	0x00,//     bmAttributes
+	0x00,//     bLockDelayUnits   (undefined)
+	0x00,// wLockDelay
+	0x00,// wLockDelay
 };
 
 /**
@@ -933,7 +906,7 @@ static uint8_t USBD_UA3REO_Setup(USBD_HandleTypeDef *pdev, USBD_SetupReqTypedef 
 		ret = USBD_AUDIO_Setup(pdev, req);
 	}
 	else
-        ret = USBD_CAT_Setup(pdev, req);
+		ret = USBD_CAT_Setup(pdev, req);
 	return ret;
 }
 
@@ -1004,9 +977,9 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev)
 	USBD_AUDIO_HandleTypeDef *hcdc_audio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
 	if (rx_buffer_head >= USB_AUDIO_RX_BUFFER_SIZE)
 	{
-		if(USB_AUDIO_need_rx_buffer==true)
+		if (USB_AUDIO_need_rx_buffer == true)
 		{
-			RX_USB_AUDIO_underrun=true;
+			RX_USB_AUDIO_underrun = true;
 		}
 		else
 		{
@@ -1014,19 +987,19 @@ static uint8_t USBD_AUDIO_DataIn(USBD_HandleTypeDef *pdev)
 				hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_b;
 			else
 				hcdc_audio->RxBuffer = (uint8_t*)&USB_AUDIO_rx_buffer_a;
-			USB_AUDIO_current_rx_buffer=!USB_AUDIO_current_rx_buffer;
-			USB_AUDIO_need_rx_buffer=true;
+			USB_AUDIO_current_rx_buffer = !USB_AUDIO_current_rx_buffer;
+			USB_AUDIO_need_rx_buffer = true;
 			rx_buffer_head = 0;
 		}
 	}
 	if ((USB_AUDIO_RX_BUFFER_SIZE - rx_buffer_head) >= AUDIO_OUT_PACKET) rx_buffer_step = AUDIO_OUT_PACKET;
 	else rx_buffer_step = (USB_AUDIO_RX_BUFFER_SIZE - rx_buffer_head);
-	
+
 	pdev->ep_in[AUDIO_IN_EP & 0xFU].total_length = rx_buffer_step;
 	HAL_PCD_EP_Transmit(pdev->pData, AUDIO_IN_EP, hcdc_audio->RxBuffer + rx_buffer_head, rx_buffer_step);
-	RX_USB_AUDIO_SAMPLES += rx_buffer_step/4; //16 bit * 2 channel
+	RX_USB_AUDIO_SAMPLES += rx_buffer_step / 4; //16 bit * 2 channel
 	rx_buffer_head += rx_buffer_step;
-	
+
 	return USBD_OK;
 }
 static uint8_t USBD_UA3REO_DataIn(USBD_HandleTypeDef *pdev, uint8_t epnum)
@@ -1080,13 +1053,13 @@ static uint8_t USBD_CAT_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
 
 static uint8_t USBD_AUDIO_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
 {
-  USBD_AUDIO_HandleTypeDef   *haudio = (USBD_AUDIO_HandleTypeDef*) pdev->pClassDataAUDIO;
-  if (epnum == AUDIO_OUT_EP)
-  {
+	USBD_AUDIO_HandleTypeDef   *haudio = (USBD_AUDIO_HandleTypeDef*)pdev->pClassDataAUDIO;
+	if (epnum == AUDIO_OUT_EP)
+	{
 		haudio->TxBufferIndex += AUDIO_OUT_PACKET;
-		if (haudio->TxBufferIndex > (USB_AUDIO_TX_BUFFER_SIZE-AUDIO_OUT_PACKET)) haudio->TxBufferIndex = 0;
+		if (haudio->TxBufferIndex > (USB_AUDIO_TX_BUFFER_SIZE - AUDIO_OUT_PACKET)) haudio->TxBufferIndex = 0;
 		USBD_LL_PrepareReceive(pdev, AUDIO_OUT_EP, haudio->TxBuffer + haudio->TxBufferIndex, AUDIO_OUT_PACKET);
-		TX_USB_AUDIO_SAMPLES += AUDIO_OUT_PACKET/4; //16 bit * 2 channel
+		TX_USB_AUDIO_SAMPLES += AUDIO_OUT_PACKET / 4; //16 bit * 2 channel
 	}
 	return USBD_OK;
 }

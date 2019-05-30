@@ -34,26 +34,26 @@ void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_t index
 void readHalfFromCircleUSBBuffer(int16_t *source, int32_t *dest, uint16_t index, uint16_t length)
 {
 	uint16_t halflen = length / 2;
-	uint16_t readed_index=0;
-	if(index >= halflen)
+	uint16_t readed_index = 0;
+	if (index >= halflen)
 	{
-		for(uint16_t i=(index - halflen);i<index;i++)
+		for (uint16_t i = (index - halflen); i < index; i++)
 		{
-			dest[readed_index]=source[i];
+			dest[readed_index] = source[i];
 			readed_index++;
 		}
 	}
 	else
 	{
 		uint16_t prev_part = halflen - index;
-		for(uint16_t i=(length - prev_part);i<length;i++)
+		for (uint16_t i = (length - prev_part); i < length; i++)
 		{
-			dest[readed_index]=source[i];
+			dest[readed_index] = source[i];
 			readed_index++;
 		}
-		for(uint16_t i=0;i<(halflen - prev_part);i++)
+		for (uint16_t i = 0; i < (halflen - prev_part); i++)
 		{
-			dest[readed_index]=source[i];
+			dest[readed_index] = source[i];
 			readed_index++;
 		}
 	}
@@ -65,13 +65,13 @@ void sendToDebug_str(char* data)
 	HAL_UART_Transmit(&huart1, (uint8_t*)data, strlen(data), 1000);
 }
 
-void sendToDebug_str2(char* data1,char* data2)
+void sendToDebug_str2(char* data1, char* data2)
 {
 	sendToDebug_str(data1);
 	sendToDebug_str(data2);
 }
 
-void sendToDebug_str3(char* data1,char* data2,char* data3)
+void sendToDebug_str3(char* data1, char* data2, char* data3)
 {
 	sendToDebug_str(data1);
 	sendToDebug_str(data2);
@@ -86,7 +86,7 @@ void sendToDebug_newline(void)
 void sendToDebug_uint8(uint8_t data, bool _inline)
 {
 	char tmp[50] = "";
-	if(_inline)
+	if (_inline)
 		sprintf(tmp, "%d", data);
 	else
 		sprintf(tmp, "%d\r\n", data);
@@ -96,7 +96,7 @@ void sendToDebug_uint8(uint8_t data, bool _inline)
 void sendToDebug_uint16(uint16_t data, bool _inline)
 {
 	char tmp[50] = "";
-	if(_inline)
+	if (_inline)
 		sprintf(tmp, "%d", data);
 	else
 		sprintf(tmp, "%d\r\n", data);
@@ -105,7 +105,7 @@ void sendToDebug_uint16(uint16_t data, bool _inline)
 void sendToDebug_uint32(uint32_t data, bool _inline)
 {
 	char tmp[50] = "";
-	if(_inline)
+	if (_inline)
 		sprintf(tmp, "%d", data);
 	else
 		sprintf(tmp, "%d\r\n", data);
@@ -114,7 +114,7 @@ void sendToDebug_uint32(uint32_t data, bool _inline)
 void sendToDebug_int16(int16_t data, bool _inline)
 {
 	char tmp[50] = "";
-	if(_inline)
+	if (_inline)
 		sprintf(tmp, "%d", data);
 	else
 		sprintf(tmp, "%d\r\n", data);
@@ -123,7 +123,7 @@ void sendToDebug_int16(int16_t data, bool _inline)
 void sendToDebug_int32(int32_t data, bool _inline)
 {
 	char tmp[50] = "";
-	if(_inline)
+	if (_inline)
 		sprintf(tmp, "%d", data);
 	else
 		sprintf(tmp, "%d\r\n", data);
@@ -133,7 +133,7 @@ void sendToDebug_int32(int32_t data, bool _inline)
 void sendToDebug_float32(float32_t data, bool _inline)
 {
 	char tmp[50] = "";
-	if(_inline)
+	if (_inline)
 		sprintf(tmp, "%f", (double)data);
 	else
 		sprintf(tmp, "%f\r\n", (double)data);
@@ -178,7 +178,7 @@ uint32_t getPhraseFromFrequency(uint32_t freq) //высчитываем част
 			_freq = ADCDAC_CLOCK / 2 - _freq;
 		}
 	}
-	TRX_IQ_swap=inverted;
+	TRX_IQ_swap = inverted;
 	res = round(((double)_freq / ADCDAC_CLOCK) * 4194304); //freq in hz/oscil in hz*2^bits = (freq/48000000)*4194304;
 	return res;
 }
@@ -219,5 +219,5 @@ float log10f_fast(float X) {
 
 double db2rateV(double i) //из децибелл в разы (для напряжения)
 {
-	return pow(10.0,(i/20.0));
+	return pow(10.0, (i / 20.0));
 }

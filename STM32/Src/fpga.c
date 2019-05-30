@@ -38,12 +38,12 @@ static void FPGA_fpgadata_sendparam(void);
 
 void FPGA_Init(void)
 {
-	FPGA_GPIO_InitStruct.Pin = FPGA_BUS_D0_Pin|FPGA_BUS_D1_Pin|FPGA_BUS_D2_Pin|FPGA_BUS_D3_Pin|FPGA_BUS_D4_Pin|FPGA_BUS_D5_Pin|FPGA_BUS_D6_Pin|FPGA_BUS_D7_Pin;
+	FPGA_GPIO_InitStruct.Pin = FPGA_BUS_D0_Pin | FPGA_BUS_D1_Pin | FPGA_BUS_D2_Pin | FPGA_BUS_D3_Pin | FPGA_BUS_D4_Pin | FPGA_BUS_D5_Pin | FPGA_BUS_D6_Pin | FPGA_BUS_D7_Pin;
 	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	FPGA_GPIO_InitStruct.Pull = GPIO_PULLDOWN;
 	FPGA_GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	HAL_GPIO_Init(GPIOA, &FPGA_GPIO_InitStruct);
-	
+
 	FPGA_start_audio_clock();
 }
 
@@ -111,7 +111,7 @@ void FPGA_fpgadata_iqclock(void)
 
 	//STAGE 1
 	//out
-	if (TRX_on_TX() && TRX_getMode()!=TRX_MODE_LOOPBACK) FPGA_fpgadata_out_tmp8 = 3;
+	if (TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK) FPGA_fpgadata_out_tmp8 = 3;
 	else FPGA_fpgadata_out_tmp8 = 4;
 
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
@@ -122,7 +122,7 @@ void FPGA_fpgadata_iqclock(void)
 	//clock
 	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
 
-	if (TRX_on_TX() && TRX_getMode()!=TRX_MODE_LOOPBACK) FPGA_fpgadata_sendiq();
+	if (TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK) FPGA_fpgadata_sendiq();
 	else FPGA_fpgadata_getiq();
 
 	FPGA_busy = false;
@@ -148,7 +148,7 @@ static void FPGA_fpgadata_sendparam(void)
 	//STAGE 2
 	//out PTT+PREAMP
 	FPGA_fpgadata_out_tmp8 = 0;
-	bitWrite(FPGA_fpgadata_out_tmp8, 3, (TRX_on_TX() && TRX_getMode()!=TRX_MODE_LOOPBACK));
+	bitWrite(FPGA_fpgadata_out_tmp8, 3, (TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK));
 	if (!TRX_on_TX()) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
 	//clock
@@ -179,8 +179,8 @@ static void FPGA_fpgadata_sendparam(void)
 
 static void FPGA_fpgadata_getparam(void)
 {
-	int16_t adc_min=0;
-	int16_t adc_max=0;
+	int16_t adc_min = 0;
+	int16_t adc_max = 0;
 	//STAGE 2
 	//clock
 	FPGA_clockRise();
@@ -190,7 +190,7 @@ static void FPGA_fpgadata_getparam(void)
 	TRX_DAC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 1);
 	//clock
 	FPGA_clockFall();
-	
+
 	//STAGE 3
 	//clock
 	FPGA_clockRise();
@@ -200,18 +200,18 @@ static void FPGA_fpgadata_getparam(void)
 	adc_max |= (FPGA_fpgadata_in_tmp8 & 0X0F) << 8;
 	//clock
 	FPGA_clockFall();
-	
+
 	//STAGE 4
 	//clock
 	FPGA_clockRise();
 	//in
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	adc_min |= (FPGA_fpgadata_in_tmp8 & 0XFF);
-	TRX_ADC_MINAMPLITUDE = (adc_min<<4);
-	TRX_ADC_MINAMPLITUDE = TRX_ADC_MINAMPLITUDE/16;
+	TRX_ADC_MINAMPLITUDE = (adc_min << 4);
+	TRX_ADC_MINAMPLITUDE = TRX_ADC_MINAMPLITUDE / 16;
 	//clock
 	FPGA_clockFall();
-	
+
 	//STAGE 5
 	//clock
 	FPGA_clockRise();
@@ -227,7 +227,7 @@ static void FPGA_fpgadata_getiq(void)
 {
 	int16_t FPGA_fpgadata_in_tmp16 = 0;
 	FPGA_samples++;
-	
+
 	//STAGE 2
 	//clock
 	FPGA_clockRise();
@@ -241,18 +241,18 @@ static void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in Q
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XFF);
-	
-	if(TRX_IQ_swap)
+
+	if (TRX_IQ_swap)
 	{
-		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		if (NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
 		FPGA_Audio_Buffer_SPEC_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
 	else
 	{
-		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		if (NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
 		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
-	
+
 	//clock
 	FPGA_clockFall();
 
@@ -269,21 +269,21 @@ static void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in I
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XFF);
-	
-	if(TRX_IQ_swap)
+
+	if (TRX_IQ_swap)
 	{
-		if(NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		if (NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
 		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
 	else
 	{
-		if(NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
+		if (NeedFFTInputBuffer) FFTInput_I[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
 		FPGA_Audio_Buffer_SPEC_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
-	
+
 	//clock
 	FPGA_clockFall();
-	
+
 	//STAGE 6
 	//clock
 	FPGA_clockRise();
@@ -297,8 +297,8 @@ static void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in Q
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XFF);
-	
-	if(TRX_IQ_swap)
+
+	if (TRX_IQ_swap)
 		FPGA_Audio_Buffer_VOICE_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	else
 		FPGA_Audio_Buffer_VOICE_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
@@ -319,16 +319,16 @@ static void FPGA_fpgadata_getiq(void)
 	FPGA_clockRise();
 	//in I
 	FPGA_fpgadata_in_tmp16 |= (FPGA_readPacket() & 0XFF);
-	
-	if(TRX_IQ_swap)
+
+	if (TRX_IQ_swap)
 		FPGA_Audio_Buffer_VOICE_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	else
 		FPGA_Audio_Buffer_VOICE_I[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
-	
+
 	FPGA_Audio_Buffer_Index++;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE) FPGA_Audio_Buffer_Index = 0;
-	
-	if(NeedFFTInputBuffer)
+
+	if (NeedFFTInputBuffer)
 	{
 		FFT_buff_index++;
 		if (FFT_buff_index == FFT_SIZE)
@@ -344,7 +344,7 @@ static void FPGA_fpgadata_getiq(void)
 static void FPGA_fpgadata_sendiq(void)
 {
 	int16_t FPGA_fpgadata_out_tmp16 = 0;
-	
+
 	FPGA_samples++;
 	//STAGE 2 out Q
 	FPGA_fpgadata_out_tmp16 = (float32_t)FPGA_Audio_SendBuffer_Q[FPGA_Audio_Buffer_Index];
@@ -375,11 +375,11 @@ static void FPGA_fpgadata_sendiq(void)
 	FPGA_clockRise();
 	//clock
 	FPGA_clockFall();
-	
+
 	FPGA_Audio_Buffer_Index++;
 	if (FPGA_Audio_Buffer_Index == FPGA_AUDIO_BUFFER_SIZE)
 	{
-		if (Processor_NeedTXBuffer) 
+		if (Processor_NeedTXBuffer)
 		{
 			FPGA_Buffer_underrun = true;
 			FPGA_Audio_Buffer_Index--;
@@ -412,25 +412,25 @@ static void FPGA_setDirectionFast(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_I
 	uint32_t ioposition = 0x00U;
 	uint32_t iocurrent = 0x00U;
 	uint32_t temp = 0x00U;
-	
-	for(position = 0U; position < 16U; position++)
+
+	for (position = 0U; position < 16U; position++)
 	{
 		ioposition = 0x01U << position;
 		iocurrent = (uint32_t)(GPIO_Init->Pin) & ioposition;
 
-		if(iocurrent == ioposition)
+		if (iocurrent == ioposition)
 		{
 			// Configure IO Direction mode (Input, Output, Alternate or Analog)
 			temp = GPIOx->MODER;
 			temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
 			temp |= ((GPIO_Init->Mode & 0x00000003U) << (position * 2U));
 			GPIOx->MODER = temp;
-		
-			if(GPIO_Init->Mode == GPIO_MODE_OUTPUT_PP)
+
+			if (GPIO_Init->Mode == GPIO_MODE_OUTPUT_PP)
 			{
 				// Configure the IO Output Type
 				temp = GPIOx->OTYPER;
-				temp &= ~(GPIO_OTYPER_OT_0 << position) ;
+				temp &= ~(GPIO_OTYPER_OT_0 << position);
 				temp |= (((GPIO_Init->Mode & 0x00000010U) >> 4U) << position);
 				GPIOx->OTYPER = temp;
 			}
@@ -442,14 +442,14 @@ static void FPGA_setBusInput(void)
 {
 	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
 	FPGA_setDirectionFast(GPIOA, &FPGA_GPIO_InitStruct);
-	FPGA_bus_direction=true;
+	FPGA_bus_direction = true;
 }
 
 static void FPGA_setBusOutput(void)
 {
 	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
 	FPGA_setDirectionFast(GPIOA, &FPGA_GPIO_InitStruct);
-	FPGA_bus_direction=false;
+	FPGA_bus_direction = false;
 }
 
 static inline void FPGA_clockRise(void)
@@ -464,37 +464,37 @@ static inline void FPGA_clockFall(void)
 
 static inline uint8_t FPGA_readPacket(void)
 {
-	if(!FPGA_bus_direction)
+	if (!FPGA_bus_direction)
 		FPGA_setBusInput();
-	return (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D0_Pin) == FPGA_BUS_D0_Pin) << 0) 
-				| (((FPGA_BUS_D1_GPIO_Port->IDR & FPGA_BUS_D1_Pin) == FPGA_BUS_D1_Pin) << 1) 
-				| (((FPGA_BUS_D2_GPIO_Port->IDR & FPGA_BUS_D2_Pin) == FPGA_BUS_D2_Pin) << 2) 
-				| (((FPGA_BUS_D3_GPIO_Port->IDR & FPGA_BUS_D3_Pin) == FPGA_BUS_D3_Pin) << 3) 
-				| (((FPGA_BUS_D4_GPIO_Port->IDR & FPGA_BUS_D4_Pin) == FPGA_BUS_D4_Pin) << 4) 
-				| (((FPGA_BUS_D5_GPIO_Port->IDR & FPGA_BUS_D5_Pin) == FPGA_BUS_D5_Pin) << 5) 
-				| (((FPGA_BUS_D6_GPIO_Port->IDR & FPGA_BUS_D6_Pin) == FPGA_BUS_D6_Pin) << 6) 
-				| (((FPGA_BUS_D7_GPIO_Port->IDR & FPGA_BUS_D7_Pin) == FPGA_BUS_D7_Pin) << 7);
+	return (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D0_Pin) == FPGA_BUS_D0_Pin) << 0)
+		| (((FPGA_BUS_D1_GPIO_Port->IDR & FPGA_BUS_D1_Pin) == FPGA_BUS_D1_Pin) << 1)
+		| (((FPGA_BUS_D2_GPIO_Port->IDR & FPGA_BUS_D2_Pin) == FPGA_BUS_D2_Pin) << 2)
+		| (((FPGA_BUS_D3_GPIO_Port->IDR & FPGA_BUS_D3_Pin) == FPGA_BUS_D3_Pin) << 3)
+		| (((FPGA_BUS_D4_GPIO_Port->IDR & FPGA_BUS_D4_Pin) == FPGA_BUS_D4_Pin) << 4)
+		| (((FPGA_BUS_D5_GPIO_Port->IDR & FPGA_BUS_D5_Pin) == FPGA_BUS_D5_Pin) << 5)
+		| (((FPGA_BUS_D6_GPIO_Port->IDR & FPGA_BUS_D6_Pin) == FPGA_BUS_D6_Pin) << 6)
+		| (((FPGA_BUS_D7_GPIO_Port->IDR & FPGA_BUS_D7_Pin) == FPGA_BUS_D7_Pin) << 7);
 }
 
 static inline void FPGA_writePacket(uint8_t packet)
 {
-	if(FPGA_bus_direction)
+	if (FPGA_bus_direction)
 		FPGA_setBusOutput();
-	FPGA_BUS_D0_GPIO_Port->BSRR = 
-				(bitRead(packet, 0) << 0 & FPGA_BUS_D0_Pin) 
-				| (bitRead(packet, 1) << 1 & FPGA_BUS_D1_Pin) 
-				| (bitRead(packet, 2) << 2 & FPGA_BUS_D2_Pin) 
-				| (bitRead(packet, 3) << 3 & FPGA_BUS_D3_Pin) 
-				| (bitRead(packet, 4) << 4 & FPGA_BUS_D4_Pin) 
-				| (bitRead(packet, 5) << 5 & FPGA_BUS_D5_Pin) 
-				| (bitRead(packet, 6) << 6 & FPGA_BUS_D6_Pin) 
-				| (bitRead(packet, 7) << 7 & FPGA_BUS_D7_Pin) 
-				| ((uint32_t)FPGA_BUS_D7_Pin << 16U) 
-				| ((uint32_t)FPGA_BUS_D6_Pin << 16U) 
-				| ((uint32_t)FPGA_BUS_D5_Pin << 16U) 
-				| ((uint32_t)FPGA_BUS_D4_Pin << 16U)
-				| ((uint32_t)FPGA_BUS_D3_Pin << 16U)
-				| ((uint32_t)FPGA_BUS_D2_Pin << 16U)
-				| ((uint32_t)FPGA_BUS_D1_Pin << 16U)
-				| ((uint32_t)FPGA_BUS_D0_Pin << 16U);
+	FPGA_BUS_D0_GPIO_Port->BSRR =
+		(bitRead(packet, 0) << 0 & FPGA_BUS_D0_Pin)
+		| (bitRead(packet, 1) << 1 & FPGA_BUS_D1_Pin)
+		| (bitRead(packet, 2) << 2 & FPGA_BUS_D2_Pin)
+		| (bitRead(packet, 3) << 3 & FPGA_BUS_D3_Pin)
+		| (bitRead(packet, 4) << 4 & FPGA_BUS_D4_Pin)
+		| (bitRead(packet, 5) << 5 & FPGA_BUS_D5_Pin)
+		| (bitRead(packet, 6) << 6 & FPGA_BUS_D6_Pin)
+		| (bitRead(packet, 7) << 7 & FPGA_BUS_D7_Pin)
+		| ((uint32_t)FPGA_BUS_D7_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D6_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D5_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D4_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D3_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D2_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D1_Pin << 16U)
+		| ((uint32_t)FPGA_BUS_D0_Pin << 16U);
 }

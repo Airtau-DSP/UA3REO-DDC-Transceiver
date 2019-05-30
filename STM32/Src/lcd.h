@@ -39,7 +39,7 @@ struct button_handler {
 	uint16_t x2;
 	uint16_t y1;
 	uint16_t y2;
-	void (*onClickHandler) (void);
+	void(*onClickHandler) (void);
 };
 
 extern IWDG_HandleTypeDef hiwdg;
