@@ -100,6 +100,11 @@ void MX_USB_DEVICE_Init(void)
   /* USER CODE END USB_DEVICE_Init_PostTreatment */
 }
 
+void MX_USB_DevDisconnect(void)
+{
+	HAL_PCD_DevDisconnect(&hpcd_USB_OTG_FS);
+}
+
 /**
   * @}
   */

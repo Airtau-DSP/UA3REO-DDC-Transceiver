@@ -2,6 +2,7 @@
 #include "lcd.h"
 #include "settings.h"
 #include "audio_filters.h"
+#include "bootloader.h"
 #include "LCD/xpt2046_spi.h"
 
 static uint8_t systemMenuIndex=1;
@@ -40,6 +41,7 @@ void drawSystemMenu(bool draw_background)
 	drawSystemMenuElement("CW Key timeout", SYSMENU_INTEGER, TRX.Key_timeout);
 	drawSystemMenuElement("FFT Averaging", SYSMENU_INTEGER, TRX.FFT_Averaging);
 	drawSystemMenuElement("SSB HPF Lowpass", SYSMENU_INTEGER, TRX.SSB_HPF_pass);
+	drawSystemMenuElement("Flash update", SYSMENU_RUN, 0);
 	
 	LCDDriver_Fill_RectXY(290,0,320,30,COLOR_GREEN);
 	LCDDriver_printText("X", 298, 5, COLOR_BLACK, COLOR_GREEN, 3);
@@ -106,6 +108,9 @@ void eventRotateSystemMenu(int direction)
 			if(TRX.SSB_HPF_pass<100) TRX.SSB_HPF_pass=100;
 			if(TRX.SSB_HPF_pass>500) TRX.SSB_HPF_pass=500;
 			ReinitAudioFilters();
+			break;
+		case 12:
+			JumpToBootloader();
 			break;
 	}
 	LCD_UpdateQuery.SystemMenu=true;

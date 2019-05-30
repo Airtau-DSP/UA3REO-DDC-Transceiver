@@ -1283,14 +1283,16 @@ static void printMenuButton(uint16_t x, uint16_t y, uint16_t width, uint16_t hei
 	button_handlers_count++;
 }
 
-void LCD_showError(char text[])
+void LCD_showError(char text[], bool redraw)
 {
 	LCD_busy=true;
 	LCDDriver_Fill(COLOR_RED);
 	LCDDriver_printTextFont(text,5,110,COLOR_WHITE,COLOR_RED,FreeSans12pt7b);
 	HAL_IWDG_Refresh(&hiwdg);
-	HAL_Delay(3000);
+	if(redraw)
+		HAL_Delay(3000);
 	HAL_IWDG_Refresh(&hiwdg);
 	LCD_busy=false;
-	LCD_redraw();
+	if(redraw)
+		LCD_redraw();
 }

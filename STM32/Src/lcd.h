@@ -46,7 +46,7 @@ extern IWDG_HandleTypeDef hiwdg;
 
 extern void LCD_Init(void);
 extern void LCD_doEvents(void);
-extern void LCD_showError(char text[]);
+extern void LCD_showError(char text[], bool redraw);
 extern void LCD_redraw(void);
 extern void LCD_checkTouchPad(void);
 extern void LCD_Handler_SETTIME(void);

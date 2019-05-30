@@ -164,7 +164,7 @@ void WM8731_Init(void)
 	sendToDebug_str("WM8731 ");
 	FPGA_stop_audio_clock();
 	if(WM8731_SendI2CCommand(B8(00011110), B8(00000000))!=0) //R15 Reset Chip
-		LCD_showError("Audio codec init error");
+		LCD_showError("Audio codec init error", true);
 	WM8731_SendI2CCommand(B8(00001110), B8(00000010)); //R7 Digital Audio Interface Format, Codec Slave, I2S Format, MSB-First left-1 justified , 16bits
 	WM8731_SendI2CCommand(B8(00010000), B8(00000000)); //R8 Sampling Control normal mode, 256fs, SR=0 (MCLK@12.288Mhz, fs=48kHz))
 	WM8731_SendI2CCommand(B8(00010010), B8(00000001)); //R9 reactivate digital audio interface
