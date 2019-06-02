@@ -443,6 +443,16 @@
               <FilePath>..\Src\bootloader.h</FilePath>
             </File>
             <File>
+              <FileName>cw_decoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\cw_decoder.c</FilePath>
+            </File>
+            <File>
+              <FileName>cw_decoder.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\cw_decoder.h</FilePath>
+            </File>
+            <File>
               <FileName>encoder.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\encoder.c</FilePath>

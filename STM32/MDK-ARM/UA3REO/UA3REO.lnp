@@ -5,6 +5,7 @@
 "ua3reo\audio_filters.o"
 "ua3reo\bands.o"
 "ua3reo\bootloader.o"
+"ua3reo\cw_decoder.o"
 "ua3reo\encoder.o"
 "ua3reo\fft.o"
 "ua3reo\fpga.o"

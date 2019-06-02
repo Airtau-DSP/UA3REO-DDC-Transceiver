@@ -211,6 +211,7 @@ void TRX_setMode(uint8_t _mode)
 		break;
 	}
 	ReinitAudioFilters();
+	LCD_UpdateQuery.StatusInfoGUI = true;
 	NeedSaveSettings = true;
 }
 

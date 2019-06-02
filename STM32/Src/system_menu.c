@@ -19,12 +19,14 @@ static void SYSMENU_HANDL_Key_timeout(int8_t direction);
 static void SYSMENU_HANDL_FFT_Averaging(int8_t direction);
 static void SYSMENU_HANDL_SSB_HPF_pass(int8_t direction);
 static void SYSMENU_HANDL_Bootloader(int8_t direction);
+static void SYSMENU_HANDL_CWDecoder(int8_t direction);
 
 static struct sysmenu_item_handler sysmenu_handlers[] =
 {
 	{"SSB HPF Pass", SYSMENU_UINT16, (uint32_t *)&TRX.SSB_HPF_pass, SYSMENU_HANDL_SSB_HPF_pass},
 	{"CW Key timeout", SYSMENU_UINT16, (uint32_t *)&TRX.Key_timeout, SYSMENU_HANDL_Key_timeout},
 	{"CW Generator shift", SYSMENU_UINT16, (uint32_t *)&TRX.CW_GENERATOR_SHIFT_HZ, SYSMENU_HANDL_CW_GENERATOR_SHIFT_HZ},
+	{"CW Decoder", SYSMENU_BOOLEAN, (uint32_t *)&TRX.CWDecoder, SYSMENU_HANDL_CWDecoder},
 	{"Touchpad beeping", SYSMENU_BOOLEAN, (uint32_t *)&TRX.Beeping, SYSMENU_HANDL_Beeping},
 	{"Set Clock Time", SYSMENU_RUN, 0, SYSMENU_HANDL_SETTIME},
 	{"LCD Calibrate", SYSMENU_RUN, 0, SYSMENU_HANDL_Touch_Calibrate},
@@ -74,6 +76,11 @@ void drawSystemMenu(bool draw_background)
 
 	LCD_UpdateQuery.SystemMenu = false;
 	LCD_busy = false;
+}
+
+static void SYSMENU_HANDL_CWDecoder(int8_t direction)
+{
+	TRX.CWDecoder = !TRX.CWDecoder;
 }
 
 static void SYSMENU_HANDL_FFTEnabled(int8_t direction)

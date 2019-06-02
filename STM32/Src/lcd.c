@@ -263,6 +263,45 @@ static void LCD_displayTopButtons(bool redraw) { //вывод верхних к�
 	LCD_UpdateQuery.TopButtons = false;
 }
 
+static void LCD_displayMainMenu() {
+	if (!LCD_mainMenuOpened) return;
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.MainMenu = true;
+		return;
+	}
+	LCD_busy = true;
+	button_handlers_count = 0;
+	char ctmp[50];
+	if (LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
+
+	sprintf(ctmp, "%d", TRX.Volume);
+	printMenuButton(5, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
+	sprintf(ctmp, "%d %%", TRX.RF_Gain);
+	printMenuButton(84, 5, 74, 50, "RF GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_GAIN), false, LCD_Handler_MENU_RF_GAIN);
+	sprintf(ctmp, "%d %%", TRX.RF_Power);
+	printMenuButton(163, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
+	printMenuButton(242, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
+
+	sprintf(ctmp, "%d", TRX.Agc_speed);
+	printMenuButton(5, 60, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
+	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
+	printMenuButton(84, 60, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
+	printMenuButton(163, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
+	if (TRX.InputType == 0) printMenuButton(242, 60, 74, 50, "INPUT", "Mic", true, true, LCD_Handler_MENU_LINEMIC);
+	if (TRX.InputType == 1) printMenuButton(242, 60, 74, 50, "INPUT", "Line", true, true, LCD_Handler_MENU_LINEMIC);
+	if (TRX.InputType == 2) printMenuButton(242, 60, 74, 50, "INPUT", "USB", true, true, LCD_Handler_MENU_LINEMIC);
+
+	printMenuButton(5, 115, 74, 50, "LPF", "Filter", TRX.LPF, true, LCD_Handler_MENU_LPF);
+	printMenuButton(84, 115, 74, 50, "BPF", "Filter", TRX.BPF, true, LCD_Handler_MENU_BPF);
+	printMenuButton(163, 115, 74, 50, "TX", "Amplifier", TRX.TX_Amplifier, true, LCD_Handler_MENU_TXAMPLIFIER);
+	printMenuButton(242, 115, 74, 50, "AUTO", "Gain/Filt", TRX.AutoGain, true, LCD_Handler_MENU_AUTOGAIN);
+
+	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
+	LCD_UpdateQuery.MainMenu = false;
+	LCD_busy = false;
+}
+
 static void LCD_displayFreqInfo() { //вывод частоты на экран
 	if (LCD_mainMenuOpened) return;
 	if (LCD_systemMenuOpened) return;
@@ -380,6 +419,10 @@ static void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 		if (TRX.FFT_Zoom == 16) LCDDriver_printText(" 3kHz", 230, 150, COLOR_WHITE, COLOR_BLACK, 1);
 	}
 
+	//Redraw CW decoder
+	if(TRX.CWDecoder && (TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U))
+		LCDDriver_Fill_RectWH(0, LCD_HEIGHT - FFT_CWDECODER_OFFSET, FFT_PRINT_SIZE, FFT_CWDECODER_OFFSET, COLOR_BLACK);
+	
 	LCD_UpdateQuery.StatusInfoGUI = false;
 	LCD_busy = false;
 }
@@ -463,45 +506,6 @@ static void LCD_displayStatusInfoBar(void) { //S-метра и прочей ин
 		Last_showed_Seconds = Seconds;
 	}
 	LCD_UpdateQuery.StatusInfoBar = false;
-	LCD_busy = false;
-}
-
-static void LCD_displayMainMenu() {
-	if (!LCD_mainMenuOpened) return;
-	if (LCD_busy)
-	{
-		LCD_UpdateQuery.MainMenu = true;
-		return;
-	}
-	LCD_busy = true;
-	button_handlers_count = 0;
-	char ctmp[50];
-	if (LCD_timeMenuOpened) { LCD_Handler_SETTIME(); return; }
-
-	sprintf(ctmp, "%d", TRX.Volume);
-	printMenuButton(5, 5, 74, 50, "VOLUME", ctmp, (LCD_menu_main_index == MENU_MAIN_VOLUME), false, LCD_Handler_MENU_VOLUME);
-	sprintf(ctmp, "%d %%", TRX.RF_Gain);
-	printMenuButton(84, 5, 74, 50, "RF GAIN", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_GAIN), false, LCD_Handler_MENU_RF_GAIN);
-	sprintf(ctmp, "%d %%", TRX.RF_Power);
-	printMenuButton(163, 5, 74, 50, "POWER", ctmp, (LCD_menu_main_index == MENU_MAIN_RF_POWER), false, LCD_Handler_MENU_RF_POWER);
-	printMenuButton(242, 5, 74, 50, "BACK", "to TRX", false, true, LCD_Handler_MENU_BACK);
-
-	sprintf(ctmp, "%d", TRX.Agc_speed);
-	printMenuButton(5, 60, 74, 50, "AGCSP", ctmp, (LCD_menu_main_index == MENU_MAIN_AGCSPEED), false, LCD_Handler_MENU_AGC_S);
-	sprintf(ctmp, "%d", TRX.FM_SQL_threshold);
-	printMenuButton(84, 60, 74, 50, "FM SQL", ctmp, (LCD_menu_main_index == MENU_MAIN_FM_SQL), false, LCD_Handler_MENU_FM_SQL);
-	printMenuButton(163, 60, 74, 50, "MAP", "OF BANDS", TRX.BandMapEnabled, true, LCD_Handler_MENU_MAP);
-	if (TRX.InputType == 0) printMenuButton(242, 60, 74, 50, "INPUT", "Mic", true, true, LCD_Handler_MENU_LINEMIC);
-	if (TRX.InputType == 1) printMenuButton(242, 60, 74, 50, "INPUT", "Line", true, true, LCD_Handler_MENU_LINEMIC);
-	if (TRX.InputType == 2) printMenuButton(242, 60, 74, 50, "INPUT", "USB", true, true, LCD_Handler_MENU_LINEMIC);
-
-	printMenuButton(5, 115, 74, 50, "LPF", "Filter", TRX.LPF, true, LCD_Handler_MENU_LPF);
-	printMenuButton(84, 115, 74, 50, "BPF", "Filter", TRX.BPF, true, LCD_Handler_MENU_BPF);
-	printMenuButton(163, 115, 74, 50, "TX", "Amplifier", TRX.TX_Amplifier, true, LCD_Handler_MENU_TXAMPLIFIER);
-	printMenuButton(242, 115, 74, 50, "AUTO", "Gain/Filt", TRX.AutoGain, true, LCD_Handler_MENU_AUTOGAIN);
-
-	printMenuButton(242, 170, 74, 50, "SYSTEM", "MENU", false, true, LCD_Handler_MENU_SYSTEM_MENU);
-	LCD_UpdateQuery.MainMenu = false;
 	LCD_busy = false;
 }
 

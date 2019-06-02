@@ -407,8 +407,12 @@ void FFT_printFFT(void)
 	}
 
 	//выводим на экран водопада с помощью DMA
-	LCDDriver_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE - 1, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT);
-	HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, LCD_FSMC_DATA_ADDR, FFT_WTF_HEIGHT*FFT_PRINT_SIZE);
+	uint8_t cwdecoder_offset = 0;
+	if(TRX.CWDecoder && (TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U))
+		cwdecoder_offset = FFT_CWDECODER_OFFSET;
+	
+	LCDDriver_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE - 1, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT - cwdecoder_offset);
+	HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, LCD_FSMC_DATA_ADDR, (FFT_WTF_HEIGHT - cwdecoder_offset) * FFT_PRINT_SIZE);
 }
 
 void FFT_moveWaterfall(int16_t freq_diff)

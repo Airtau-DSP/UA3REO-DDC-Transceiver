@@ -90,6 +90,7 @@ extern struct TRX_SETTINGS {
 	bool AutoGain;
 	bool NotchFilter;
 	uint16_t NotchFC;
+	bool CWDecoder;
 	//system settings
 	bool FFT_Enabled;
 	uint16_t CW_GENERATOR_SHIFT_HZ;

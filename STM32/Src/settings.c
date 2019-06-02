@@ -27,60 +27,61 @@ static void Flash_Read_Data(void);
 void LoadSettings(void)
 {
 	Flash_Read_Data();
-	if (TRX.clean_flash != 175) //code to trace new clean flash
+	if (TRX.clean_flash != 176) //code to trace new clean flash
 	{
-		TRX.clean_flash = 175;
-		TRX.VFO_A.Freq = 7100000;
-		TRX.VFO_A.Mode = TRX_MODE_LSB;
-		TRX.VFO_A.Filter_Width = 2700;
-		TRX.VFO_B.Freq = 14150000;
-		TRX.VFO_B.Mode = TRX_MODE_USB;
-		TRX.VFO_B.Filter_Width = 2700;
-		TRX.current_vfo = false; // A
-		TRX.Preamp = false;
-		TRX.AGC = true;
-		TRX.ATT = false;
-		TRX.LPF = true;
-		TRX.BPF = true;
-		TRX.TX_Amplifier = true;
-		TRX.DNR = false;
-		TRX.Agc_speed = 3;
-		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ;
-		TRX.BandMapEnabled = true;
-		TRX.Volume = 20;
-		TRX.InputType = 0; //0 - mic ; 1 - line ; 2 - usb
-		TRX.Mute = false;
-		TRX.Fast = false;
-		TRX.CW_Filter = 500;
-		TRX.SSB_Filter = 2700;
-		TRX.FM_Filter = 15000;
-		TRX.RF_Power = 20;
-		TRX.FM_SQL_threshold = 1;
-		TRX.RF_Gain = 50;
-		for (uint8_t i = 0; i < BANDS_COUNT; i++) TRX.saved_freq[i] = BANDS[i].startFreq + (BANDS[i].endFreq - BANDS[i].startFreq) / 2;
-		TRX.FFT_Zoom = 1;
-		TRX.AutoGain = false;
-		TRX.NotchFilter = false;
-		TRX.NotchFC = 1000;
+		TRX.clean_flash = 176; //ID прошивки в eeprom, если не совпадает - используем дефолтные
+		TRX.VFO_A.Freq = 7100000; //сохранённая частота VFO-A
+		TRX.VFO_A.Mode = TRX_MODE_LSB; //сохранённая мода VFO-A
+		TRX.VFO_A.Filter_Width = 2700; //сохранённая ширина полосы VFO-A
+		TRX.VFO_B.Freq = 14150000; //сохранённая частота VFO-B
+		TRX.VFO_B.Mode = TRX_MODE_USB; //сохранённая мода VFO-B
+		TRX.VFO_B.Filter_Width = 2700; //сохранённая ширина полосы VFO-B
+		TRX.current_vfo = false; // текущая VFO (false - A)
+		TRX.Preamp = false; //предусилитель
+		TRX.AGC = true; //AGC
+		TRX.ATT = false; //аттенюатор
+		TRX.LPF = true; //ФНЧ
+		TRX.BPF = true; //ДПФ
+		TRX.TX_Amplifier = true; //Усилитель RF
+		TRX.DNR = false; //цифровое шумоподавление
+		TRX.Agc_speed = 3; //скорость AGC
+		TRX.LCD_menu_freq_index = MENU_FREQ_KHZ; //выбранный разряд частоты для изменения
+		TRX.BandMapEnabled = true; //автоматическая смена моды по карте диапазонов
+		TRX.Volume = 20; //громкость
+		TRX.InputType = 0; //тип входа для передачи: 0 - mic ; 1 - line ; 2 - usb
+		TRX.Mute = false; //приглушить звук
+		TRX.Fast = false; //ускоренная смена частоты при вращении энкодера
+		TRX.CW_Filter = 500; //дефолтное значение ширины фильтра CW
+		TRX.SSB_Filter = 2700; //дефолтное значение ширины фильтра SSB
+		TRX.FM_Filter = 15000; //дефолтное значение ширины фильтра FM
+		TRX.RF_Power = 20; //выходная мощность (%)
+		TRX.FM_SQL_threshold = 1; //FM-шумодав
+		TRX.RF_Gain = 50; //усиление ВЧ
+		for (uint8_t i = 0; i < BANDS_COUNT; i++) TRX.saved_freq[i] = BANDS[i].startFreq + (BANDS[i].endFreq - BANDS[i].startFreq) / 2; //сохранённые частоты по диапазонам
+		TRX.FFT_Zoom = 1; //приближение спектра FFT
+		TRX.AutoGain = false; //авто-управление предусилителем и аттенюатором
+		TRX.NotchFilter = false; //нотч-фильтр для вырезания помехи
+		TRX.NotchFC = 1000; //частота среза нотч-фильтра
+		TRX.CWDecoder = true; //автоматический декодер телеграфа
 		//system settings
-		TRX.FFT_Enabled = true;
-		TRX.CW_GENERATOR_SHIFT_HZ = 500;
-		TRX.Calibrated = false;
-		TRX.Touchpad_x0 = 366.0f;
-		TRX.Touchpad_y0 = 3061.0f;
-		TRX.Touchpad_x1 = 3934.0f;
-		TRX.Touchpad_y1 = 3398.0f;
-		TRX.Touchpad_x2 = 351.0f;
-		TRX.Touchpad_y2 = 625.0f;
-		TRX.Touchpad_x3 = 3914.0f;
-		TRX.Touchpad_y3 = 378.0f;
-		TRX.ENCODER_SLOW_RATE = 35;
-		TRX.LCD_Brightness = 100;
-		TRX.Standby_Time = 180;
-		TRX.Beeping = true;
-		TRX.Key_timeout = 1000;
-		TRX.FFT_Averaging = 4;
-		TRX.SSB_HPF_pass = 300;
+		TRX.FFT_Enabled = true; //использовать спектр FFT
+		TRX.CW_GENERATOR_SHIFT_HZ = 500; //смещение гетеродина в CW моде
+		TRX.Calibrated = false; //был ли калиброван экран
+		TRX.Touchpad_x0 = 366.0f; //данные для калибровки экрана
+		TRX.Touchpad_y0 = 3061.0f; //данные для калибровки экрана
+		TRX.Touchpad_x1 = 3934.0f; //данные для калибровки экрана
+		TRX.Touchpad_y1 = 3398.0f; //данные для калибровки экрана
+		TRX.Touchpad_x2 = 351.0f; //данные для калибровки экрана
+		TRX.Touchpad_y2 = 625.0f; //данные для калибровки экрана
+		TRX.Touchpad_x3 = 3914.0f; //данные для калибровки экрана
+		TRX.Touchpad_y3 = 378.0f; //данные для калибровки экрана
+		TRX.ENCODER_SLOW_RATE = 35; //замедление энкодера для больших разрешений
+		TRX.LCD_Brightness = 60; //яркость экрана
+		TRX.Standby_Time = 180; //время до гашения экрана по бездействию
+		TRX.Beeping = true; //звуки нажатия на кнопки
+		TRX.Key_timeout = 1000; //время отпуская передачи после последнего знака на ключе
+		TRX.FFT_Averaging = 4; //усреднение FFT, чтобы сделать его более гладким
+		TRX.SSB_HPF_pass = 300; //частота среза ФВЧ в SSB моде
 	}
 }
 
