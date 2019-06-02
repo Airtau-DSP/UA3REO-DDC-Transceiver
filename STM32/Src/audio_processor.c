@@ -314,7 +314,8 @@ void processRxAudio(void)
 		doRX_SMETER();
 		doRX_DNR();
 		doRX_AGC();
-		CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
+		if(TRX_getMode()==TRX_MODE_CW_L)
+			CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_USB:
@@ -327,7 +328,8 @@ void processRxAudio(void)
 		doRX_SMETER();
 		doRX_DNR();
 		doRX_AGC();
-		CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
+		if(TRX_getMode()==TRX_MODE_CW_U)
+			CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_AM:
