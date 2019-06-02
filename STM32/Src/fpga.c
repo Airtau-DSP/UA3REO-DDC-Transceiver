@@ -31,6 +31,8 @@ static inline uint8_t FPGA_readPacket(void);
 static inline void FPGA_writePacket(uint8_t packet);
 static inline void FPGA_clockFall(void);
 static inline void FPGA_clockRise(void);
+static void FPGA_setBusInput(void);
+static void FPGA_setBusOutput(void);
 static void FPGA_fpgadata_sendiq(void);
 static void FPGA_fpgadata_getiq(void);
 static void FPGA_fpgadata_getparam(void);
@@ -41,7 +43,7 @@ void FPGA_Init(void)
 {
 	FPGA_GPIO_InitStruct.Pin = FPGA_BUS_D0_Pin | FPGA_BUS_D1_Pin | FPGA_BUS_D2_Pin | FPGA_BUS_D3_Pin | FPGA_BUS_D4_Pin | FPGA_BUS_D5_Pin | FPGA_BUS_D6_Pin | FPGA_BUS_D7_Pin;
 	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	FPGA_GPIO_InitStruct.Pull = GPIO_PULLDOWN;
+	FPGA_GPIO_InitStruct.Pull = GPIO_PULLUP;
 	FPGA_GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
 	HAL_GPIO_Init(GPIOA, &FPGA_GPIO_InitStruct);
 
@@ -71,8 +73,6 @@ static void FPGA_test_bus(void) //проверка шины
 		//clock
 		FPGA_clockRise();
 		//in
-		FPGA_readPacket();
-		HAL_Delay(10);
 		if(FPGA_readPacket() != b)
 		{
 			char buff[32] = "";
