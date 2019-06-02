@@ -5,6 +5,7 @@
 #include <stdbool.h>
 
 #define FPGA_BUS_BITS 16 //разрядность данных из FPGA
+#define TRX_SAMPLERATE 48000 //частота дискретизации аудио-потока
 #define AUTOGAIN_CORRECTOR_WAITSTEP 7 //ожидание усреднения результатов при работе автокорректора входных цепей
 
 #define TRX_MODE_LSB 0

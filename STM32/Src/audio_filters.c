@@ -341,7 +341,7 @@ void ReinitAudioFilters(void)
 void InitNotchFilter(void)
 {
 	NeedReinitNotch = false;
-	calcBiquad(BIQUAD_notch, TRX.NotchFC, WM8731_SAMPLERATE, 0.5f, 0);
+	calcBiquad(BIQUAD_notch, TRX.NotchFC, TRX_SAMPLERATE, 0.5f, 0);
 	//arm_biquad_cascade_df2T_init_f32(&NOTCH_FILTER, NOTCH_STAGES, NOTCH_Coeffs, NOTCH_State);
 }
 

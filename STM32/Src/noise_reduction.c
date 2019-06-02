@@ -23,7 +23,7 @@ void InitNoiseReduction(void)
 	arm_fill_f32(0.0f, lms2_normCoeff_f32, NOISE_REDUCTION_TAPS);
 }
 
-void processNoiseReduction(float* bufferIn, float* bufferOut)
+void processNoiseReduction(float32_t* bufferIn, float32_t* bufferOut)
 {
 	if (!TRX.DNR) return;
 	static uint16_t reference_index_old = 0;

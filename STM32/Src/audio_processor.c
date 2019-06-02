@@ -15,6 +15,7 @@
 #include "profiler.h"
 #include "usbd_audio_if.h"
 #include "noise_reduction.h"
+#include "cw_decoder.h"
 
 volatile uint32_t AUDIOPROC_samples = 0;
 volatile uint32_t AUDIOPROC_TXA_samples = 0;
@@ -313,6 +314,7 @@ void processRxAudio(void)
 		doRX_SMETER();
 		doRX_DNR();
 		doRX_AGC();
+		CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_USB:
@@ -325,6 +327,7 @@ void processRxAudio(void)
 		doRX_SMETER();
 		doRX_DNR();
 		doRX_AGC();
+		CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_AM:
@@ -576,7 +579,7 @@ static void DemodulateFM(void)
 
 static void ModulateFM(void)
 {
-	static uint32_t modulation = WM8731_SAMPLERATE;
+	static uint32_t modulation = TRX_SAMPLERATE;
 	static float32_t hpf_prev_a = 0;
 	static float32_t hpf_prev_b = 0;
 	static float32_t sin_data = 0;

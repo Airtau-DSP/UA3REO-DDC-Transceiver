@@ -10,6 +10,7 @@
 #include "bands.h"
 #include "audio_filters.h"
 #include "usbd_audio_if.h"
+#include "cw_decoder.h"
 
 volatile bool TRX_ptt_hard = false;
 volatile bool TRX_ptt_cat = false;
@@ -59,6 +60,7 @@ bool TRX_on_TX(void)
 
 void TRX_Init()
 {
+	CWDecoder_Init();
 	TRX_Start_RX();
 	TRX_setMode(CurrentVFO()->Mode);
 }

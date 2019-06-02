@@ -8,7 +8,6 @@
 #include "audio_processor.h"
 
 #define I2C_ADDRESS_WM8731 0x34
-#define WM8731_SAMPLERATE 48000
 
 #define CODEC_AUDIO_BUFFER_SIZE FPGA_AUDIO_BUFFER_SIZE*2
 extern int32_t CODEC_Audio_Buffer_RX[CODEC_AUDIO_BUFFER_SIZE];

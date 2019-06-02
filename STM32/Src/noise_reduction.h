@@ -13,6 +13,6 @@
 #define NOISE_REDUCTION_STEP 0.000001f
 
 extern void InitNoiseReduction(void);
-extern void processNoiseReduction(float* bufferIn, float* bufferOut);
+extern void processNoiseReduction(float32_t* bufferIn, float32_t* bufferOut);
 
 #endif
