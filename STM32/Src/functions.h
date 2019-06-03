@@ -62,5 +62,6 @@ extern void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_
 extern void readHalfFromCircleUSBBuffer(int16_t *source, int32_t *dest, uint16_t index, uint16_t length);
 extern void dma_memcpy32(uint32_t dest, uint32_t src, uint32_t len);
 extern double db2rateV(double i);
+extern void shiftTextLeft(char *string, int16_t shiftLength);
 
 #endif

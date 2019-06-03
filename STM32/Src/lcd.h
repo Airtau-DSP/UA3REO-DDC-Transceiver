@@ -32,6 +32,7 @@ typedef struct {
 	bool StatusInfoGUI;
 	bool StatusInfoBar;
 	bool SystemMenu;
+	bool TextBar;
 } DEF_LCD_UpdateQuery;
 
 struct button_handler {

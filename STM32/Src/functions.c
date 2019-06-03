@@ -221,3 +221,16 @@ double db2rateV(double i) //из децибелл в разы (для напря
 {
 	return pow(10.0, (i / 20.0));
 }
+
+void shiftTextLeft(char *string, int16_t shiftLength)
+{
+	int16_t i,size=strlen(string);
+	if(shiftLength >= size){
+			memset(string,'\0',size);
+			return;
+	}
+	for (i=0; i < size-shiftLength; i++){
+			string[i] = string[i + shiftLength];
+			string[i + shiftLength] = '\0';
+	}
+}

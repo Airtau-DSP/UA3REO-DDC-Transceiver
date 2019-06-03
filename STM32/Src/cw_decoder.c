@@ -10,6 +10,9 @@
 #include "lcd.h"
 #include "fpga.h"
 
+volatile uint16_t CW_Decoder_WPM = 0;
+char CW_Decoder_Text[CWDECODER_STRLEN] = "               ";
+
 static float32_t sine = 0;
 static float32_t cosine = 0;
 static float32_t bw = 0;
@@ -32,10 +35,10 @@ static long startttimelow = 0;
 static long lowduration = 0;
 static long hightimesavg = 0;
 static long lasthighduration = 0;
-static int wpm = 0;
 static char code[20] = { 0 };
 
 static void CWDecoder_Decode(void);
+static void CWDecoder_PrintChar(char * str);
 
 void CWDecoder_Init(void)
 {
@@ -123,16 +126,16 @@ void CWDecoder_Process(float32_t* bufferIn)
 			{
 				strcat(code, "-");
 				//sendToDebug_str("-");
-				wpm = (wpm + (1200 / ((highduration) / 3))) / 2;  //// the most precise we can do ;o)
+				CW_Decoder_WPM = (CW_Decoder_WPM + (1200 / ((highduration) / 3))) / 2;  //// the most precise we can do ;o)
 			}
 		}
 
 		if (filteredstate == true) //// we did end a LOW
 		{
 			float32_t lacktime = 1.0f;
-			if (wpm > 25) lacktime = 1.0f; ///  when high speeds we have to have a little more pause before new letter or new word 
-			if (wpm > 30) lacktime = 1.2f;
-			if (wpm > 35) lacktime = 1.5f;
+			if (CW_Decoder_WPM > 25) lacktime = 1.0f; ///  when high speeds we have to have a little more pause before new letter or new word 
+			if (CW_Decoder_WPM > 30) lacktime = 1.2f;
+			if (CW_Decoder_WPM > 35) lacktime = 1.5f;
 
 			if (lowduration > (hightimesavg*(2 * lacktime)) && lowduration < hightimesavg*(5 * lacktime)) // letter space
 			{
@@ -144,7 +147,8 @@ void CWDecoder_Process(float32_t* bufferIn)
 			{
 				CWDecoder_Decode();
 				code[0] = '\0';
-				sendToDebug_str(" ");
+				CWDecoder_PrintChar(" ");
+				//sendToDebug_str(" ");
 				//sendToDebug_newline();
 			}
 		}
@@ -158,7 +162,6 @@ void CWDecoder_Process(float32_t* bufferIn)
 	}
 
 	// the end of main loop clean up
-	LCD_UpdateQuery.StatusInfoGUI = true;
 	realstatebefore = realstate;
 	lasthighduration = highduration;
 	filteredstatebefore = filteredstate;
@@ -166,64 +169,72 @@ void CWDecoder_Process(float32_t* bufferIn)
 
 static void CWDecoder_Decode(void)
 {
-	if (strcmp(code, ".-") == 0) sendToDebug_str("A");
-	if (strcmp(code, "-...") == 0) sendToDebug_str("B");
-	if (strcmp(code, "-.-.") == 0) sendToDebug_str("C");
-	if (strcmp(code, "-..") == 0) sendToDebug_str("D");
-	if (strcmp(code, ".") == 0) sendToDebug_str("E");
-	if (strcmp(code, "..-.") == 0) sendToDebug_str("F");
-	if (strcmp(code, "--.") == 0) sendToDebug_str("G");
-	if (strcmp(code, "....") == 0) sendToDebug_str("H");
-	if (strcmp(code, "..") == 0) sendToDebug_str("I");
-	if (strcmp(code, ".---") == 0) sendToDebug_str("J");
-	if (strcmp(code, "-.-") == 0) sendToDebug_str("K");
-	if (strcmp(code, ".-..") == 0) sendToDebug_str("L");
-	if (strcmp(code, "--") == 0) sendToDebug_str("M");
-	if (strcmp(code, "-.") == 0) sendToDebug_str("N");
-	if (strcmp(code, "---") == 0) sendToDebug_str("O");
-	if (strcmp(code, ".--.") == 0) sendToDebug_str("P");
-	if (strcmp(code, "--.-") == 0) sendToDebug_str("Q");
-	if (strcmp(code, ".-.") == 0) sendToDebug_str("R");
-	if (strcmp(code, "...") == 0) sendToDebug_str("S");
-	if (strcmp(code, "-") == 0) sendToDebug_str("T");
-	if (strcmp(code, "..-") == 0) sendToDebug_str("U");
-	if (strcmp(code, "...-") == 0) sendToDebug_str("V");
-	if (strcmp(code, ".--") == 0) sendToDebug_str("W");
-	if (strcmp(code, "-..-") == 0) sendToDebug_str("X");
-	if (strcmp(code, "-.--") == 0) sendToDebug_str("Y");
-	if (strcmp(code, "--..") == 0) sendToDebug_str("Z");
+	if (strcmp(code, ".-") == 0) CWDecoder_PrintChar("A");
+	else if (strcmp(code, "-...") == 0) CWDecoder_PrintChar("B");
+	else if (strcmp(code, "-.-.") == 0) CWDecoder_PrintChar("C");
+	else if (strcmp(code, "-..") == 0) CWDecoder_PrintChar("D");
+	else if (strcmp(code, ".") == 0) CWDecoder_PrintChar("E");
+	else if (strcmp(code, "..-.") == 0) CWDecoder_PrintChar("F");
+	else if (strcmp(code, "--.") == 0) CWDecoder_PrintChar("G");
+	else if (strcmp(code, "....") == 0) CWDecoder_PrintChar("H");
+	else if (strcmp(code, "..") == 0) CWDecoder_PrintChar("I");
+	else if (strcmp(code, ".---") == 0) CWDecoder_PrintChar("J");
+	else if (strcmp(code, "-.-") == 0) CWDecoder_PrintChar("K");
+	else if (strcmp(code, ".-..") == 0) CWDecoder_PrintChar("L");
+	else if (strcmp(code, "--") == 0) CWDecoder_PrintChar("M");
+	else if (strcmp(code, "-.") == 0) CWDecoder_PrintChar("N");
+	else if (strcmp(code, "---") == 0) CWDecoder_PrintChar("O");
+	else if (strcmp(code, ".--.") == 0) CWDecoder_PrintChar("P");
+	else if (strcmp(code, "--.-") == 0) CWDecoder_PrintChar("Q");
+	else if (strcmp(code, ".-.") == 0) CWDecoder_PrintChar("R");
+	else if (strcmp(code, "...") == 0) CWDecoder_PrintChar("S");
+	else if (strcmp(code, "-") == 0) CWDecoder_PrintChar("T");
+	else if (strcmp(code, "..-") == 0) CWDecoder_PrintChar("U");
+	else if (strcmp(code, "...-") == 0) CWDecoder_PrintChar("V");
+	else if (strcmp(code, ".--") == 0) CWDecoder_PrintChar("W");
+	else if (strcmp(code, "-..-") == 0) CWDecoder_PrintChar("X");
+	else if (strcmp(code, "-.--") == 0) CWDecoder_PrintChar("Y");
+	else if (strcmp(code, "--..") == 0) CWDecoder_PrintChar("Z");
 
-	if (strcmp(code, ".----") == 0) sendToDebug_str("1");
-	if (strcmp(code, "..---") == 0) sendToDebug_str("2");
-	if (strcmp(code, "...--") == 0) sendToDebug_str("3");
-	if (strcmp(code, "....-") == 0) sendToDebug_str("4");
-	if (strcmp(code, ".....") == 0) sendToDebug_str("5");
-	if (strcmp(code, "-....") == 0) sendToDebug_str("6");
-	if (strcmp(code, "--...") == 0) sendToDebug_str("7");
-	if (strcmp(code, "---..") == 0) sendToDebug_str("8");
-	if (strcmp(code, "----.") == 0) sendToDebug_str("9");
-	if (strcmp(code, "-----") == 0) sendToDebug_str("0");
+	else if (strcmp(code, ".----") == 0) CWDecoder_PrintChar("1");
+	else if (strcmp(code, "..---") == 0) CWDecoder_PrintChar("2");
+	else if (strcmp(code, "...--") == 0) CWDecoder_PrintChar("3");
+	else if (strcmp(code, "....-") == 0) CWDecoder_PrintChar("4");
+	else if (strcmp(code, ".....") == 0) CWDecoder_PrintChar("5");
+	else if (strcmp(code, "-....") == 0) CWDecoder_PrintChar("6");
+	else if (strcmp(code, "--...") == 0) CWDecoder_PrintChar("7");
+	else if (strcmp(code, "---..") == 0) CWDecoder_PrintChar("8");
+	else if (strcmp(code, "----.") == 0) CWDecoder_PrintChar("9");
+	else if (strcmp(code, "-----") == 0) CWDecoder_PrintChar("0");
 
-	if (strcmp(code, "..--..") == 0) sendToDebug_str("?");
-	if (strcmp(code, ".-.-.-") == 0) sendToDebug_str(".");
-	if (strcmp(code, "--..--") == 0) sendToDebug_str(",");
-	if (strcmp(code, "-.-.--") == 0) sendToDebug_str("!");
-	if (strcmp(code, ".--.-.") == 0) sendToDebug_str("@");
-	if (strcmp(code, "---...") == 0) sendToDebug_str(":");
-	if (strcmp(code, "-....-") == 0) sendToDebug_str("-");
-	if (strcmp(code, "-..-.") == 0) sendToDebug_str("/");
+	else if (strcmp(code, "..--..") == 0) CWDecoder_PrintChar("?");
+	else if (strcmp(code, ".-.-.-") == 0) CWDecoder_PrintChar(".");
+	else if (strcmp(code, "--..--") == 0) CWDecoder_PrintChar(",");
+	else if (strcmp(code, "-.-.--") == 0) CWDecoder_PrintChar("!");
+	else if (strcmp(code, ".--.-.") == 0) CWDecoder_PrintChar("@");
+	else if (strcmp(code, "---...") == 0) CWDecoder_PrintChar(":");
+	else if (strcmp(code, "-....-") == 0) CWDecoder_PrintChar("-");
+	else if (strcmp(code, "-..-.") == 0) CWDecoder_PrintChar("/");
 
-	if (strcmp(code, "-.--.") == 0) sendToDebug_str("(");
-	if (strcmp(code, "-.--.-") == 0) sendToDebug_str(")");
-	if (strcmp(code, ".-...") == 0) sendToDebug_str("_");
-	if (strcmp(code, "...-..-") == 0) sendToDebug_str("$");
-	if (strcmp(code, "...-.-") == 0) sendToDebug_str(">");
-	if (strcmp(code, ".-.-.") == 0) sendToDebug_str("<");
-	if (strcmp(code, "...-.") == 0) sendToDebug_str("~");
+	else if (strcmp(code, "-.--.") == 0) CWDecoder_PrintChar("(");
+	else if (strcmp(code, "-.--.-") == 0) CWDecoder_PrintChar(")");
+	else if (strcmp(code, ".-...") == 0) CWDecoder_PrintChar("_");
+	else if (strcmp(code, "...-..-") == 0) CWDecoder_PrintChar("$");
+	else if (strcmp(code, "...-.-") == 0) CWDecoder_PrintChar(">");
+	else if (strcmp(code, ".-.-.") == 0) CWDecoder_PrintChar("<");
+	else if (strcmp(code, "...-.") == 0) CWDecoder_PrintChar("~");
 	//////////////////
 	// The specials //
 	//////////////////
-	//if (strcmp(code,".-.-") == 0) printascii(3);
-	//if (strcmp(code,"---.") == 0) printascii(4);
-	//if (strcmp(code,".--.-") == 0) printascii(6);
+	//else if (strcmp(code,".-.-") == 0) CWDecoder_PrintChar(""); ascii(3)
+	//else if (strcmp(code,"---.") == 0) CWDecoder_PrintChar(""); ascii(4)
+	//else if (strcmp(code,".--.-") == 0) CWDecoder_PrintChar(""); ascii(6)
+}
+
+static void CWDecoder_PrintChar(char * str)
+{
+	if(strlen(CW_Decoder_Text)>=CWDECODER_STRLEN)
+		shiftTextLeft(CW_Decoder_Text, 1);
+	strcat(CW_Decoder_Text, str);
+	LCD_UpdateQuery.TextBar = true;
 }

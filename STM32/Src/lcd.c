@@ -12,9 +12,10 @@
 #include "wm8731.h"
 #include "usbd_ua3reo.h"
 #include "noise_reduction.h"
+#include "cw_decoder.h"
 
 volatile bool LCD_busy = false;
-volatile DEF_LCD_UpdateQuery LCD_UpdateQuery = { false,false,false,false,false,false,false };
+volatile DEF_LCD_UpdateQuery LCD_UpdateQuery = { false };
 volatile uint8_t TimeMenuSelection = 0;
 volatile bool LCD_timeMenuOpened = false;
 volatile bool LCD_mainMenuOpened = false;
@@ -52,6 +53,7 @@ static void LCD_displayTopButtons(bool redraw);
 static void LCD_displayMainMenu(void);
 static void LCD_displayStatusInfoBar(void);
 static void LCD_displayStatusInfoGUI(void);
+static void LCD_displayTextBar(void);
 
 //BUTTONS HANDLERS
 static void LCD_Handler_TUNE(void);
@@ -421,7 +423,10 @@ static void LCD_displayStatusInfoGUI(void) { //вывод RX/TX и с-метра
 
 	//Redraw CW decoder
 	if(TRX.CWDecoder && (TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U))
+	{
 		LCDDriver_Fill_RectWH(0, LCD_HEIGHT - FFT_CWDECODER_OFFSET, FFT_PRINT_SIZE, FFT_CWDECODER_OFFSET, COLOR_BLACK);
+		LCD_UpdateQuery.TextBar = true;
+	}
 	
 	LCD_UpdateQuery.StatusInfoGUI = false;
 	LCD_busy = false;
@@ -509,6 +514,30 @@ static void LCD_displayStatusInfoBar(void) { //S-метра и прочей ин
 	LCD_busy = false;
 }
 
+static void LCD_displayTextBar(void) { //вывод текста под водопадом
+	if (LCD_mainMenuOpened) return;
+	if (LCD_systemMenuOpened) return;
+	if (LCD_modeMenuOpened) return;
+	if (LCD_bandMenuOpened) return;
+	if (LCD_busy)
+	{
+		LCD_UpdateQuery.TextBar = true;
+		return;
+	}
+	LCD_busy = true;
+
+	if(TRX.CWDecoder && (TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U))
+	{
+		char ctmp[50];
+		sprintf(ctmp, "WPM:%d", CW_Decoder_WPM);
+		LCDDriver_printText(ctmp, 0, LCD_HEIGHT - FFT_CWDECODER_OFFSET + 1, COLOR_WHITE, COLOR_BLACK, 2);
+		LCDDriver_printText((char *)&CW_Decoder_Text, 75, LCD_HEIGHT - FFT_CWDECODER_OFFSET + 1, COLOR_WHITE, COLOR_BLACK, 2);
+	}
+	
+	LCD_UpdateQuery.TextBar = false;
+	LCD_busy = false;
+}
+
 void LCD_redraw(void) {
 	LCD_UpdateQuery.Background = true;
 	LCD_UpdateQuery.FreqInfo = true;
@@ -517,6 +546,7 @@ void LCD_redraw(void) {
 	LCD_UpdateQuery.StatusInfoGUI = true;
 	LCD_UpdateQuery.TopButtons = true;
 	LCD_UpdateQuery.SystemMenu = true;
+	LCD_UpdateQuery.TextBar = true;
 	button_handlers_count = 0;
 	LCD_last_s_meter = 0;
 	LCD_last_showed_freq = 0;
@@ -550,6 +580,7 @@ void LCD_doEvents(void)
 	LCD_displayStatusInfoBar();
 	if (LCD_UpdateQuery.MainMenu) LCD_displayMainMenu();
 	if (LCD_UpdateQuery.SystemMenu) drawSystemMenu(false);
+	if (LCD_UpdateQuery.TextBar) LCD_displayTextBar();
 }
 
 static void LCD_Handler_TUNE(void)
