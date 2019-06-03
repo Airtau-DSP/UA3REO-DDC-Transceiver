@@ -20,8 +20,8 @@ static float32_t coeff = 0;
 static float32_t Q1 = 0;
 static float32_t Q2 = 0;
 static float32_t magnitude = 0;
-static int16_t magnitudelimit = 50;
-static int16_t magnitudelimit_low = 50;
+static float32_t magnitudelimit = 50;
+static float32_t magnitudelimit_low = 50;
 static bool realstate = false;
 static bool realstatebefore = false;
 static bool filteredstate = false;
@@ -71,12 +71,18 @@ void CWDecoder_Process(float32_t* bufferIn)
 	if (magnitude > magnitudelimit_low) {
 		magnitudelimit = (magnitudelimit + ((magnitude - magnitudelimit) / CWDECODER_HIGH_AVERAGE));  /// moving average filter high
 	}
-	if (magnitudelimit < magnitudelimit_low)
-		magnitudelimit = magnitudelimit_low;
-	//sendToDebug_float32(magnitude,false);
+	magnitudelimit_low = (magnitudelimit_low + ((magnitude - magnitudelimit_low) / CWDECODER_LOW_AVERAGE));  /// moving average filter high
+	if (magnitudelimit_low > magnitude)
+		magnitudelimit_low = magnitude;
 
+	//sendToDebug_float32(magnitudelimit_low,false);
+	//sendToDebug_float32(magnitudelimit,false);
+	//sendToDebug_float32(magnitude,false);
+	//sendToDebug_newline();
+	
 	// now we check for the magnitude
-	if ((magnitude > magnitudelimit*0.8) && (magnitude > magnitudelimit_low*1.2)) // just to have some space up 
+	//if (magnitude > magnitudelimit*0.6) // just to have some space up 
+	if (magnitude > (magnitudelimit_low + (magnitudelimit - magnitudelimit_low) * 0.8f))
 		realstate = true;
 	else
 		realstate = false;
