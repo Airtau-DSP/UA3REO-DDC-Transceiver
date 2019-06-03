@@ -7,8 +7,9 @@
 #include <stdbool.h>
 #include "arm_math.h"
 
-#define CWDECODER_TARGET_FREQ 750.0
-#define CWDECODER_SAMPLES (TRX_SAMPLERATE / CWDECODER_TARGET_FREQ)
+#define CWDECODER_TARGET_FREQ 300.0
+#define CWDECODER_SAMPLES 192
+#define CWDECODER_HIGH_AVERAGE 100
 #define CWDECODER_NBTIME 6  /// ms noise blanker
 
 extern void CWDecoder_Init(void);

@@ -48,6 +48,7 @@ static void doRX_AGC(void);
 static void doRX_NOTCH(void);
 static void doRX_SMETER(void);
 static void doRX_COPYCHANNEL(void);
+static void doCW_Decode(void);
 static void DemodulateFM(void);
 static void ModulateFM(void);
 
@@ -314,8 +315,7 @@ void processRxAudio(void)
 		doRX_SMETER();
 		doRX_DNR();
 		doRX_AGC();
-		if(TRX_getMode()==TRX_MODE_CW_L)
-			CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
+		doCW_Decode();
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_USB:
@@ -328,8 +328,7 @@ void processRxAudio(void)
 		doRX_SMETER();
 		doRX_DNR();
 		doRX_AGC();
-		if(TRX_getMode()==TRX_MODE_CW_U)
-			CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0]);
+		doCW_Decode();	
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_AM:
@@ -432,6 +431,14 @@ void processRxAudio(void)
 	}
 	//
 	Processor_NeedRXBuffer = false;
+}
+
+static void doCW_Decode(void)
+{
+	//CW Decoder
+	if(TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U)
+		for (block = 0; block < (FPGA_AUDIO_BUFFER_HALF_SIZE / CWDECODER_SAMPLES); block++)
+			CWDecoder_Process((float32_t *)&FPGA_Audio_Buffer_I_tmp[0] + (block*CWDECODER_SAMPLES));
 }
 
 static void doRX_LPF(void)
