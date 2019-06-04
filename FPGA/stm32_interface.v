@@ -9,6 +9,7 @@ ADC_OTR,
 DAC_OTR,
 ADC_IN,
 adcclk_in,
+FLASH_data_in,
 
 DATA_BUS,
 freq_out,
@@ -18,7 +19,10 @@ tx,
 TX_I,
 TX_Q,
 audio_clk_en,
-stage_debug
+stage_debug,
+FLASH_data_out,
+FLASH_enable,
+FLASH_continue_read
 );
 
 input clk_in;
@@ -31,6 +35,7 @@ input ADC_OTR;
 input DAC_OTR;
 input signed [11:0] ADC_IN;
 input adcclk_in;
+input unsigned [7:0] FLASH_data_in;
 
 output reg unsigned [21:0] freq_out=620407;
 output reg preamp_enable=0;
@@ -40,6 +45,9 @@ output reg audio_clk_en=1;
 output reg signed [15:0] TX_I=0;
 output reg signed [15:0] TX_Q=0;
 output reg [15:0] stage_debug=0;
+output reg unsigned [7:0] FLASH_data_out=0;
+output reg FLASH_enable=0;
+output reg FLASH_continue_read=0;
 
 inout [7:0] DATA_BUS;
 reg   [7:0] DATA_BUS_OUT;
@@ -60,9 +68,10 @@ begin
 	begin
 		DATA_BUS_OE=0;
 		ADC_MINMAX_RESET=0;
+		FLASH_enable=0;
+		FLASH_continue_read=0;
 		if(DATA_BUS[7:0]=='d0) //BUS TEST
 		begin
-			DATA_BUS_OE=1;
 			k=500;
 		end
 		else if(DATA_BUS[7:0]=='d1) //GET PARAMS
@@ -92,6 +101,10 @@ begin
 		begin
 			audio_clk_en=0;
 			k=999;
+		end
+		else if(DATA_BUS[7:0]=='d7) //FPGA FLASH READ
+		begin
+			k=700;
 		end
 	end
 	else if (k==100) //GET PARAMS
@@ -213,11 +226,30 @@ begin
 		DATA_BUS_OUT[7:0]=I_HOLD[7:0];
 		k=999;
 	end
-	else if (k==500)
+	else if (k==500) //BUS TEST
 	begin
 		Q_HOLD[7:0]=DATA_BUS[7:0];
 		DATA_BUS_OUT[7:0]=Q_HOLD[7:0];
+		DATA_BUS_OE=1;
 		k=999;
+	end
+	else if (k==700) //FPGA FLASH READ
+	begin
+		FLASH_data_out[7:0]=DATA_BUS[7:0];
+		FLASH_enable=1;
+		k=701;
+	end
+	else if (k==701)
+	begin
+		DATA_BUS_OUT[7:0]=FLASH_data_in[7:0];
+		DATA_BUS_OE=1;
+		FLASH_continue_read=1;
+		k=702;
+	end
+	else if (k==702)
+	begin
+		FLASH_continue_read=0;
+		k=701;
 	end
 	stage_debug=k;
 end

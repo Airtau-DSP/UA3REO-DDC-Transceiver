@@ -7,6 +7,7 @@
 #include "audio_processor.h"
 #include "settings.h"
 #include "wm8731.h"
+#include "usbd_debug_if.h"
 
 volatile uint32_t FPGA_samples = 0;
 volatile bool FPGA_busy = false;
@@ -38,6 +39,7 @@ static void FPGA_fpgadata_getiq(void);
 static void FPGA_fpgadata_getparam(void);
 static void FPGA_fpgadata_sendparam(void);
 static void FPGA_test_bus(void);
+static void FPGA_read_flash(void);
 
 void FPGA_Init(void)
 {
@@ -535,4 +537,49 @@ static inline void FPGA_writePacket(uint8_t packet)
 		| ((uint32_t)FPGA_BUS_D2_Pin << 16U)
 		| ((uint32_t)FPGA_BUS_D1_Pin << 16U)
 		| ((uint32_t)FPGA_BUS_D0_Pin << 16U);
+}
+
+static void FPGA_read_flash(void) //чтение flash памяти
+{
+	FPGA_busy = true;
+	
+	//STAGE 1
+	//out
+	FPGA_writePacket(7); //FPGA FLASH READ command
+	//clock
+	GPIOC->BSRR = FPGA_SYNC_Pin;
+	FPGA_clockRise();
+	//in
+	//clock
+	GPIOC->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U) | ((uint32_t)FPGA_SYNC_Pin << 16U);
+	HAL_Delay(100);
+	
+	//STAGE 2
+	//out
+	FPGA_writePacket(0x9F); //SPI FLASH READ STATUS COMMAND
+	//clock
+	FPGA_clockRise();
+	//in
+	//clock
+	FPGA_clockFall();
+	HAL_Delay(100);
+	
+	for(uint8_t i=0;i<16;i++)
+	{
+		//STAGE 3 READ
+		//out
+		//clock
+		FPGA_clockRise();
+		//in
+		uint8_t data = FPGA_readPacket();
+		sendToDebug_uint8(data,false);
+		HAL_IWDG_Refresh(&hiwdg);
+		DEBUG_Transmit_FIFO_Events();
+		//clock
+		FPGA_clockFall();
+		HAL_Delay(100);
+	}
+	sendToDebug_newline();
+	
+	FPGA_busy = false;
 }
