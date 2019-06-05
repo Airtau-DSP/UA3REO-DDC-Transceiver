@@ -93,6 +93,16 @@ void sendToDebug_uint8(uint8_t data, bool _inline)
 	sendToDebug_str(tmp);
 }
 
+void sendToDebug_hex(uint8_t data, bool _inline)
+{
+	char tmp[50] = "";
+	if (_inline)
+		sprintf(tmp, "%02X", data);
+	else
+		sprintf(tmp, "%02X\r\n", data);
+	sendToDebug_str(tmp);
+}
+
 void sendToDebug_uint16(uint16_t data, bool _inline)
 {
 	char tmp[50] = "";

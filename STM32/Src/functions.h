@@ -56,6 +56,7 @@ extern void sendToDebug_uint32(uint32_t data, bool _inline);
 extern void sendToDebug_int16(int16_t data, bool _inline);
 extern void sendToDebug_int32(int32_t data, bool _inline);
 extern void sendToDebug_float32(float32_t data, bool _inline);
+extern void sendToDebug_hex(uint8_t data, bool _inline);
 extern void delay_us(uint32_t us);
 extern float log10f_fast(float X);
 extern void readHalfFromCircleBuffer32(uint32_t *source, uint32_t *dest, uint32_t index, uint32_t length);

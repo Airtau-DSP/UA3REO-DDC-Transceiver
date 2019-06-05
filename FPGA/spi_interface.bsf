@@ -86,6 +86,13 @@ refer to the applicable agreement for further details.
 		(text "CS_S" (rect 163 75 187 87)(font "Arial" ))
 		(line (pt 208 80)(pt 192 80)(line_width 1))
 	)
+	(port
+		(pt 208 96)
+		(output)
+		(text "busy" (rect 0 0 20 12)(font "Arial" ))
+		(text "busy" (rect 167 91 187 103)(font "Arial" ))
+		(line (pt 208 96)(pt 192 96)(line_width 1))
+	)
 	(drawing
 		(rectangle (rect 16 16 192 128)(line_width 1))
 	)

@@ -101,6 +101,13 @@ refer to the applicable agreement for further details.
 		(line (pt 0 192)(pt 16 192)(line_width 3))
 	)
 	(port
+		(pt 0 208)
+		(input)
+		(text "FLASH_busy" (rect 0 0 59 12)(font "Arial" ))
+		(text "FLASH_busy" (rect 21 203 80 215)(font "Arial" ))
+		(line (pt 0 208)(pt 16 208)(line_width 1))
+	)
+	(port
 		(pt 280 48)
 		(output)
 		(text "freq_out[21..0]" (rect 0 0 57 12)(font "Arial" ))

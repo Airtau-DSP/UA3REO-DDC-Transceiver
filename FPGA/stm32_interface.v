@@ -10,6 +10,7 @@ DAC_OTR,
 ADC_IN,
 adcclk_in,
 FLASH_data_in,
+FLASH_busy,
 
 DATA_BUS,
 freq_out,
@@ -36,6 +37,7 @@ input DAC_OTR;
 input signed [11:0] ADC_IN;
 input adcclk_in;
 input unsigned [7:0] FLASH_data_in;
+input FLASH_busy;
 
 output reg unsigned [21:0] freq_out=620407;
 output reg preamp_enable=0;
@@ -243,7 +245,14 @@ begin
 	begin
 		DATA_BUS_OUT[7:0]=FLASH_data_in[7:0];
 		DATA_BUS_OE=1;
-		FLASH_continue_read=1;
+		if(!FLASH_busy)
+		begin
+			FLASH_continue_read=1;
+		end
+		else
+		begin
+			DATA_BUS_OUT[7:0]='d255;
+		end
 		k=702;
 	end
 	else if (k==702)
