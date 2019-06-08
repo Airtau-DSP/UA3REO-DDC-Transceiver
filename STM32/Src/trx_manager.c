@@ -140,7 +140,7 @@ void TRX_ptt_change(void)
 void TRX_key_change(void)
 {
 	if (TRX_tune) return;
-	bool TRX_new_ptt_hard = !HAL_GPIO_ReadPin(KEY_IN_GPIO_Port, KEY_IN_Pin);
+	bool TRX_new_ptt_hard = !HAL_GPIO_ReadPin(KEY_IN_DOT_GPIO_Port, KEY_IN_DOT_Pin);
 	if (TRX_key_hard != TRX_new_ptt_hard)
 	{
 		TRX_Time_InActive = 0;

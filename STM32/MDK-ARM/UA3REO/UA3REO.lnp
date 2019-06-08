@@ -25,6 +25,8 @@
 "ua3reo\main.o"
 "ua3reo\stm32f4xx_it.o"
 "ua3reo\stm32f4xx_hal_msp.o"
+"ua3reo\stm32f4xx_hal_adc.o"
+"ua3reo\stm32f4xx_hal_adc_ex.o"
 "ua3reo\stm32f4xx_ll_fsmc.o"
 "ua3reo\stm32f4xx_hal_sram.o"
 "ua3reo\stm32f4xx_hal_i2s.o"

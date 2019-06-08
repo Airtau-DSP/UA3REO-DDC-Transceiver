@@ -4,9 +4,9 @@
 #include "trx_manager.h"
 #include "LCD/lcd_driver.h"
 
-#define DEBUG_APP_RX_DATA_SIZE  512
-#define DEBUG_APP_TX_DATA_SIZE  DEBUG_APP_RX_DATA_SIZE
-#define DEBUG_TX_FIFO_BUFFER_SIZE DEBUG_APP_TX_DATA_SIZE
+#define DEBUG_APP_RX_DATA_SIZE  8
+#define DEBUG_APP_TX_DATA_SIZE  8
+#define DEBUG_TX_FIFO_BUFFER_SIZE 512
 
 static uint8_t DEBUG_UserRxBufferFS[DEBUG_APP_RX_DATA_SIZE];
 static uint8_t DEBUG_UserTxBufferFS[DEBUG_APP_TX_DATA_SIZE];
@@ -199,8 +199,11 @@ void DEBUG_Transmit_FIFO_Events(void)
 		{
 			temp_buff[indx] = debug_tx_fifo[i];
 			indx++;
+			debug_tx_fifo_tail++;
+			if(indx == DEBUG_APP_TX_DATA_SIZE) break;
 		}
-		debug_tx_fifo_tail = 0;
+		if(debug_tx_fifo_tail==DEBUG_TX_FIFO_BUFFER_SIZE)
+			debug_tx_fifo_tail=0;
 	}
 	else if (debug_tx_fifo_head > debug_tx_fifo_tail)
 	{
@@ -208,8 +211,9 @@ void DEBUG_Transmit_FIFO_Events(void)
 		{
 			temp_buff[indx] = debug_tx_fifo[i];
 			indx++;
+			debug_tx_fifo_tail++;
+			if(indx == DEBUG_APP_TX_DATA_SIZE) break;
 		}
-		debug_tx_fifo_tail = debug_tx_fifo_head;
 	}
 	DEBUG_Transmit_FS(temp_buff, indx);
 }

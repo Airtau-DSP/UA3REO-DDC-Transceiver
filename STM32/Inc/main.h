@@ -101,8 +101,10 @@ extern volatile uint32_t cpu_sleep_counter;
 #define FPGA_CLK_GPIO_Port GPIOC
 #define FPGA_SYNC_Pin GPIO_PIN_1
 #define FPGA_SYNC_GPIO_Port GPIOC
-#define KEY_IN_Pin GPIO_PIN_2
-#define KEY_IN_GPIO_Port GPIOC
+#define SWR_FORW_Pin GPIO_PIN_2
+#define SWR_FORW_GPIO_Port GPIOC
+#define SWR_BACKW_Pin GPIO_PIN_3
+#define SWR_BACKW_GPIO_Port GPIOC
 #define FPGA_BUS_D0_Pin GPIO_PIN_0
 #define FPGA_BUS_D0_GPIO_Port GPIOA
 #define FPGA_BUS_D1_Pin GPIO_PIN_1
@@ -140,6 +142,10 @@ extern volatile uint32_t cpu_sleep_counter;
 #define TOUCH_MISO_GPIO_Port GPIOB
 #define TOUCH_MOSI_Pin GPIO_PIN_15
 #define TOUCH_MOSI_GPIO_Port GPIOB
+#define ESP_1_TX_Pin GPIO_PIN_6
+#define ESP_1_TX_GPIO_Port GPIOC
+#define ESP_1_RX_Pin GPIO_PIN_7
+#define ESP_1_RX_GPIO_Port GPIOC
 #define AUDIO_I2S_CLOCK_Pin GPIO_PIN_9
 #define AUDIO_I2S_CLOCK_GPIO_Port GPIOC
 #define UART_DEBUG_TX_Pin GPIO_PIN_9
@@ -170,6 +176,10 @@ extern volatile uint32_t cpu_sleep_counter;
 #define RFUNIT_CLK_GPIO_Port GPIOB
 #define RFUNIT_DATA_Pin GPIO_PIN_8
 #define RFUNIT_DATA_GPIO_Port GPIOB
+#define KEY_IN_DASH_Pin GPIO_PIN_0
+#define KEY_IN_DASH_GPIO_Port GPIOE
+#define KEY_IN_DOT_Pin GPIO_PIN_1
+#define KEY_IN_DOT_GPIO_Port GPIOE
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

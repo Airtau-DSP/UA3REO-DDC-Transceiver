@@ -90,6 +90,7 @@ extern DMA_HandleTypeDef hdma_spi3_tx;
 extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim5;
 extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim7;
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
 /* USER CODE BEGIN EV */
 extern PCD_HandleTypeDef hpcd_USB_OTG_FS;
@@ -315,7 +316,6 @@ void TIM4_IRQHandler(void)
   /* USER CODE END TIM4_IRQn 0 */
   HAL_TIM_IRQHandler(&htim4);
   /* USER CODE BEGIN TIM4_IRQn 1 */
-	DEBUG_Transmit_FIFO_Events();
 	ua3reo_dev_cat_parseCommand();
 	if (FFT_need_fft) FFT_doFFT();
   /* USER CODE END TIM4_IRQn 1 */
@@ -472,12 +472,28 @@ void TIM6_DAC_IRQHandler(void)
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
 	if (TRX_ptt_cat != TRX_old_ptt_cat) TRX_ptt_change();
 	if (TRX_key_serial != TRX_old_key_serial) TRX_key_change();
-	if (TRX_key_hard == HAL_GPIO_ReadPin(KEY_IN_GPIO_Port, KEY_IN_Pin)) TRX_key_change();
+	if (TRX_key_hard == HAL_GPIO_ReadPin(KEY_IN_DOT_GPIO_Port, KEY_IN_DOT_Pin)) TRX_key_change();
 	
 	LCD_doEvents();
 	FFT_printFFT();
 	TRX_RF_UNIT_UpdateState(false);
   /* USER CODE END TIM6_DAC_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM7 global interrupt.
+  */
+void TIM7_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM7_IRQn 0 */
+	
+	//таймер вывода отладки
+	
+  /* USER CODE END TIM7_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim7);
+  /* USER CODE BEGIN TIM7_IRQn 1 */
+	DEBUG_Transmit_FIFO_Events();
+  /* USER CODE END TIM7_IRQn 1 */
 }
 
 /**
