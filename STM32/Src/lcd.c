@@ -139,7 +139,11 @@ void LCD_Init(void)
 {
 	LCDDriver_setBrightness(TRX.LCD_Brightness);
 	LCDDriver_Init();
+#if SCREEN_ROTATE
+	LCDDriver_setRotation(2);
+#else
 	LCDDriver_setRotation(4);
+#endif
 	LCDDriver_Fill(COLOR_WHITE);
 	Init_XPT2046();
 	LCD_redraw();

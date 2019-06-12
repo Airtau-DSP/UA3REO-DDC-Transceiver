@@ -65,15 +65,15 @@ void Get_Touch_XY(volatile uint16_t *x_kor, volatile uint16_t *y_kor, uint8_t co
 	uint8_t i = 0;
 	uint16_t tmpx, tmpy, touch_x, touch_y = 0;
 
-	touch_x = Get_Touch(SPI_Y);//считываем координату Х //Они перепутаны изза переворота))
+	touch_x = Get_Touch(SPI_Y);//считываем координату Х
 	delay_us(100);
-	touch_y = Get_Touch(SPI_X);//считываем координату Y //Они перепутаны изза переворота))
+	touch_y = Get_Touch(SPI_X);//считываем координату Y
 
 	//считываем координаты опр. кол-во раз и каждый раз находим среднее значение
 	//если одна из координат равна нулю второе значение тоже обнуляем и не учитываем его
 	for (i = 0; i < count_read; i++)
 	{
-		tmpx = Get_Touch(SPI_Y); //Они перепутаны изза переворота))
+		tmpx = Get_Touch(SPI_Y);
 		delay_us(100);
 		tmpy = Get_Touch(SPI_X);
 
