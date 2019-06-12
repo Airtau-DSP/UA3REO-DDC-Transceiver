@@ -114,7 +114,7 @@ static void SYSMENU_HANDL_Touch_Calibrate(int8_t direction)
 {
 	HAL_Delay(500);
 	Touch_Calibrate();
-	LCD_redraw();
+	drawSystemMenu(true);
 }
 
 static void SYSMENU_HANDL_SETTIME(int8_t direction)
