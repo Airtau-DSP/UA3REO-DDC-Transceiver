@@ -25,6 +25,7 @@
 extern void FFT_doFFT(void);
 extern void FFT_printFFT(void);
 extern void FFT_moveWaterfall(int16_t freq_diff);
+extern void FFT_printWaterfallDMA(void);
 
 volatile extern uint32_t FFT_buff_index;
 extern bool NeedFFTInputBuffer;

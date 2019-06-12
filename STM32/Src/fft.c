@@ -38,6 +38,8 @@ static float32_t decimZoomFFTIState[FFT_SIZE + 4 - 1];
 static float32_t decimZoomFFTQState[FFT_SIZE + 4 - 1];
 static uint16_t zoomed_width = 0;
 
+static uint16_t print_wtf_xindex = 0;
+static uint16_t print_wtf_yindex = 0;
 static uint16_t getFFTColor(uint8_t height);
 static void fft_fill_color_scale(void);
 
@@ -313,7 +315,7 @@ void FFT_doFFT(void)
 			FFTOutput_mean[i] += (FFTInput[i] - FFTOutput_mean[i]) / TRX.FFT_Averaging;
 		else
 			FFTOutput_mean[i] -= (FFTOutput_mean[i] - FFTInput[i]) / TRX.FFT_Averaging;
-
+		
 	NeedFFTInputBuffer = true;
 	FFT_need_fft = false;
 }
@@ -371,8 +373,9 @@ void FFT_printFFT(void)
 	for (uint32_t fft_y = 0; fft_y < FFT_MAX_HEIGHT; fft_y++)
 		for (uint32_t fft_x = 0; fft_x < FFT_PRINT_SIZE; fft_x++)
 		{
-			if (new_x == (FFT_PRINT_SIZE / 2)) continue;
-			if (fft_y < (FFT_MAX_HEIGHT - fft_header[fft_x]))
+			if (fft_x == (FFT_PRINT_SIZE / 2))
+				LCDDriver_SendData(COLOR_GREEN);
+			else if (fft_y <= (FFT_MAX_HEIGHT - fft_header[fft_x]))
 				LCDDriver_SendData(COLOR_BLACK);
 			else
 				LCDDriver_SendData(color_scale[fft_y]);
@@ -407,12 +410,39 @@ void FFT_printFFT(void)
 	}
 
 	//выводим на экран водопада с помощью DMA
+	print_wtf_xindex = 0;
+	print_wtf_yindex = 0;
+	FFT_printWaterfallDMA();
+}
+
+void FFT_printWaterfallDMA(void)
+{
 	uint8_t cwdecoder_offset = 0;
 	if(TRX.CWDecoder && (TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U))
 		cwdecoder_offset = FFT_CWDECODER_OFFSET;
 	
-	LCDDriver_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET, FFT_PRINT_SIZE - 1, FFT_BOTTOM_OFFSET + FFT_WTF_HEIGHT - cwdecoder_offset);
-	HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer, LCD_FSMC_DATA_ADDR, (FFT_WTF_HEIGHT - cwdecoder_offset) * FFT_PRINT_SIZE);
+	if(print_wtf_yindex<(FFT_WTF_HEIGHT - cwdecoder_offset))
+	{
+		if(print_wtf_xindex==0)
+		{
+			LCDDriver_SetCursorAreaPosition(0, FFT_BOTTOM_OFFSET + print_wtf_yindex, FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET + print_wtf_yindex + 1);
+			HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer[print_wtf_yindex][0], LCD_FSMC_DATA_ADDR, FFT_PRINT_SIZE / 2);
+			print_wtf_xindex = 1;
+		}
+		else
+		{
+			LCDDriver_SetCursorAreaPosition(FFT_PRINT_SIZE / 2 + 1, FFT_BOTTOM_OFFSET + print_wtf_yindex, FFT_PRINT_SIZE - 1, FFT_BOTTOM_OFFSET + print_wtf_yindex + 1);
+			HAL_DMA_Start_IT(&hdma_memtomem_dma2_stream6, (uint32_t)&wtf_buffer[print_wtf_yindex][FFT_PRINT_SIZE / 2 + 1], LCD_FSMC_DATA_ADDR, FFT_PRINT_SIZE / 2 - 1);
+			print_wtf_yindex++;
+			print_wtf_xindex = 0;
+		}
+	}
+	else
+	{
+		LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, FFT_WTF_HEIGHT - cwdecoder_offset, COLOR_GREEN);
+		FFT_need_fft = true;
+		LCD_busy = false;
+	}
 }
 
 void FFT_moveWaterfall(int16_t freq_diff)

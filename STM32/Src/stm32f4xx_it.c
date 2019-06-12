@@ -554,12 +554,9 @@ void DMA2_Stream6_IRQHandler(void)
   /* USER CODE END DMA2_Stream6_IRQn 0 */
   HAL_DMA_IRQHandler(&hdma_memtomem_dma2_stream6);
   /* USER CODE BEGIN DMA2_Stream6_IRQn 1 */
-	if(TRX.CWDecoder && (TRX_getMode()==TRX_MODE_CW_L || TRX_getMode()==TRX_MODE_CW_U))
-		LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET,  FFT_WTF_HEIGHT - FFT_CWDECODER_OFFSET, COLOR_GREEN);
-	else
-		LCDDriver_drawFastVLine(FFT_PRINT_SIZE / 2, FFT_BOTTOM_OFFSET, FFT_WTF_HEIGHT, COLOR_GREEN);
-	FFT_need_fft = true;
-	LCD_busy = false;
+	
+	FFT_printWaterfallDMA();
+	
   /* USER CODE END DMA2_Stream6_IRQn 1 */
 }
 
