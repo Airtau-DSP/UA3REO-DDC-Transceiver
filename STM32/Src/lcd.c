@@ -147,6 +147,7 @@ void LCD_Init(void)
 	LCDDriver_Fill(COLOR_WHITE);
 	Init_XPT2046();
 	LCD_redraw();
+	Touch_Set_Coef(TRX.Touchpad_x0, TRX.Touchpad_y0, TRX.Touchpad_x1, TRX.Touchpad_y1, TRX.Touchpad_x2, TRX.Touchpad_y2, TRX.Touchpad_x3, TRX.Touchpad_y3, TRX.Touchpad_x4, TRX.Touchpad_y4, TRX.Touchpad_x5, TRX.Touchpad_y5, TRX.Touchpad_x6, TRX.Touchpad_y6, TRX.Touchpad_x7, TRX.Touchpad_y7, TRX.Touchpad_x8, TRX.Touchpad_y8);
 }
 
 static void LCD_displayTopButtons(bool redraw) { //вывод верхних кнопок

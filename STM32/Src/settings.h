@@ -103,6 +103,16 @@ extern struct TRX_SETTINGS {
 	float32_t Touchpad_y2;
 	float32_t Touchpad_x3;
 	float32_t Touchpad_y3;
+	float32_t Touchpad_x4;
+	float32_t Touchpad_y4;
+	float32_t Touchpad_x5;
+	float32_t Touchpad_y5;
+	float32_t Touchpad_x6;
+	float32_t Touchpad_y6;
+	float32_t Touchpad_x7;
+	float32_t Touchpad_y7;
+	float32_t Touchpad_x8;
+	float32_t Touchpad_y8;
 	uint8_t	ENCODER_SLOW_RATE;
 	uint8_t LCD_Brightness;
 	uint8_t Standby_Time;

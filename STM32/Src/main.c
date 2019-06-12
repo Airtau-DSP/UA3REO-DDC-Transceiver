@@ -178,7 +178,6 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_4); //LCD backlight
 	LoadSettings();
 	LCD_Init();
-	Touch_Set_Coef(TRX.Touchpad_x0, TRX.Touchpad_y0, TRX.Touchpad_x1, TRX.Touchpad_y1, TRX.Touchpad_x2, TRX.Touchpad_y2, TRX.Touchpad_x3, TRX.Touchpad_y3);
 	if(!TRX.Calibrated)
 	{
 		Touch_Calibrate();

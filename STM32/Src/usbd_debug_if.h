@@ -12,7 +12,7 @@ extern "C" {
 	uint8_t DEBUG_Transmit_FS(uint8_t* Buf, uint16_t Len);
 
 	void DEBUG_Transmit_FIFO(uint8_t *data, uint16_t length);
-	void DEBUG_Transmit_FIFO_Events(void);
+	extern bool DEBUG_Transmit_FIFO_Events(void);
 
 #ifdef __cplusplus
 }

@@ -83,6 +83,15 @@ void sendToDebug_newline(void)
 	sendToDebug_str("\r\n");
 }
 
+void sendToDebug_flush(void)
+{
+	while(!DEBUG_Transmit_FIFO_Events()) 
+	{ 
+		HAL_IWDG_Refresh(&hiwdg);
+		HAL_Delay(1); 
+	}
+}
+
 void sendToDebug_uint8(uint8_t data, bool _inline)
 {
 	char tmp[50] = "";
@@ -162,6 +171,13 @@ void delay_us(uint32_t us)
 	while (DWT_CYCCNT < us_count_tick);
 	//останавливаем счётчик
 	DWT_CONTROL &= ~DWT_CTRL_CYCCNTENA_Msk;
+}
+
+bool beetween(float32_t a, float32_t b, float32_t val)
+{
+	if(a <= val && val <= b) return true;
+	if(b <= val && val <= a) return true;
+	return false;
 }
 
 uint32_t getFrequencyFromPhrase(uint32_t phrase) //высчитываем фазу частоты для FPGA

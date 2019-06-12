@@ -185,11 +185,11 @@ void DEBUG_Transmit_FIFO(uint8_t *data, uint16_t length)
 }
 
 static uint8_t temp_buff[DEBUG_TX_FIFO_BUFFER_SIZE] = { 0 };
-void DEBUG_Transmit_FIFO_Events(void)
+bool DEBUG_Transmit_FIFO_Events(void)
 {
-	if (debug_tx_fifo_head == debug_tx_fifo_tail) return;
+	if (debug_tx_fifo_head == debug_tx_fifo_tail) return true;
 	USBD_DEBUG_HandleTypeDef *hcdc = (USBD_DEBUG_HandleTypeDef*)hUsbDeviceFS.pClassDataDEBUG;
-	if (hcdc->TxState != 0) return;
+	if (hcdc->TxState != 0) return false;
 
 	uint16_t indx = 0;
 
@@ -216,4 +216,5 @@ void DEBUG_Transmit_FIFO_Events(void)
 		}
 	}
 	DEBUG_Transmit_FS(temp_buff, indx);
+	return false;
 }
