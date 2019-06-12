@@ -355,7 +355,7 @@ static dc_filter_state_type dc_filter_state[6] =
 	{0,0}, //5 FFT Q
 };
 
-void dc_filter(float32_t *agcBuffer, int16_t blockSize, uint8_t stateNum)	//удаляет постоянную составлющую сигнала true - I
+void dc_filter(float32_t *agcBuffer, int16_t blockSize, uint8_t stateNum)	//удаляет постоянную составлющую сигнала
 {
 	const float32_t A1 = (1.0 - pow(2.0, (-11.0))); // (1-2^(-7)) Q32:1.31
 

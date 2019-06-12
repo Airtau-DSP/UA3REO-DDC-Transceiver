@@ -88,12 +88,16 @@ void processTxAudio(void)
 		{
 			FPGA_Audio_Buffer_I_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2]);
 			FPGA_Audio_Buffer_Q_tmp[i] = (int16_t)(Processor_AudioBuffer_A[i * 2 + 1]);
-			//Process DC corrector filter
-			dc_filter(FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE, 2);
-			dc_filter(FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE, 3);
 		}
 	}
 
+	//Process DC corrector filter
+	if (!TRX_tune)
+	{
+		dc_filter(FPGA_Audio_Buffer_I_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE, 2);
+		dc_filter(FPGA_Audio_Buffer_Q_tmp, FPGA_AUDIO_BUFFER_HALF_SIZE, 3);
+	}
+	
 	if (TRX_getMode() != TRX_MODE_IQ && !TRX_tune)
 	{
 		//IIR HPF
@@ -285,7 +289,6 @@ void processRxAudio(void)
 	case TRX_MODE_NFM:
 	case TRX_MODE_WFM:
 	case TRX_MODE_AM:
-	case TRX_MODE_LOOPBACK:
 		readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_SPEC_Q[0], (uint32_t *)&FPGA_Audio_Buffer_Q_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
 		readHalfFromCircleBuffer32((uint32_t *)&FPGA_Audio_Buffer_SPEC_I[0], (uint32_t *)&FPGA_Audio_Buffer_I_tmp[0], FPGA_Audio_Buffer_Index_tmp, FPGA_AUDIO_BUFFER_SIZE);
 		break;
@@ -354,7 +357,6 @@ void processRxAudio(void)
 		doRX_COPYCHANNEL();
 		break;
 	case TRX_MODE_IQ:
-	case TRX_MODE_LOOPBACK:
 	default:
 		doRX_SMETER();
 		break;
