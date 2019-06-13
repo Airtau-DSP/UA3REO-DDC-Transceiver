@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include "functions.h"
 
-static PROFILE_INFO profiles[PROFILES_COUNT];
+static PROFILE_INFO profiles[PROFILES_COUNT] = { 0 };
 
 void InitProfiler()
 {
@@ -26,34 +26,42 @@ void StartProfiler(uint8_t pid)
 	profiles[pid].startTime = HAL_GetTick();
 }
 
-void StartProfilerTick()
+void StartProfilerUs()
 {
-	if (profiles[0].started) return;
-	profiles[0].started = true;
-	profiles[0].startTime = 0;
-	SCB_DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
-	DWT_CYCCNT = 0;
-	DWT_CONTROL |= DWT_CTRL_CYCCNTENA_Msk;
+	if (profiles[PROFILES_COUNT-1].started) return;
+	if(bitRead(DWT->CTRL, DWT_CTRL_CYCCNTENA_Pos)) return;
+	profiles[PROFILES_COUNT-1].started = true;
+	profiles[PROFILES_COUNT-1].startTime = 0;
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	DWT->CYCCNT = 0;
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 }
 
-void EndProfiler(uint8_t pid)
+void EndProfiler(uint8_t pid, bool summarize)
 {
 	if (pid >= PROFILES_COUNT) return;
 	if (!profiles[pid].started) return;
 	profiles[pid].endTime = HAL_GetTick();
-	profiles[pid].diff = profiles[pid].endTime - profiles[pid].startTime;
+	if(summarize)
+		profiles[pid].diff += profiles[pid].endTime - profiles[pid].startTime;
+	else
+		profiles[pid].diff = profiles[pid].endTime - profiles[pid].startTime;
 	profiles[pid].samples++;
 	profiles[pid].started = false;
 }
 
-void EndProfilerTick()
+void EndProfilerUs(bool summarize)
 {
-	if (!profiles[0].started) return;
-	profiles[0].endTime = DWT_CYCCNT / (SystemCoreClock / 1000000);
-	DWT_CONTROL &= ~DWT_CTRL_CYCCNTENA_Msk;
-	profiles[0].diff = +profiles[0].endTime;
-	profiles[0].samples++;
-	profiles[0].started = false;
+	if (!profiles[PROFILES_COUNT-1].started) return;
+	profiles[PROFILES_COUNT-1].endTime = DWT->CYCCNT / (SystemCoreClock / 1000000);
+	DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk;
+	DWT->CYCCNT = 0;
+	if(summarize)
+		profiles[PROFILES_COUNT-1].diff += profiles[PROFILES_COUNT-1].endTime;
+	else
+		profiles[PROFILES_COUNT-1].diff = profiles[PROFILES_COUNT-1].endTime;
+	profiles[PROFILES_COUNT-1].samples++;
+	profiles[PROFILES_COUNT-1].started = false;
 }
 
 void PrintProfilerResult()
@@ -64,7 +72,12 @@ void PrintProfilerResult()
 		{
 			sendToDebug_str("Profile #");
 			sendToDebug_uint8(i, true);
-			sendToDebug_str(": ");
+			sendToDebug_str(" Samples: ");
+			sendToDebug_uint32(profiles[i].samples, true);
+			if(i==PROFILES_COUNT-1)
+				sendToDebug_str(" Time, us: ");
+			else
+				sendToDebug_str(" Time, ms: ");
 			sendToDebug_uint32(profiles[i].diff, false);
 			profiles[i].diff = 0;
 			profiles[i].samples = 0;

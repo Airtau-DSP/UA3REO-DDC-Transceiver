@@ -8,10 +8,6 @@
 #include "arm_math.h"
 #include "profiler.h"
 
-#define    DWT_CYCCNT    *(volatile unsigned long *)0xE0001004
-#define    DWT_CONTROL   *(volatile unsigned long *)0xE0001000
-#define    SCB_DEMCR     *(volatile unsigned long *)0xE000EDFC
-
 // Internal Macros
 #define HEX__(n) 0x##n##LU
 #define B8__(x) ((x&0x0000000FLU)?1:0) \

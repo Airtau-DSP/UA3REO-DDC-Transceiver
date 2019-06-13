@@ -15,8 +15,6 @@ volatile bool FPGA_NeedSendParams = false;
 volatile bool FPGA_NeedGetParams = false;
 volatile bool FPGA_Buffer_underrun = false;
 
-static uint8_t FPGA_fpgadata_in_tmp8 = 0;
-static uint8_t FPGA_fpgadata_out_tmp8 = 0;
 static GPIO_InitTypeDef FPGA_GPIO_InitStruct;
 static bool FPGA_bus_direction = false; //false - OUT; true - in
 uint16_t FPGA_Audio_Buffer_Index = 0;
@@ -28,18 +26,18 @@ float32_t FPGA_Audio_Buffer_VOICE_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_Q[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 float32_t FPGA_Audio_SendBuffer_I[FPGA_AUDIO_BUFFER_SIZE] = { 0 };
 
-static inline uint8_t FPGA_readPacket(void);
-static inline void FPGA_writePacket(uint8_t packet);
-static inline void FPGA_clockFall(void);
-static inline void FPGA_clockRise(void);
-static void FPGA_setBusInput(void);
-static void FPGA_setBusOutput(void);
-static void FPGA_fpgadata_sendiq(void);
-static void FPGA_fpgadata_getiq(void);
-static void FPGA_fpgadata_getparam(void);
-static void FPGA_fpgadata_sendparam(void);
-static void FPGA_test_bus(void);
-static void FPGA_read_flash(void);
+uint8_t FPGA_readPacket(void);
+void FPGA_writePacket(uint8_t packet);
+void FPGA_clockFall(void);
+void FPGA_clockRise(void);
+void FPGA_fpgadata_sendiq(void);
+void FPGA_fpgadata_getiq(void);
+void FPGA_fpgadata_getparam(void);
+void FPGA_fpgadata_sendparam(void);
+void FPGA_setBusInput(void);
+void FPGA_setBusOutput(void);
+void FPGA_test_bus(void);
+void FPGA_read_flash(void);
 
 void FPGA_Init(void)
 {
@@ -56,7 +54,7 @@ void FPGA_Init(void)
 	//FPGA_read_flash();
 }
 
-static void FPGA_test_bus(void) //проверка шины
+void FPGA_test_bus(void) //проверка шины
 {
 	FPGA_busy = true;
 	for(uint8_t b = 0 ; b < 8 ; b++)
@@ -121,6 +119,7 @@ void FPGA_stop_audio_clock(void) //остановка PLL для I2S и коде
 
 void FPGA_fpgadata_stuffclock(void)
 {
+	uint8_t FPGA_fpgadata_out_tmp8 = 0;
 	FPGA_busy = true;
 	//обмен данными
 
@@ -148,6 +147,7 @@ void FPGA_fpgadata_stuffclock(void)
 
 void FPGA_fpgadata_iqclock(void)
 {
+	uint8_t FPGA_fpgadata_out_tmp8 = 0;
 	FPGA_busy = true;
 	//обмен данными
 
@@ -170,8 +170,9 @@ void FPGA_fpgadata_iqclock(void)
 	FPGA_busy = false;
 }
 
-static void FPGA_fpgadata_sendparam(void)
+inline void FPGA_fpgadata_sendparam(void)
 {
+	uint8_t FPGA_fpgadata_out_tmp8 = 0;
 	uint32_t TRX_freq_phrase = getPhraseFromFrequency(CurrentVFO()->Freq);
 	if (!TRX_on_TX())
 	{
@@ -189,7 +190,6 @@ static void FPGA_fpgadata_sendparam(void)
 	}
 	//STAGE 2
 	//out PTT+PREAMP
-	FPGA_fpgadata_out_tmp8 = 0;
 	bitWrite(FPGA_fpgadata_out_tmp8, 3, (TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK));
 	if (!TRX_on_TX()) bitWrite(FPGA_fpgadata_out_tmp8, 2, TRX.Preamp);
 	FPGA_writePacket(FPGA_fpgadata_out_tmp8);
@@ -219,8 +219,9 @@ static void FPGA_fpgadata_sendparam(void)
 	FPGA_clockFall();
 }
 
-static void FPGA_fpgadata_getparam(void)
+inline void FPGA_fpgadata_getparam(void)
 {
+	uint8_t FPGA_fpgadata_in_tmp8 = 0;
 	int16_t adc_min = 0;
 	int16_t adc_max = 0;
 	//STAGE 2
@@ -265,7 +266,7 @@ static void FPGA_fpgadata_getparam(void)
 	FPGA_clockFall();
 }
 
-static void FPGA_fpgadata_getiq(void)
+inline void FPGA_fpgadata_getiq(void)
 {
 	int16_t FPGA_fpgadata_in_tmp16 = 0;
 	FPGA_samples++;
@@ -294,7 +295,6 @@ static void FPGA_fpgadata_getiq(void)
 		if (NeedFFTInputBuffer) FFTInput_Q[FFT_buff_index] = FPGA_fpgadata_in_tmp16;
 		FPGA_Audio_Buffer_SPEC_Q[FPGA_Audio_Buffer_Index] = FPGA_fpgadata_in_tmp16;
 	}
-
 	//clock
 	FPGA_clockFall();
 
@@ -383,7 +383,7 @@ static void FPGA_fpgadata_getiq(void)
 	FPGA_clockFall();
 }
 
-static void FPGA_fpgadata_sendiq(void)
+inline void FPGA_fpgadata_sendiq(void)
 {
 	int16_t FPGA_fpgadata_out_tmp16 = 0;
 
@@ -448,77 +448,67 @@ static void FPGA_fpgadata_sendiq(void)
 	}
 }
 
-static void FPGA_setDirectionFast(GPIO_TypeDef  *GPIOx, GPIO_InitTypeDef *GPIO_Init)
+inline void FPGA_setBusInput(void)
 {
-	uint32_t position;
-	uint32_t ioposition = 0x00U;
-	uint32_t iocurrent = 0x00U;
-	uint32_t temp = 0x00U;
-
-	for (position = 0U; position < 16U; position++)
+	for (uint32_t position = 0U; position < 8U; position++)
 	{
-		ioposition = 0x01U << position;
-		iocurrent = (uint32_t)(GPIO_Init->Pin) & ioposition;
-
-		if (iocurrent == ioposition)
+		if (((uint32_t)(FPGA_GPIO_InitStruct.Pin) & (0x01U << position)) == (0x01U << position))
 		{
-			// Configure IO Direction mode (Input, Output, Alternate or Analog)
-			temp = GPIOx->MODER;
+			// Configure IO Direction mode (Input)
+			uint32_t temp = GPIOA->MODER;
 			temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
-			temp |= ((GPIO_Init->Mode & 0x00000003U) << (position * 2U));
-			GPIOx->MODER = temp;
-
-			if (GPIO_Init->Mode == GPIO_MODE_OUTPUT_PP)
-			{
-				// Configure the IO Output Type
-				temp = GPIOx->OTYPER;
-				temp &= ~(GPIO_OTYPER_OT_0 << position);
-				temp |= (((GPIO_Init->Mode & 0x00000010U) >> 4U) << position);
-				GPIOx->OTYPER = temp;
-			}
+			temp |= ((GPIO_MODE_INPUT & 0x00000003U) << (position * 2U));
+			GPIOA->MODER = temp;
 		}
 	}
-}
-
-static void FPGA_setBusInput(void)
-{
-	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_INPUT;
-	FPGA_setDirectionFast(GPIOA, &FPGA_GPIO_InitStruct);
+	
 	FPGA_bus_direction = true;
 }
 
-static void FPGA_setBusOutput(void)
+inline void FPGA_setBusOutput(void)
 {
-	FPGA_GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-	FPGA_setDirectionFast(GPIOA, &FPGA_GPIO_InitStruct);
+	for (uint32_t position = 0U; position < 8U; position++)
+	{
+		if (((uint32_t)(FPGA_GPIO_InitStruct.Pin) & (0x01U << position)) == (0x01U << position))
+		{
+			// Configure IO Direction mode (Output)
+			uint32_t temp = GPIOA->MODER;
+			temp &= ~(GPIO_MODER_MODER0 << (position * 2U));
+			temp |= ((GPIO_MODE_OUTPUT_PP & 0x00000003U) << (position * 2U));
+			GPIOA->MODER = temp;
+		}
+	}
+
 	FPGA_bus_direction = false;
 }
 
-static inline void FPGA_clockRise(void)
+inline void FPGA_clockRise(void)
 {
-	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	//HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_SET);
+	FPGA_CLK_GPIO_Port->BSRR = FPGA_CLK_Pin;
 }
 
-static inline void FPGA_clockFall(void)
+inline void FPGA_clockFall(void)
 {
-	HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
+	//HAL_GPIO_WritePin(FPGA_CLK_GPIO_Port, FPGA_CLK_Pin, GPIO_PIN_RESET);
+	FPGA_CLK_GPIO_Port->BSRR = ((uint32_t)FPGA_CLK_Pin << 16U);
 }
 
-static inline uint8_t FPGA_readPacket(void)
+inline uint8_t FPGA_readPacket(void)
 {
 	if (!FPGA_bus_direction)
 		FPGA_setBusInput();
-	return (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D0_Pin) == FPGA_BUS_D0_Pin) << 0)
-		| (((FPGA_BUS_D1_GPIO_Port->IDR & FPGA_BUS_D1_Pin) == FPGA_BUS_D1_Pin) << 1)
-		| (((FPGA_BUS_D2_GPIO_Port->IDR & FPGA_BUS_D2_Pin) == FPGA_BUS_D2_Pin) << 2)
-		| (((FPGA_BUS_D3_GPIO_Port->IDR & FPGA_BUS_D3_Pin) == FPGA_BUS_D3_Pin) << 3)
-		| (((FPGA_BUS_D4_GPIO_Port->IDR & FPGA_BUS_D4_Pin) == FPGA_BUS_D4_Pin) << 4)
-		| (((FPGA_BUS_D5_GPIO_Port->IDR & FPGA_BUS_D5_Pin) == FPGA_BUS_D5_Pin) << 5)
-		| (((FPGA_BUS_D6_GPIO_Port->IDR & FPGA_BUS_D6_Pin) == FPGA_BUS_D6_Pin) << 6)
-		| (((FPGA_BUS_D7_GPIO_Port->IDR & FPGA_BUS_D7_Pin) == FPGA_BUS_D7_Pin) << 7);
+	return  (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D0_Pin) == FPGA_BUS_D0_Pin) << 0)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D1_Pin) == FPGA_BUS_D1_Pin) << 1)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D2_Pin) == FPGA_BUS_D2_Pin) << 2)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D3_Pin) == FPGA_BUS_D3_Pin) << 3)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D4_Pin) == FPGA_BUS_D4_Pin) << 4)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D5_Pin) == FPGA_BUS_D5_Pin) << 5)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D6_Pin) == FPGA_BUS_D6_Pin) << 6)
+				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D7_Pin) == FPGA_BUS_D7_Pin) << 7);
 }
 
-static inline void FPGA_writePacket(uint8_t packet)
+inline void FPGA_writePacket(uint8_t packet)
 {
 	if (FPGA_bus_direction)
 		FPGA_setBusOutput();
@@ -541,7 +531,7 @@ static inline void FPGA_writePacket(uint8_t packet)
 		| ((uint32_t)FPGA_BUS_D0_Pin << 16U);
 }
 
-static void FPGA_start_command(uint8_t command) //выполнение команды к SPI flash
+void FPGA_start_command(uint8_t command) //выполнение команды к SPI flash
 {
 	FPGA_busy = true;
 	
@@ -559,18 +549,18 @@ static void FPGA_start_command(uint8_t command) //выполнение кома�
 	HAL_Delay(1);
 }
 
-static uint8_t FPGA_continue_command(uint8_t writedata) //продолжение чтения и записи к SPI flash
+uint8_t FPGA_continue_command(uint8_t writedata) //продолжение чтения и записи к SPI flash
 {
 	//STAGE 3 WRITE
 	FPGA_writePacket(writedata); 
 	FPGA_clockRise();
 	FPGA_clockFall();
-	delay_us(1000);
+	HAL_Delay(1);
 	//STAGE 4 READ
 	FPGA_clockRise();
 	FPGA_clockFall();
 	uint8_t data = FPGA_readPacket();
-	delay_us(1000);
+	HAL_Delay(1);
 	
 	return data;
 }
@@ -591,7 +581,7 @@ C7h - BULK ERASE
 B9h - DEEP POWER-DOWN 
 ABh - RELEASE from DEEP POWER-DOWN 
 */
-static void FPGA_read_flash(void) //чтение flash памяти
+void FPGA_read_flash(void) //чтение flash памяти
 {
 	FPGA_busy = true;
 	//FPGA_start_command(0xB9);

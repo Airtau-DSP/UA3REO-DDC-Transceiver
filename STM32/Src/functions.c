@@ -161,16 +161,21 @@ void sendToDebug_float32(float32_t data, bool _inline)
 
 void delay_us(uint32_t us)
 {
+	if(bitRead(DWT->CTRL, DWT_CTRL_CYCCNTENA_Pos))
+	{
+		HAL_Delay(1); 
+		return;
+	}
 	unsigned long us_count_tick = us * (SystemCoreClock / 1000000);
 	//разрешаем использовать счётчик
-	SCB_DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+	CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
 	//обнуляем значение счётного регистра
-	DWT_CYCCNT = 0;
+	DWT->CYCCNT = 0;
 	//запускаем счётчик
-	DWT_CONTROL |= DWT_CTRL_CYCCNTENA_Msk;
-	while (DWT_CYCCNT < us_count_tick);
+	DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
+	while (DWT->CYCCNT < us_count_tick);
 	//останавливаем счётчик
-	DWT_CONTROL &= ~DWT_CTRL_CYCCNTENA_Msk;
+	DWT->CTRL &= ~DWT_CTRL_CYCCNTENA_Msk;
 }
 
 bool beetween(float32_t a, float32_t b, float32_t val)

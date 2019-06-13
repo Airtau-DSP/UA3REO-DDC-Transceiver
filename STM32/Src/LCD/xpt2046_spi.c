@@ -19,7 +19,7 @@ void Init_XPT2046()
 	Spi_Master_Transmit(0X80);
 	Spi_Master_Transmit(0X00);
 	Spi_Master_Transmit(0X00);
-	delay_us(1000);
+	HAL_Delay(1);
 }
 ///////////////////////////////////
 uint8_t Spi_Master_Transmit(uint8_t out_data)

@@ -16,9 +16,9 @@ typedef struct {
 
 extern void InitProfiler(void);
 extern void StartProfiler(uint8_t pid);
-extern void EndProfiler(uint8_t pid);
+extern void EndProfiler(uint8_t pid, bool summarize);
 extern void PrintProfilerResult(void);
-extern void StartProfilerTick(void);
-extern void EndProfilerTick(void);
+extern void StartProfilerUs(void);
+extern void EndProfilerUs(bool summarize);
 
 #endif
