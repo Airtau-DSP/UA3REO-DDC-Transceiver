@@ -563,6 +563,16 @@
               <FilePath>..\Src\wm8731.h</FilePath>
             </File>
             <File>
+              <FileName>wifi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Src\wifi.c</FilePath>
+            </File>
+            <File>
+              <FileName>wifi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Src\wifi.h</FilePath>
+            </File>
+            <File>
               <FileName>wire.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Src\wire.c</FilePath>

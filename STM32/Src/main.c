@@ -38,6 +38,7 @@
 #include "profiler.h"
 #include "usb_device.h"
 #include "usbd_cat_if.h"
+#include "wifi.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -198,6 +199,7 @@ int main(void)
 	HAL_TIM_Base_Start(&htim7);
 	HAL_TIM_Base_Start_IT(&htim7);
 	TRX_RF_UNIT_UpdateState(false);
+	//WIFI_Init();
 	sendToDebug_str("UA3REO Started\r\n\r\n");
 	TRX_inited = true;
   /* USER CODE END 2 */

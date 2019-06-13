@@ -1,8 +1,6 @@
 #ifndef AGC_H
 #define AGC_H
 
-//AGC MODULE FROM mcHF QRP Transceiver K Atanassov - M0NKA 2014
-
 #include "stm32f4xx_hal.h"
 #include <stdbool.h>
 #include "arm_math.h"
