@@ -22,8 +22,6 @@ extern DMA_HandleTypeDef hdma_i2s3_ext_rx;
 extern DMA_HandleTypeDef hdma_spi3_tx;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream0;
 extern DMA_HandleTypeDef hdma_memtomem_dma2_stream1;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream2;
-extern DMA_HandleTypeDef hdma_memtomem_dma2_stream3;
 
 extern void processRxAudio(void);
 extern void processTxAudio(void);
