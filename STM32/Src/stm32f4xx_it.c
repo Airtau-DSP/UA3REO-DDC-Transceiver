@@ -70,6 +70,7 @@
 #include "trx_manager.h"
 #include "audio_filters.h"
 #include "LCD/xpt2046_spi.h"
+#include "wifi.h"
 
 static uint32_t ms50_counter = 0;
 static uint32_t tim5_counter = 0;
@@ -404,6 +405,9 @@ void TIM6_DAC_IRQHandler(void)
 		TRX_RX_dBm=10*log10f_fast((ADC_RF_IN_Value*ADC_RF_IN_Value)/(50.0f*0.001f)) ; //получаем значение мощности в dBm для сопротивления 50ом
 		Processor_RX_Audio_Samples_MAX_value=0;
 		Processor_RX_Audio_Samples_MIN_value=0;
+		
+		//WIFI
+		WIFI_ProcessAnswer();
 	}
 	
 	if (ms50_counter == 20) // every 1 sec
@@ -411,7 +415,7 @@ void TIM6_DAC_IRQHandler(void)
 		ms50_counter = 0;
 		TRX_DoAutoGain(); //Process AutoGain feature
 
-#if 0	
+#if 0
 		//Save Debug variables
 		uint32_t dbg_FPGA_samples=FPGA_samples;
 		uint32_t dbg_WM8731_DMA_samples=WM8731_DMA_samples/2;
@@ -440,6 +444,7 @@ void TIM6_DAC_IRQHandler(void)
 		sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
 		sendToDebug_str("ADC MIN Amplitude: "); sendToDebug_int16(TRX_ADC_MINAMPLITUDE,false);
 		sendToDebug_str("ADC MAX Amplitude: "); sendToDebug_int16(TRX_ADC_MAXAMPLITUDE,false);
+		sendToDebug_str("WIFI State: "); sendToDebug_int16(WIFI_State,false);
 		sendToDebug_newline();
 		PrintProfilerResult();
 #endif
