@@ -268,7 +268,7 @@ inline void FPGA_fpgadata_getparam(void)
 
 inline void FPGA_fpgadata_getiq(void)
 {
-	int16_t FPGA_fpgadata_in_tmp16 = 0;
+	register int16_t FPGA_fpgadata_in_tmp16 = 0;
 	FPGA_samples++;
 
 	//STAGE 2
@@ -498,6 +498,9 @@ inline uint8_t FPGA_readPacket(void)
 {
 	if (!FPGA_bus_direction)
 		FPGA_setBusInput();
+	__asm("nop");
+	return FPGA_BUS_D0_GPIO_Port->IDR;
+	/*
 	return  (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D0_Pin) == FPGA_BUS_D0_Pin) << 0)
 				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D1_Pin) == FPGA_BUS_D1_Pin) << 1)
 				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D2_Pin) == FPGA_BUS_D2_Pin) << 2)
@@ -506,12 +509,16 @@ inline uint8_t FPGA_readPacket(void)
 				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D5_Pin) == FPGA_BUS_D5_Pin) << 5)
 				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D6_Pin) == FPGA_BUS_D6_Pin) << 6)
 				| (((FPGA_BUS_D0_GPIO_Port->IDR & FPGA_BUS_D7_Pin) == FPGA_BUS_D7_Pin) << 7);
+	*/
 }
 
 inline void FPGA_writePacket(uint8_t packet)
 {
 	if (FPGA_bus_direction)
 		FPGA_setBusOutput();
+	
+	FPGA_BUS_D0_GPIO_Port->BSRR = packet | 0xFF0000;
+	/*
 	FPGA_BUS_D0_GPIO_Port->BSRR =
 		(bitRead(packet, 0) << 0 & FPGA_BUS_D0_Pin)
 		| (bitRead(packet, 1) << 1 & FPGA_BUS_D1_Pin)
@@ -529,6 +536,7 @@ inline void FPGA_writePacket(uint8_t packet)
 		| ((uint32_t)FPGA_BUS_D2_Pin << 16U)
 		| ((uint32_t)FPGA_BUS_D1_Pin << 16U)
 		| ((uint32_t)FPGA_BUS_D0_Pin << 16U);
+		*/
 }
 
 void FPGA_start_command(uint8_t command) //выполнение команды к SPI flash
