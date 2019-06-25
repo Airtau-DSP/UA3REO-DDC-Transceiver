@@ -871,7 +871,7 @@ artup_stm32f407xx.d -oua3reo\startup_stm32f407xx.o -I.\RTE\_UA3REO -IC:\Keil_v5
 \ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\Core\Include -IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.
 5.1\CMSIS\DSP\Include -IC:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\2.13.0\Drivers\C
 MSIS\Device\ST\STM32F4xx\Include --predefine="__MICROLIB SETA 1" --predefine="_
-_UVISION_VERSION SETA 526" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx 
+_UVISION_VERSION SETA 528" --predefine="_RTE_ SETA 1" --predefine="STM32F407xx 
 SETA 1" --list=startup_stm32f407xx.lst startup_stm32f407xx.s
 
 

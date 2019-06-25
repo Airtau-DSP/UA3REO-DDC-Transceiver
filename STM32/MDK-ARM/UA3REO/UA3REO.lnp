@@ -1,5 +1,5 @@
 --cpu=Cortex-M4.fp
-"ua3reo/startup_stm32f407xx.o"
+"ua3reo\startup_stm32f407xx.o"
 "ua3reo\agc.o"
 "ua3reo\audio_processor.o"
 "ua3reo\audio_filters.o"
