@@ -64,7 +64,16 @@
 "ua3reo\usbd_ctlreq.o"
 "ua3reo\usbd_desc.o"
 "ua3reo\usbd_ioreq.o"
-"C:\Keil_v5\ARM\PACK\ARM\CMSIS\5.5.1\CMSIS\DSP\Lib\ARM\arm_cortexM4lf_math.lib"
+"ua3reo\basicmathfunctions.o"
+"ua3reo\commontables.o"
+"ua3reo\complexmathfunctions.o"
+"ua3reo\controllerfunctions.o"
+"ua3reo\fastmathfunctions.o"
+"ua3reo\filteringfunctions.o"
+"ua3reo\matrixfunctions.o"
+"ua3reo\statisticsfunctions.o"
+"ua3reo\supportfunctions.o"
+"ua3reo\transformfunctions.o"
 --library_type=microlib --nodebug --strict --scatter "UA3REO\UA3REO.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
