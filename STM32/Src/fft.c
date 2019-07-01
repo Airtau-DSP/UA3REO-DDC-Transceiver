@@ -217,7 +217,7 @@ void FFT_doFFT(void)
 
 	uint32_t maxIndex = 0; // Индекс элемента массива с максимальной амплитудой в результирующей АЧХ
 	float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
-	float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
+	//float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
 	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
 	float32_t window_multiplier = 0; //Множитель для вычисления окна к FFT
 
@@ -305,14 +305,14 @@ void FFT_doFFT(void)
 
 	//Автокалибровка уровней FFT
 	arm_max_f32(FFTInput, FFT_PRINT_SIZE, &maxValue, &maxIndex); //ищем максимум в АЧХ
-	arm_mean_f32(FFTInput, FFT_PRINT_SIZE, &meanValue); //ищем среднее в АЧХ
+	//arm_mean_f32(FFTInput, FFT_PRINT_SIZE, &meanValue); //ищем среднее в АЧХ
 	diffValue = (maxValue - maxValueFFT) / FFT_STEP_COEFF;
 	if (maxValueErrors >= FFT_MAX_IN_RED_ZONE && diffValue > 0) maxValueFFT += diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue < 0 && diffValue < -FFT_STEP_FIX) maxValueFFT += diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT > FFT_STEP_FIX) maxValueFFT -= FFT_STEP_FIX;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && diffValue < 0 && diffValue < -FFT_STEP_PRECISION) maxValueFFT += diffValue;
 	else if (maxValueErrors <= FFT_MIN_IN_RED_ZONE && maxValueFFT > FFT_STEP_PRECISION) maxValueFFT -= FFT_STEP_PRECISION;
-	if ((meanValue * 4) > maxValueFFT) maxValueFFT = (meanValue * 4);
+	//if ((meanValue * 4) > maxValueFFT) maxValueFFT = (meanValue * 4);
 	maxValueErrors = 0;
 	if (maxValueFFT < FFT_MIN) maxValueFFT = FFT_MIN;
 	if (TRX_getMode() == TRX_MODE_LOOPBACK) maxValueFFT = 60000;
