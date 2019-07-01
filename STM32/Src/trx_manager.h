@@ -50,6 +50,7 @@ volatile extern bool TRX_DAC_OTR;
 volatile extern int16_t TRX_ADC_MINAMPLITUDE;
 volatile extern int16_t TRX_ADC_MAXAMPLITUDE;
 volatile extern uint8_t TRX_Time_InActive;
+volatile extern uint8_t TRX_Fan_Timeout;
 
 extern const char *MODE_DESCR[];
 

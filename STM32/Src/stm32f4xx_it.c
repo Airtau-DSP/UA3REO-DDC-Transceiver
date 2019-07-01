@@ -478,6 +478,11 @@ void TIM6_DAC_IRQHandler(void)
 		}
 	}
 	
+	if (TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK)
+	{
+		TRX_Fan_Timeout += 2; //дуем в 2 раза больше чем работаем на передачу
+		if(TRX_Fan_Timeout > 120) TRX_Fan_Timeout=120; //но не более 2х минут
+	}
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();
 	if (TRX_ptt_cat != TRX_old_ptt_cat) TRX_ptt_change();
 	if (TRX_key_serial != TRX_old_key_serial) TRX_key_change();

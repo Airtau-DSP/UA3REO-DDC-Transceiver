@@ -27,6 +27,7 @@ volatile int16_t TRX_RX_dBm = -100;
 volatile bool TRX_ADC_OTR = false;
 volatile bool TRX_DAC_OTR = false;
 volatile uint8_t TRX_Time_InActive = 0; //секунд бездействия, используется для спящего режима
+volatile uint8_t TRX_Fan_Timeout = 0; //секунд, сколько ещё осталось крутить вентилятор
 volatile int16_t TRX_ADC_MINAMPLITUDE = 0;
 volatile int16_t TRX_ADC_MAXAMPLITUDE = 0;
 
@@ -246,7 +247,11 @@ void TRX_RF_UNIT_UpdateState(bool clean) //передаём значения в 
 
 			//if(registerNumber==8) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); // unused
 			//if(registerNumber==9) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); // unused
-			//if(registerNumber==10 && TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //FAN
+			if(registerNumber==10 && ((TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK) || TRX_Fan_Timeout>0))
+			{
+				HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //FAN
+				if(TRX_Fan_Timeout>0) TRX_Fan_Timeout--;
+			}
 			if (registerNumber == 11 && TRX.BPF && TRX_getFrequency() >= BPF_7_HPF && !hpf_lock) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_7_HPF
 			if (registerNumber == 12 && TRX.BPF && TRX_getFrequency() >= BPF_6_START && TRX_getFrequency() < BPF_6_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_6
 			if (registerNumber == 13 && TRX.BPF && TRX_getFrequency() >= BPF_5_START && TRX_getFrequency() < BPF_5_END) HAL_GPIO_WritePin(RFUNIT_DATA_GPIO_Port, RFUNIT_DATA_Pin, GPIO_PIN_SET); //BPF_5
