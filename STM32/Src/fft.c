@@ -189,7 +189,9 @@ void FFT_Init(void)
 	if (TRX.FFT_Zoom > 1)
 	{
 		IIR_biquad_Zoom_FFT_I.pCoeffs = mag_coeffs[TRX.FFT_Zoom];
+		memset(IIR_biquad_Zoom_FFT_I.pState, 0x00, 4*4*32);
 		IIR_biquad_Zoom_FFT_Q.pCoeffs = mag_coeffs[TRX.FFT_Zoom];
+		memset(IIR_biquad_Zoom_FFT_Q.pState, 0x00, 4*4*32);
 		arm_fir_decimate_init_f32(&DECIMATE_ZOOM_FFT_I,
 			FirZoomFFTDecimate[TRX.FFT_Zoom].numTaps,
 			TRX.FFT_Zoom,          // Decimation factor
@@ -217,7 +219,7 @@ void FFT_doFFT(void)
 	float32_t maxValue = 0; // Максимальное значение амплитуды в результирующей АЧХ
 	float32_t meanValue = 0; // Среднее значение амплитуды в результирующей АЧХ
 	float32_t diffValue = 0; // Разница между максимальным значением в FFT и пороге в водопаде
-	float32_t hanning_multiplier = 0; //Множитель для вычисления окна Ханнинга к FFT
+	float32_t window_multiplier = 0; //Множитель для вычисления окна к FFT
 
 	//Process DC corrector filter
 	dc_filter(FFTInput_I, FFT_SIZE, 4);
@@ -229,7 +231,7 @@ void FFT_doFFT(void)
 		arm_biquad_cascade_df2T_f32(&NOTCH_FILTER_FFT_I, FFTInput_I, FFTInput_I, FFT_SIZE);
 		arm_biquad_cascade_df2T_f32(&NOTCH_FILTER_FFT_Q, FFTInput_Q, FFTInput_Q, FFT_SIZE);
 	}
-
+	
 	//ZoomFFT
 	if (TRX.FFT_Zoom > 1)
 	{
@@ -252,6 +254,7 @@ void FFT_doFFT(void)
 				FFTInput_ZOOMFFT[i * 2] = FFTInput_I[i - (FFT_SIZE - zoomed_width)];
 				FFTInput_ZOOMFFT[i * 2 + 1] = FFTInput_Q[i - (FFT_SIZE - zoomed_width)];
 			}
+
 			FFTInput[i * 2] = FFTInput_ZOOMFFT[i * 2];
 			FFTInput[i * 2 + 1] = FFTInput_ZOOMFFT[i * 2 + 1];
 		}
@@ -265,13 +268,21 @@ void FFT_doFFT(void)
 			FFTInput[i * 2 + 1] = FFTInput_Q[i];
 		}
 	}
+	
+	NeedFFTInputBuffer = true;
 
-	//Окно Hanning
+	//Окно для FFT
 	for (uint16_t i = 0; i < FFT_SIZE; i++)
 	{
-		hanning_multiplier = 0.5f * (1.0f - arm_cos_f32(2.0f * PI*i / FFT_SIZE * 2));
-		FFTInput[i * 2] = hanning_multiplier * FFTInput[i * 2];
-		FFTInput[i * 2 + 1] = hanning_multiplier * FFTInput[i * 2 + 1];
+		//Окно Blackman-Harris
+		//window_multiplier = 0.35875f - 0.48829f * arm_cos_f32( 2.0f * PI * i / ((float32_t)FFT_SIZE - 1.0f) ) + 0.14128f * arm_cos_f32( 4.0f * PI * i / ((float32_t)FFT_SIZE - 1.0f) ) - 0.01168f * arm_cos_f32( 6.0f * PI * i / ((float32_t)FFT_SIZE - 1.0f) );
+		//Окно Hanning
+		//window_multiplier = 0.5f * (1.0f - arm_cos_f32(2.0f * PI*i / (float32_t)FFT_SIZE * 2));
+		//Окно Hamming
+		window_multiplier = 0.54f - 0.46f * arm_cos_f32 ( (2.0f * PI * i) / ( (float32_t)FFT_SIZE - 1.0f) ) ;
+		
+		FFTInput[i * 2] = window_multiplier * FFTInput[i * 2];
+		FFTInput[i * 2 + 1] = window_multiplier * FFTInput[i * 2 + 1];
 	}
 
 	arm_cfft_f32(FFT_Inst, FFTInput, 0, 1);
@@ -315,8 +326,7 @@ void FFT_doFFT(void)
 			FFTOutput_mean[i] += (FFTInput[i] - FFTOutput_mean[i]) / TRX.FFT_Averaging;
 		else
 			FFTOutput_mean[i] -= (FFTOutput_mean[i] - FFTInput[i]) / TRX.FFT_Averaging;
-		
-	NeedFFTInputBuffer = true;
+	
 	FFT_need_fft = false;
 }
 
