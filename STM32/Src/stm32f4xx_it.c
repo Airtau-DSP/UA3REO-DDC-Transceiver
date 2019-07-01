@@ -351,6 +351,7 @@ void TIM5_IRQHandler(void)
   /* USER CODE END TIM5_IRQn 0 */
   HAL_TIM_IRQHandler(&htim5);
   /* USER CODE BEGIN TIM5_IRQn 1 */
+	//StartProfilerUs();
 	tim5_counter++;
 	if (TRX_on_TX())
 	{
@@ -361,6 +362,7 @@ void TIM5_IRQHandler(void)
 	{
 		processRxAudio();
 	}
+	//EndProfilerUs(true);
   /* USER CODE END TIM5_IRQn 1 */
 }
 
@@ -444,7 +446,7 @@ void TIM6_DAC_IRQHandler(void)
 		sendToDebug_str("USB Audio TX samples: "); sendToDebug_uint32(dbg_TX_USB_AUDIO_SAMPLES,false); //~48000
 		sendToDebug_str("ADC MIN Amplitude: "); sendToDebug_int16(TRX_ADC_MINAMPLITUDE,false);
 		sendToDebug_str("ADC MAX Amplitude: "); sendToDebug_int16(TRX_ADC_MAXAMPLITUDE,false);
-		sendToDebug_str("WIFI State: "); sendToDebug_int16(WIFI_State,false);
+		//sendToDebug_str("WIFI State: "); sendToDebug_int16(WIFI_State,false);
 		sendToDebug_newline();
 		PrintProfilerResult();
 #endif

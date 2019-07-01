@@ -157,6 +157,7 @@ void processTxAudio(void)
 			break;
 		case TRX_MODE_USB:
 		case TRX_MODE_DIGI_U:
+			//hilbert fir
 			for (block = 0; block < numBlocks; block++)
 			{
 				// + 45 deg to Q data
@@ -168,8 +169,6 @@ void processTxAudio(void)
 		case TRX_MODE_LSB:
 		case TRX_MODE_DIGI_L:
 			//hilbert fir
-			for (uint16_t i = 0; i < FPGA_AUDIO_BUFFER_HALF_SIZE; i++)
-				FPGA_Audio_Buffer_Q_tmp[i] = FPGA_Audio_Buffer_I_tmp[i];
 			for (block = 0; block < numBlocks; block++)
 			{
 				// + 45 deg to I data
