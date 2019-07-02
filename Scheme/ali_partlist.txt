@@ -1,8 +1,7 @@
 STM32F407VET6 https://www.aliexpress.com/item/STM32F4-board-STM32F407VET6-STM32-Cortex-M4-Development-Board-DIY-STM32F407VET6-Learning-Board/32985050870.html
 ST-LINK/V2 https://www.aliexpress.com/item/1pcs-New-ST-LINK-V2-ST-LINK-V2-CN-ST-LINK-STLINK-Emulator-Download-Manager-STM8/32796459383.html
 LCD ILI9341 https://www.aliexpress.com/item/3-2-inch-TFT-LCD-Touch-Screen-Module-Display-Ultra-HD-320X240-ILI9341-for-3-2/32808968215.html
-EP4CE15E22C8N https://www.aliexpress.com/item/fpga-development-board-EP4CE15E22C8N-board-altera-fpga-board-altera-board/32834526999.html
-EP4CE22E22C8N https://www.aliexpress.com/item/Free-shipping-1pcs-lot-EP4CE22E22C8N-EP4CE22E22C8-EP4CE22E22-EP4CE22-QFP-NEW-Original-and-STOCK/32858201209.html
+EP4CE22E22C8N https://ru.aliexpress.com/item/32834582202.html
 AD9226 https://www.aliexpress.com/item/AD9226-AD9226A-AD9226AR-AD9226ARSZ/32786725576.html
 DAC904E https://www.aliexpress.com/item/DAC904E-DAC900E-DAC908E-2pcs-lot-SMD/32864490960.html
 WM8731 https://www.aliexpress.com/item/Free-Shipping-1pc-WM8731-module-audio-module-FPGA-audio-circuit-music-player-karaoke-OK/1399542257.html
