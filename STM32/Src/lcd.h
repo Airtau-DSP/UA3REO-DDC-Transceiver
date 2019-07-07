@@ -51,7 +51,8 @@ extern void LCD_showError(char text[], bool redraw);
 extern void LCD_redraw(void);
 extern void LCD_checkTouchPad(void);
 extern void LCD_Handler_SETTIME(void);
-
+extern void LCD_Handler_NOTCH(void);
+	
 volatile extern DEF_LCD_UpdateQuery LCD_UpdateQuery;
 volatile extern bool LCD_busy;
 volatile extern bool LCD_bandMenuOpened;

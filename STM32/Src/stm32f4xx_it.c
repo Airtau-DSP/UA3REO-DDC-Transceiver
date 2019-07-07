@@ -409,7 +409,11 @@ void TIM6_DAC_IRQHandler(void)
 		Processor_RX_Audio_Samples_MIN_value=0;
 		
 		//WIFI
-		WIFI_ProcessAnswer();
+		//WIFI_ProcessAnswer();
+		
+		//Process keyboard and secondary encoder
+		TRX_ProcessFrontPanel();
+		FPGA_NeedGetParams = true;
 	}
 	
 	if (ms50_counter == 20) // every 1 sec
@@ -465,7 +469,6 @@ void TIM6_DAC_IRQHandler(void)
 		FPGA_Buffer_underrun = false;
 		RX_USB_AUDIO_underrun = false;
 		FPGA_NeedSendParams = true;
-		FPGA_NeedGetParams = true;
 		if (NeedSaveSettings)
 		{
 			if(eeprom_save_delay<30) //Запись в EEPROM не чаще, чем раз в 30 секунд (против износа)
@@ -482,7 +485,7 @@ void TIM6_DAC_IRQHandler(void)
 	
 	if (TRX_on_TX() && TRX_getMode() != TRX_MODE_LOOPBACK)
 	{
-		TRX_Fan_Timeout += 2; //дуем в 2 раза больше чем работаем на передачу
+		TRX_Fan_Timeout += 3; //дуем в 2 раза больше чем работаем на передачу
 		if(TRX_Fan_Timeout > 120) TRX_Fan_Timeout=120; //но не более 2х минут
 	}
 	if (TRX_ptt_hard == HAL_GPIO_ReadPin(PTT_IN_GPIO_Port, PTT_IN_Pin)) TRX_ptt_change();

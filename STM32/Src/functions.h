@@ -50,6 +50,7 @@ extern void sendToDebug_flush(void);
 extern void sendToDebug_uint8(uint8_t data, bool _inline);
 extern void sendToDebug_uint16(uint16_t data, bool _inline);
 extern void sendToDebug_uint32(uint32_t data, bool _inline);
+extern void sendToDebug_int8(int8_t data, bool _inline);
 extern void sendToDebug_int16(int16_t data, bool _inline);
 extern void sendToDebug_int32(int32_t data, bool _inline);
 extern void sendToDebug_float32(float32_t data, bool _inline);

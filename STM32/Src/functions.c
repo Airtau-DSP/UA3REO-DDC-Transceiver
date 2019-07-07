@@ -132,6 +132,15 @@ void sendToDebug_uint32(uint32_t data, bool _inline)
 		sprintf(tmp, "%d\r\n", data);
 	sendToDebug_str(tmp);
 }
+void sendToDebug_int8(int8_t data, bool _inline)
+{
+	char tmp[50] = "";
+	if (_inline)
+		sprintf(tmp, "%d", data);
+	else
+		sprintf(tmp, "%d\r\n", data);
+	sendToDebug_str(tmp);
+}
 void sendToDebug_int16(int16_t data, bool _inline)
 {
 	char tmp[50] = "";

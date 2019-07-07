@@ -20,9 +20,9 @@ refer to the applicable agreement for further details.
 */
 (header "symbol" (version "1.1"))
 (symbol
-	(rect 16 16 296 256)
+	(rect 16 16 296 384)
 	(text "stm32_interface" (rect 5 0 69 12)(font "Arial" ))
-	(text "inst" (rect 8 224 20 236)(font "Arial" ))
+	(text "inst" (rect 8 352 20 364)(font "Arial" ))
 	(port
 		(pt 0 32)
 		(input)
@@ -106,6 +106,55 @@ refer to the applicable agreement for further details.
 		(text "FLASH_busy" (rect 0 0 59 12)(font "Arial" ))
 		(text "FLASH_busy" (rect 21 203 80 215)(font "Arial" ))
 		(line (pt 0 208)(pt 16 208)(line_width 1))
+	)
+	(port
+		(pt 0 224)
+		(input)
+		(text "keyb_1" (rect 0 0 29 12)(font "Arial" ))
+		(text "keyb_1" (rect 21 219 50 231)(font "Arial" ))
+		(line (pt 0 224)(pt 16 224)(line_width 1))
+	)
+	(port
+		(pt 0 240)
+		(input)
+		(text "keyb_2" (rect 0 0 30 12)(font "Arial" ))
+		(text "keyb_2" (rect 21 235 51 247)(font "Arial" ))
+		(line (pt 0 240)(pt 16 240)(line_width 1))
+	)
+	(port
+		(pt 0 256)
+		(input)
+		(text "keyb_3" (rect 0 0 30 12)(font "Arial" ))
+		(text "keyb_3" (rect 21 251 51 263)(font "Arial" ))
+		(line (pt 0 256)(pt 16 256)(line_width 1))
+	)
+	(port
+		(pt 0 272)
+		(input)
+		(text "keyb_4" (rect 0 0 31 12)(font "Arial" ))
+		(text "keyb_4" (rect 21 267 52 279)(font "Arial" ))
+		(line (pt 0 272)(pt 16 272)(line_width 1))
+	)
+	(port
+		(pt 0 288)
+		(input)
+		(text "enc_sw" (rect 0 0 30 12)(font "Arial" ))
+		(text "enc_sw" (rect 21 283 51 295)(font "Arial" ))
+		(line (pt 0 288)(pt 16 288)(line_width 1))
+	)
+	(port
+		(pt 0 304)
+		(input)
+		(text "enc_a1" (rect 0 0 28 12)(font "Arial" ))
+		(text "enc_a1" (rect 21 299 49 311)(font "Arial" ))
+		(line (pt 0 304)(pt 16 304)(line_width 1))
+	)
+	(port
+		(pt 0 320)
+		(input)
+		(text "enc_a2" (rect 0 0 29 12)(font "Arial" ))
+		(text "enc_a2" (rect 21 315 50 327)(font "Arial" ))
+		(line (pt 0 320)(pt 16 320)(line_width 1))
 	)
 	(port
 		(pt 280 48)
@@ -192,6 +241,6 @@ refer to the applicable agreement for further details.
 		(line (pt 280 32)(pt 264 32)(line_width 3))
 	)
 	(drawing
-		(rectangle (rect 16 16 264 224)(line_width 1))
+		(rectangle (rect 16 16 264 352)(line_width 1))
 	)
 )

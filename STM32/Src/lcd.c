@@ -64,7 +64,6 @@ static void LCD_Handler_WIDTH_BACK(void);
 static void LCD_Handler_PREAMP(void);
 static void LCD_Handler_AB(void);
 static void LCD_Handler_ATT(void);
-static void LCD_Handler_NOTCH(void);
 static void LCD_Handler_DNR(void);
 static void LCD_Handler_VFO(void);
 static void LCD_Handler_AGC(void);
@@ -851,7 +850,7 @@ static void LCD_Handler_ATT(void)
 	LCD_UpdateQuery.TopButtons = true;
 	NeedSaveSettings = true;
 }
-static void LCD_Handler_NOTCH(void)
+void LCD_Handler_NOTCH(void)
 {
 	if (TRX.NotchFC > CurrentVFO()->Filter_Width)
 		TRX.NotchFC = CurrentVFO()->Filter_Width;

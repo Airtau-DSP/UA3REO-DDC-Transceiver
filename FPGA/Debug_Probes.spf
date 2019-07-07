@@ -1,71 +1,15 @@
 <session jtag_chain="USB-Blaster [USB-0]" jtag_device="@1: 10CL025(Y|Z)/EP3C25/EP4CE22 (0x020F30DD)" sof_file="">
   <display_attributes is_max_probe_read_interval="1" is_write_immediate="1" probe_read_interval="1" probe_read_interval_units="s"/>
-  <instance enable_logging="true" entity_name="DBG2" is_auto_node="true" name="DBG2">
+  <instance enable_logging="true" entity_name="DBG" is_auto_node="true" name="DBG">
     <node_ip_info instance_id="0" mfg_id="110" node_id="9" version="0"/>
     <sources/>
     <probes>
       <probe name="probe[0]"/>
-      <probe name="probe[1]"/>
-      <probe name="probe[2]"/>
-      <probe name="probe[3]"/>
-      <probe name="probe[4]"/>
-      <probe name="probe[5]"/>
-      <probe name="probe[6]"/>
-      <probe name="probe[7]"/>
     </probes>
     <view>
-      <view_node expanded="true" group_name="probe[7..0]" index="0" lsb_to_msb="false" node_type="probe" view_type="group_header"/>
-      <view_node expanded="true" index="7" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="6" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="5" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="4" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="3" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="2" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
+      <view_node expanded="true" group_name="probe[0..0]" index="0" lsb_to_msb="false" node_type="probe" view_type="group_header"/>
       <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
     </view>
-    <log data="02020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202" max_size="64" size="64" time="0F660EC5000000001F660EC5000000002F660EC5000000002F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000009F660EC5000000009F660EC5000000009F660EC5000000009F660EC5000000009F660EC5000000009F660EC500000000" width="8"/>
-  </instance>
-  <instance enable_logging="true" entity_name="DBG" is_auto_node="true" name="DBG">
-    <node_ip_info instance_id="1" mfg_id="110" node_id="9" version="0"/>
-    <sources/>
-    <probes>
-      <probe name="probe[0]"/>
-      <probe name="probe[1]"/>
-      <probe name="probe[2]"/>
-      <probe name="probe[3]"/>
-      <probe name="probe[4]"/>
-      <probe name="probe[5]"/>
-      <probe name="probe[6]"/>
-      <probe name="probe[7]"/>
-      <probe name="probe[8]"/>
-      <probe name="probe[9]"/>
-      <probe name="probe[10]"/>
-      <probe name="probe[11]"/>
-      <probe name="probe[12]"/>
-      <probe name="probe[13]"/>
-      <probe name="probe[14]"/>
-      <probe name="probe[15]"/>
-    </probes>
-    <view>
-      <view_node expanded="false" group_name="probe[15..0]" index="0" lsb_to_msb="false" node_type="probe" view_type="group_header"/>
-      <view_node expanded="true" index="15" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="14" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="13" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="12" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="11" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="10" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="9" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="8" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="7" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="6" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="5" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="4" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="3" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="2" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="1" node_type="probe" view_type="group_member"/>
-      <view_node expanded="true" index="0" node_type="probe" view_type="group_member"/>
-    </view>
-    <log data="0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" max_size="64" size="64" time="0F660EC5000000001F660EC5000000002F660EC5000000002F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000003F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000004F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000005F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000006F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000007F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000008F660EC5000000009F660EC5000000009F660EC5000000009F660EC5000000009F660EC5000000009F660EC5000000009F660EC500000000" width="16"/>
+    <log data="FF" max_size="8" size="8" time="8CEBB1D5000000009CEBB1D5000000009CEBB1D5000000009CEBB1D5000000009CEBB1D5000000009CEBB1D5000000009CEBB1D5000000009CEBB1D500000000" width="1"/>
   </instance>
 </session>

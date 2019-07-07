@@ -224,6 +224,7 @@ inline void FPGA_fpgadata_getparam(void)
 	uint8_t FPGA_fpgadata_in_tmp8 = 0;
 	int16_t adc_min = 0;
 	int16_t adc_max = 0;
+	
 	//STAGE 2
 	//clock
 	FPGA_clockRise();
@@ -231,6 +232,10 @@ inline void FPGA_fpgadata_getparam(void)
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	TRX_ADC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 0);
 	TRX_DAC_OTR = bitRead(FPGA_fpgadata_in_tmp8, 1);
+	TRX_FrontPanel.key_4 = bitRead(FPGA_fpgadata_in_tmp8, 2);
+	TRX_FrontPanel.key_3 = bitRead(FPGA_fpgadata_in_tmp8, 3);
+	TRX_FrontPanel.key_2 = bitRead(FPGA_fpgadata_in_tmp8, 4);
+	TRX_FrontPanel.key_1 = bitRead(FPGA_fpgadata_in_tmp8, 5);
 	//clock
 	FPGA_clockFall();
 
@@ -262,6 +267,18 @@ inline void FPGA_fpgadata_getparam(void)
 	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
 	adc_max |= (FPGA_fpgadata_in_tmp8 & 0XFF);
 	TRX_ADC_MAXAMPLITUDE = adc_max;
+	//clock
+	FPGA_clockFall();
+	
+	//STAGE 6
+	//clock
+	FPGA_clockRise();
+	//in
+	FPGA_fpgadata_in_tmp8 = FPGA_readPacket();
+	int8_t enc_val = (FPGA_fpgadata_in_tmp8 & 0XF);
+	if(enc_val>7) enc_val |= 0xF0;
+	TRX_FrontPanel.sec_encoder = enc_val;
+	TRX_FrontPanel.key_enc = bitRead(FPGA_fpgadata_in_tmp8, 4);
 	//clock
 	FPGA_clockFall();
 }

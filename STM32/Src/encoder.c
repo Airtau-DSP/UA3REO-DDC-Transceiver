@@ -53,38 +53,26 @@ static void ENCODER_Rotated(int direction) //энкодер повернули, 
 	}
 	if (!LCD_mainMenuOpened)
 	{
-		if (TRX.NotchFilter && LCD_NotchEdit)
-		{
-			if (TRX.NotchFC > 50 && direction == -1)
-				TRX.NotchFC -= 25;
-			if (TRX.NotchFC < CurrentVFO()->Filter_Width && direction == 1)
-				TRX.NotchFC += 25;
-			LCD_UpdateQuery.StatusInfoGUI = true;
-			NeedReinitNotch = true;
+		switch (TRX.LCD_menu_freq_index) {
+		case MENU_FREQ_HZ:
+			if (TRX.Fast)
+				TRX_setFrequency(TRX_getFrequency() + 100 * direction);
+			else
+				TRX_setFrequency(TRX_getFrequency() + 10 * direction);
+			break;
+		case MENU_FREQ_KHZ:
+			if (TRX.Fast)
+				TRX_setFrequency(TRX_getFrequency() + 10000 * direction);
+			else
+				TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
+			break;
+		case MENU_FREQ_MHZ:
+			TRX_setFrequency(TRX_getFrequency() + 1000000 * direction);
+			break;
+		default:
+			break;
 		}
-		else
-		{
-			switch (TRX.LCD_menu_freq_index) {
-			case MENU_FREQ_HZ:
-				if (TRX.Fast)
-					TRX_setFrequency(TRX_getFrequency() + 100 * direction);
-				else
-					TRX_setFrequency(TRX_getFrequency() + 10 * direction);
-				break;
-			case MENU_FREQ_KHZ:
-				if (TRX.Fast)
-					TRX_setFrequency(TRX_getFrequency() + 10000 * direction);
-				else
-					TRX_setFrequency(TRX_getFrequency() + 1000 * direction);
-				break;
-			case MENU_FREQ_MHZ:
-				TRX_setFrequency(TRX_getFrequency() + 1000000 * direction);
-				break;
-			default:
-				break;
-			}
-			LCD_UpdateQuery.FreqInfo = true;
-		}
+		LCD_UpdateQuery.FreqInfo = true;
 	}
 	if (LCD_mainMenuOpened)
 	{

@@ -5,6 +5,6 @@
  intended_family="Cyclone IV E"
  specifies="all_ports">
  <global>
-  <pin name="probe[15..0]" direction="input" scope="external" />
+  <pin name="probe" direction="input" scope="external" />
  </global>
 </pinplan>

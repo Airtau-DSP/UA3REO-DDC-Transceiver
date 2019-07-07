@@ -30,11 +30,12 @@ volatile uint8_t TRX_Time_InActive = 0; //секунд бездействия, �
 volatile uint8_t TRX_Fan_Timeout = 0; //секунд, сколько ещё осталось крутить вентилятор
 volatile int16_t TRX_ADC_MINAMPLITUDE = 0;
 volatile int16_t TRX_ADC_MAXAMPLITUDE = 0;
+volatile TRX_FrontPanel_Type TRX_FrontPanel = { 0 };
 
-static uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов
+static uint8_t autogain_wait_reaction = 0; //таймер ожидания реакции от смены режимов ATT/PRE
 static uint8_t autogain_stage = 0; //этап отработки актокорректировщика усиления
 
-const char *MODE_DESCR[] = {
+const char *MODE_DESCR[TRX_MODE_COUNT] = {
 	"LSB",
 	"USB",
 	"IQ",
@@ -352,4 +353,82 @@ void TRX_DoAutoGain(void)
 			break;
 		}
 	}
+}
+
+void TRX_ProcessFrontPanel(void)
+{
+	//BAND-
+	if(TRX_FrontPanel.key_1_prev != TRX_FrontPanel.key_1 && TRX_FrontPanel.key_1 == 1)
+	{
+		int8_t band = getBandFromFreq(CurrentVFO()->Freq);
+		band--;
+		if(band>=BANDS_COUNT) band=0;
+		if(band<0) band = BANDS_COUNT-1;
+		if(band>=0) TRX_setFrequency(TRX.saved_freq[band]);
+		LCD_UpdateQuery.TopButtons = true;
+		LCD_UpdateQuery.FreqInfo = true;
+	}
+	//BAND+
+	if(TRX_FrontPanel.key_2_prev != TRX_FrontPanel.key_2 && TRX_FrontPanel.key_2)
+	{
+		int8_t band = getBandFromFreq(CurrentVFO()->Freq);
+		band++;
+		if(band>=BANDS_COUNT) band=0;
+		if(band<0) band = BANDS_COUNT-1;
+		if(band>=0) TRX_setFrequency(TRX.saved_freq[band]);
+		LCD_UpdateQuery.TopButtons = true;
+		LCD_UpdateQuery.FreqInfo = true;
+	}
+	//MODE-
+	if(TRX_FrontPanel.key_3_prev != TRX_FrontPanel.key_3 && TRX_FrontPanel.key_3)
+	{
+		int8_t mode = CurrentVFO()->Mode;
+		mode--;
+		if(mode<0) mode = TRX_MODE_COUNT - 2;
+		if(mode >= (TRX_MODE_COUNT - 1)) mode = 0;
+		TRX_setMode(mode);
+		LCD_UpdateQuery.TopButtons = true;
+	}
+	//MODE+
+	if(TRX_FrontPanel.key_4_prev != TRX_FrontPanel.key_4 && TRX_FrontPanel.key_4)
+	{
+		int8_t mode = CurrentVFO()->Mode;
+		mode++;
+		if(mode<0) mode = TRX_MODE_COUNT - 2;
+		if(mode >= (TRX_MODE_COUNT - 1)) mode = 0;
+		TRX_setMode(mode);
+		LCD_UpdateQuery.TopButtons = true;
+	}
+	//NOTCH
+	if(TRX_FrontPanel.key_enc_prev != TRX_FrontPanel.key_enc && TRX_FrontPanel.key_enc)
+	{
+		LCD_Handler_NOTCH();
+		LCD_UpdateQuery.TopButtons = true;
+	}
+	//VOLUME+NOTCH
+	if(TRX_FrontPanel.sec_encoder != 0)
+	{
+		if(LCD_NotchEdit)
+		{
+			if (TRX.NotchFC > 50 && TRX_FrontPanel.sec_encoder < 0)
+				TRX.NotchFC -= 25;
+			else if (TRX.NotchFC < CurrentVFO()->Filter_Width && TRX_FrontPanel.sec_encoder > 0)
+				TRX.NotchFC += 25;
+			LCD_UpdateQuery.StatusInfoGUI = true;
+			NeedReinitNotch = true;
+		}
+		else
+		{
+			if( ((TRX.Volume + TRX_FrontPanel.sec_encoder) > 0) && ((TRX.Volume + TRX_FrontPanel.sec_encoder) < 100))
+					TRX.Volume += TRX_FrontPanel.sec_encoder;
+			LCD_UpdateQuery.MainMenu = true;
+		}
+	}
+	
+	TRX_FrontPanel.key_1_prev = TRX_FrontPanel.key_1;
+	TRX_FrontPanel.key_2_prev = TRX_FrontPanel.key_2;
+	TRX_FrontPanel.key_3_prev = TRX_FrontPanel.key_3;
+	TRX_FrontPanel.key_4_prev = TRX_FrontPanel.key_4;
+	TRX_FrontPanel.key_enc_prev = TRX_FrontPanel.key_enc;
+	TRX_FrontPanel.sec_encoder = 0;
 }
